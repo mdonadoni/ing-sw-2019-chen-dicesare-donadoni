@@ -1,4 +1,11 @@
+!.gitignore
+!README.md
+!pom.xml
+!resources/
+!src/
+
 .idea/
+*.iml
 
 target/
 pom.xml.tag
