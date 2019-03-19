@@ -1,4 +1,6 @@
 package it.polimi.ingsw;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Hello world!
@@ -6,8 +8,10 @@ package it.polimi.ingsw;
  */
 public class App 
 {
+    private static final Logger LOGGER = Logger.getLogger( App.class.getName() );
+
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        LOGGER.log(Level.FINE, "Hello Word!");
     }
 }
