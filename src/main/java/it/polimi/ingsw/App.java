@@ -12,6 +12,6 @@ public class App
 
     public static void main( String[] args )
     {
-        LOGGER.log(Level.FINE, "Hello Wold!");
+        LOGGER.log(Level.FINE, "Hello Word!");
     }
 }
