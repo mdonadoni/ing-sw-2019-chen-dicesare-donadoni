@@ -1,6 +1,8 @@
 # Progetto Ingegneria del Software 2019
 ## Adrenalina
 
+**GRUPPO AM26**
+
 | Nome               | Nickname   | Codice Persona | Email                            |
 | ------------------ | ---------- | -------------- | -------------------------------- |
 | Simone Chen        | @CPandaS   | 10562633       | simone.chen@mail.polimi.it       |
