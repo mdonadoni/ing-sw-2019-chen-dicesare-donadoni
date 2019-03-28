@@ -1,6 +1,8 @@
 # Progetto Ingegneria del Software 2019
 ## Adrenalina
 
+Sezione Prof. Margara
+
 **GRUPPO AM26**
 
 | Nome               | Nickname   | Codice Persona | Email                            |
