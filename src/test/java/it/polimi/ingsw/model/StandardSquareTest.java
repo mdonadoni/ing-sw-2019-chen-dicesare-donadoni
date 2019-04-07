@@ -13,9 +13,7 @@ class StandardSquareTest {
 
     @BeforeEach
     void setUp() {
-        ammo = new AmmoTile();
-        ammo.addAmmo(AmmoColor.RED);
-        ammo.addAmmo(AmmoColor.BLUE);
+        ammo = new AmmoTile(AmmoColor.RED,AmmoColor.BLUE);
         tile = new StandardSquare( new Coordinate(0,0), ammo);
         noTile = new StandardSquare(new Coordinate(0, 1));
     }
