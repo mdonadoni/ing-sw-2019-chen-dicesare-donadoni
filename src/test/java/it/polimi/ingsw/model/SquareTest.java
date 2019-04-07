@@ -225,4 +225,12 @@ class SquareTest {
             }
         }
     }
+
+    @Test
+    void isAligned() {
+        assertTrue(map[3][2].isAligned(Cardinal.NORTH, map[3][2]));
+        assertTrue(map[3][2].isAligned(Cardinal.NORTH, map[2][2]));
+        assertTrue(map[3][2].isAligned(Cardinal.NORTH, map[1][2]));
+        assertTrue(map[3][2].isAligned(Cardinal.NORTH, map[0][2]));
+    }
 }

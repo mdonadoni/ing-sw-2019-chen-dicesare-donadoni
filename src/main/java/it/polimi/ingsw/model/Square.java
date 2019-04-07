@@ -199,4 +199,14 @@ public class Square {
     public boolean isVisible(Square other) {
         return getVisibleSquares().contains(other);
     }
+
+    /**
+     * Check if other square is aligned to this square.
+     * @param direction Direction of the alignment.
+     * @param other Other square to be checked.
+     * @return True if other square is aligned, otherwise false.
+     */
+    public boolean isAligned(Cardinal direction, Square other) {
+        return getAlignedSquares(direction).contains(other);
+    }
 }
