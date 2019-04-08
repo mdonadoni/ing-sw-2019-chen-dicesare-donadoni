@@ -58,13 +58,15 @@ public class Player {
      * It keeps track of the ammo available of a player.
      */
     private List<AmmoColor> ammo;
+    /**
+     * It shows in which square the player is.
+     */
+    private Square square;
 
     /**
      * Constructor of Player
      * @param nickname nickname of the player.
      */
-
-    private Square square;
     public Player(String nickname){
         this.nickname = nickname;
         startingPlayer = false;
@@ -78,7 +80,17 @@ public class Player {
         powerUps = new ArrayList<>();
         ammo = new ArrayList<>();
     }
+
+    /**
+     * Get the square where the player is.
+     * @return the square where the player is.
+     */
     public Square getSquare(){return square;}
+
+    /**
+     * Set the player position on another square.
+     * @param square the square where to move the player.
+     */
     public void setSquare(Square square){
         this.square = square;
     }
