@@ -1,0 +1,78 @@
+package it.polimi.ingsw.model;
+
+import it.polimi.ingsw.model.weapons.Weapon;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class represents a SpawnPoint. A SpawnPoint is a square which can hold
+ * up to three weapons.
+ */
+public class SpawnPoint extends Square {
+    /**
+     * Color of the SpawnPoint.
+     */
+    private AmmoColor color;
+
+    /**
+     * List of weapons in the SpawnPoint.
+     */
+    private List<Weapon> weapons = new ArrayList<>();
+
+
+    /**
+     * Constructor of a SpawnPoint.
+     * @param coord Coordinates of the SpawnPoint.
+     * @param color Color of the SpawnPoint.
+     */
+    public SpawnPoint(Coordinate coord, AmmoColor color) {
+        super(coord);
+        this.color = color;
+    }
+
+    /**
+     * Get the color of the SpawnPoint.
+     * @return Color of the SpawnPoint.
+     */
+    public AmmoColor getColor() {
+        return color;
+    }
+
+    /**
+     * Get the list of available weapons.
+     * @return List of available weapons.
+     */
+    public List<Weapon> getWeapons() {
+        return new ArrayList<>(weapons);
+    }
+
+    /**
+     * Remove a weapon from this SpawnPoint.
+     * @param weapon Weapon to be removed.
+     */
+    public void removeWeapon(Weapon weapon) {
+        if (!weapons.remove(weapon)) {
+            throw new InvalidOperationException("Weapon not found");
+        }
+    }
+
+    /**
+     * Add a weapon to this SpawnPoint.
+     * @param weapon Weapon to be added.
+     */
+    public void addWeapon(Weapon weapon) {
+        if (weapons.size() == 3) {
+            throw new InvalidOperationException("Too many weapons");
+        }
+        weapons.add(weapon);
+    }
+
+    /**
+     * Get the number of Weapons.
+     * @return Number of weapons available.
+     */
+    public int countWeapons() {
+        return weapons.size();
+    }
+}
