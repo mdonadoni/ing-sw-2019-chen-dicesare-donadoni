@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.weapons;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class HarmfulEffect extends Effect {
     private HarmType type;
 
@@ -7,7 +10,9 @@ public class HarmfulEffect extends Effect {
      * @param value number to be assigned to value attribute
      * @param type Mark or Damage?
      */
-    public HarmfulEffect(int value, HarmType type){
+    @JsonCreator
+    public HarmfulEffect(@JsonProperty("amount") int value,
+                         @JsonProperty("type") HarmType type){
         setAmount(value);
         this.type = type;
     }

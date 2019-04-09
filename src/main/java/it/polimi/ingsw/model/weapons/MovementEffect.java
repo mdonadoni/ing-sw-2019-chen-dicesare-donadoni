@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.weapons;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class MovementEffect extends Effect {
     private boolean visibleDest;
     private boolean line;
@@ -9,7 +12,8 @@ public class MovementEffect extends Effect {
     /**
      * @param value number to be assigned to amount
      */
-    public MovementEffect(int value){
+    @JsonCreator
+    public MovementEffect(@JsonProperty("amount") int value){
         setAmount(value);
     }
 

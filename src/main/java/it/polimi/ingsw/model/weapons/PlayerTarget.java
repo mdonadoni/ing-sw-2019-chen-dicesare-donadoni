@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.weapons;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
@@ -17,7 +19,13 @@ public class PlayerTarget extends Target {
      * @param excl => exclusive
      * @param inh => inherited
      */
-    public PlayerTarget(int numTargets, Visibility vis, int minD, int maxD, boolean excl, boolean inh){
+    @JsonCreator
+    public PlayerTarget(@JsonProperty("numberOfTargets") int numTargets,
+                        @JsonProperty("visibility") Visibility vis,
+                        @JsonProperty("minDistance") int minD,
+                        @JsonProperty("maxDistance") int maxD,
+                        @JsonProperty("exclusive") boolean excl,
+                        @JsonProperty("inherited") boolean inh){
         super(numTargets, vis, minD, maxD, excl, inh);
     }
 
