@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.weapons;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
@@ -20,7 +22,14 @@ public class SquareTarget extends Target {
      * @param excl => exclusive
      * @param inh => inherited
      */
-    public SquareTarget(int numTargets, Visibility vis, int minD, int maxD, int maxPlayerD, boolean excl, boolean inh){
+    @JsonCreator
+    public SquareTarget(@JsonProperty("numberOfTargets") int numTargets,
+                        @JsonProperty("visibility") Visibility vis,
+                        @JsonProperty("minDistance") int minD,
+                        @JsonProperty("maxDistance") int maxD,
+                        @JsonProperty("exclusive") boolean excl,
+                        @JsonProperty("inherited") boolean inh,
+                        @JsonProperty("maxPlayerDistannce") int maxPlayerD){
         super(numTargets, vis, minD, maxD, excl, inh);
         if(maxPlayerDistance < 0)
             throw new InvalidParameterException("maxPlayerDistance must be at least 0");

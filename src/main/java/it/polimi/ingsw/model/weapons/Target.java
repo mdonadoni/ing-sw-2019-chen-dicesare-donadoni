@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.*;
 
 public class Target{
@@ -53,7 +55,13 @@ public class Target{
      * @param excl => exclusive
      * @param inh => inherited
      */
-    public Target(int numTargets, Visibility vis, int minD, int maxD, boolean excl, boolean inh){
+    @JsonCreator
+    public Target(@JsonProperty("numberOfTargets") int numTargets,
+                  @JsonProperty("visibility") Visibility vis,
+                  @JsonProperty("minDistance") int minD,
+                  @JsonProperty("maxDistance") int maxD,
+                  @JsonProperty("exclusive") boolean excl,
+                  @JsonProperty("inherited") boolean inh){
         if (numTargets<1)
             throw new InvalidParameterException("Number of targets must be always at least 1");
         if (minD < -1 || maxD < -1)
@@ -129,6 +137,9 @@ public class Target{
     }
     public Iterator<Effect> getIterator(){
         return effects.iterator();
+    }
+    public List<Effect> getEffects(){
+        return effects;
     }
 
     /**
