@@ -227,12 +227,30 @@ public class Player {
         }
         return counter;
     }
-/**
- public void grabWeapon(Square pos, Weapon weapon){
- weapons.add(weapon);
- pos.removeWeapon(weapon);
- }
- **/
+
+    /**
+     * Grab a weapon from the spawn point where the player is.
+     * @param weapon the weapon to grab.
+     */
+    public void grabWeapon(Weapon weapon){
+        if(square.getClass()!=SpawnPoint.class){
+            throw new InvalidSquareException("The player isn't on a spawn point");
+        }
+        if(!((SpawnPoint)square).getWeapons().contains(weapon)){
+            throw new InvalidOperationException("THe spawn point doesn't have the requested weapon");
+        }
+        weapons.add(weapon);
+        ((SpawnPoint)square).removeWeapon(weapon);
+    }
+
+    /**
+     * Get the list of weapon.
+     * @return the list of weapon.
+     */
+    public List<Weapon> getWeapons() {
+        return weapons;
+    }
+
     /**
      * Increment the number of skull
      */
@@ -303,11 +321,14 @@ public class Player {
      *
      */
     public void removeAmmo(AmmoColor ammoColor, int n){
+        if(countAmmo(ammoColor)<n) {
+            throw new InvalidOperationException("The player doesn't have enough ammo");
+        }
         AmmoColor a;
-        int i=0;
-        for(Iterator<AmmoColor> t = ammo.iterator(); t.hasNext() && i<n;){
-            a=t.next();
-            if(a==ammoColor){
+        int i = 0;
+        for (Iterator<AmmoColor> t = ammo.iterator(); t.hasNext() && i < n; ) {
+            a = t.next();
+            if (a == ammoColor) {
                 t.remove();
                 i++;
             }
