@@ -74,8 +74,7 @@ class PlayerTest {
         player.removeAmmo(AmmoColor.YELLOW,1);
         assertEquals(1, player.countAmmo(AmmoColor.YELLOW));
         assertEquals(1, player.countAmmo(AmmoColor.BLUE));
-        player.removeAmmo(AmmoColor.YELLOW,2);
-        assertEquals(0, player.countAmmo(AmmoColor.YELLOW));
+        assertThrows(InvalidOperationException.class, ()->        player.removeAmmo(AmmoColor.YELLOW,2));
     }
 
     @Test
