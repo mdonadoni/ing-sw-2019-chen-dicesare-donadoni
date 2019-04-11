@@ -74,19 +74,18 @@ class PlayerTest {
         player.removeAmmo(AmmoColor.YELLOW,1);
         assertEquals(1, player.countAmmo(AmmoColor.YELLOW));
         assertEquals(1, player.countAmmo(AmmoColor.BLUE));
-        assertThrows(InvalidOperationException.class, ()->        player.removeAmmo(AmmoColor.YELLOW,2));
+        assertThrows(InvalidOperationException.class, ()->player.removeAmmo(AmmoColor.YELLOW,2));
     }
 
     @Test
     void grabWeapon() {
         Weapon weapon=new Weapon("THOR");
-        SpawnPoint square=new SpawnPoint(new Coordinate(0, 1), AmmoColor.RED);
-        square.addWeapon(weapon);
-        player.setSquare(square);
         player.grabWeapon(weapon);
         assertEquals(weapon ,player.getWeapons().get(0));
-        assertEquals(0, square.getWeapons().size());
-        player.setSquare(new StandardSquare(new Coordinate(2,3)));
-        assertThrows(InvalidSquareException.class, ()->player.grabWeapon(weapon));
+        assertEquals(1,player.getWeapons().size());
+        player.grabWeapon(new Weapon("Vortex"));
+        player.grabWeapon(new Weapon("Flamethrower"));
+        player.grabWeapon(new Weapon("Laserblade"));
+        assertEquals(3,player.getWeapons().size());
     }
 }
