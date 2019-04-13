@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.weapons.HistorySorter;
 import it.polimi.ingsw.model.weapons.Weapon;
 import java.util.*;
 import static java.util.stream.Collectors.*;

@@ -230,15 +230,10 @@ public class Player {
      * Grab a weapon from the spawn point where the player is.
      * @param weapon the weapon to grab.
      */
-    public void grabWeapon(Weapon weapon){
-        if(square.getClass()!=SpawnPoint.class){
-            throw new InvalidSquareException("The player isn't on a spawn point");
+    public void grabWeapon(Weapon weapon) {
+        if (weapons.size() < 3) {
+            weapons.add(weapon);
         }
-        if(!((SpawnPoint)square).getWeapons().contains(weapon)){
-            throw new InvalidOperationException("The spawn point doesn't have the requested weapon");
-        }
-        weapons.add(weapon);
-        ((SpawnPoint)square).removeWeapon(weapon);
     }
 
     /**
