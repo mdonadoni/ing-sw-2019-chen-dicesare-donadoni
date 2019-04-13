@@ -173,9 +173,7 @@ public class Player {
      * Remove all the damage from a player.
      */
     public void resetDamage(){
-        for(Iterator<PlayerToken> t = damageTaken.iterator(); t.hasNext(); ){
-            t.remove();
-        }
+        damageTaken.clear();
     }
 
     /**
@@ -233,9 +231,14 @@ public class Player {
      * @param weapon the weapon to grab.
      */
     public void grabWeapon(Weapon weapon){
-        if(weapons.size()<3) {
-            weapons.add(weapon);
+        if(square.getClass()!=SpawnPoint.class){
+            throw new InvalidSquareException("The player isn't on a spawn point");
         }
+        if(!((SpawnPoint)square).getWeapons().contains(weapon)){
+            throw new InvalidOperationException("The spawn point doesn't have the requested weapon");
+        }
+        weapons.add(weapon);
+        ((SpawnPoint)square).removeWeapon(weapon);
     }
 
     /**

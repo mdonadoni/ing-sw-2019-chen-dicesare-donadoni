@@ -35,7 +35,7 @@ class GameBoardTest {
         singleBlue = new ArrayList<>();
         singleBlue.add(PlayerToken.BLUE);
         singleGrey = new ArrayList<>();
-        singleGrey.add(PlayerToken.GREEN);
+        singleGrey.add(PlayerToken.GREY);
         tetraGrey = new ArrayList<>();
         tetraGrey.add(PlayerToken.GREY);
         tetraGrey.add(PlayerToken.GREY);
@@ -84,5 +84,25 @@ class GameBoardTest {
         assertEquals(2, gb.countKills(PlayerToken.GREEN));
         assertEquals(4, gb.countKills(PlayerToken.GREY));
         assertEquals(0, gb.countKills(PlayerToken.PURPLE));
+    }
+
+    @Test
+    void getKillShotTrackOrder() {
+        initGb();
+
+        gb.addKill(singleGreen); // 0
+        gb.addKill(doublePurple); // 1
+        gb.addKill(doublePurple); // 2
+        gb.addKill(singleGrey); // 3
+        gb.addKill(singleBlue); // 4
+        gb.addKill(singleGrey); // 5
+        gb.addKill(doubleYellow); // 5
+
+        List<PlayerToken> order = gb.getKillShotTrackOrder();
+        assertSame(order.get(0), PlayerToken.PURPLE);
+        assertSame(order.get(1), PlayerToken.GREY);
+        assertSame(order.get(2), PlayerToken.YELLOW);
+        assertSame(order.get(3), PlayerToken.GREEN);
+        assertSame(order.get(4), PlayerToken.BLUE);
     }
 }
