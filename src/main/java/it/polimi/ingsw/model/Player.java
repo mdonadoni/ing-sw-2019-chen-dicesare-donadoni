@@ -276,6 +276,14 @@ public class Player {
     }
 
     /**
+     * Gets the player's status
+     * @return the player's status
+     */
+    public boolean getActive(){
+        return active;
+    }
+
+    /**
      * Add points to the player.
      * @param points gained points by the player.
      */
