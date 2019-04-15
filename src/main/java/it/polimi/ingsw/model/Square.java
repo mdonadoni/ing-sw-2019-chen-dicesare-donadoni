@@ -31,7 +31,7 @@ public class Square {
      * Constructor of Square.
      * @param coord coordinates of the square.
      */
-    public Square(Coordinate coord) {
+    Square(Coordinate coord) {
         this.coord = coord;
     }
 
@@ -71,7 +71,7 @@ public class Square {
      * Add a link that connects this square with another square.
      * @param link Link to be added.
      */
-    public void addLink(Link link) {
+    void addLink(Link link) {
         if (!link.getFirstSquare().equals(this) && !link.getSecondSquare().equals(this)) {
             throw new InvalidLinkException("Square not part of the Link");
         }

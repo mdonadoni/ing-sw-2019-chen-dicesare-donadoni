@@ -34,6 +34,11 @@ public class GameBoard {
     Deck<AmmoTile> ammoTileDeck;
 
     /**
+     * Board with square and spawnpoints.
+     */
+    Board board;
+
+    /**
      * Standard constructor
      */
     public GameBoard(){
@@ -51,6 +56,7 @@ public class GameBoard {
         weaponDeck = new Deck<>();
         powerUpDeck = new Deck<>();
         ammoTileDeck = new Deck<>();
+        board = new Board();
     }
 
     /**
@@ -123,5 +129,9 @@ public class GameBoard {
 
     public Deck<AmmoTile> getAmmoTileDeck(){
         return ammoTileDeck;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }
