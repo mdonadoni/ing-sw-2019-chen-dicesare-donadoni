@@ -3,34 +3,41 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.network.LocalServer;
 import it.polimi.ingsw.network.View;
 
-import java.rmi.RemoteException;
-import java.util.HashSet;
-import java.util.Set;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ServerController extends LocalServer {
     private static final Logger LOG = Logger.getLogger(ServerController.class.getName());
 
-    private Set<String> connectedUser = new HashSet<>();
+    private Map<String, View> connectedUser = new HashMap<>();
 
     @Override
-    public synchronized void login(String nickname, View view) throws NicknameAlreadyUsedException {
-        if (connectedUser.contains(nickname)) {
+    public synchronized boolean login(String nickname, View view) {
+        if (connectedUser.containsKey(nickname)) {
             LOG.log(Level.WARNING, "Username already used: {0}", nickname);
-            throw new NicknameAlreadyUsedException();
+            return false;
         }
-        connectedUser.add(nickname);
+        connectedUser.put(nickname, view);
+        new Thread(() -> {
+            try {
+                view.showMessage(MessageFormat.format("Ciao {0}! Io sono il server!", nickname));
+                view.showMessage("Fra cinque secondi sarai disconnesso!");
+                for (int i = 5; i > 0; i--) {
+                    view.showMessage(String.valueOf(i));
+                    Thread.sleep(1000);
+                }
+                view.showMessage("Ora ti disconnetto!");
+                view.disconnect();
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "Error disconnecting {0}", nickname);
+            }
+        }).start();
         LOG.log(Level.INFO, "New user connected: {0}", nickname);
-        try {
-            view.showMessage("Il server ti dice ciao!");
-        } catch(RemoteException e) {
-            LOG.log(Level.SEVERE,"Cannot greet new user {0}", nickname);
-        }
-        try {
-            view.disconnect();
-        } catch(RemoteException e) {
-            LOG.log(Level.SEVERE, "Cannot disconnect user {0}", nickname);
-        }
+        return true;
     }
+
+
 }

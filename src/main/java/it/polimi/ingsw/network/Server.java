@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.controller.NicknameAlreadyUsedException;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -14,7 +12,6 @@ public interface Server extends Remote {
      * @param nickname Nickname chosen by the player.
      * @param view View of the player.
      * @throws RemoteException If there is a network error.
-     * @throws NicknameAlreadyUsedException If the nickname is already in use.
      */
-    void login(String nickname, View view) throws RemoteException, NicknameAlreadyUsedException;
+    boolean login(String nickname, View view) throws RemoteException;
 }

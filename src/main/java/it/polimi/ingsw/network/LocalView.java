@@ -1,52 +1,78 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.controller.NicknameAlreadyUsedException;
+import it.polimi.ingsw.network.socket.RemoteServer;
 
-import java.rmi.NoSuchObjectException;
+import java.io.IOException;
+import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class represents a local view.
  */
-public abstract class LocalView implements View {
-    /**
-     * Reference to the RMI stub of the view.
-     */
-    private View viewStub = null;
+public abstract class LocalView implements View, Runnable {
+
+    private static final Logger LOG = Logger.getLogger(LocalView.class.getName());
+
+
+    private Server server = null;
+    private ConnectionType connType = null;
+    private Thread socketThread = null;
+    private Socket socket = null;
+
+    protected LocalView() {
+    }
 
     /**
      * Connect to the server using RMI.
-     * @param nickname Nickname chosen by the user
      * @param address Address of the server.
      * @param port Port of the RMI registry on the server.
      * @throws RemoteException If there is a network error.
-     * @throws NicknameAlreadyUsedException If the nickname is already used.
      */
-    protected void connectServerRMI(String nickname, String address, int port) throws RemoteException, NicknameAlreadyUsedException {
-        if (viewStub == null) {
-            viewStub = (View) UnicastRemoteObject.exportObject(this, 0);
-        }
-
+    protected void connectServerRMI(String address, int port) throws IOException {
+        UnicastRemoteObject.exportObject(this, 0);
         Registry registry = LocateRegistry.getRegistry(address, port);
         try {
-            Server serverStub = (Server) registry.lookup("Server");
-            serverStub.login(nickname, viewStub);
+            server = (Server) registry.lookup("Server");
         } catch(NotBoundException e) {
-            throw new RemoteException("Server not bound to registry", e);
+            throw new IOException("Server not bound to registry", e);
         }
+        connType = ConnectionType.RMI;
+    }
+
+    /**
+     * Connect to the server using a socket.
+     * @param address Address of the server.
+     * @param port Port of the socket server.
+     * @throws IOException If there is an error while making the connection.
+     */
+    protected void connectServerSocket(String address, int port) throws IOException {
+        socket = new Socket(address, port);
+        RemoteServer remote = new RemoteServer(this, socket);
+        server = remote;
+        socketThread = new Thread(remote);
+        socketThread.start();
+        connType = ConnectionType.SOCKET;
+    }
+
+    /** Method to get a reference to the remote server. This method can be
+     * called only after creating a successful connection either using RMI
+     * or sockets.
+     * @return Remote server.
+     */
+    protected Server getServer() {
+        return server;
     }
 
     /**
      * Method to start the local view.
-     * @param connection Type of connection to be used
-     * @param address Address of the server.
-     * @param port Port to connect to the server.
      */
-    public abstract void start(ConnectionType connection, String address, int port);
+    public abstract void run();
 
     /**
      * Show a message. This method doesn't throw RemoteException because this
@@ -57,16 +83,29 @@ public abstract class LocalView implements View {
     public abstract void showMessage(String message);
 
     /**
-     * Signal a disconnection from the server.
+     * Signal a disconnection from the server. This method doesn't throw RemoteException because this
+     * is a local view.
      */
     @Override
-    public void disconnect() throws RemoteException {
-        if (viewStub != null) {
-            try {
-                UnicastRemoteObject.unexportObject(this, true);
-            } catch (NoSuchObjectException e) {
-                throw new RemoteException("Cannot unexport object", e);
-            }
+    public void disconnect() {
+        switch (connType) {
+            case RMI:
+                try {
+                    UnicastRemoteObject.unexportObject(this, true);
+                    LOG.info("Unexported remote object");
+                } catch (RemoteException e) {
+                    LOG.log(Level.SEVERE, "Cannot unexport remote object", e);
+                }
+                break;
+            case SOCKET:
+                socketThread.interrupt();
+                LOG.info("Thread interrupted");
+                try {
+                    socket.close();
+                    LOG.info("Socket closed");
+                } catch(IOException e) {
+                    LOG.log(Level.SEVERE, "Cannot close socket", e);
+                }
         }
     }
 }
