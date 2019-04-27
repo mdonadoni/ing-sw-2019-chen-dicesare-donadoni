@@ -70,11 +70,6 @@ public abstract class LocalView implements View, Runnable {
     }
 
     /**
-     * Method to start the local view.
-     */
-    public abstract void run();
-
-    /**
      * Show a message. This method doesn't throw RemoteException because this
      * is a local view.
      * @param message Massage to be shown.
@@ -88,24 +83,22 @@ public abstract class LocalView implements View, Runnable {
      */
     @Override
     public void disconnect() {
-        switch (connType) {
-            case RMI:
-                try {
-                    UnicastRemoteObject.unexportObject(this, true);
-                    LOG.info("Unexported remote object");
-                } catch (RemoteException e) {
-                    LOG.log(Level.SEVERE, "Cannot unexport remote object", e);
-                }
-                break;
-            case SOCKET:
-                socketThread.interrupt();
-                LOG.info("Thread interrupted");
-                try {
-                    socket.close();
-                    LOG.info("Socket closed");
-                } catch(IOException e) {
-                    LOG.log(Level.SEVERE, "Cannot close socket", e);
-                }
+        if (connType == ConnectionType.RMI) {
+            try {
+                UnicastRemoteObject.unexportObject(this, true);
+                LOG.info("Unexported remote object");
+            } catch (RemoteException e) {
+                LOG.log(Level.SEVERE, "Cannot unexport remote object", e);
+            }
+        } else {
+            socketThread.interrupt();
+            LOG.info("Thread interrupted");
+            try {
+                socket.close();
+                LOG.info("Socket closed");
+            } catch(IOException e) {
+                LOG.log(Level.SEVERE, "Cannot close socket", e);
+            }
         }
     }
 }
