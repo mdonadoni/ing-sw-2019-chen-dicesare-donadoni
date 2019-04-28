@@ -29,7 +29,7 @@ public class SquareTarget extends Target {
                         @JsonProperty("maxDistance") int maxD,
                         @JsonProperty("exclusive") boolean excl,
                         @JsonProperty("inherited") boolean inh,
-                        @JsonProperty("maxPlayerDistannce") int maxPlayerD){
+                        @JsonProperty("maxPlayerDistance") int maxPlayerD){
         super(numTargets, vis, minD, maxD, excl, inh);
         if(maxPlayerDistance < 0)
             throw new InvalidParameterException("maxPlayerDistance must be at least 0");

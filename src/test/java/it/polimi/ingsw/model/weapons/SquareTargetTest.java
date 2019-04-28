@@ -48,13 +48,37 @@ class SquareTargetTest {
 
     @Test
     void validateTargetPlayer() {
+        SquareTarget basic = new SquareTarget(1, Visibility.VISIBLE, -1, 2, false, false, 0);
+        SquareTarget aBitMoreFar = new SquareTarget(1, Visibility.DC, 1, -1, false, false, 1);
+
+        assertTrue(basic.validateTargetPlayer(playerA, map[0][1], playerG));
+        assertTrue(aBitMoreFar.validateTargetPlayer(playerF, map[2][1], playerC));
+        assertFalse(aBitMoreFar.validateTargetPlayer(playerA, map[1][2], playerG));
+        assertFalse(basic.validateTargetPlayer(playerC, map[2][2], playerB));
     }
 
     @Test
     void compatibleTargetPlayers() {
-    }
+        SquareTarget onTheSpot = new SquareTarget(2, Visibility.DC, -1, -1, false, false, 0);
+        SquareTarget aBitMoreFar = new SquareTarget(3, Visibility.DC, -1, -1, false, false, 1);
+        List<Player> playerList = new ArrayList<>();
+        playerList.add(playerC);
+        playerList.add(playerB);
+        List<Player> anotherPlayerList = new ArrayList<>();
+        anotherPlayerList.add(playerA);
+        anotherPlayerList.add(playerB);
+        anotherPlayerList.add(playerF);
+        List<Square> someSquares = new ArrayList<>();
+        someSquares.add(map[3][1]);
+        someSquares.add(map[3][2]);
+        List<Square> otherSquares = new ArrayList<>();
+        otherSquares.add(map[1][0]);
+        otherSquares.add(map[2][2]);
+        otherSquares.add(map[2][0]);
 
-    @Test
-    void compatibleTargetPlayers1() {
+        assertTrue(onTheSpot.compatibleTargetPlayers(playerD, someSquares, playerList));
+        assertTrue(aBitMoreFar.compatibleTargetPlayers(playerB, otherSquares, anotherPlayerList));
+        assertFalse(onTheSpot.compatibleTargetPlayers(playerG, someSquares, anotherPlayerList));
+        assertFalse(aBitMoreFar.compatibleTargetPlayers(playerG, otherSquares, playerList));
     }
 }
