@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +39,7 @@ public class SocketEndpoint<I, O> {
     /**
      * PrintWriter constructed on top of socket.
      */
-    private final PrintWriter writer;
+    private final BufferedWriter writer;
 
     /**
      * Jackson's ObjectMapper used to serialize/deserialize objects into/from Json.
@@ -65,7 +62,7 @@ public class SocketEndpoint<I, O> {
         this.socket = socket;
         this.inClass = inClass;
         this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        this.writer = new PrintWriter(socket.getOutputStream());
+        this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
     }
 
     /**
@@ -76,7 +73,8 @@ public class SocketEndpoint<I, O> {
     public void send(O msg) throws IOException {
         LOG.log(Level.INFO, "Sending {0}", msg);
         synchronized (writer) {
-            writer.println(jsonMapper.writeValueAsString(msg));
+            writer.write(jsonMapper.writeValueAsString(msg));
+            writer.newLine();
             writer.flush();
         }
         LOG.info("Message to view sent");

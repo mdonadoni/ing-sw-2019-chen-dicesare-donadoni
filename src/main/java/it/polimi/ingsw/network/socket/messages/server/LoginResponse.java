@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.socket.messages.server;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.network.socket.ViewSideHandler;
 
 /**
  * Response of method login.
@@ -37,15 +36,6 @@ public class LoginResponse extends ResponseServerMethod {
     }
 
     /**
-     * Mathod used to handle the request on the server (Visitor Pattern).
-     * @param handler Handler of a server response.
-     */
-    @Override
-    public void visit(ViewSideHandler handler) {
-        handler.handle(this);
-    }
-
-    /**
      * Get the result of the login.
      * @return True if login is successful, false otherwise.
      */
@@ -53,8 +43,4 @@ public class LoginResponse extends ResponseServerMethod {
         return res;
     }
 
-    @Override
-    public String toString() {
-        return "[" + getUUID() + "] LoginResponse (" + res + ")";
-    }
 }
