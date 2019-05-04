@@ -2,9 +2,10 @@ package it.polimi.ingsw.model.weapons;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class MovementEffect extends Effect {
-    private boolean visibleDest;
+    private Visibility visibleDest;
     private boolean line;
     private boolean self;
     private boolean fixed;
@@ -17,10 +18,18 @@ public class MovementEffect extends Effect {
         setAmount(value);
     }
 
+    MovementEffect(JsonNode json){
+        setAmount(json.get("value").asInt());
+        setVisibleDest(Visibility.valueOf(json.get("visibleDest").asText().toUpperCase()));
+        setLine(json.get("line").asBoolean());
+        setFixed(json.get("fixed").asBoolean());
+        setSelf(json.get("self").asBoolean());
+    }
+
     /**
      * @return Whether the destination of the movement must be visible to the player
      */
-    public boolean isVisibleDest() {
+    public Visibility isVisibleDest() {
         return visibleDest;
     }
 
@@ -28,7 +37,7 @@ public class MovementEffect extends Effect {
      * @param visibleDest Boolean that specifies whether the destination must be visible to the
      *                    player
      */
-    public void setVisibleDest(boolean visibleDest) {
+    public void setVisibleDest(Visibility visibleDest) {
         this.visibleDest = visibleDest;
     }
 

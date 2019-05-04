@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.weapons;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
@@ -29,12 +30,23 @@ public class SquareTarget extends Target {
                         @JsonProperty("maxDistance") int maxD,
                         @JsonProperty("exclusive") boolean excl,
                         @JsonProperty("inherited") boolean inh,
-                        @JsonProperty("maxPlayerDistance") int maxPlayerD){
+                        @JsonProperty("maxPlayerDistance") int maxPlayerD,
+                        @JsonProperty("numberOfPlayers") int numberOfPlayers,
+                        @JsonProperty("vortex") boolean vortex){
         super(numTargets, vis, minD, maxD, excl, inh);
         if(maxPlayerDistance < 0)
             throw new InvalidParameterException("maxPlayerDistance must be at least 0");
 
         maxPlayerDistance = maxPlayerD;
+        this.numberOfPlayers = numberOfPlayers;
+        this.vortex = vortex;
+    }
+
+    SquareTarget(JsonNode json){
+        super(json);
+        maxPlayerDistance = json.get("maxPlayerDistance").asInt();
+        numberOfPlayers = json.get("numberOfPlayers").asInt();
+        vortex = json.get("vortex").asBoolean();
     }
 
     public int getNumberOfPlayers() {
@@ -109,6 +121,11 @@ public class SquareTarget extends Target {
      */
     public boolean compatibleTargetPlayers(Player attacker, List<Square> targetSquares, List<Player> targets){
         boolean result = true;
+
+        if (targets.size() > numberOfPlayers)
+            result = false;
+        if (targetSquares.size() > getNumberOfTargets())
+            result = false;
 
         if(!compatibleTargetSquares(attacker, targetSquares))
             result = false;

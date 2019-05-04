@@ -48,8 +48,8 @@ class SquareTargetTest {
 
     @Test
     void validateTargetPlayer() {
-        SquareTarget basic = new SquareTarget(1, Visibility.VISIBLE, -1, 2, false, false, 0);
-        SquareTarget aBitMoreFar = new SquareTarget(1, Visibility.DC, 1, -1, false, false, 1);
+        SquareTarget basic = new SquareTarget(1, Visibility.VISIBLE, -1, 2, false, false, 0, 1, false);
+        SquareTarget aBitMoreFar = new SquareTarget(1, Visibility.DC, 1, -1, false, false, 1, 1, false);
 
         assertTrue(basic.validateTargetPlayer(playerA, map[0][1], playerG));
         assertTrue(aBitMoreFar.validateTargetPlayer(playerF, map[2][1], playerC));
@@ -59,8 +59,8 @@ class SquareTargetTest {
 
     @Test
     void compatibleTargetPlayers() {
-        SquareTarget onTheSpot = new SquareTarget(2, Visibility.DC, -1, -1, false, false, 0);
-        SquareTarget aBitMoreFar = new SquareTarget(3, Visibility.DC, -1, -1, false, false, 1);
+        SquareTarget onTheSpot = new SquareTarget(2, Visibility.DC, -1, -1, false, false, 0, 3, false);
+        SquareTarget aBitMoreFar = new SquareTarget(3, Visibility.DC, -1, -1, false, false, 1, 3, false);
         List<Player> playerList = new ArrayList<>();
         playerList.add(playerC);
         playerList.add(playerB);

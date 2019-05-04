@@ -1,0 +1,52 @@
+{
+  "name": "testweapon",
+  "charged": true,
+  "pickupColor": ["BLUE", "RED"],
+  "additionalRechargeColor": "BLUE",
+  "attacks":[{
+    "chainAttack": false,
+    "baseFire": [{
+      "type": "player",
+      "numberOfTargets": 1,
+      "visibility": "VISIBLE",
+      "minDistance": -1,
+      "maxDistance": -1,
+      "exclusive": true,
+      "inherited": false,
+      "special": [],
+      "effects": [{
+        "type": "harmful",
+        "value": 2,
+        "harm": "DAMAGE"
+        },
+        {
+          "type": "harmful",
+          "value": 1,
+          "harm": "MARK"
+        },
+        {
+          "type": "movement",
+          "value": 3,
+          "visibleDest": "DC",
+          "line": true,
+          "self": false,
+          "fixed": false
+        }]
+    }],
+    "additionalAttacks":[{
+      "chainAttack": false,
+      "baseFire": [],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost":["RED"]
+    }],
+    "bonusMovement": [{
+      "value": 1,
+      "visibleDest": "VISIBLE",
+      "line": false,
+      "self": true,
+      "fixed": false
+    }],
+    "cost": ["YELLOW", "YELLOW"]
+  }]
+}

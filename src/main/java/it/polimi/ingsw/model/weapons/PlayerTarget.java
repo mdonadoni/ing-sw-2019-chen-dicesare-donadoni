@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.weapons;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
@@ -28,7 +29,9 @@ public class PlayerTarget extends Target {
                         @JsonProperty("inherited") boolean inh){
         super(numTargets, vis, minD, maxD, excl, inh);
     }
-
+    PlayerTarget (JsonNode json){
+        super(json);
+    }
     /**
      * Checks whether a player can be targeted
      * @param attacker The player who is attacking

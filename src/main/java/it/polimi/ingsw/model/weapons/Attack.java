@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.weapons;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.model.AmmoColor;
 
 import java.util.ArrayList;
@@ -7,20 +8,35 @@ import java.util.List;
 
 public class Attack {
     private Boolean chainAttack;
-    private List<Target> baseFire;
-    private MovementEffect bonusMovement;
-    private List<Attack> additionalAttacks;
-    private List<AmmoColor> cost;
+    private List<Target> baseFire = new ArrayList<>();
+    private List<MovementEffect> bonusMovement = new ArrayList<>();
+    private List<Attack> additionalAttacks = new ArrayList<>();
+    private List<AmmoColor> cost = new ArrayList<>();
 
-    Attack(){
-        additionalAttacks = new ArrayList<>();
-        baseFire = new ArrayList<>();
-        cost = new ArrayList<>();
+    Attack(){ }
+
+    Attack(JsonNode json){
+        chainAttack = json.get("chainAttack").asBoolean();
+        for(JsonNode target : json.get("baseFire")){
+            if(target.get("type").asText().equals("player"))
+                addBaseFire(new PlayerTarget(target));
+            else if(target.get("type").asText().equals("square"))
+                addBaseFire(new SquareTarget(target));
+        }
+        for(JsonNode addAtt : json.get("additionalAttacks")){
+            addAdditionalAttack(new Attack(addAtt));
+        }
+        for(JsonNode bonusMov : json.get("bonusMovement")){
+            addBonusMovement(new MovementEffect(bonusMov));
+        }
+        for(JsonNode ammoCost : json.get("cost")){
+            addCost(AmmoColor.valueOf(ammoCost.asText().toUpperCase()));
+        }
     }
-    public void setBonusMovement(MovementEffect movement){
-        bonusMovement = movement;
+    public void addBonusMovement(MovementEffect movement){
+        bonusMovement.add(movement);
     }
-    public MovementEffect getBonusMovement(){
+    public List<MovementEffect> getBonusMovement(){
         return bonusMovement;
     }
     public void addAdditionalAttack(Attack attack){

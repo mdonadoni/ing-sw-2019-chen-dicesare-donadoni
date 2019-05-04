@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.weapons;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class HarmfulEffect extends Effect {
     private HarmType type;
@@ -16,6 +17,12 @@ public class HarmfulEffect extends Effect {
         setAmount(value);
         this.type = type;
     }
+
+    HarmfulEffect(JsonNode json){
+        setAmount(json.get("value").asInt());
+        setType(HarmType.valueOf(json.get("harm").asText().toUpperCase()));
+    }
+
     /**
      * @return The type of the harm inflicted: DAMAGE or MARK
      */
