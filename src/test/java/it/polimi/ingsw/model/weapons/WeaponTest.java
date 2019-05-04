@@ -10,7 +10,7 @@ class WeaponTest {
 
     @Test
     public void fromResourceTest() throws ResourceException {
-        Weapon wp = new Weapon(avaibleWeapons.TESTWEAPON);
+        Weapon wp = new Weapon(WeaponTest.class.getResourceAsStream("/weapons/testweapon.json"));
         assertEquals(wp.getName(), "testweapon");
         assertEquals(wp.getAdditionalRechargeColor(), AmmoColor.BLUE);
         assertEquals(wp.getPickupColor().get(0), AmmoColor.BLUE);

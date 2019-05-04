@@ -22,9 +22,11 @@ public class Weapon {
     public Weapon(String name){
         this.name = name;
     }
-    public Weapon(avaibleWeapons name) throws ResourceException {
+    public Weapon(WeaponType name) throws ResourceException {
+        this(Weapon.class.getResourceAsStream("/weapons/"+name.toString().toLowerCase()+".json"));
+    }
+    public Weapon(InputStream stream) throws ResourceException {
         try {
-            InputStream stream = Weapon.class.getResourceAsStream("/weapons/"+name.toString().toLowerCase()+".json");
             ObjectMapper mapper = Json.getMapper();
             JsonNode json = mapper.readTree(stream);
 
