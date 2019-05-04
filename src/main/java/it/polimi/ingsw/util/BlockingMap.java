@@ -6,13 +6,9 @@ import java.util.Map;
 public class BlockingMap<K, V> {
     private final Map<K, V> map = new HashMap<>();
 
-    public synchronized V get(K key) {
+    public synchronized V get(K key) throws InterruptedException {
         while(!map.containsKey(key)) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                //Do nothing
-            }
+            wait();
         }
         return map.get(key);
     }
@@ -22,7 +18,7 @@ public class BlockingMap<K, V> {
         notifyAll();
     }
 
-    public synchronized V getAndRemove(K key) {
+    public synchronized V getAndRemove(K key) throws InterruptedException {
         V res = get(key);
         map.remove(key);
         return res;

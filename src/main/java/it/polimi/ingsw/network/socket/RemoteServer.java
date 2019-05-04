@@ -85,8 +85,13 @@ public class RemoteServer implements Server, ViewSideHandler {
             LOG.log(Level.SEVERE, "Couldn't send login request", e);
             throw new RemoteException("Couldn't send login request");
         }
-        LoginResponse res = (LoginResponse) responses.getAndRemove(req.getUUID());
-        return res.getResult();
+        try {
+            LoginResponse res = (LoginResponse) responses.getAndRemove(req.getUUID());
+            return res.getResult();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RemoteException("Login request interrupted", e);
+        }
     }
 
     /**
