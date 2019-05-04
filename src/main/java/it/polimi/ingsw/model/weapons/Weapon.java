@@ -1,14 +1,13 @@
 package it.polimi.ingsw.model.weapons;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.Json;
+import it.polimi.ingsw.model.ResourceException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +22,11 @@ public class Weapon {
     public Weapon(String name){
         this.name = name;
     }
-    public Weapon(avaibleWeapons name) throws IOException {
+    public Weapon(avaibleWeapons name) throws ResourceException {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(Weapon.class.getResourceAsStream("/weapons/"+name.toString().toLowerCase()+".json")));
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode json = mapper.readTree(reader);
+            InputStream stream = Weapon.class.getResourceAsStream("/weapons/"+name.toString().toLowerCase()+".json");
+            ObjectMapper mapper = Json.getMapper();
+            JsonNode json = mapper.readTree(stream);
 
             setName(json.get("name").asText());
             setCharged(json.get("charged").asBoolean());
@@ -40,8 +39,8 @@ public class Weapon {
             for(JsonNode attack : json.get("attacks")){
                 addAttack(new Attack(attack));
             }
-        } catch (IOException e){
-            e.printStackTrace();
+        } catch (Exception e){
+            throw new ResourceException("Cannot load weapon resource", e);
         }
     }
     public void setName(String name) {
