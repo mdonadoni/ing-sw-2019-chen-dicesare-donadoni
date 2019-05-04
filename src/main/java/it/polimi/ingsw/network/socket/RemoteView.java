@@ -2,7 +2,8 @@ package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.network.LocalServer;
 import it.polimi.ingsw.network.View;
-import it.polimi.ingsw.network.socket.messages.*;
+import it.polimi.ingsw.network.socket.messages.ServerToView;
+import it.polimi.ingsw.network.socket.messages.ViewToServer;
 import it.polimi.ingsw.network.socket.messages.server.LoginRequest;
 import it.polimi.ingsw.network.socket.messages.server.RequestServerMethod;
 import it.polimi.ingsw.network.socket.messages.server.ResponseServerMethod;
@@ -11,7 +12,7 @@ import it.polimi.ingsw.network.socket.messages.view.ResponseViewMethod;
 import it.polimi.ingsw.network.socket.messages.view.ShowMessageRequest;
 import it.polimi.ingsw.util.BlockingMap;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;

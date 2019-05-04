@@ -33,4 +33,10 @@ public class Message {
     public String getUUID() {
         return uuid;
     }
+
+
+    @Override
+    public String toString() {
+        return "[" + getUUID() + "] " + this.getClass().getSimpleName();
+    }
 }

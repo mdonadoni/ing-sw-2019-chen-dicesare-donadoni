@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
@@ -78,5 +80,12 @@ class BoardTest {
     void getSpawnPointByColorThrow() {
         assertThrows(InvalidOperationException.class,
                 () -> board.getSpawnPointByColor(AmmoColor.BLUE));
+    }
+
+    @Test
+    void readResources() throws ResourceException {
+        for (BoardType type : BoardType.values()) {
+            new Board(type);
+        }
     }
 }

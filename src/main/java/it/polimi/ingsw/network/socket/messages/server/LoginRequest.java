@@ -60,7 +60,9 @@ public class LoginRequest extends RequestServerMethod {
     }
 
     /**
-     * Mathod used to handle a server method request (Visitor Pattern).
+     * Method used to handle a server method request (Visitor Pattern).
+     * This override is needed because the login request needs to be handled
+     * in a different way from other requests.
      * @param handler Handler of a server request.
      */
     @Override

@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.socket.messages.view;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.network.LocalView;
-import it.polimi.ingsw.network.socket.ViewSideHandler;
 
 /**
  * Request the view to show a message.
@@ -32,15 +31,6 @@ public class ShowMessageRequest extends RequestViewMethod {
     public ResponseViewMethod invokeOn(LocalView view) {
         view.showMessage(message);
         return null;
-    }
-
-    /**
-     * Visitor Pattern. Let the ViewSideHandler handle this request.
-     * @param handler Handler that handles this request.
-     */
-    @Override
-    public void visit(ViewSideHandler handler) {
-        handler.handle(this);
     }
 
     @Override
