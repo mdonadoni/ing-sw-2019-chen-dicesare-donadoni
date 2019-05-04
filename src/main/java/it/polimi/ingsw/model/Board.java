@@ -1,7 +1,11 @@
 package it.polimi.ingsw.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.InputStream;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * This class represents a board of the game.
@@ -26,6 +30,49 @@ public class Board {
      * Maps color to corresponding SpawnPoint.
      */
     Map<AmmoColor, SpawnPoint> colorToSpawnPoint;
+
+    /**
+     * Create new board given board's type, reading from resources.
+     * @param boardType Type of board.
+     * @throws ResourceException If there are errors reading or parsing the resource file.
+     */
+    public Board(BoardType boardType) throws ResourceException {
+        coordToSquare = new HashMap<>();
+        coordToSpawnPoint = new HashMap<>();
+        coordToStandardSquare = new HashMap<>();
+        colorToSpawnPoint = new HashMap<>();
+
+        try {
+            String path = "/boards/" + boardType.name().toLowerCase() + ".json";
+            InputStream in = Board.class.getResourceAsStream(path);
+            ObjectMapper mapper = Json.getMapper();
+            JsonNode json = mapper.readTree(in);
+
+            Function<JsonNode, Coordinate> jsonToCoord = obj ->
+                    new Coordinate(
+                            obj.get("row").asInt(),
+                            obj.get("column").asInt()
+                    );
+
+            for (JsonNode standard : json.get("standard")) {
+                addStandardSquare(jsonToCoord.apply(standard));
+            }
+
+            for (JsonNode spawn : json.get("spawnpoint")) {
+                AmmoColor color = AmmoColor.valueOf(spawn.get("color").asText().toUpperCase());
+                addSpawnPoint(jsonToCoord.apply(spawn), color);
+            }
+
+            for (JsonNode link : json.get("links")) {
+                Coordinate first = jsonToCoord.apply(link.get("first"));
+                Coordinate second = jsonToCoord.apply(link.get("second"));
+                LinkType linkType = LinkType.valueOf(link.get("type").asText().toUpperCase());
+                addLink(first, second, linkType);
+            }
+        } catch (Exception e) {
+            throw new ResourceException("Cannot load board json resource", e);
+        }
+    }
 
     /**
      * Constructor of an empty Board.

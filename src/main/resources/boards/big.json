@@ -1,0 +1,105 @@
+{
+    "standard": [
+        {"row": 0, "column": 0},
+        {"row": 0, "column": 1},
+        {"row": 0, "column": 3},
+        {"row": 1, "column": 1},
+        {"row": 1, "column": 2},
+        {"row": 1, "column": 3},
+        {"row": 2, "column": 0},
+        {"row": 2, "column": 1},
+        {"row": 2, "column": 2}
+    ],
+    "spawnpoint": [
+        {"row": 0, "column": 2, "color": "blue"},
+        {"row": 1, "column": 0, "color": "red"},
+        {"row": 2, "column": 3, "color": "yellow"}
+    ],
+    "links": [
+        {
+            "first": {"row": 0, "column": 0},
+            "second": {"row": 0, "column": 1},
+            "type": "door"
+        },
+        {
+            "first": {"row": 0, "column": 1},
+            "second": {"row": 0, "column": 2},
+            "type": "same_room"
+        },
+        {
+            "first": {"row": 0, "column": 2},
+            "second": {"row": 0, "column": 3},
+            "type": "door"
+        },
+        {
+            "first": {"row": 1, "column": 0},
+            "second": {"row": 1, "column": 1},
+            "type": "wall"
+        },
+        {
+            "first": {"row": 1, "column": 1},
+            "second": {"row": 1, "column": 2},
+            "type": "wall"
+        },
+        {
+            "first": {"row": 1, "column": 2},
+            "second": {"row": 1, "column": 3},
+            "type": "same_room"
+        },
+        {
+            "first": {"row": 2, "column": 0},
+            "second": {"row": 2, "column": 1},
+            "type": "same_room"
+        },
+        {
+            "first": {"row": 2, "column": 1},
+            "second": {"row": 2, "column": 2},
+            "type": "door"
+        },
+        {
+            "first": {"row": 2, "column": 2},
+            "second": {"row": 2, "column": 3},
+            "type": "same_room"
+        },
+        {
+            "first": {"row": 0, "column": 0},
+            "second": {"row": 1, "column": 0},
+            "type": "same_room"
+        },
+        {
+            "first": {"row": 0, "column": 1},
+            "second": {"row": 1, "column": 1},
+            "type": "door"
+        },
+        {
+            "first": {"row": 0, "column": 2},
+            "second": {"row": 1, "column": 2},
+            "type": "door"
+        },
+        {
+            "first": {"row": 0, "column": 3},
+            "second": {"row": 1, "column": 3},
+            "type": "door"
+        },
+        {
+            "first": {"row": 1, "column": 0},
+            "second": {"row": 2, "column": 0},
+            "type": "door"
+        },
+        {
+            "first": {"row": 1, "column": 1},
+            "second": {"row": 2, "column": 1},
+            "type": "door"
+        },
+        {
+            "first": {"row": 1, "column": 2},
+            "second": {"row": 2, "column": 2},
+            "type": "same_room"
+        },
+        {
+            "first": {"row": 1, "column": 3},
+            "second": {"row": 2, "column": 3},
+            "type": "same_room"
+        }
+    ]
+}
