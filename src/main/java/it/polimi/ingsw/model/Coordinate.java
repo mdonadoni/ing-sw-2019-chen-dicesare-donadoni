@@ -1,11 +1,17 @@
 package it.polimi.ingsw.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * This class that maintains the coordinates of a square.
  */
-public class Coordinate {
+public class Coordinate implements Serializable {
+    private static final long serialVersionUID = -7717618159720625173L;
+
     /**
      * Row coordinate.
      */
@@ -21,7 +27,9 @@ public class Coordinate {
      * @param row Row coordinate.
      * @param column Column coordinate.
      */
-    public Coordinate(int row, int column) {
+    @JsonCreator
+    public Coordinate(@JsonProperty("row") int row,
+                      @JsonProperty("column") int column) {
         this.row = row;
         this.column = column;
     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.model.Coordinate;
 import it.polimi.ingsw.network.socket.RemoteServer;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,6 +61,16 @@ public abstract class LocalView implements View, Runnable {
         socketThread.start();
         connType = ConnectionType.SOCKET;
     }
+
+    /**
+     * Select a square from a list of squares.
+     * @param squares Coordinates of the squares.
+     * @param min Minimum number of squares to be chosen.
+     * @param max Maximum number of squares to be chosen.
+     * @return List of selected squares' coordinates.
+     */
+    @Override
+    public abstract List<Coordinate> selectSquares(List<Coordinate> squares, int min, int max);
 
     /** Method to get a reference to the remote server. This method can be
      * called only after creating a successful connection either using RMI

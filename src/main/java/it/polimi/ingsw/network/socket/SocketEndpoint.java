@@ -73,7 +73,9 @@ public class SocketEndpoint<I, O> {
     public void send(O msg) throws IOException {
         LOG.log(Level.INFO, "Sending {0}", msg);
         synchronized (writer) {
-            writer.write(jsonMapper.writeValueAsString(msg));
+            String json = jsonMapper.writeValueAsString(msg);
+            LOG.info(() -> "Sending JSON: " + json);
+            writer.write(json);
             writer.newLine();
             writer.flush();
         }

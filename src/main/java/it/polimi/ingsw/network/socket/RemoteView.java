@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.model.Coordinate;
 import it.polimi.ingsw.network.LocalServer;
 import it.polimi.ingsw.network.View;
 import it.polimi.ingsw.network.socket.messages.ServerToView;
@@ -7,15 +8,13 @@ import it.polimi.ingsw.network.socket.messages.ViewToServer;
 import it.polimi.ingsw.network.socket.messages.server.LoginRequest;
 import it.polimi.ingsw.network.socket.messages.server.RequestServerMethod;
 import it.polimi.ingsw.network.socket.messages.server.ResponseServerMethod;
-import it.polimi.ingsw.network.socket.messages.view.DisconnectRequest;
-import it.polimi.ingsw.network.socket.messages.view.RequestViewMethod;
-import it.polimi.ingsw.network.socket.messages.view.ResponseViewMethod;
-import it.polimi.ingsw.network.socket.messages.view.ShowMessageRequest;
+import it.polimi.ingsw.network.socket.messages.view.*;
 import it.polimi.ingsw.util.BlockingMap;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -85,6 +84,24 @@ public class RemoteView implements View, ServerSideHandler {
             throw new RemoteException("Request interrupted", e);
         } catch (IOException e) {
             throw new RemoteException("Couldn't send request", e);
+        }
+    }
+
+    /**
+     * Request to chose squares on the view.
+     * @param squares Coordinates of the squares.
+     * @param min Minimum number of squares to be chosen.
+     * @param max Maximum number of squares to be chosen.
+     * @return List of squares' coordinates.
+     * @throws RemoteException If there is an error invoking this method.
+     */
+    @Override
+    public List<Coordinate> selectSquares(List<Coordinate> squares, int min, int max) throws RemoteException {
+        try {
+            SelectSquaresResponse res = (SelectSquaresResponse) sendRequest(new SelectSquaresRequest(squares, min, max));
+            return res.getResult();
+        } catch (ClassCastException e) {
+            throw new RemoteException("Response is not SelectSquaresResponse");
         }
     }
 

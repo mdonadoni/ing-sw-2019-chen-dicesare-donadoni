@@ -1,10 +1,13 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Coordinate;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.LocalView;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ViewCLI extends LocalView {
@@ -65,6 +68,11 @@ public class ViewCLI extends LocalView {
                 logged = false;
             }
         }
+    }
+
+    @Override
+    public synchronized List<Coordinate> selectSquares(List<Coordinate> squares, int min, int max) {
+        return new ArrayList<>(squares.subList(0, min));
     }
 
     @Override
