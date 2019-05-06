@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.socket.messages.server.LoginRequest;
 import it.polimi.ingsw.network.socket.messages.server.RequestServerMethod;
 import it.polimi.ingsw.network.socket.messages.server.ResponseServerMethod;
 import it.polimi.ingsw.network.socket.messages.view.DisconnectRequest;
+import it.polimi.ingsw.network.socket.messages.view.RequestViewMethod;
 import it.polimi.ingsw.network.socket.messages.view.ResponseViewMethod;
 import it.polimi.ingsw.network.socket.messages.view.ShowMessageRequest;
 import it.polimi.ingsw.util.BlockingMap;
@@ -70,18 +71,31 @@ public class RemoteView implements View, ServerSideHandler {
     }
 
     /**
+     * Method to send a request and get the response.
+     * @param req Request to send.
+     * @return Response of the request.
+     * @throws RemoteException If an error occurs while sending the request.
+     */
+    private ResponseViewMethod sendRequest(RequestViewMethod req) throws RemoteException {
+        try {
+            send(req);
+            return responses.getAndRemove(req.getUUID());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RemoteException("Request interrupted", e);
+        } catch (IOException e) {
+            throw new RemoteException("Couldn't send request", e);
+        }
+    }
+
+    /**
      * Request to show a message on the remote view.
      * @param message Massage to be shown.
      * @throws RemoteException If the method cannot be invoked.
      */
     @Override
     public void showMessage(String message) throws RemoteException {
-        ShowMessageRequest req = new ShowMessageRequest(message);
-        try {
-            send(req);
-        } catch (IOException e) {
-            throw new RemoteException("Couldn't send request", e);
-        }
+        sendRequest(new ShowMessageRequest(message));
     }
 
     /**
@@ -90,12 +104,7 @@ public class RemoteView implements View, ServerSideHandler {
      */
     @Override
     public void disconnect() throws RemoteException {
-        DisconnectRequest req = new DisconnectRequest();
-        try {
-            send(req);
-        } catch (IOException e) {
-            throw new RemoteException("Couldn't send request", e);
-        }
+        sendRequest(new DisconnectRequest());
     }
 
     /**

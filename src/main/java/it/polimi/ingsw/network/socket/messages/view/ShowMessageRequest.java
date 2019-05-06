@@ -30,7 +30,7 @@ public class ShowMessageRequest extends RequestViewMethod {
     @Override
     public ResponseViewMethod invokeOn(LocalView view) {
         view.showMessage(message);
-        return null;
+        return new VoidResponse(this);
     }
 
     @Override

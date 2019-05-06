@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.socket.messages.ServerToView;
 import it.polimi.ingsw.network.socket.messages.ViewToServer;
 import it.polimi.ingsw.network.socket.messages.server.LoginRequest;
 import it.polimi.ingsw.network.socket.messages.server.LoginResponse;
+import it.polimi.ingsw.network.socket.messages.server.RequestServerMethod;
 import it.polimi.ingsw.network.socket.messages.server.ResponseServerMethod;
 import it.polimi.ingsw.network.socket.messages.view.RequestViewMethod;
 import it.polimi.ingsw.network.socket.messages.view.ResponseViewMethod;
@@ -70,6 +71,24 @@ public class RemoteServer implements Server, ViewSideHandler {
     }
 
     /**
+     * Method to send a request and get the response.
+     * @param req Request to send.
+     * @return Response of the request.
+     * @throws RemoteException If an error occurs while sending the request.
+     */
+    private ResponseServerMethod sendRequest(RequestServerMethod req) throws RemoteException {
+        try {
+            send(req);
+            return responses.getAndRemove(req.getUUID());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RemoteException("Request interrupted", e);
+        } catch (IOException e) {
+            throw new RemoteException("Couldn't send request", e);
+        }
+    }
+
+    /**
      * Request a login on the server.
      * @param nickname Nickname chosen by the player.
      * @param view View of the player.
@@ -78,19 +97,11 @@ public class RemoteServer implements Server, ViewSideHandler {
      */
     @Override
     public boolean login(String nickname, View view) throws RemoteException{
-        LoginRequest req = new LoginRequest(nickname);
         try {
-            send(req);
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, "Couldn't send login request", e);
-            throw new RemoteException("Couldn't send login request");
-        }
-        try {
-            LoginResponse res = (LoginResponse) responses.getAndRemove(req.getUUID());
+            LoginResponse res = (LoginResponse) sendRequest(new LoginRequest(nickname));
             return res.getResult();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RemoteException("Login request interrupted", e);
+        } catch (ClassCastException e) {
+            throw new RemoteException("Response is not LoginResponse");
         }
     }
 
