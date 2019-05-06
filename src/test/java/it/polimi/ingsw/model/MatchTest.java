@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import com.sun.media.jfxmedia.events.PlayerEvent;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
