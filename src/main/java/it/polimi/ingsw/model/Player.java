@@ -335,4 +335,16 @@ public class Player {
             }
         }
     }
+
+    public void addPowerUp(PowerUp pwu){
+        powerUps.add(pwu);
+    }
+
+    public void discardPowerUp(PowerUp pwu){
+        powerUps.remove(pwu);
+    }
+
+    public List<PowerUp> getPowerUps(){
+        return powerUps;
+    }
 }

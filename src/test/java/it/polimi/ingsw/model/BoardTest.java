@@ -3,8 +3,6 @@ package it.polimi.ingsw.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
@@ -44,14 +42,14 @@ class BoardTest {
     void getSpawPoint() {
         assertEquals(
                 board.getSquare(new Coordinate(0, 0)),
-                board.getSpawPoint(new Coordinate(0, 0))
+                board.getSpawnPoint(new Coordinate(0, 0))
         );
     }
 
     @Test
     void getSpawPointThrow() {
         assertThrows(InvalidOperationException.class,
-                () -> board.getSpawPoint(new Coordinate(0, 1)));
+                () -> board.getSpawnPoint(new Coordinate(0, 1)));
     }
 
     @Test
@@ -72,7 +70,7 @@ class BoardTest {
     void getSpawnPointByColor() {
         assertEquals(
                 board.getSpawnPointByColor(AmmoColor.RED),
-                board.getSpawPoint(new Coordinate(0, 0))
+                board.getSpawnPoint(new Coordinate(0, 0))
         );
     }
 

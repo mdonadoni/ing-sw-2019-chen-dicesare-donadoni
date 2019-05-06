@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Match {
+    private static int matchCreated = 0;
     /**
      * Unique match identifier
      */
@@ -15,11 +16,11 @@ public class Match {
     /**
      * List containing all the players participating in this match
      */
-    private List<Player> players;
+    private List<Player> players = new ArrayList<>();
     /**
      * The Gameboard associated with this match
      */
-    private GameBoard board;
+    private GameBoard gameBoard = new GameBoard();
     /**
      * Contains all the information needed for the current turn
      */
@@ -34,11 +35,11 @@ public class Match {
     private int turnsElapsed;
 
     /**
-     * Standard constructor, only needs an id
-     * @param id unique identifier
+     * Standard constructor, generates his id
      */
-    public Match(int id){
-        this.id = id;
+    public Match(){
+        id = matchCreated;
+        matchCreated++;
         finalFrenzy = false;
     }
 
@@ -80,7 +81,6 @@ public class Match {
      * Starts a new game by initiating what needs to be instantiated
      */
     public void startMatch(){
-        board = new GameBoard();
         currentTurn = new Turn(TurnType.FIRST_TURN, players.get(0));
         turnsElapsed = 1;
     }
@@ -89,8 +89,8 @@ public class Match {
      * Gives you the gameboard associated with this match
      * @return the gameboard fo the match
      */
-    public GameBoard getBoard(){
-        return board;
+    public GameBoard getGameBoard(){
+        return gameBoard;
     }
 
     /**

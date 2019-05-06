@@ -131,6 +131,10 @@ public class GameBoard {
         return ammoTileDeck;
     }
 
+    public void initBoard(BoardType bdType) throws ResourceException{
+        board = new Board(bdType);
+    }
+
     public Board getBoard() {
         return board;
     }

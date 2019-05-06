@@ -191,7 +191,7 @@ public class Board {
      * @param coord Coordinates of the SpawnPoint.
      * @return SpawnPoint with given coordinates.
      */
-    public SpawnPoint getSpawPoint(Coordinate coord) {
+    public SpawnPoint getSpawnPoint(Coordinate coord) {
         if (!coordToSpawnPoint.containsKey(coord)) {
             throw new InvalidOperationException("Cannot find spawnpoint with given coordinates");
         }
