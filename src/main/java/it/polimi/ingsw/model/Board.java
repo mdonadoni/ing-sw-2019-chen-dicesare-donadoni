@@ -14,22 +14,22 @@ public class Board {
     /**
      * Maps coordinate to corresponding square.
      */
-    Map<Coordinate, Square> coordToSquare;
+    private Map<Coordinate, Square> coordToSquare;
 
     /**
      * Maps coordinate to corresponding SpawnPoint.
      */
-    Map<Coordinate, SpawnPoint> coordToSpawnPoint;
+    private Map<Coordinate, SpawnPoint> coordToSpawnPoint;
 
     /**
      * Maps coordinate do corresponding StandardSquare.
      */
-    Map<Coordinate, StandardSquare> coordToStandardSquare;
+    private Map<Coordinate, StandardSquare> coordToStandardSquare;
 
     /**
      * Maps color to corresponding SpawnPoint.
      */
-    Map<AmmoColor, SpawnPoint> colorToSpawnPoint;
+    private EnumMap<AmmoColor, SpawnPoint> colorToSpawnPoint;
 
     /**
      * Create new board given board's type, reading from resources.
@@ -37,10 +37,7 @@ public class Board {
      * @throws ResourceException If there are errors reading or parsing the resource file.
      */
     public Board(BoardType boardType) throws ResourceException {
-        coordToSquare = new HashMap<>();
-        coordToSpawnPoint = new HashMap<>();
-        coordToStandardSquare = new HashMap<>();
-        colorToSpawnPoint = new HashMap<>();
+        this();
 
         try {
             String path = "/boards/" + boardType.name().toLowerCase() + ".json";
@@ -81,7 +78,7 @@ public class Board {
         coordToSquare = new HashMap<>();
         coordToSpawnPoint = new HashMap<>();
         coordToStandardSquare = new HashMap<>();
-        colorToSpawnPoint = new HashMap<>();
+        colorToSpawnPoint = new EnumMap<>(AmmoColor.class);
     }
 
     /**

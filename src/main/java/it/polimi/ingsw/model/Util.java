@@ -4,6 +4,11 @@ import java.util.*;
 
 public class Util {
     /**
+     * This class should not be constructed.
+     */
+    private Util() {}
+
+    /**
      * Given a list, this method returns a new list composed only of unique
      * values from the given list, sorted by the (decreasing) number of
      * occurrences of that value in the original list. If two values occur the
@@ -12,7 +17,7 @@ public class Util {
      * @param <T> Type of the objects inside the list.
      * @return List of unique values sorted by decreasing number of occurrences.
      */
-    static public <T> List<T> uniqueStableSortByCount(List<T> list) {
+    public static <T> List<T> uniqueStableSortByCount(List<T> list) {
         List<T> unique = new ArrayList<>();
         Map<T, Integer> count = new HashMap<>();
 

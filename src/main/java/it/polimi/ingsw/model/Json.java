@@ -11,6 +11,11 @@ public class Json {
     private static ObjectMapper mapper;
 
     /**
+     * This class should not be constructed.
+     */
+    private Json() {}
+
+    /**
      * Singleton. ObjectMapper is a very expensive object, so we only use one.
      * @return ObjectMapper
      */

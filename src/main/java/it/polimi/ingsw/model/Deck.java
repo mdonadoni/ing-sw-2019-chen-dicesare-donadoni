@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * This class represents a deck of generic cards.
@@ -12,12 +10,12 @@ public class Deck<T> {
     /**
      * Stack that maintains the available cards.
      */
-    private Stack<T> availableCards = new Stack<>();
+    private LinkedList<T> availableCards = new LinkedList<>();
 
     /**
      * Stack that maintains the discarded cards.
      */
-    private Stack<T> discardedCards = new Stack<>();
+    private LinkedList<T> discardedCards = new LinkedList<>();
 
     /**
      * Constructor that makes an empty deck.
