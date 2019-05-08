@@ -67,8 +67,9 @@ public class Player extends Identifiable{
      * Constructor of Player
      * @param nickname nickname of the player.
      */
-    public Player(String nickname){
+    public Player(String nickname, PlayerToken color){
         this.nickname = nickname;
+        this.color = color;
         startingPlayer = false;
         skulls = 0;
         active=true;
@@ -111,6 +112,14 @@ public class Player extends Identifiable{
     }
 
     /**
+     * Get if board is flipped.
+     * @return True if board is flipped, false otherwise.
+     */
+    public boolean isBoardFlipped() {
+        return boardFlipped;
+    }
+
+    /**
      * Show if the player is dead.
      * @return true if the player has taken at least 11 damage, false otherwise.
      */
@@ -148,6 +157,22 @@ public class Player extends Identifiable{
      */
     public PlayerToken getOverkill(){
         return damageTaken.get(11);
+    }
+
+    /**
+     * Get player color.
+     * @return Color of the player.
+     */
+    public PlayerToken getColor() {
+        return color;
+    }
+
+    /**
+     * Get the damage streak of the player.
+     * @return List of damage streak.
+     */
+    public List<PlayerToken> getDamageTaken() {
+        return damageTaken;
     }
 
     /**
@@ -360,6 +385,10 @@ public class Player extends Identifiable{
         return new ArrayList<>(powerUps);
     }
 
+    /**
+     * Get player's nickname.
+     * @return Player nickname.
+     */
     public String getNickname(){
         return nickname;
     }

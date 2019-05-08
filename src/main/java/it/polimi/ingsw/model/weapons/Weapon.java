@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.weapons;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.AmmoColor;
@@ -14,12 +13,11 @@ import java.util.List;
 
 public class Weapon extends Identifiable {
     private String name;
-    private Boolean charged;
+    private boolean charged = false;
     private List<AmmoColor> pickupColor = new ArrayList<>();
     private AmmoColor additionalRechargeColor;
     private ArrayList<Attack> attacks = new ArrayList<>();
 
-    @JsonCreator
     public Weapon(String name){
         this.name = name;
     }

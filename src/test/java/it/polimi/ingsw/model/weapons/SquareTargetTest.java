@@ -14,13 +14,13 @@ class SquareTargetTest {
 
     // I know I know I should've used an array of players but I didn't want to fuck my mind up with numbers, it's
     // easier to manipulate testcases when players are identified with letters and cells with numbers.
-    Player playerA = new Player("Alice");
-    Player playerB = new Player("Bob");
-    Player playerC = new Player("Charlie");
-    Player playerD = new Player("Dean");
-    Player playerE = new Player("Eva");
-    Player playerF = new Player("Frank");
-    Player playerG = new Player("Gary");
+    Player playerA = new Player("Alice", PlayerToken.YELLOW);
+    Player playerB = new Player("Bob", PlayerToken.BLUE);
+    Player playerC = new Player("Charlie", PlayerToken.GREEN);
+    Player playerD = new Player("Dean", PlayerToken.GREY);
+    Player playerE = new Player("Eva", PlayerToken.PURPLE);
+    Player playerF = new Player("Frank", PlayerToken.YELLOW);
+    Player playerG = new Player("Gary", PlayerToken.BLUE);
 
     @BeforeEach
     void setUpBoardAndPlayers(){

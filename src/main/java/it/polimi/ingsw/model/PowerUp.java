@@ -2,10 +2,13 @@ package it.polimi.ingsw.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.io.Serializable;
+
 /**
  * This class represent the card power-up.
  */
-public class PowerUp extends Identifiable{
+public class PowerUp extends Identifiable implements Serializable {
+    private static final long serialVersionUID = 1350606400736693235L;
     /**
      * The type of power-up.
      */

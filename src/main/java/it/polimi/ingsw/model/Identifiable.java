@@ -8,6 +8,9 @@ public class Identifiable {
     public Identifiable(){
         uuid = UUID.randomUUID().toString();
     }
+    protected Identifiable(String uuid) {
+        this.uuid = uuid;
+    }
 
     public String getUuid(){
         return uuid;

@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MatchTest {
     private Match match;
-    private Player playerA = new Player("Anna");
-    private Player playerB = new Player("Bobby");
-    private Player playerC = new Player("Charles");
-    private Player playerD = new Player("Dante");
-    private Player playerE = new Player("Edd");
+    private Player playerA = new Player("Anna", PlayerToken.YELLOW);
+    private Player playerB = new Player("Bobby", PlayerToken.YELLOW);
+    private Player playerC = new Player("Charles", PlayerToken.YELLOW);
+    private Player playerD = new Player("Dante", PlayerToken.YELLOW);
+    private Player playerE = new Player("Edd", PlayerToken.YELLOW);
 
     @BeforeEach
     void setupPlayers() throws ResourceException{

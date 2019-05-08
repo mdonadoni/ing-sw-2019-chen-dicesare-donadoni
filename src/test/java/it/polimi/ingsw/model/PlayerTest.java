@@ -12,7 +12,7 @@ class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        player=new Player("test");
+        player=new Player("test", PlayerToken.YELLOW);
     }
 
     @Test

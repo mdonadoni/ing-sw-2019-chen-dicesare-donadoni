@@ -4,10 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.View;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,8 +19,9 @@ public class GameController implements Runnable{
 
     public GameController(Map<String, View> connectedPlayers, BoardType bdType) throws ResourceException {
         match = new Match();
+        Iterator<PlayerToken> token = Arrays.asList(PlayerToken.values()).iterator();
         for(String nick : connectedPlayers.keySet()){
-            match.addPlayer(new Player(nick));
+            match.addPlayer(new Player(nick, token.next()));
         }
         match.getPlayers().get(0).setStartingPlayer(true);
         match.getGameBoard().initBoard(bdType);
