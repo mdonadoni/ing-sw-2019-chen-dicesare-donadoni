@@ -3,12 +3,10 @@ package it.polimi.ingsw.model;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.weapons.Weapon;
-import jdk.internal.util.xml.impl.Input;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import static java.util.stream.Collectors.*;
+
 
 /**
  * Class representing the GameBoard
