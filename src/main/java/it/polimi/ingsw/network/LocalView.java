@@ -21,11 +21,9 @@ public abstract class LocalView implements View, Runnable {
 
     private static final Logger LOG = Logger.getLogger(LocalView.class.getName());
 
-
     private Server server = null;
     private ConnectionType connType = null;
     private Thread socketThread = null;
-    private Socket socket = null;
 
     protected LocalView() {
     }
@@ -37,13 +35,13 @@ public abstract class LocalView implements View, Runnable {
      * @throws RemoteException If there is a network error.
      */
     protected void connectServerRMI(String address, int port) throws IOException {
-        UnicastRemoteObject.exportObject(this, 0);
         Registry registry = LocateRegistry.getRegistry(address, port);
         try {
             server = (Server) registry.lookup("Server");
         } catch(NotBoundException e) {
             throw new IOException("Server not bound to registry", e);
         }
+        UnicastRemoteObject.exportObject(this, 0);
         connType = ConnectionType.RMI;
     }
 
@@ -54,7 +52,7 @@ public abstract class LocalView implements View, Runnable {
      * @throws IOException If there is an error while making the connection.
      */
     protected void connectServerSocket(String address, int port) throws IOException {
-        socket = new Socket(address, port);
+        Socket socket = new Socket(address, port);
         RemoteServer remote = new RemoteServer(this, socket);
         server = remote;
         socketThread = new Thread(remote);
@@ -105,12 +103,6 @@ public abstract class LocalView implements View, Runnable {
         } else {
             socketThread.interrupt();
             LOG.info("Thread interrupted");
-            try {
-                socket.close();
-                LOG.info("Socket closed");
-            } catch(IOException e) {
-                LOG.log(Level.SEVERE, "Cannot close socket", e);
-            }
         }
     }
 }

@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.socket.messages.server.LoginRequest;
 import it.polimi.ingsw.network.socket.messages.server.LoginResponse;
 import it.polimi.ingsw.network.socket.messages.server.RequestServerMethod;
 import it.polimi.ingsw.network.socket.messages.server.ResponseServerMethod;
+import it.polimi.ingsw.network.socket.messages.view.DisconnectRequest;
 import it.polimi.ingsw.network.socket.messages.view.RequestViewMethod;
 import it.polimi.ingsw.network.socket.messages.view.ResponseViewMethod;
 import it.polimi.ingsw.util.BlockingMap;
@@ -18,6 +19,7 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,6 +50,11 @@ public class RemoteServer implements Server, ViewSideHandler {
     private final BlockingMap<String, ResponseServerMethod> responses;
 
     /**
+     * AtomicBoolean that indicates if the view is still connected to the server.
+     */
+    private AtomicBoolean connected;
+
+    /**
      * Constructor of RemoteServer
      * @param view View where the methods will be invoked.
      * @param socket Socket used to create the socket endpoint.
@@ -57,6 +64,7 @@ public class RemoteServer implements Server, ViewSideHandler {
         this.view = view;
         this.endpoint = new SocketEndpoint<>(socket, ServerToView.class);
         this.responses = new BlockingMap<>();
+        this.connected = new AtomicBoolean(true);
     }
 
     /**
@@ -77,6 +85,9 @@ public class RemoteServer implements Server, ViewSideHandler {
      * @throws RemoteException If an error occurs while sending the request.
      */
     private ResponseServerMethod sendRequest(RequestServerMethod req) throws RemoteException {
+        if (!connected.get()) {
+            throw new RemoteException("Server not connected");
+        }
         try {
             send(req);
             return responses.getAndRemove(req.getUUID());
@@ -133,25 +144,42 @@ public class RemoteServer implements Server, ViewSideHandler {
     }
 
     /**
+     * Handler of a disconnect request.
+     * @param req Disconnect request.
+     */
+    @Override
+    public void handle(DisconnectRequest req) {
+        // set disconnection
+        connected.set(false);
+        // handle request (invocation + void response)
+        handle((RequestViewMethod) req);
+        // close socket
+        try {
+            endpoint.close();
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, "Couldn't close socket", e);
+        }
+    }
+
+    /**
      * Accept messages coming from the remote server, then handle them in
      * separate threads.
      */
     @Override
     public void run() {
         ExecutorService executor = Executors.newCachedThreadPool();
-
-        boolean error = false;
-        while (!error && !Thread.interrupted()) {
-            try {
-                LOG.info("Reading new message from socket");
-                ServerToView wv = endpoint.receive();
-                executor.submit(() -> wv.visit(this));
-            } catch (IOException e) {
+        try {
+            while (connected.get() && !Thread.interrupted()) {
+                    LOG.info("Reading new message from socket");
+                    ServerToView wv = endpoint.receive();
+                    executor.submit(() -> wv.visit(this));
+            }
+        } catch (IOException e) {
+            if (connected.get()) {
+                // if still connected then this is a real error
                 LOG.log(Level.SEVERE, "Error while reading socket", e);
-                error = true;
             }
         }
         executor.shutdown();
-        LOG.info("Disconnecting");
     }
 }

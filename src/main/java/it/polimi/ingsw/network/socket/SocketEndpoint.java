@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * @param <I> Type of incoming messages.
  * @param <O> Type of outgoing messages.
  */
-public class SocketEndpoint<I, O> {
+public class SocketEndpoint<I, O> implements Closeable {
     /**
      * Logger.
      */
@@ -71,10 +71,9 @@ public class SocketEndpoint<I, O> {
      * @throws IOException If there are errors while sending the message.
      */
     public void send(O msg) throws IOException {
-        LOG.log(Level.INFO, "Sending {0}", msg);
+        String json = jsonMapper.writeValueAsString(msg);
+        LOG.info(() -> "Sending JSON: " + json);
         synchronized (writer) {
-            String json = jsonMapper.writeValueAsString(msg);
-            LOG.info(() -> "Sending JSON: " + json);
             writer.write(json);
             writer.newLine();
             writer.flush();
@@ -88,13 +87,22 @@ public class SocketEndpoint<I, O> {
      * @throws IOException If there are errors while reading the message.
      */
     public I receive() throws IOException {
+        String msg;
         synchronized (reader) {
-            String msg = reader.readLine();
-            if (msg == null) {
-                throw new IOException("Nothing to read");
-            }
-            return jsonMapper.readValue(msg, inClass);
+            msg = reader.readLine();
         }
+        if (msg == null) {
+            throw new IOException("Nothing to read");
+        }
+        return jsonMapper.readValue(msg, inClass);
     }
 
+    /**
+     * CLose the underlying socket.
+     * @throws IOException If there are errors while closing the socket.
+     */
+    @Override
+    public void close() throws IOException {
+        socket.close();
+    }
 }

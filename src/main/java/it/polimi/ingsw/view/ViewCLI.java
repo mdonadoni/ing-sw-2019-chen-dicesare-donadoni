@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.Coordinate;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.LocalView;
 
@@ -9,8 +8,13 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ViewCLI extends LocalView {
+    private static final Logger LOG = Logger.getLogger(ViewCLI.class.getName());
+
+
     private Scanner scanner;
 
     public ViewCLI() throws RemoteException {
@@ -48,6 +52,7 @@ public class ViewCLI extends LocalView {
                     connectServerSocket(address, port);
                 }
             } catch (IOException e) {
+                LOG.log(Level.WARNING, "Couldn't connect to server", e);
                 System.out.println("Impossibile connettersi");
                 connected = false;
             }

@@ -16,7 +16,7 @@ public abstract class RequestViewMethod extends ServerToView {
     public abstract ResponseViewMethod invokeOn(LocalView view);
 
     /**
-     * Mathod used to handle a view method request (Visitor Pattern).
+     * Method used to handle a view method request (Visitor Pattern).
      * @param handler Handler of a view method request.
      */
     @Override

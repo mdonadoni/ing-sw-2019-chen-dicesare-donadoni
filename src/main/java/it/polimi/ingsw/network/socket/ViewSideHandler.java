@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.network.socket.messages.server.ResponseServerMethod;
+import it.polimi.ingsw.network.socket.messages.view.DisconnectRequest;
 import it.polimi.ingsw.network.socket.messages.view.RequestViewMethod;
 
 /**
@@ -21,4 +22,10 @@ public interface ViewSideHandler extends Runnable {
      * @param res Response to be handled.
      */
     void handle(ResponseServerMethod res);
+
+    /**
+     * Handle a disconnect request.
+     * @param req Disconnect request.
+     */
+    void handle(DisconnectRequest req);
 }

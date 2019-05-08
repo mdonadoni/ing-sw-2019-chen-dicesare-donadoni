@@ -17,6 +17,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,6 +48,11 @@ public class RemoteView implements View, ServerSideHandler {
     private final BlockingMap<String, ResponseViewMethod> responses;
 
     /**
+     * AtomicBoolean which indicates if the connection is still alive.
+     */
+    private AtomicBoolean connected;
+
+    /**
      * Constructor of RemoteView.
      * @param server Server on which the request will be invoked.
      * @param socket Socket to be used for the socket endpoint.
@@ -56,6 +62,7 @@ public class RemoteView implements View, ServerSideHandler {
         this.server = server;
         this.endpoint = new SocketEndpoint<>(socket, ViewToServer.class);
         this.responses = new BlockingMap<>();
+        this.connected = new AtomicBoolean(true);
     }
 
     /**
@@ -76,6 +83,9 @@ public class RemoteView implements View, ServerSideHandler {
      * @throws RemoteException If an error occurs while sending the request.
      */
     private ResponseViewMethod sendRequest(RequestViewMethod req) throws RemoteException {
+        if (!connected.get()) {
+            throw new RemoteException("View not connected");
+        }
         try {
             send(req);
             return responses.getAndRemove(req.getUUID());
@@ -122,6 +132,7 @@ public class RemoteView implements View, ServerSideHandler {
     @Override
     public void disconnect() throws RemoteException {
         sendRequest(new DisconnectRequest());
+        connected.set(false);
     }
 
     /**
@@ -169,17 +180,16 @@ public class RemoteView implements View, ServerSideHandler {
      */
     @Override
     public void run() {
-        ExecutorService executor = Executors.newCachedThreadPool();
-
         LOG.info("Starting new RemoteView");
-        boolean error = false;
-        while (!error && !Thread.interrupted()) {
-            try {
-                ViewToServer vs = endpoint.receive();
-                executor.submit(() -> vs.visit(this));
-            } catch (IOException e) {
+        ExecutorService executor = Executors.newCachedThreadPool();
+        try {
+            while (connected.get() && !Thread.interrupted()) {
+                    ViewToServer vs = endpoint.receive();
+                    executor.submit(() -> vs.visit(this));
+            }
+        } catch (IOException e) {
+            if (connected.get()) {
                 LOG.log(Level.SEVERE, "Couldn't read from socket", e);
-                error = true;
             }
         }
         executor.shutdown();

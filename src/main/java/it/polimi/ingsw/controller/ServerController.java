@@ -34,6 +34,7 @@ public class ServerController extends LocalServer {
                 }
                 view.showMessage("Ora ti disconnetto!");
                 view.disconnect();
+                LOG.info(() -> "User disconnected: " + nickname);
             } catch (Exception e) {
                 LOG.log(Level.SEVERE, e, () -> "Error disconnecting " + nickname);
             }

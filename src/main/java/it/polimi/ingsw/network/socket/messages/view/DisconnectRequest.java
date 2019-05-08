@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.socket.messages.view;
 
 import it.polimi.ingsw.network.LocalView;
+import it.polimi.ingsw.network.socket.ViewSideHandler;
 
 /**
  * Request to disconnect the view.
@@ -15,5 +16,14 @@ public class DisconnectRequest extends RequestViewMethod {
     public ResponseViewMethod invokeOn(LocalView view) {
         view.disconnect();
         return new VoidResponse(this);
+    }
+
+    /**
+     * Visitor pattern. DisconnectRequest needs to be handled in a special way.
+     * @param handler Handler of a disconnect request.
+     */
+    @Override
+    public void visit(ViewSideHandler handler) {
+        handler.handle(this);
     }
 }
