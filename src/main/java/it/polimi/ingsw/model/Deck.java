@@ -71,4 +71,12 @@ public class Deck<T> {
     public void add(T card) {
         availableCards.add(card);
     }
+
+    public List<T> getDiscarded(){
+        return new LinkedList<>(discardedCards);
+    }
+
+    public List<T> getAvaible(){
+        return new LinkedList<>(availableCards);
+    }
 }
