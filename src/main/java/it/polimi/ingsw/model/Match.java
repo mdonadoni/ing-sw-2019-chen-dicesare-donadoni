@@ -3,12 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Match {
-    private static int matchCreated = 0;
-    /**
-     * Unique match identifier
-     */
-    private int id;
+public class Match extends Identifiable{
     /**
      * States whether the match in in final frenzy
      */
@@ -20,7 +15,7 @@ public class Match {
     /**
      * The GameBoard associated with this match
      */
-    private GameBoard gameBoard = new GameBoard();
+    private GameBoard gameBoard;
     /**
      * Contains all the information needed for the current turn
      */
@@ -37,18 +32,9 @@ public class Match {
     /**
      * Standard constructor, generates his id
      */
-    public Match(){
-        id = matchCreated;
-        matchCreated++;
+    public Match() throws ResourceException{
         finalFrenzy = false;
-    }
-
-    /**
-     * Gives the match unique identifier
-     * @return the match id
-     */
-    public int getId(){
-        return id;
+        gameBoard = new GameBoard();
     }
 
     /**
@@ -56,12 +42,10 @@ public class Match {
      * @param player the player to be added
      */
     public void addPlayer(Player player){
-        if(player != null){
             if(players.size() < 5)
                 players.add(player);
             else
                 throw new InvalidOperationException("Maximum number of active players reached");
-        }
     }
 
     /**

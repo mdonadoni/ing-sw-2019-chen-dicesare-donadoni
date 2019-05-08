@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MatchTest {
-    private Match match = new Match();
+    private Match match;
     private Player playerA = new Player("Anna");
     private Player playerB = new Player("Bobby");
     private Player playerC = new Player("Charles");
@@ -14,7 +14,8 @@ class MatchTest {
     private Player playerE = new Player("Edd");
 
     @BeforeEach
-    void setupPlayers(){
+    void setupPlayers() throws ResourceException{
+        match = new Match();
         match.addPlayer(playerA);
         match.addPlayer(playerB);
         match.addPlayer(playerC);

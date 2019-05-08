@@ -1,0 +1,50 @@
+[
+  {
+    "type": "tagback_granade",
+    "color":"red"
+  },
+  {
+    "type": "tagback_granade",
+    "color": "blue"
+  },
+  {
+    "type": "tagback_granade",
+    "color": "yellow"
+  },
+  {
+    "type": "newton",
+    "color": "red"
+  },
+  {
+    "type": "newton",
+    "color": "blue"
+  },
+  {
+  "type": "newton",
+  "color": "yellow"
+  },
+  {
+    "type": "targeting_scope",
+    "color": "red"
+  },
+  {
+    "type": "targeting_scope",
+    "color": "blue"
+  },
+  {
+    "type": "targeting_scope",
+    "color": "yellow"
+  },
+  {
+    "type": "teleporter",
+    "color": "red"
+  },
+  {
+    "type": "teleporter",
+    "color": "blue"
+  },
+  {
+    "type": "teleporter",
+    "color": "yellow"
+  }
+]

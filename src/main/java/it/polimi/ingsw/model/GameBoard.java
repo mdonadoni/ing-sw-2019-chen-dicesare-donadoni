@@ -1,6 +1,12 @@
 package it.polimi.ingsw.model;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.weapons.Weapon;
+import jdk.internal.util.xml.impl.Input;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import static java.util.stream.Collectors.*;
 
@@ -41,7 +47,7 @@ public class GameBoard {
     /**
      * Standard constructor
      */
-    public GameBoard(){
+    public GameBoard() throws ResourceException{
        this(8); // Shall we do a config file with all the constants?
     }
 
@@ -49,7 +55,7 @@ public class GameBoard {
      * Constructor that allows to specify the number of skulls
      * @param skulls number of skulls to be placed on the gameboard
      */
-    public GameBoard(int skulls){
+    public GameBoard(int skulls) throws ResourceException{
         remainingSkulls = skulls;
         initialSkullNumber = skulls;
         killShotTrack = new ArrayList<>();
@@ -57,6 +63,43 @@ public class GameBoard {
         powerUpDeck = new Deck<>();
         ammoTileDeck = new Deck<>();
         board = new Board();
+
+        initPowerUpDeck();
+        initAmmoTileDeck();
+    }
+
+    private void initPowerUpDeck() throws ResourceException{
+        ObjectMapper mapper = Json.getMapper();
+        InputStream stream = GameBoard.class.getResourceAsStream("/decks/powerUpDeck.json");
+        try {
+            JsonNode json = mapper.readTree(stream);
+
+            for (JsonNode pwu : json){
+                for (int i = 0; i<2; i++)
+                    powerUpDeck.add(new PowerUp(pwu));
+            }
+
+            powerUpDeck.shuffle();
+        } catch (IOException e){
+            throw new ResourceException("Cannot read powerUpDeck resource", e);
+        }
+    }
+
+    private void initAmmoTileDeck() throws ResourceException{
+        ObjectMapper mapper = Json.getMapper();
+        InputStream stream = GameBoard.class.getResourceAsStream("/decks/ammoTileDeck.json");
+        try{
+            JsonNode json = mapper.readTree(stream);
+
+            for(JsonNode ammoTile : json){
+                for(int i = 0; i<3; i++){
+                    ammoTileDeck.add(new AmmoTile(ammoTile));
+                }
+            }
+            ammoTileDeck.shuffle();
+        } catch(IOException e){
+            throw new ResourceException("Cannot read ammoTileDeck resource", e);
+        }
     }
 
     /**

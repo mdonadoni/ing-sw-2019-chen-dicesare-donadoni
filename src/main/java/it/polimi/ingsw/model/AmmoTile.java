@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import java.util.*;
 
 /**
@@ -33,6 +35,13 @@ public class AmmoTile extends Identifiable{
         ammo = new ArrayList<>();
         ammo.add(ammoColor1);
         ammo.add(ammoColor2);
+     }
+
+     public AmmoTile(JsonNode json){
+        ammo = new ArrayList<>();
+        for(JsonNode color : json.get("ammos")){
+            ammo.add(AmmoColor.valueOf(color.asText().toUpperCase()));
+        }
      }
 
     /**

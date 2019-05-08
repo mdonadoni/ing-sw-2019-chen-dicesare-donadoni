@@ -11,7 +11,6 @@ import it.polimi.ingsw.model.ResourceException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Weapon extends Identifiable {
     private String name;

@@ -1,0 +1,38 @@
+[
+  {
+    "ammos": ["yellow", "blue", "blue"]
+  },
+  {
+    "ammos": ["yellow", "red", "red"]
+  },
+  {
+    "ammos": ["red", "blue", "blue"]
+  },
+  {
+    "ammos": ["red", "yellow", "yellow"]
+  },
+  {
+    "ammos": ["blue", "yellow", "yellow"]
+  },
+  {
+    "ammos": ["blue", "red", "red"]
+  },
+  {
+    "ammos": ["yellow", "yellow"]
+  },
+  {
+    "ammos": ["red", "red"]
+  },
+  {
+    "ammos": ["blue", "blue"]
+  },
+  {
+    "ammos": ["yellow", "red"]
+  },
+  {
+    "ammos": ["yellow", "blue"]
+  },
+  {
+    "ammos": ["red", "blue"]
+  }
+]

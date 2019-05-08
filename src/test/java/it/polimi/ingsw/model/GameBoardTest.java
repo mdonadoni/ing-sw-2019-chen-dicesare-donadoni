@@ -19,7 +19,7 @@ class GameBoardTest {
     List<PlayerToken> tetraGrey;
     List<PlayerToken> tripleBlue;
 
-    private void initGb(){
+    private void initGb() throws ResourceException{
         gb = new GameBoard(5);
 
         singleYellow = new ArrayList<>();
@@ -48,7 +48,7 @@ class GameBoardTest {
     }
 
     @Test
-    void addKill() {
+    void addKill() throws ResourceException{
         initGb();
 
         gb.addKill(singleYellow); // 0
@@ -67,7 +67,7 @@ class GameBoardTest {
     }
 
     @Test
-    void countKills() {
+    void countKills() throws ResourceException{
         initGb();
 
         gb.addKill(tripleBlue); // 0
@@ -87,7 +87,7 @@ class GameBoardTest {
     }
 
     @Test
-    void getKillShotTrackOrder() {
+    void getKillShotTrackOrder() throws ResourceException{
         initGb();
 
         gb.addKill(singleGreen); // 0
