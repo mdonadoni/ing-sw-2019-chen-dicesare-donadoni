@@ -2,11 +2,12 @@ package it.polimi.ingsw.model.weapons;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.Identifiable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Attack {
+public class Attack extends Identifiable {
     private Boolean chainAttack;
     private List<Target> baseFire = new ArrayList<>();
     private List<MovementEffect> bonusMovement = new ArrayList<>();

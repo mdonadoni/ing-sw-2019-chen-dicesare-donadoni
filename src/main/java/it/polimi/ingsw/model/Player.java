@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * This class represent a Player of the game.
  */
-public class Player {
+public class Player extends Identifiable{
     /**
      * It's the nickname of the player identify the Player.
      */
@@ -336,15 +336,31 @@ public class Player {
         }
     }
 
+    /**
+     * Adds a PowerUp to the player's hand
+     * @param pwu the PowerUp to be added
+     */
     public void addPowerUp(PowerUp pwu){
         powerUps.add(pwu);
     }
 
+    /**
+     * Removes a certain PowerUp from the player's hand
+     * @param pwu the PowerUp to be removed
+     */
     public void discardPowerUp(PowerUp pwu){
         powerUps.remove(pwu);
     }
 
+    /**
+     * Getter for the list of PowerUps
+     * @return The list of PowerUps
+     */
     public List<PowerUp> getPowerUps(){
-        return powerUps;
+        return new ArrayList<>(powerUps);
+    }
+
+    public String getNickname(){
+        return nickname;
     }
 }

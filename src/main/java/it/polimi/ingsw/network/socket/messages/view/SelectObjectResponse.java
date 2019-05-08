@@ -2,37 +2,35 @@ package it.polimi.ingsw.network.socket.messages.view;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.model.Coordinate;
-
 import java.util.List;
 
 /**
  * Response of selectSquares.
  */
-public class SelectSquaresResponse extends ResponseViewMethod {
+public class SelectObjectResponse extends ResponseViewMethod {
     /**
      * List of squares' coordinates chosen.
      */
-    private List<Coordinate> res;
+    private List<String> res;
 
     /**
-     * Constructor of SelectSquaresResponse.
+     * Constructor of SelectObjectResponse.
      * @param uuid UUID of corresponding request.
      * @param res Result of selectSquares.
      */
     @JsonCreator
-    private SelectSquaresResponse(@JsonProperty("uuid") String uuid,
-                                  @JsonProperty("res") List<Coordinate> res) {
+    private SelectObjectResponse(@JsonProperty("uuid") String uuid,
+                                 @JsonProperty("res") List<String> res) {
         super(uuid);
         this.res = res;
     }
 
     /**
-     * Constructor of SelectSquaresResponse.
+     * Constructor of SelectObjectResponse.
      * @param req Corresponding request.
      * @param res Result of selectSquares.
      */
-    SelectSquaresResponse(SelectSquaresRequest req, List<Coordinate> res) {
+    SelectObjectResponse(SelectObjectRequest req, List<String> res) {
         this(req.getUUID(), res);
     }
 
@@ -40,7 +38,7 @@ public class SelectSquaresResponse extends ResponseViewMethod {
      * Get selectSquares result.
      * @return List of squares' coordinates chosen.
      */
-    public List<Coordinate> getResult() {
+    public List<String> getResult() {
         return res;
     }
 }

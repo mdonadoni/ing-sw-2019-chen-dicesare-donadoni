@@ -10,11 +10,11 @@ import java.util.List;
 /**
  * Request to select squares to the view
  */
-public class SelectSquaresRequest extends RequestViewMethod {
+public class SelectObjectRequest extends RequestViewMethod {
     /**
      * List of squares' coordinates.
      */
-    private List<Coordinate> squares;
+    private List<String> objUuid;
 
     /**
      * Minimum number of squares to be chosen.
@@ -27,16 +27,16 @@ public class SelectSquaresRequest extends RequestViewMethod {
     private int max;
 
     /**
-     * Constructor of a SelectSquaresRequest.
-     * @param squares List of squares' coordinates.
+     * Constructor of a SelectObjectRequest.
+     * @param objUuid List of squares' coordinates.
      * @param min Minimum number of squares to be chosen.
      * @param max Maximum number of squares to be chosen.
      */
     @JsonCreator
-    public SelectSquaresRequest(@JsonProperty("squares") List<Coordinate> squares,
-                                @JsonProperty("min") int min,
-                                @JsonProperty("max") int max) {
-        this.squares = squares;
+    public SelectObjectRequest(@JsonProperty("objUuid") List<String> objUuid,
+                               @JsonProperty("min") int min,
+                               @JsonProperty("max") int max) {
+        this.objUuid = objUuid;
         this.min = min;
         this.max = max;
     }
@@ -48,6 +48,6 @@ public class SelectSquaresRequest extends RequestViewMethod {
      */
     @Override
     public ResponseViewMethod invokeOn(LocalView view) {
-        return new SelectSquaresResponse(this, view.selectSquares(squares, min, max));
+        return new SelectObjectResponse(this, view.selectObject(objUuid, min, max));
     }
 }

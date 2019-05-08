@@ -96,12 +96,12 @@ public class RemoteView implements View, ServerSideHandler {
      * @throws RemoteException If there is an error invoking this method.
      */
     @Override
-    public List<Coordinate> selectSquares(List<Coordinate> squares, int min, int max) throws RemoteException {
+    public List<String> selectObject(List<String> squares, int min, int max) throws RemoteException {
         try {
-            SelectSquaresResponse res = (SelectSquaresResponse) sendRequest(new SelectSquaresRequest(squares, min, max));
+            SelectObjectResponse res = (SelectObjectResponse) sendRequest(new SelectObjectRequest(squares, min, max));
             return res.getResult();
         } catch (ClassCastException e) {
-            throw new RemoteException("Response is not SelectSquaresResponse");
+            throw new RemoteException("Response is not SelectObjectResponse");
         }
     }
 

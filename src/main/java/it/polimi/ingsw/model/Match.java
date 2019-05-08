@@ -18,7 +18,7 @@ public class Match {
      */
     private List<Player> players = new ArrayList<>();
     /**
-     * The Gameboard associated with this match
+     * The GameBoard associated with this match
      */
     private GameBoard gameBoard = new GameBoard();
     /**
@@ -56,10 +56,12 @@ public class Match {
      * @param player the player to be added
      */
     public void addPlayer(Player player){
-        if(players.size() < 5)
-            players.add(player);
-        else
-            throw new InvalidOperationException("Maximum number of active players reached");
+        if(player != null){
+            if(players.size() < 5)
+                players.add(player);
+            else
+                throw new InvalidOperationException("Maximum number of active players reached");
+        }
     }
 
     /**

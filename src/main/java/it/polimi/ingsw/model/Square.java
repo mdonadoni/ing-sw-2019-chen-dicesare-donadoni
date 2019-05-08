@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 /**
  * This class represents a single square of the board.
  */
-public class Square {
+public class Square extends Identifiable{
     /**
      * Coordinate of the square. Identifies the square inside a GameBoard.
      */

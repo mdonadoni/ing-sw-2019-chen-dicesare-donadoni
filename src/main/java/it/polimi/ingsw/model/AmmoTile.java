@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * This class represents a tile of ammo.
  */
-public class AmmoTile {
+public class AmmoTile extends Identifiable{
     /**
      * List of ammo on the tile.
      */

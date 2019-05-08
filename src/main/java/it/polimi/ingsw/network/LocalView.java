@@ -64,13 +64,13 @@ public abstract class LocalView implements View, Runnable {
 
     /**
      * Select a square from a list of squares.
-     * @param squares Coordinates of the squares.
+     * @param objUuid Coordinates of the squares.
      * @param min Minimum number of squares to be chosen.
      * @param max Maximum number of squares to be chosen.
      * @return List of selected squares' coordinates.
      */
     @Override
-    public abstract List<Coordinate> selectSquares(List<Coordinate> squares, int min, int max);
+    public abstract List<String> selectObject(List<String> objUuid, int min, int max);
 
     /** Method to get a reference to the remote server. This method can be
      * called only after creating a successful connection either using RMI

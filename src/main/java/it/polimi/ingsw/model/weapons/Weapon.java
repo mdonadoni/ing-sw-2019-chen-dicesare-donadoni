@@ -4,14 +4,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.Identifiable;
 import it.polimi.ingsw.model.Json;
 import it.polimi.ingsw.model.ResourceException;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-public class Weapon {
+public class Weapon extends Identifiable {
     private String name;
     private Boolean charged;
     private List<AmmoColor> pickupColor = new ArrayList<>();
@@ -83,5 +85,4 @@ public class Weapon {
     public void removeAttack(int ndx){
         attacks.remove(ndx);
     }
-
 }

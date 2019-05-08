@@ -71,8 +71,8 @@ public class ViewCLI extends LocalView {
     }
 
     @Override
-    public synchronized List<Coordinate> selectSquares(List<Coordinate> squares, int min, int max) {
-        return new ArrayList<>(squares.subList(0, min));
+    public synchronized List<String> selectObject(List<String> objUuid, int min, int max) { ;
+        return new ArrayList<>(objUuid.subList(0, min));
     }
 
     @Override

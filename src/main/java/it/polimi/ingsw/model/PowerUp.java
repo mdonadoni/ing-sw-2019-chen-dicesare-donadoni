@@ -3,11 +3,7 @@ package it.polimi.ingsw.model;
 /**
  * This class represent the card power-up.
  */
-public class PowerUp {
-    /**
-     * Number that identify the power-up.
-     */
-    private int id;
+public class PowerUp extends Identifiable{
     /**
      * The type of power-up.
      */
@@ -19,12 +15,10 @@ public class PowerUp {
 
     /**
      * Constructor of the class
-     * @param id the id of the power-up.
      * @param type the type of power-up.
      * @param ammo the ammo color of the power-up.
      */
-    public PowerUp(int id, PowerUpType type, AmmoColor ammo) {
-        this.id = id;
+    public PowerUp(PowerUpType type, AmmoColor ammo) {
         this.type = type;
         this.ammo = ammo;
     }
