@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.weapons.Weapon;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,6 +55,12 @@ public class Player extends Identifiable{
      * It keeps the power-up held by a player.
      */
     private List<PowerUp> powerUps;
+
+    /**
+     * Keeps the power-ups drawn by a player
+     */
+    private List<PowerUp> drawnPowerUps;
+
     /**
      * It keeps track of the ammo available of a player.
      */
@@ -79,6 +86,7 @@ public class Player extends Identifiable{
         damageTaken = new ArrayList<>();
         weapons = new ArrayList<>();
         powerUps = new ArrayList<>();
+        drawnPowerUps = new ArrayList<>();
         ammo = new ArrayList<>();
     }
 
@@ -366,7 +374,10 @@ public class Player extends Identifiable{
      * @param pwu the PowerUp to be added
      */
     public void addPowerUp(PowerUp pwu){
-        powerUps.add(pwu);
+        if(powerUps.size() < 3)
+            powerUps.add(pwu);
+        else
+            throw new InvalidOperationException("Player "+ nickname + " already has 3 Power-Ups!");
     }
 
     /**
@@ -383,6 +394,37 @@ public class Player extends Identifiable{
      */
     public List<PowerUp> getPowerUps(){
         return new ArrayList<>(powerUps);
+    }
+
+    /**
+     * Getter for the list of drawnPowerUps
+     * @return The list of drawnPowerUps
+     */
+    public List<PowerUp> getDrawnPowerUps(){
+        return new ArrayList<>(drawnPowerUps);
+    }
+
+    /**
+     * Adds a Power-Up to the drawnPowerUps list
+     * @param pwu the drawn Power-Up
+     */
+    public void addDrawnPowerUp (PowerUp pwu){
+        drawnPowerUps.add(pwu);
+    }
+
+    /**
+     * Clears the drawnPowerUps list
+     */
+    public void clearDrawnPowerUps(){
+        drawnPowerUps.clear();
+    }
+
+    /**
+     * Removes a Power-Up from the drawnPowerUps list
+     * @param pwu
+     */
+    public void removeDrawnPowerUp(PowerUp pwu){
+        drawnPowerUps.remove(pwu);
     }
 
     /**

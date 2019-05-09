@@ -20,7 +20,7 @@ class GameControllerTest {
         playerMap.put(playerA, viewA);
         GameController controller = new GameController(playerMap, BoardType.SMALL);
 
-        controller.spawnRoutine(controller.getMatch().getPlayers().get(0), 9);
+        controller.spawnRoutine(controller.getMatch().getPlayers().get(0), 4);
         PowerUp usedCard = controller.getMatch().getGameBoard().getPowerUpDeck().getDiscarded().get(0);
         assertEquals(controller.getMatch().getGameBoard().getBoard().getSpawnPointByColor(usedCard.getAmmo()),
                     controller.getMatch().getPlayers().get(0).getSquare());

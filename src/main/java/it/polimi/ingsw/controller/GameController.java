@@ -38,11 +38,12 @@ public class GameController implements Runnable{
         if(player.getSquare() == null && player.getActive()){
             // Draw PowerUps from the deck
             for (int i = 0; i < cardsToDraw; i++)
-                tempPowerUps.add(match.getGameBoard().getPowerUpDeck().draw());
+                player.addDrawnPowerUp(match.getGameBoard().getPowerUpDeck().draw());
 
             // Add to the sending list also the power-up currently in the player's inventory
             tempPowerUps.addAll(player.getPowerUps());
-            player.getPowerUps().clear();
+            tempPowerUps.addAll(player.getDrawnPowerUps());
+
             // Finally build the uuid list
             for (PowerUp pwu : tempPowerUps){
                 toSend.add(pwu.getUuid());
@@ -56,14 +57,17 @@ public class GameController implements Runnable{
                         .findAny();
 
             if (chosenPwu.isPresent()){
-                tempPowerUps.remove(chosenPwu.get());
+                player.removeDrawnPowerUp(chosenPwu.get());
+                player.discardPowerUp(chosenPwu.get());
 
                 // Place the player down on the board
                 player.setSquare(match.getGameBoard().getBoard().getSpawnPointByColor(chosenPwu.get().getAmmo()));
                 match.getGameBoard().getBoard().getSpawnPointByColor(chosenPwu.get().getAmmo()).addPlayer(player);
 
                 // Add the remaining drawn powerUps (if any) to the player
-                player.getPowerUps().addAll(tempPowerUps);
+                for (PowerUp pwu : player.getDrawnPowerUps())
+                    player.addPowerUp(pwu);
+                player.clearDrawnPowerUps();
 
                 // Finally discard the used PowerUp
                 match.getGameBoard().getPowerUpDeck().discard(chosenPwu.get());
