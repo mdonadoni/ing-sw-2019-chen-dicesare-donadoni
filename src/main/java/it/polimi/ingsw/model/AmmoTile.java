@@ -1,18 +1,30 @@
 package it.polimi.ingsw.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * This class represents a tile of ammo.
  */
-public class AmmoTile extends Identifiable{
+public class AmmoTile extends Identifiable implements Serializable {
+    private static final long serialVersionUID = 5130130440250960678L;
     /**
      * List of ammo on the tile.
      */
     private List<AmmoColor> ammo;
 
+    /**
+     * Constructor for jackson.
+     * @param ammo List of ammunition in AmmoTile
+     */
+    @JsonCreator
+    private AmmoTile(@JsonProperty("ammo") List<AmmoColor> ammo) {
+        ammo = new ArrayList<>(ammo);
+    }
     /**
      * Constructor that make a tile made of 3 ammo
      * @param ammoColor1 first ammo

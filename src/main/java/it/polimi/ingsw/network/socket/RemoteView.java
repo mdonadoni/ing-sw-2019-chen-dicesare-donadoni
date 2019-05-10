@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.socket;
 
-import it.polimi.ingsw.model.Coordinate;
 import it.polimi.ingsw.network.LocalServer;
 import it.polimi.ingsw.network.View;
 import it.polimi.ingsw.network.socket.messages.ServerToView;

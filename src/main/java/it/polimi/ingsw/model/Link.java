@@ -63,6 +63,10 @@ public class Link {
         return type == LinkType.SAME_ROOM;
     }
 
+    public LinkType getType() {
+        return type;
+    }
+
     /**
      * Get the first endpoint of this link.
      * @return First endpoint of this link.

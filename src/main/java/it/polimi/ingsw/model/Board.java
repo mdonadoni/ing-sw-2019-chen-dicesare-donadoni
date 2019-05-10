@@ -31,6 +31,8 @@ public class Board {
      */
     private EnumMap<AmmoColor, SpawnPoint> colorToSpawnPoint;
 
+    private BoardType type;
+
     /**
      * Create new board given board's type, reading from resources.
      * @param boardType Type of board.
@@ -38,7 +40,7 @@ public class Board {
      */
     public Board(BoardType boardType) throws ResourceException {
         this();
-
+        this.type = boardType;
         try {
             String path = "/boards/" + boardType.name().toLowerCase() + ".json";
             InputStream in = Board.class.getResourceAsStream(path);
@@ -75,6 +77,7 @@ public class Board {
      * Constructor of an empty Board.
      */
     public Board() {
+        type = null;
         coordToSquare = new HashMap<>();
         coordToSpawnPoint = new HashMap<>();
         coordToStandardSquare = new HashMap<>();
@@ -217,5 +220,17 @@ public class Board {
             throw new InvalidOperationException("Cannot find spawnpoint with given color");
         }
         return colorToSpawnPoint.get(color);
+    }
+
+    public BoardType getType() {
+        return type;
+    }
+
+    public List<SpawnPoint> getSpawnPoints() {
+        return new ArrayList<>(coordToSpawnPoint.values());
+    }
+
+    public List<StandardSquare> getStandardSquares() {
+        return new ArrayList<>(coordToStandardSquare.values());
     }
 }

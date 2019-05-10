@@ -14,12 +14,13 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MiniPlayerTest {
+    Player player;
     MiniPlayer mp;
     MiniWeapon mw;
 
     @BeforeEach
     void setUp() {
-        Player player = new Player("test", PlayerToken.YELLOW);
+        player = new Player("test", PlayerToken.YELLOW);
         player.grabAmmo(new AmmoTile(AmmoColor.BLUE, AmmoColor.RED));
         player.takeDamage(PlayerToken.BLUE, 2);
         player.takeDamage(PlayerToken.GREEN, 3);
@@ -34,6 +35,7 @@ class MiniPlayerTest {
 
     @Test
     void getters() {
+        assertEquals(mp.getUuid(), player.getUuid());
         assertEquals(mp.getAmmo(), Arrays.asList(AmmoColor.BLUE, AmmoColor.RED));
         assertEquals(mp.getColor(), PlayerToken.YELLOW);
         assertEquals(mp.getDamageTaken(),
@@ -68,6 +70,7 @@ class MiniPlayerTest {
     @Test
     void jackson() throws IOException {
         String j = Json.getMapper().writeValueAsString(mp);
-        Json.getMapper().readValue(j, MiniPlayer.class);
+        MiniPlayer fromJson = Json.getMapper().readValue(j, MiniPlayer.class);
+        assertEquals(mp.getUuid(), fromJson.getUuid());
     }
 }

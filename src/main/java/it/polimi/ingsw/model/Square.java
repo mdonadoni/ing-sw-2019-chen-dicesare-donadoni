@@ -209,4 +209,8 @@ public class Square extends Identifiable{
     public boolean isAligned(Cardinal direction, Square other) {
         return getAlignedSquares(direction).contains(other);
     }
+
+    public List<Link> getLinks() {
+        return new ArrayList<>(links);
+    }
 }
