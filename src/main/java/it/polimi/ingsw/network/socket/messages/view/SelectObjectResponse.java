@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.network.socket.messages.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class SelectObjectResponse extends Message {
     /**
      * List of squares' coordinates chosen.
      */
-    private List<String> res;
+    private ArrayList<String> res;
 
     /**
      * Constructor of SelectObjectResponse.
@@ -24,7 +25,7 @@ public class SelectObjectResponse extends Message {
     private SelectObjectResponse(@JsonProperty("uuid") String uuid,
                                  @JsonProperty("res") List<String> res) {
         super(uuid);
-        this.res = res;
+        this.res = new ArrayList<>(res);
     }
 
     /**

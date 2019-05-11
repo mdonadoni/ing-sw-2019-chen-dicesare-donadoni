@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.network.LocalView;
 import it.polimi.ingsw.network.socket.messages.Message;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public class SelectObjectRequest extends RequestViewMethod {
     /**
      * List of squares' coordinates.
      */
-    private List<String> objUuid;
+    private ArrayList<String> objUuid;
 
     /**
      * Minimum number of squares to be chosen.
@@ -36,7 +37,7 @@ public class SelectObjectRequest extends RequestViewMethod {
     public SelectObjectRequest(@JsonProperty("objUuid") List<String> objUuid,
                                @JsonProperty("min") int min,
                                @JsonProperty("max") int max) {
-        this.objUuid = objUuid;
+        this.objUuid = new ArrayList<>(objUuid);
         this.min = min;
         this.max = max;
     }
