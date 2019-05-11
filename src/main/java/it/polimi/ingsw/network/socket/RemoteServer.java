@@ -3,23 +3,15 @@ package it.polimi.ingsw.network.socket;
 import it.polimi.ingsw.network.LocalView;
 import it.polimi.ingsw.network.Server;
 import it.polimi.ingsw.network.View;
-import it.polimi.ingsw.network.socket.messages.ServerToView;
-import it.polimi.ingsw.network.socket.messages.ViewToServer;
+import it.polimi.ingsw.network.socket.messages.Message;
 import it.polimi.ingsw.network.socket.messages.server.LoginRequest;
 import it.polimi.ingsw.network.socket.messages.server.LoginResponse;
-import it.polimi.ingsw.network.socket.messages.server.RequestServerMethod;
-import it.polimi.ingsw.network.socket.messages.server.ResponseServerMethod;
 import it.polimi.ingsw.network.socket.messages.view.DisconnectRequest;
 import it.polimi.ingsw.network.socket.messages.view.RequestViewMethod;
-import it.polimi.ingsw.network.socket.messages.view.ResponseViewMethod;
-import it.polimi.ingsw.util.BlockingMap;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +19,7 @@ import java.util.logging.Logger;
  * Class that represents a RemoteServer. It also acts as a socket endpoint,
  * handling the requests/responses on the view side.
  */
-public class RemoteServer implements Server, ViewSideHandler {
+public class RemoteServer implements Server, ViewMethodRequestHandler, Runnable{
     /**
      * Logger.
      */
@@ -41,18 +33,7 @@ public class RemoteServer implements Server, ViewSideHandler {
     /**
      * Socket endpoint.
      */
-    private final SocketEndpoint<ServerToView, ViewToServer> endpoint;
-
-    /**
-     * Blocking map of responses. This is used to wait for a response while
-     * handling a request.
-     */
-    private final BlockingMap<String, ResponseServerMethod> responses;
-
-    /**
-     * AtomicBoolean that indicates if the view is still connected to the server.
-     */
-    private AtomicBoolean connected;
+    private final SocketEndpoint<RequestViewMethod> endpoint;
 
     /**
      * Constructor of RemoteServer
@@ -62,41 +43,10 @@ public class RemoteServer implements Server, ViewSideHandler {
      */
     public RemoteServer(LocalView view, Socket socket) throws IOException {
         this.view = view;
-        this.endpoint = new SocketEndpoint<>(socket, ServerToView.class);
-        this.responses = new BlockingMap<>();
-        this.connected = new AtomicBoolean(true);
-    }
-
-    /**
-     * Private method to log and send a message.
-     * @param msg Message to be sent.
-     * @throws IOException If there are errors while sending the message.
-     */
-    private void send(ViewToServer msg) throws IOException {
-        LOG.log(Level.INFO, "Sending {0}", msg);
-        endpoint.send(msg);
-        LOG.info("Message to server sent");
-    }
-
-    /**
-     * Method to send a request and get the response.
-     * @param req Request to send.
-     * @return Response of the request.
-     * @throws RemoteException If an error occurs while sending the request.
-     */
-    private ResponseServerMethod sendRequest(RequestServerMethod req) throws RemoteException {
-        if (!connected.get()) {
-            throw new RemoteException("Server not connected");
-        }
-        try {
-            send(req);
-            return responses.getAndRemove(req.getUUID());
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RemoteException("Request interrupted", e);
-        } catch (IOException e) {
-            throw new RemoteException("Couldn't send request", e);
-        }
+        this.endpoint = new SocketEndpoint<>(
+                socket,
+                RequestViewMethod.class,
+                (req) -> req.visit(this));
     }
 
     /**
@@ -108,12 +58,8 @@ public class RemoteServer implements Server, ViewSideHandler {
      */
     @Override
     public boolean login(String nickname, View view) throws RemoteException{
-        try {
-            LoginResponse res = (LoginResponse) sendRequest(new LoginRequest(nickname));
+            LoginResponse res = endpoint.sendAndWaitResponse(new LoginRequest(nickname), LoginResponse.class);
             return res.getResult();
-        } catch (ClassCastException e) {
-            throw new RemoteException("Response is not LoginResponse");
-        }
     }
 
     /**
@@ -123,24 +69,14 @@ public class RemoteServer implements Server, ViewSideHandler {
     @Override
     public void handle(RequestViewMethod req) {
         LOG.log(Level.INFO, "Handling {0}", req);
-        ResponseViewMethod res = req.invokeOn(view);
+        Message res = req.invokeOn(view);
         if (res != null) {
             try {
-                send(res);
+                endpoint.send(res);
             } catch (IOException e) {
                 LOG.log(Level.SEVERE, e, () -> "Couldn't handle " + req);
             }
         }
-    }
-
-    /**
-     * Handler of responses from a server method.
-     * @param res Response to be handled.
-     */
-    @Override
-    public void handle(ResponseServerMethod res) {
-        LOG.log(Level.INFO, "Handling {0}", res);
-        responses.put(res.getUUID(), res);
     }
 
     /**
@@ -149,37 +85,21 @@ public class RemoteServer implements Server, ViewSideHandler {
      */
     @Override
     public void handle(DisconnectRequest req) {
-        // set disconnection
-        connected.set(false);
         // handle request (invocation + void response)
         handle((RequestViewMethod) req);
         // close socket
         try {
             endpoint.close();
         } catch (IOException e) {
-            LOG.log(Level.SEVERE, "Couldn't close socket", e);
+            LOG.log(Level.SEVERE, "Couldn't close endpoint", e);
         }
     }
 
     /**
-     * Accept messages coming from the remote server, then handle them in
-     * separate threads.
+     * Start the underlying socket endpoint.
      */
     @Override
     public void run() {
-        ExecutorService executor = Executors.newCachedThreadPool();
-        try {
-            while (connected.get() && !Thread.interrupted()) {
-                    LOG.info("Reading new message from socket");
-                    ServerToView wv = endpoint.receive();
-                    executor.submit(() -> wv.visit(this));
-            }
-        } catch (IOException e) {
-            if (connected.get()) {
-                // if still connected then this is a real error
-                LOG.log(Level.SEVERE, "Error while reading socket", e);
-            }
-        }
-        executor.shutdown();
+        endpoint.run();
     }
 }

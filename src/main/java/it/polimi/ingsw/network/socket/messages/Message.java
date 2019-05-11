@@ -1,10 +1,13 @@
 package it.polimi.ingsw.network.socket.messages;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.util.UUID;
 
 /**
  * Generic socket message. Every message has a defining uuid.
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, property="@type")
 public class Message {
     /**
      * uuid of this message.

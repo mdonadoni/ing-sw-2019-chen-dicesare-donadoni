@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.socket.messages.view;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.network.LocalView;
+import it.polimi.ingsw.network.socket.messages.Message;
 
 /**
  * Request the view to show a message.
@@ -28,7 +29,7 @@ public class ShowMessageRequest extends RequestViewMethod {
      * @return null (this request has no response).
      */
     @Override
-    public ResponseViewMethod invokeOn(LocalView view) {
+    public Message invokeOn(LocalView view) {
         view.showMessage(message);
         return new VoidResponse(this);
     }

@@ -1,7 +1,8 @@
 package it.polimi.ingsw.network.socket.messages.view;
 
 import it.polimi.ingsw.network.LocalView;
-import it.polimi.ingsw.network.socket.ViewSideHandler;
+import it.polimi.ingsw.network.socket.ViewMethodRequestHandler;
+import it.polimi.ingsw.network.socket.messages.Message;
 
 /**
  * Request to disconnect the view.
@@ -13,7 +14,7 @@ public class DisconnectRequest extends RequestViewMethod {
      * @return null (this request has no response).
      */
     @Override
-    public ResponseViewMethod invokeOn(LocalView view) {
+    public Message invokeOn(LocalView view) {
         view.disconnect();
         return new VoidResponse(this);
     }
@@ -23,7 +24,7 @@ public class DisconnectRequest extends RequestViewMethod {
      * @param handler Handler of a disconnect request.
      */
     @Override
-    public void visit(ViewSideHandler handler) {
+    public void visit(ViewMethodRequestHandler handler) {
         handler.handle(this);
     }
 }

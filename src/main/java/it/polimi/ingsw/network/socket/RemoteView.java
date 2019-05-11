@@ -2,21 +2,15 @@ package it.polimi.ingsw.network.socket;
 
 import it.polimi.ingsw.network.LocalServer;
 import it.polimi.ingsw.network.View;
-import it.polimi.ingsw.network.socket.messages.ServerToView;
-import it.polimi.ingsw.network.socket.messages.ViewToServer;
+import it.polimi.ingsw.network.socket.messages.Message;
 import it.polimi.ingsw.network.socket.messages.server.LoginRequest;
 import it.polimi.ingsw.network.socket.messages.server.RequestServerMethod;
-import it.polimi.ingsw.network.socket.messages.server.ResponseServerMethod;
 import it.polimi.ingsw.network.socket.messages.view.*;
-import it.polimi.ingsw.util.BlockingMap;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +18,7 @@ import java.util.logging.Logger;
  * Class that represents a RemoteView. It also acts as a socket endpoint,
  * handling the requests/responses on the server side.
  */
-public class RemoteView implements View, ServerSideHandler {
+public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
     /**
      * Logger.
      */
@@ -38,18 +32,7 @@ public class RemoteView implements View, ServerSideHandler {
     /**
      * Socket endpoint.
      */
-    private final SocketEndpoint<ViewToServer, ServerToView> endpoint;
-
-    /**
-     * Blocking map of responses. This is used to wait for a response while
-     * handling a request.
-     */
-    private final BlockingMap<String, ResponseViewMethod> responses;
-
-    /**
-     * AtomicBoolean which indicates if the connection is still alive.
-     */
-    private AtomicBoolean connected;
+    private final SocketEndpoint<RequestServerMethod> endpoint;
 
     /**
      * Constructor of RemoteView.
@@ -59,41 +42,10 @@ public class RemoteView implements View, ServerSideHandler {
      */
     public RemoteView(LocalServer server, Socket socket) throws IOException {
         this.server = server;
-        this.endpoint = new SocketEndpoint<>(socket, ViewToServer.class);
-        this.responses = new BlockingMap<>();
-        this.connected = new AtomicBoolean(true);
-    }
-
-    /**
-     * Private method to log and send messages.
-     * @param msg Message to be sent.
-     * @throws IOException If there is an error while sending the message.
-     */
-    private void send(ServerToView msg) throws IOException {
-        LOG.log(Level.INFO, "Sending {0}", msg);
-        endpoint.send(msg);
-        LOG.info("Message to view sent");
-    }
-
-    /**
-     * Method to send a request and get the response.
-     * @param req Request to send.
-     * @return Response of the request.
-     * @throws RemoteException If an error occurs while sending the request.
-     */
-    private ResponseViewMethod sendRequest(RequestViewMethod req) throws RemoteException {
-        if (!connected.get()) {
-            throw new RemoteException("View not connected");
-        }
-        try {
-            send(req);
-            return responses.getAndRemove(req.getUUID());
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RemoteException("Request interrupted", e);
-        } catch (IOException e) {
-            throw new RemoteException("Couldn't send request", e);
-        }
+        this.endpoint = new SocketEndpoint<>(
+                socket,
+                RequestServerMethod.class,
+                (req) -> req.visit(this));
     }
 
     /**
@@ -106,12 +58,8 @@ public class RemoteView implements View, ServerSideHandler {
      */
     @Override
     public List<String> selectObject(List<String> squares, int min, int max) throws RemoteException {
-        try {
-            SelectObjectResponse res = (SelectObjectResponse) sendRequest(new SelectObjectRequest(squares, min, max));
-            return res.getResult();
-        } catch (ClassCastException e) {
-            throw new RemoteException("Response is not SelectObjectResponse");
-        }
+        SelectObjectResponse res = endpoint.sendAndWaitResponse(new SelectObjectRequest(squares, min, max), SelectObjectResponse.class);
+        return res.getResult();
     }
 
     /**
@@ -121,7 +69,7 @@ public class RemoteView implements View, ServerSideHandler {
      */
     @Override
     public void showMessage(String message) throws RemoteException {
-        sendRequest(new ShowMessageRequest(message));
+        endpoint.sendAndWaitResponse(new ShowMessageRequest(message), VoidResponse.class);
     }
 
     /**
@@ -130,8 +78,12 @@ public class RemoteView implements View, ServerSideHandler {
      */
     @Override
     public void disconnect() throws RemoteException {
-        sendRequest(new DisconnectRequest());
-        connected.set(false);
+        endpoint.sendAndWaitResponse(new DisconnectRequest(), VoidResponse.class);
+        try {
+            endpoint.disconnect();
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, "Couldn't close endpoint", e);
+        }
     }
 
     /**
@@ -141,10 +93,10 @@ public class RemoteView implements View, ServerSideHandler {
     @Override
     public void handle(RequestServerMethod req) {
         LOG.log(Level.INFO, "Handling {0}", req);
-        ResponseServerMethod res = req.invokeOn(server);
+        Message res = req.invokeOn(server);
         if (res != null) {
             try {
-                send(res);
+                endpoint.send(res);
             } catch (IOException e) {
                 LOG.log(Level.SEVERE, "Couldn't send response", e);
             }
@@ -164,33 +116,10 @@ public class RemoteView implements View, ServerSideHandler {
     }
 
     /**
-     * Handler of responses from view methods.
-     * @param res Response to be handled.
-     */
-    @Override
-    public void handle(ResponseViewMethod res) {
-        LOG.log(Level.INFO, "Handling {0}", res);
-        responses.put(res.getUUID(), res);
-    }
-
-    /**
-     * Accept messages coming from the remote view, then handle them in
-     * separate threads.
+     * Start the underlying socket endpoint.
      */
     @Override
     public void run() {
-        LOG.info("Starting new RemoteView");
-        ExecutorService executor = Executors.newCachedThreadPool();
-        try {
-            while (connected.get() && !Thread.interrupted()) {
-                    ViewToServer vs = endpoint.receive();
-                    executor.submit(() -> vs.visit(this));
-            }
-        } catch (IOException e) {
-            if (connected.get()) {
-                LOG.log(Level.SEVERE, "Couldn't read from socket", e);
-            }
-        }
-        executor.shutdown();
+        endpoint.run();
     }
 }

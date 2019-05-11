@@ -2,11 +2,12 @@ package it.polimi.ingsw.network.socket.messages.server;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.network.socket.messages.Message;
 
 /**
  * Response of method login.
  */
-public class LoginResponse extends ResponseServerMethod {
+public class LoginResponse extends Message {
     /**
      * Result of login.
      */

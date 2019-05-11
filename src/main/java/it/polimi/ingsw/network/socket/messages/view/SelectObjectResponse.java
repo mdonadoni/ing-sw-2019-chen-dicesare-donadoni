@@ -2,12 +2,14 @@ package it.polimi.ingsw.network.socket.messages.view;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.network.socket.messages.Message;
+
 import java.util.List;
 
 /**
  * Response of selectSquares.
  */
-public class SelectObjectResponse extends ResponseViewMethod {
+public class SelectObjectResponse extends Message {
     /**
      * List of squares' coordinates chosen.
      */

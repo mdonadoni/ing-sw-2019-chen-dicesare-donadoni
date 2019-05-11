@@ -2,8 +2,8 @@ package it.polimi.ingsw.network.socket.messages.view;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.model.Coordinate;
 import it.polimi.ingsw.network.LocalView;
+import it.polimi.ingsw.network.socket.messages.Message;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class SelectObjectRequest extends RequestViewMethod {
      * @return Response to method invocation.
      */
     @Override
-    public ResponseViewMethod invokeOn(LocalView view) {
+    public Message invokeOn(LocalView view) {
         return new SelectObjectResponse(this, view.selectObject(objUuid, min, max));
     }
 }

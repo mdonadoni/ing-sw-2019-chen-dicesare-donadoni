@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.network.LocalServer;
 import it.polimi.ingsw.network.View;
-import it.polimi.ingsw.network.socket.ServerSideHandler;
+import it.polimi.ingsw.network.socket.ServerMethodRequestHandler;
+import it.polimi.ingsw.network.socket.messages.Message;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +55,7 @@ public class LoginRequest extends RequestServerMethod {
      * @return Response of login.
      */
     @Override
-    public ResponseServerMethod invokeOn(LocalServer server) {
+    public Message invokeOn(LocalServer server) {
         LOG.log(Level.INFO, "Invoking login for {0}", nickname);
         return new LoginResponse(this, server.login(nickname, view));
     }
@@ -66,7 +67,7 @@ public class LoginRequest extends RequestServerMethod {
      * @param handler Handler of a server request.
      */
     @Override
-    public void visit(ServerSideHandler handler) {
+    public void visit(ServerMethodRequestHandler handler) {
         handler.handle(this);
     }
 
