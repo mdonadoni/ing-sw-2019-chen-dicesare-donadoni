@@ -17,7 +17,7 @@ public class MiniBoard implements Serializable {
     private BoardType type;
 
     @JsonCreator
-    MiniBoard() {
+    private MiniBoard() {
         spawnPoints = null;
         standardSquares = null;
         type = null;

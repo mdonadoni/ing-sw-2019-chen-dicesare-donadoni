@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Match extends Identifiable{
     /**
@@ -21,18 +20,35 @@ public class Match extends Identifiable{
      */
     private Turn currentTurn;
     /**
-     * States whether the game has started
-     */
-    private MatchStatus status;
-    /**
      * Counts the number of turns
      */
     private int turnsElapsed;
 
+    public Match(List<String> nicknames, BoardType boardType) throws ResourceException {
+        if (nicknames.size() < 3) {
+            throw new InvalidOperationException("Not enough players");
+        }
+        if (nicknames.size() > 5) {
+            throw new InvalidOperationException("Too many players");
+        }
+
+        this.finalFrenzy = false;
+
+        List<PlayerToken> tokens = Arrays.asList(PlayerToken.values());
+        Collections.shuffle(tokens);
+        Iterator<PlayerToken> token = tokens.iterator();
+        nicknames.forEach((nickname) -> players.add(new Player(nickname, token.next())));
+
+        this.gameBoard = new GameBoard(8, boardType);
+        this.currentTurn = new Turn(players.get(0), TurnType.FIRST_TURN);
+        players.get(0).setStartingPlayer(true);
+        this.turnsElapsed = 0;
+    }
+
     /**
      * Standard constructor, generates his id
      */
-    public Match() throws ResourceException{
+    Match() throws ResourceException{
         finalFrenzy = false;
         gameBoard = new GameBoard();
     }
@@ -56,19 +72,20 @@ public class Match extends Identifiable{
         return new ArrayList<>(players);
     }
 
+    public Player getPlayerByNickname(String nickname) {
+        for (Player p : players) {
+            if (nickname.equals(p.getNickname())) {
+                return p;
+            }
+        }
+        throw new InvalidOperationException("Nickname not found");
+    }
+
     /**
      * Sets final frenzy mode to true
      */
     public void activateFinalFrenzy(){
         finalFrenzy = true;
-    }
-
-    /**
-     * Starts a new game by initiating what needs to be instantiated
-     */
-    public void startMatch(){
-        currentTurn = new Turn(TurnType.FIRST_TURN, players.get(0));
-        turnsElapsed = 1;
     }
 
     /**
@@ -92,35 +109,18 @@ public class Match extends Identifiable{
      */
     public void nextTurn(){
         turnsElapsed++;
-        if(players.indexOf(currentTurn.getCurrentPlayer()) < players.size()-1)
-            currentTurn.setCurrentPlayer(players.get(players.indexOf(currentTurn.getCurrentPlayer())+1));
-        else
-            currentTurn.setCurrentPlayer(players.get(0));
-
-        currentTurn.resetMovesMade();
+        int indexNextPlayer = players.indexOf(currentTurn.getCurrentPlayer())+1;
+        if (indexNextPlayer == players.size()) {
+            indexNextPlayer = 0;
+        }
+        Player nextPlayer = players.get(indexNextPlayer);
 
         if (turnsElapsed <= players.size())
-            currentTurn.setType(TurnType.FIRST_TURN);
+            currentTurn = new Turn(nextPlayer, TurnType.FIRST_TURN);
         else if(finalFrenzy)
-            currentTurn.setType(TurnType.FINAL_FRENZY);
+            currentTurn = new Turn(nextPlayer, TurnType.FINAL_FRENZY);
         else
-            currentTurn.setType(TurnType.STANDARD);
-    }
-
-    /**
-     * Sets the status of the match
-     * @param status the status to be set
-     */
-    public void setStatus(MatchStatus status){
-        this.status = status;
-    }
-
-    /**
-     * Gives you the status of the match
-     * @return the status of the match
-     */
-    public MatchStatus getStatus(){
-        return status;
+            currentTurn = new Turn(nextPlayer, TurnType.STANDARD);
     }
 
     /**
@@ -132,7 +132,7 @@ public class Match extends Identifiable{
         int activePlayers = 0;
 
         for(Player player : players)
-            if(player.getActive())
+            if(player.isActive())
                 activePlayers++;
 
         return activePlayers >= 3;

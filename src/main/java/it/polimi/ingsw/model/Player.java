@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.weapons.Weapon;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -312,7 +311,7 @@ public class Player extends Identifiable{
      * Gets the player's status
      * @return the player's status
      */
-    public boolean getActive(){
+    public boolean isActive(){
         return active;
     }
 
@@ -433,5 +432,9 @@ public class Player extends Identifiable{
      */
     public String getNickname(){
         return nickname;
+    }
+
+    public int getPoints() {
+        return points;
     }
 }

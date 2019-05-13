@@ -3,29 +3,44 @@ package it.polimi.ingsw.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MatchTest {
     private Match match;
-    private Player playerA = new Player("Anna", PlayerToken.YELLOW);
-    private Player playerB = new Player("Bobby", PlayerToken.YELLOW);
-    private Player playerC = new Player("Charles", PlayerToken.YELLOW);
-    private Player playerD = new Player("Dante", PlayerToken.YELLOW);
-    private Player playerE = new Player("Edd", PlayerToken.YELLOW);
+    private Player playerA;
+    private Player playerB;
+    private Player playerC;
+    private Player playerD;
+    private Player playerE;
 
     @BeforeEach
     void setupPlayers() throws ResourceException{
-        match = new Match();
-        match.addPlayer(playerA);
-        match.addPlayer(playerB);
-        match.addPlayer(playerC);
-        match.addPlayer(playerD);
-        match.addPlayer(playerE);
+        match = new Match(
+                Arrays.asList("A", "B", "C", "D", "E"),
+                BoardType.SMALL
+        );
+
+        Function<String, Player> getByNickname = (name) -> {
+            for (Player p : match.getPlayers()) {
+                if (p.getNickname().equals(name)) {
+                    return p;
+                }
+            }
+            return null;
+        };
+        playerA = match.getPlayerByNickname("A");
+        playerB = match.getPlayerByNickname("B");
+        playerC = match.getPlayerByNickname("C");
+        playerD = match.getPlayerByNickname("D");
+        playerE = match.getPlayerByNickname("E");
     }
 
     @Test
     void nextTurn() {
-        match.startMatch();
         assertEquals(match.getCurrentTurn().getCurrentPlayer(), playerA);
         match.nextTurn();
         assertEquals(match.getCurrentTurn().getCurrentPlayer(), playerB);

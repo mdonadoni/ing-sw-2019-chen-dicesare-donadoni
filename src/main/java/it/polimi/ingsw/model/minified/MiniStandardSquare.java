@@ -14,7 +14,7 @@ public class MiniStandardSquare extends MiniSquare {
      * Constructor for jackson.
      */
     @JsonCreator
-    MiniStandardSquare() {
+    private MiniStandardSquare() {
         ammoTile = null;
     }
 

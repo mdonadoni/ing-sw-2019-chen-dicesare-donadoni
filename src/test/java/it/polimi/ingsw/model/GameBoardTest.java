@@ -20,7 +20,7 @@ class GameBoardTest {
     List<PlayerToken> tripleBlue;
 
     private void initGb() throws ResourceException{
-        gb = new GameBoard(5);
+        gb = new GameBoard(5, BoardType.SMALL);
 
         singleYellow = new ArrayList<>();
         singleYellow.add(PlayerToken.YELLOW);

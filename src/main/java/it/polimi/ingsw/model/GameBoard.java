@@ -3,9 +3,11 @@ package it.polimi.ingsw.model;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.weapons.Weapon;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -45,22 +47,21 @@ public class GameBoard {
     /**
      * Standard constructor
      */
-    public GameBoard() throws ResourceException{
-       this(8); // Shall we do a config file with all the constants?
+    GameBoard() throws ResourceException{
     }
 
     /**
      * Constructor that allows to specify the number of skulls
      * @param skulls number of skulls to be placed on the gameboard
      */
-    public GameBoard(int skulls) throws ResourceException{
+    public GameBoard(int skulls, BoardType boardType) throws ResourceException {
         remainingSkulls = skulls;
         initialSkullNumber = skulls;
         killShotTrack = new ArrayList<>();
         weaponDeck = new Deck<>();
         powerUpDeck = new Deck<>();
         ammoTileDeck = new Deck<>();
-        board = new Board();
+        board = new Board(boardType);
 
         initPowerUpDeck();
         initAmmoTileDeck();
@@ -178,5 +179,9 @@ public class GameBoard {
 
     public Board getBoard() {
         return board;
+    }
+
+    public int getInitialSkullNumber() {
+        return initialSkullNumber;
     }
 }

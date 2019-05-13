@@ -15,6 +15,7 @@ public class MiniWeapon extends Identifiable implements Serializable {
     private final boolean charged;
     private final ArrayList<AmmoColor> pickupColor;
     private final AmmoColor additionalRechargeColor;
+    // TODO add attacks
 
     @JsonCreator
     private MiniWeapon() {

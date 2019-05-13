@@ -40,7 +40,7 @@ public class MiniPlayer extends Identifiable implements Serializable {
         super(player.getUuid());
         this.nickname = player.getNickname();
         this.skulls = player.getSkulls();
-        this.active = player.getActive();
+        this.active = player.isActive();
         this.boardFlipped = player.isBoardFlipped();
         this.color = player.getColor();
         this.marks = new ArrayList<>(player.getMarks());

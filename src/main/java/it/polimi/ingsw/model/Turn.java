@@ -5,33 +5,18 @@ public class Turn {
     private Player currentPlayer;
     private int movesMade;
 
-    public Turn(){
-        movesMade = 0;
-    }
-
-    public Turn(TurnType type, Player currentPlayer){
+    public Turn(Player currentPlayer, TurnType type){
         this.type = type;
         this.currentPlayer = currentPlayer;
+        this.movesMade = 0;
     }
 
     public TurnType getType() {
         return type;
     }
 
-    public void setType(TurnType type) {
-        this.type = type;
-    }
-
     public Player getCurrentPlayer() {
         return currentPlayer;
-    }
-
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
-    public void resetMovesMade() {
-        movesMade = 0;
     }
 
     public void addMove() {

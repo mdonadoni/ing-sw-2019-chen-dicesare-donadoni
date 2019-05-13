@@ -14,7 +14,7 @@ public class MiniSpawnPoint extends MiniSquare {
     private final ArrayList<MiniWeapon> weapons;
 
     @JsonCreator
-    MiniSpawnPoint() {
+    private MiniSpawnPoint() {
         color = null;
         weapons = null;
     }

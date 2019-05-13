@@ -18,17 +18,20 @@ class GameControllerTest {
         String playerA = "Ada";
         TestView viewA = new TestView();
         playerMap.put(playerA, viewA);
+        playerMap.put("B", new TestView());
+        playerMap.put("C", new TestView());
         GameController controller = new GameController(playerMap, BoardType.SMALL);
 
-        controller.spawnRoutine(controller.getMatch().getPlayers().get(0), 4);
+
+        controller.spawnRoutine(controller.getMatch().getPlayerByNickname("Ada"), 4);
         PowerUp usedCard = controller.getMatch().getGameBoard().getPowerUpDeck().getDiscarded().get(0);
         assertEquals(controller.getMatch().getGameBoard().getBoard().getSpawnPointByColor(usedCard.getAmmo()),
-                    controller.getMatch().getPlayers().get(0).getSquare());
+                controller.getMatch().getPlayerByNickname("Ada").getSquare());
         for (PowerUp pwu : controller.getMatch().getGameBoard().getPowerUpDeck().getAvaible()){
-            assertFalse(controller.getMatch().getPlayers().get(0).getPowerUps().contains(pwu));
+            assertFalse(controller.getMatch().getPlayerByNickname("Ada").getPowerUps().contains(pwu));
         }
-        assertFalse(controller.getMatch().getPlayers().get(0).getPowerUps().contains(usedCard));
-        for(PowerUp pwu : controller.getMatch().getPlayers().get(0).getPowerUps()){
+        assertFalse(controller.getMatch().getPlayerByNickname("Ada").getPowerUps().contains(usedCard));
+        for(PowerUp pwu : controller.getMatch().getPlayerByNickname("Ada").getPowerUps()){
             assertFalse(controller.getMatch().getGameBoard().getPowerUpDeck().getAvaible().contains(pwu));
             assertFalse(controller.getMatch().getGameBoard().getPowerUpDeck().getDiscarded().contains(pwu));
         }
