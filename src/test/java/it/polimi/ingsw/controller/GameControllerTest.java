@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.network.TestView;
 import it.polimi.ingsw.network.View;
 import org.junit.jupiter.api.Test;
 

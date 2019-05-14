@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.View;
 
