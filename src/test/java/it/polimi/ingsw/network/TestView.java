@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.network.View;
-
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;

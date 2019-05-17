@@ -149,4 +149,45 @@ class SquareTest {
         assertTrue(map[3][2].isAligned(Cardinal.NORTH, map[1][2]));
         assertTrue(map[3][2].isAligned(Cardinal.NORTH, map[0][2]));
     }
+
+    @Test
+    void isSomehowAligned() {
+        assertTrue(map[1][1].isAligned(map[2][1]));
+        assertTrue(map[1][1].isAligned(map[0][1]));
+        assertTrue(map[1][1].isAligned(map[1][2]));
+        assertTrue(map[1][1].isAligned(map[3][1]));
+        assertTrue(map[1][1].isAligned(map[1][0]));
+        assertFalse(map[3][1].isAligned(map[2][2]));
+        assertFalse(map[3][1].isAligned(map[2][0]));
+        assertFalse(map[3][1].isAligned(map[0][0]));
+    }
+
+    @Test
+    void getSquaresByDistance() {
+        Square square = map[2][1];
+        List<Square> distanceTwo = square.getSquaresByDistance(2);
+
+        assertTrue(distanceTwo.contains(map[2][2]));
+        assertTrue(distanceTwo.contains(map[3][2]));
+        assertTrue(distanceTwo.contains(map[3][1]));
+        assertTrue(distanceTwo.contains(map[1][1]));
+        assertTrue(distanceTwo.contains(map[1][2]));
+        assertTrue(distanceTwo.contains(map[1][0]));
+        assertFalse(distanceTwo.contains(map[3][0]));
+        assertFalse(distanceTwo.contains(map[0][0]));
+        assertFalse(distanceTwo.contains(map[0][2]));
+    }
+
+    @Test
+    void getSquaresByDistanceAligned() {
+        Square square = map[0][1];
+        List<Square> distanceTwoAligned = square.getSquaresByDistanceAligned(2);
+
+        assertTrue(distanceTwoAligned.contains(map[0][0]));
+        assertTrue(distanceTwoAligned.contains(map[1][1]));
+        assertTrue(distanceTwoAligned.contains(map[2][1]));
+        assertFalse(distanceTwoAligned.contains(map[2][0]));
+        assertFalse(distanceTwoAligned.contains(map[1][2]));
+        assertFalse(distanceTwoAligned.contains(map[3][1]));
+    }
 }

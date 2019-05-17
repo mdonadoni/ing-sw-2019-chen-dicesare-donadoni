@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * This class represents a single square of the board.
@@ -210,7 +211,32 @@ public class Square extends Identifiable{
         return getAlignedSquares(direction).contains(other);
     }
 
+    public boolean isAligned(Square other){
+        boolean res = false;
+        for(Cardinal direction : Cardinal.values()){
+            if(getAlignedSquares(direction).contains(other))
+                    res = true;
+        }
+
+        return res;
+    }
+
     public List<Link> getLinks() {
         return new ArrayList<>(links);
+    }
+
+    public List<Square> getSquaresByDistance(int distance){
+        Map<Square, Integer> otherSquares = bfs(((Link l) -> !l.isWall()));
+
+        return otherSquares
+                .keySet()
+                .stream()
+                .filter(e -> otherSquares.get(e)<=distance)
+                .collect(Collectors.toList());
+    }
+
+    public List<Square> getSquaresByDistanceAligned(int distance){
+        List<Square> compatibleSquares = getSquaresByDistance(distance);
+        return compatibleSquares.stream().filter(this::isAligned).collect(Collectors.toList());
     }
 }
