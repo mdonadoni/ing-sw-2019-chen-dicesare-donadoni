@@ -20,7 +20,6 @@ public class MiniPlayer extends Identifiable implements Serializable {
     private final ArrayList<PlayerToken> damageTaken;
     private final ArrayList<MiniWeapon> weapons;
     private final ArrayList<AmmoColor> ammo;
-    private final Coordinate square;
 
     @JsonCreator
     private MiniPlayer() {
@@ -33,7 +32,6 @@ public class MiniPlayer extends Identifiable implements Serializable {
         damageTaken = null;
         weapons = null;
         ammo = null;
-        square = null;
     }
 
     MiniPlayer(Player player) {
@@ -50,7 +48,6 @@ public class MiniPlayer extends Identifiable implements Serializable {
             this.weapons.add(new MiniWeapon(w));
         }
         this.ammo = new ArrayList<>(player.getAmmo());
-        this.square = player.getSquare() != null ? player.getSquare().getCoordinates() : null;
     }
 
     public String getNickname() {
@@ -87,9 +84,5 @@ public class MiniPlayer extends Identifiable implements Serializable {
 
     public List<AmmoColor> getAmmo() {
         return ammo;
-    }
-
-    public Coordinate getSquare() {
-        return square;
     }
 }

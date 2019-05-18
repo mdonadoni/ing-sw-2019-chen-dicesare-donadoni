@@ -30,6 +30,7 @@ class MiniStandardSquareTest {
         assertTrue(miniSquare.hasAmmo());
         assertTrue(miniSquare.getAmmoTile().hasPowerUp());
         assertEquals(miniSquare.getAmmoTile().getAmmo(), Arrays.asList(AmmoColor.BLUE, AmmoColor.RED));
+        assertEquals(miniSquare.getPlayers().size(), 0);
     }
 
     @Test

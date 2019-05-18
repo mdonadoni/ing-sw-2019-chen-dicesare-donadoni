@@ -123,6 +123,53 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.1.1</version>
+        <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
+        </configuration>
+        <executions>
+          <execution>
+            <id>package-client</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+              <finalName>${project.artifactId}-client</finalName>
+              <archive>
+                <manifest>
+                  <mainClass>it.polimi.ingsw.ClientLauncher</mainClass>
+                </manifest>
+              </archive>
+            </configuration>
+          </execution>
+          <execution>
+            <id>package-server</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+              <finalName>${project.artifactId}-server</finalName>
+              <archive>
+                <manifest>
+                  <mainClass>it.polimi.ingsw.ServerLauncher</mainClass>
+                </manifest>
+              </archive>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 </project>

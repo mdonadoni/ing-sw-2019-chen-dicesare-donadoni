@@ -52,7 +52,6 @@ class MiniPlayerTest {
                         PlayerToken.PURPLE));
         assertEquals(mp.getNickname(), "test");
         assertEquals(mp.getSkulls(), 2);
-        assertEquals(mp.getSquare(), null);
         assertEquals(mp.getWeapons().get(0).getUuid(), mw.getUuid());
         assertTrue(mp.isActive());
         assertFalse(mp.isBoardFlipped());
