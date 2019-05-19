@@ -22,19 +22,24 @@ class GameControllerTest {
         playerMap.put("B", new TestView());
         playerMap.put("C", new TestView());
         GameController controller = new GameController(playerMap, BoardType.SMALL);
+        Match match = controller.getMatch();
+        GameBoard gameBoard = match.getGameBoard();
 
+        controller.getRemotePlayer("Ada").setTimeLeft(20000);
+        controller.spawnRoutine(match.getPlayerByNickname("Ada"), 4);
 
-        controller.spawnRoutine(controller.getMatch().getPlayerByNickname("Ada"), 4);
-        PowerUp usedCard = controller.getMatch().getGameBoard().getPowerUpDeck().getDiscarded().get(0);
-        assertEquals(controller.getMatch().getGameBoard().getBoard().getSpawnPointByColor(usedCard.getAmmo()),
-                controller.getMatch().getPlayerByNickname("Ada").getSquare());
-        for (PowerUp pwu : controller.getMatch().getGameBoard().getPowerUpDeck().getAvaible()){
-            assertFalse(controller.getMatch().getPlayerByNickname("Ada").getPowerUps().contains(pwu));
+        PowerUp usedCard = gameBoard.getPowerUpDeck().getDiscarded().get(0);
+        assertEquals(gameBoard.getBoard().getSpawnPointByColor(usedCard.getAmmo()),
+                match.getPlayerByNickname("Ada").getSquare());
+
+        for (PowerUp pwu : gameBoard.getPowerUpDeck().getAvaible()){
+            assertFalse(match.getPlayerByNickname("Ada").getPowerUps().contains(pwu));
         }
-        assertFalse(controller.getMatch().getPlayerByNickname("Ada").getPowerUps().contains(usedCard));
-        for(PowerUp pwu : controller.getMatch().getPlayerByNickname("Ada").getPowerUps()){
-            assertFalse(controller.getMatch().getGameBoard().getPowerUpDeck().getAvaible().contains(pwu));
-            assertFalse(controller.getMatch().getGameBoard().getPowerUpDeck().getDiscarded().contains(pwu));
+        assertFalse(match.getPlayerByNickname("Ada").getPowerUps().contains(usedCard));
+
+        for(PowerUp pwu : match.getPlayerByNickname("Ada").getPowerUps()){
+            assertFalse(gameBoard.getPowerUpDeck().getAvaible().contains(pwu));
+            assertFalse(gameBoard.getPowerUpDeck().getDiscarded().contains(pwu));
         }
     }
 }
