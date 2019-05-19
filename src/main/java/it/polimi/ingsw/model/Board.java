@@ -233,4 +233,8 @@ public class Board {
     public List<StandardSquare> getStandardSquares() {
         return new ArrayList<>(coordToStandardSquare.values());
     }
+
+    public List<Square> getAllSquares(){
+        return new ArrayList<>(coordToSquare.values());
+    }
 }

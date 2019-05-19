@@ -434,7 +434,32 @@ public class Player extends Identifiable{
         return nickname;
     }
 
+    /**
+     * Get player's points
+     * @return player's points
+     */
     public int getPoints() {
         return points;
+    }
+
+    /**
+     * Moves the player to another Square
+     * @param destinationSquare The Square where the player should be moved
+     */
+    public void move(Square destinationSquare){
+        if (square != null)
+            square.removePlayer(this);
+        square = destinationSquare;
+        destinationSquare.addPlayer(this);
+    }
+
+    /**
+     * Adds a single instance of damage, useful for when you don't want to trigger marks due to
+     * weird ruling
+     * @param damageColor the color of the damage
+     */
+    public void addDamage(PlayerToken damageColor, int numberOfDamage){
+        for(int i = 0; i<numberOfDamage; i++)
+            damageTaken.add(damageColor);
     }
 }

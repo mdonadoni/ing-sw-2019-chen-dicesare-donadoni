@@ -88,4 +88,16 @@ class PlayerTest {
         player.grabWeapon(new Weapon("Laserblade"));
         assertEquals(3,player.getWeapons().size());
     }
+
+    @Test
+    void move(){
+        BoardSample bs = new BoardSample();
+        player.setSquare(bs.map[0][0]);
+        bs.map[0][0].addPlayer(player);
+        player.move(bs.map[2][2]);
+
+        assertEquals(bs.map[0][0].getPlayers().size(), 0);
+        assertEquals(player.getSquare(), bs.map[2][2]);
+        assertEquals(bs.map[2][2].getPlayers().get(0), player);
+    }
 }
