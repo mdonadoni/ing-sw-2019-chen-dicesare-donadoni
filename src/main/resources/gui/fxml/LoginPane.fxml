@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+
+<fx:root xmlns="http://javafx.com/javafx/11.0.1"
+         xmlns:fx="http://javafx.com/fxml/1"
+         type="GridPane"
+         alignment="CENTER"
+         hgap="10.0"
+         vgap="10.0">
+
+    <!-- Server -->
+    <Label text="Server"/>
+    <TextField fx:id="server"
+               text="localhost"
+               prefWidth="200.0"
+               GridPane.columnIndex="1"/>
+
+    <!-- Protocol -->
+    <Label text="Protocollo"
+           GridPane.rowIndex="1"/>
+    <ChoiceBox fx:id="protocol"
+               prefWidth="200.0"
+               GridPane.rowIndex="1"
+               GridPane.columnIndex="1"/>
+
+    <!-- Port -->
+    <Label text="Porta"
+           GridPane.rowIndex="2"/>
+    <TextField fx:id="port"
+               text="9999"
+               GridPane.rowIndex="2"
+               GridPane.columnIndex="1"/>
+
+    <!-- Nickname -->
+    <Label text="Nickname"
+           GridPane.rowIndex="3"/>
+    <TextField fx:id="nickname"
+               GridPane.rowIndex="3"
+               GridPane.columnIndex="1"/>
+
+    <!-- Login button -->
+    <Button fx:id="btnLogin"
+            text="Login"
+            contentDisplay="CENTER"
+            GridPane.rowIndex="4"
+            GridPane.columnIndex="1"
+            GridPane.halignment="CENTER"
+            GridPane.valignment="CENTER"
+            onAction="#handleLoginClick"/>
+</fx:root>

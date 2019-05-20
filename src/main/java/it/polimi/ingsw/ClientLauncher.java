@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 public class ClientLauncher {
     public static void main(String[] args) {
+        //ViewGUI.main(args);
         Logger.getLogger("").setLevel(Level.OFF);
         try {
             LocalView view = new ViewCLI();
