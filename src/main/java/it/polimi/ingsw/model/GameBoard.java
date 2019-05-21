@@ -102,6 +102,17 @@ public class GameBoard {
     }
 
     /**
+     * Goes through all the StandardSquares and if the ammoTile is missing, adds one
+     */
+    public void refillAmmoTile() {
+        for(StandardSquare sq : board.getStandardSquares()){
+            if(sq.getAmmoTile() == null){
+                sq.setAmmoTile(ammoTileDeck.draw());
+            }
+        }
+    }
+
+    /**
      * Add a kill to the killShotTrack, this method also decreases the number of skulls left. According to the rules, if
      * there are no skulls left, all the kills are appended to the last kill scored.
      * @param tokens the tokens of the player who scored the kill
