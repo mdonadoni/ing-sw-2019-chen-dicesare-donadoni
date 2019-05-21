@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.Identifiable;
 import it.polimi.ingsw.util.Json;
-import it.polimi.ingsw.model.ResourceException;
+import it.polimi.ingsw.util.ResourceException;
 
 import java.io.InputStream;
 import java.util.ArrayList;

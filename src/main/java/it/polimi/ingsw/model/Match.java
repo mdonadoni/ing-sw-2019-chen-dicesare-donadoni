@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.util.ResourceException;
+
 import java.util.*;
 
 public class Match extends Identifiable{

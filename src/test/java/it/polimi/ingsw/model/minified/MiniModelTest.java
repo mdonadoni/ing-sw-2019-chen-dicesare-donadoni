@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.minified;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.util.Json;
+import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

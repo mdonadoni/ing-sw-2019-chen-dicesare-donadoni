@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.util;
 
 /**
  * Exception that signals an error while loading resources.
@@ -11,5 +11,9 @@ public class ResourceException extends RuntimeException {
      */
     public ResourceException(String message, Throwable t) {
         super(message, t);
+    }
+
+    public ResourceException(String message) {
+        super(message);
     }
 }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.weapons;
 
 import it.polimi.ingsw.model.AmmoColor;
-import it.polimi.ingsw.model.ResourceException;
+import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
