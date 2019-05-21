@@ -1,17 +1,16 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.minified.MiniGameBoard;
+import it.polimi.ingsw.model.minified.MiniMatch;
+import it.polimi.ingsw.view.gui.GameBoardGUI;
 import it.polimi.ingsw.view.gui.LoginPane;
-import it.polimi.ingsw.view.gui.ScalableGroup;
 import it.polimi.ingsw.view.gui.WaitingPane;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
+import java.util.Arrays;
 
 public class ViewGUI extends Application {
 
@@ -24,21 +23,15 @@ public class ViewGUI extends Application {
         primaryStage.setTitle("Drawing Operations Test");
 
         // Inizio prova board
-        Image img = new Image(ViewGUI.class.getResourceAsStream("/gui/boards/small.png"));
-        ImageView imgView = new ImageView(img);
+        Match match = new Match(Arrays.asList("a", "b", "c"), BoardType.SMALL);
+        match.getGameBoard().getBoard().getStandardSquare(new Coordinate(1, 2)).setAmmoTile(new AmmoTile(AmmoColor.BLUE, AmmoColor.YELLOW, AmmoColor.BLUE));
+        MiniMatch miniMatch = new MiniMatch(match);
 
-        Rectangle rect = new Rectangle(410, 398, 848-410, 803-398);
-        rect.setStroke(Color.BLUE);
-        rect.setStrokeWidth(20);
+        MiniGameBoard board = miniMatch.getGameBoard();
 
-        Group g = new Group();
-        g.getChildren().addAll(imgView, rect);
-
-        ScalableGroup sg = new ScalableGroup();
-        sg.setContent(g);
-
-        GridPane p = new GridPane();
-        p.getChildren().add(sg);
+        GameBoardGUI gameBoardGUI = new GameBoardGUI(board);
+        gameBoardGUI.getStylesheets().add("/gui/css/stylesheet.css");
+        primaryStage.setScene(new Scene(gameBoardGUI, 600, 400));
         // Fine prova board
 
         LoginPane login = new LoginPane();
@@ -49,10 +42,10 @@ public class ViewGUI extends Application {
             }
         });
 
-        primaryStage.setScene(new Scene(login));
+        //primaryStage.setScene(new Scene(login));
 
-        primaryStage.setMinWidth(400);
-        primaryStage.setMinHeight(300);
+        primaryStage.setMinWidth(854);
+        primaryStage.setMinHeight(480);
         primaryStage.show();
     }
 }

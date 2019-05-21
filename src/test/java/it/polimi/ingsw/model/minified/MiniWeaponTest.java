@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.minified;
 
 import it.polimi.ingsw.model.AmmoColor;
-import it.polimi.ingsw.model.Json;
+import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.model.ResourceException;
 import it.polimi.ingsw.model.weapons.Weapon;
 import org.junit.jupiter.api.BeforeEach;

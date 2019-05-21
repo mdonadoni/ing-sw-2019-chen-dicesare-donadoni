@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.minified;
 
 import it.polimi.ingsw.model.BoardType;
-import it.polimi.ingsw.model.Json;
+import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.ResourceException;
 import org.junit.jupiter.api.BeforeEach;

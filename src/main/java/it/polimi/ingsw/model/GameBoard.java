@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.weapons.Weapon;
+import it.polimi.ingsw.util.Json;
 
 import java.io.IOException;
 import java.io.InputStream;
