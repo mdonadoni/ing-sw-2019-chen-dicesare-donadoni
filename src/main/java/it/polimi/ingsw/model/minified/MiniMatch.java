@@ -22,7 +22,7 @@ public class MiniMatch extends Identifiable implements Serializable {
         this.currentPlayer = null;
     }
 
-    MiniMatch(Match match) {
+    public MiniMatch(Match match) {
         super(match.getUuid());
         this.players = new ArrayList<>();
         match.getPlayers().forEach((p) -> players.add(new MiniPlayer(p)));

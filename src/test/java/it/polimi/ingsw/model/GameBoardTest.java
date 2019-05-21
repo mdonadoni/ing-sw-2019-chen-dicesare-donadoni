@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ class GameBoardTest {
     List<PlayerToken> tetraGrey;
     List<PlayerToken> tripleBlue;
 
-    private void initGb() throws ResourceException{
+    private void initGb() throws ResourceException {
         gb = new GameBoard(5, BoardType.SMALL);
 
         singleYellow = new ArrayList<>();

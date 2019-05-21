@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.View;
+import it.polimi.ingsw.util.ResourceException;
 
 import java.rmi.RemoteException;
 import java.util.*;

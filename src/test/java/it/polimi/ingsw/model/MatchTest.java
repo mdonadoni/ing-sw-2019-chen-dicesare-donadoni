@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +18,7 @@ class MatchTest {
     private Player playerE;
 
     @BeforeEach
-    void setupPlayers() throws ResourceException{
+    void setupPlayers() throws ResourceException {
         match = new Match(
                 Arrays.asList("A", "B", "C", "D", "E"),
                 BoardType.SMALL

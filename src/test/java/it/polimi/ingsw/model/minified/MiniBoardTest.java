@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.minified;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.BoardSample;
 import it.polimi.ingsw.model.Coordinate;
-import it.polimi.ingsw.model.Json;
+import it.polimi.ingsw.util.Json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

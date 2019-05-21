@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.util.Json;
+import it.polimi.ingsw.util.ResourceException;
 
 import java.io.InputStream;
 import java.util.*;
