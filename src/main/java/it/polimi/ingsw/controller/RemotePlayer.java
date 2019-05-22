@@ -48,4 +48,8 @@ public class RemotePlayer {
         }
         return result;
     }
+
+    public boolean isConnected() {
+        return timedView.isConnected();
+    }
 }

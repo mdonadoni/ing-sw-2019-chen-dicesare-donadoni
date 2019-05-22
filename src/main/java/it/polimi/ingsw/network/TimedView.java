@@ -96,9 +96,7 @@ public class TimedView {
 
         Future<T> future = executor.submit(task);
         try {
-            T res = future.get(timeout, TimeUnit.MILLISECONDS);
-
-            return res;
+            return future.get(timeout, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RemoteException("Remote request interrupted", e);
@@ -175,5 +173,9 @@ public class TimedView {
         } finally {
             executor.shutdown();
         }
+    }
+
+    public boolean isConnected() {
+        return !executor.isShutdown();
     }
 }

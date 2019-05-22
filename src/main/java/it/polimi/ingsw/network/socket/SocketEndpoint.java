@@ -117,13 +117,13 @@ public class SocketEndpoint<RequestIn extends Message> implements Closeable, Run
             throw new IOException("Endpoint not connected");
         }
         String json = jsonMapper.writeValueAsString(msg);
-        LOG.info(() -> "Sending JSON: " + json);
+        LOG.fine(() -> "Sending JSON: " + json);
         synchronized (writer) {
             writer.write(json);
             writer.newLine();
             writer.flush();
         }
-        LOG.info("Message to other endpoint sent");
+        LOG.fine("Message to other endpoint sent");
     }
 
     /**
@@ -210,7 +210,7 @@ public class SocketEndpoint<RequestIn extends Message> implements Closeable, Run
         try {
             close();
         } catch (IOException e) {
-            LOG.log(Level.SEVERE, "Couldn't close socket", e);
+            LOG.log(Level.WARNING, "Couldn't close socket", e);
         }
     }
 

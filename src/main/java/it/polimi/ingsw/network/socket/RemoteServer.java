@@ -68,7 +68,7 @@ public class RemoteServer implements Server, ViewMethodRequestHandler, Runnable{
      */
     @Override
     public void handle(RequestViewMethod req) {
-        LOG.log(Level.INFO, "Handling {0}", req);
+        LOG.log(Level.FINE, "Handling {0}", req);
         Message res = req.invokeOn(view);
         if (res != null) {
             try {

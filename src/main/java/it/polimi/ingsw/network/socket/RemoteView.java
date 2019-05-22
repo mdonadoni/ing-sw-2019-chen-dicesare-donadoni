@@ -101,7 +101,7 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
      */
     @Override
     public void handle(RequestServerMethod req) {
-        LOG.log(Level.INFO, "Handling {0}", req);
+        LOG.log(Level.FINE, "Handling {0}", req);
         Message res = req.invokeOn(server);
         if (res != null) {
             try {
