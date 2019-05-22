@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
 
 /**
- * Yet to be implemented
+ * TODO
  */
 public class TurnController {
     private Match match;

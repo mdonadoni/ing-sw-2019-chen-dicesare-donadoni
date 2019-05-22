@@ -56,7 +56,7 @@ public class GameBoard {
      * Constructor that allows to specify the number of skulls
      * @param skulls number of skulls to be placed on the gameboard
      */
-    public GameBoard(int skulls, BoardType boardType) throws ResourceException {
+    public GameBoard(int skulls, BoardType boardType){
         remainingSkulls = skulls;
         initialSkullNumber = skulls;
         killShotTrack = new ArrayList<>();
@@ -69,7 +69,7 @@ public class GameBoard {
         initAmmoTileDeck();
     }
 
-    private void initPowerUpDeck() throws ResourceException{
+    private void initPowerUpDeck(){
         ObjectMapper mapper = Json.getMapper();
         InputStream stream = GameBoard.class.getResourceAsStream("/decks/powerUpDeck.json");
         try {
@@ -86,7 +86,7 @@ public class GameBoard {
         }
     }
 
-    private void initAmmoTileDeck() throws ResourceException{
+    private void initAmmoTileDeck(){
         ObjectMapper mapper = Json.getMapper();
         InputStream stream = GameBoard.class.getResourceAsStream("/decks/ammoTileDeck.json");
         try{
@@ -108,7 +108,7 @@ public class GameBoard {
      */
     public void refillAmmoTile() {
         for(StandardSquare sq : board.getStandardSquares()){
-            if(sq.getAmmoTile() == null){
+            if(!sq.hasAmmoTile()){
                 sq.setAmmoTile(ammoTileDeck.draw());
             }
         }

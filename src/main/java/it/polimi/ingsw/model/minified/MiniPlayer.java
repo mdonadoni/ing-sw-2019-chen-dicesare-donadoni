@@ -34,7 +34,7 @@ public class MiniPlayer extends Identifiable implements Serializable {
         ammo = null;
     }
 
-    MiniPlayer(Player player) {
+    public MiniPlayer(Player player) {
         super(player.getUuid());
         this.nickname = player.getNickname();
         this.skulls = player.getSkulls();

@@ -12,14 +12,13 @@ public class AmmoTileGUI extends Pane {
         // Every asset has the initials of the colors as the name
         // If there is a powerup the name starts with "p"
         List<String> initials = new ArrayList<>();
-        tile.getAmmo().forEach((c) -> initials.add(c.toString().toLowerCase().substring(0,1)));
+        tile.getAmmo().forEach(c -> initials.add(c.toString().toLowerCase().substring(0,1)));
 
         initials.sort(String::compareTo);
         if (tile.hasPowerUp()) {
             initials.add(0, "p");
         }
         String path = "/gui/ammo/" + String.join("", initials) + ".png";
-
         if (getClass().getResource(path) == null) {
             throw new ResourceException("Cannot find ammo tile gui");
         }
