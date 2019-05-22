@@ -12,6 +12,12 @@ public class TestView implements View {
     public void showMessage(String message) throws RemoteException{
         // Ehm
     }
+
+    @Override
+    public void ping() throws RemoteException {
+        // Oof
+    }
+
     public void disconnect() throws RemoteException{
         // Uhm
     }

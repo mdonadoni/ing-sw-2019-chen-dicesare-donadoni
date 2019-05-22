@@ -90,4 +90,9 @@ public class ViewCLI extends LocalView {
         super.disconnect();
         System.out.println("Disconnected from server");
     }
+
+    @Override
+    public void ping() {
+        System.out.println("Ping ricevuto");
+    }
 }

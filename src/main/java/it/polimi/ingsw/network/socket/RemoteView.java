@@ -73,6 +73,15 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
     }
 
     /**
+     * Request a ping.
+     * @throws RemoteException If there is an error while invoking the ping.
+     */
+    @Override
+    public void ping() throws RemoteException {
+        endpoint.sendAndWaitResponse(new PingRequest(), VoidResponse.class);
+    }
+
+    /**
      * Request to disconnect the remote view.
      * @throws RemoteException If this method cannot be invoked.
      */

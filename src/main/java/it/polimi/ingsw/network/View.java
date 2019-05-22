@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.model.Coordinate;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -26,6 +24,12 @@ public interface View extends Remote {
      * @throws RemoteException If there is a network error.
      */
     void showMessage(String message) throws RemoteException;
+
+    /**
+     * No-op method used to establish if connection is still up.
+     * @throws RemoteException If there is a network error.
+     */
+    void ping() throws RemoteException;
 
     /**
      * Signal the disconnection of the view.

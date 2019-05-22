@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.model.Coordinate;
 import it.polimi.ingsw.network.socket.RemoteServer;
 
 import java.io.IOException;
@@ -60,16 +59,6 @@ public abstract class LocalView implements View, Runnable {
         connType = ConnectionType.SOCKET;
     }
 
-    /**
-     * Select a square from a list of squares.
-     * @param objUuid Coordinates of the squares.
-     * @param min Minimum number of squares to be chosen.
-     * @param max Maximum number of squares to be chosen.
-     * @return List of selected squares' coordinates.
-     */
-    @Override
-    public abstract List<String> selectObject(List<String> objUuid, int min, int max);
-
     /** Method to get a reference to the remote server. This method can be
      * called only after creating a successful connection either using RMI
      * or sockets.
@@ -80,12 +69,28 @@ public abstract class LocalView implements View, Runnable {
     }
 
     /**
+     * Select a square from a list of squares.
+     * @param objUuid Coordinates of the squares.
+     * @param min Minimum number of squares to be chosen.
+     * @param max Maximum number of squares to be chosen.
+     * @return List of selected squares' coordinates.
+     */
+    @Override
+    public abstract List<String> selectObject(List<String> objUuid, int min, int max);
+
+    /**
      * Show a message. This method doesn't throw RemoteException because this
      * is a local view.
      * @param message Massage to be shown.
      */
     @Override
     public abstract void showMessage(String message);
+
+    /**
+     * Method used to check if connection is up. Shouldn't do anything.
+     */
+    @Override
+    public abstract void ping();
 
     /**
      * Signal a disconnection from the server. This method doesn't throw RemoteException because this
