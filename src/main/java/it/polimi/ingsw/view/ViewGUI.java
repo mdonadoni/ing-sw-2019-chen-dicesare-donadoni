@@ -1,14 +1,15 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.BoardType;
+import it.polimi.ingsw.model.Match;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerToken;
 import it.polimi.ingsw.model.minified.MiniGameBoard;
 import it.polimi.ingsw.model.minified.MiniMatch;
 import it.polimi.ingsw.model.minified.MiniPlayer;
-import it.polimi.ingsw.view.gui.GameBoardGUI;
-import it.polimi.ingsw.view.gui.LoginPane;
-import it.polimi.ingsw.view.gui.PlayerBoardGUI;
-import it.polimi.ingsw.view.gui.WaitingPane;
+import it.polimi.ingsw.view.gui.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -65,6 +66,21 @@ public class ViewGUI extends Application {
         primaryStage.show();
         primaryStage.setMinWidth(854);
         primaryStage.setMinHeight(480);
+
+
+        new Thread(() -> {
+            for (int i = 0; i < 5; i++) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                final int p = i;
+                Platform.runLater(() -> {
+                    Notification.newNotification("Prova notifica " + p);
+                });
+            }
+        }).start();
 
     }
 }
