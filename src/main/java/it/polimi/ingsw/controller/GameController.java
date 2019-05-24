@@ -1,18 +1,20 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.View;
+import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.util.ResourceException;
 
 import java.rmi.RemoteException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GameController implements Runnable{
     private static final Logger LOG = Logger.getLogger(GameController.class.getName());
     private Match match;
-    private Map<String, View> users;
     private TurnController turn;
     private Map<String, RemotePlayer> remotePlayers;
 
@@ -20,13 +22,12 @@ public class GameController implements Runnable{
         this.match = match;
     }
 
-    public GameController(Map<String, View> connectedPlayers, BoardType bdType) throws ResourceException {
-        match = new Match(new ArrayList<>(connectedPlayers.keySet()), bdType);
-        users = connectedPlayers;
+    public GameController(List<RemotePlayer> connectedPlayers, BoardType bdType) throws ResourceException {
+        List<String> nicknames = new ArrayList<>();
+        connectedPlayers.forEach(remotePlayer -> nicknames.add(remotePlayer.getNickname()));
+        match = new Match(nicknames, bdType);
         remotePlayers = new HashMap<>();
-        for(String nick : connectedPlayers.keySet()){
-            remotePlayers.put(nick, new RemotePlayer(nick, connectedPlayers.get(nick)));
-        }
+        connectedPlayers.forEach(remotePlayer -> remotePlayers.put(remotePlayer.getNickname(), remotePlayer));
     }
 
     public void spawnRoutine(Player player, int cardsToDraw) throws RemoteException {
@@ -66,6 +67,19 @@ public class GameController implements Runnable{
     }
     // Don't take this method too seriously, it's just an idea on how it should work
     public void run() {
+        // Send initial model
+        remotePlayers.forEach((nickname, player) -> {
+            try {
+                player.updateModel(
+                        new MiniModel(match, match.getPlayerByNickname(nickname)),
+                        5000
+                );
+            } catch (RemoteException e) {
+                handleDisconnection(player);
+            }
+        });
+
+        // Do things
         if(match.isActive()){
             // First turn for everyone!
             while(match.getCurrentTurn().getType() == TurnType.FIRST_TURN){
@@ -79,7 +93,11 @@ public class GameController implements Runnable{
                 } catch(RemoteException e){
                     LOG.log(Level.WARNING, "Player {0} disconnected, setting him inactive...",
                             match.getCurrentTurn().getCurrentPlayer().getNickname());
-                    match.getCurrentTurn().getCurrentPlayer().setActive(false);
+                    handleDisconnection(
+                            remotePlayers.get(
+                                match.getCurrentTurn().getCurrentPlayer().getNickname()
+                            )
+                    );
                 }
 
             }
@@ -92,6 +110,11 @@ public class GameController implements Runnable{
                 match.nextTurn();
             }
         }
+    }
+
+    private void handleDisconnection(RemotePlayer player) {
+        // TODO handle disconnection
+        match.getPlayerByNickname(player.getNickname()).setActive(false);
     }
 
     public Match getMatch(){

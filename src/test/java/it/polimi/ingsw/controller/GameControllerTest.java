@@ -1,28 +1,32 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.BoardType;
+import it.polimi.ingsw.model.GameBoard;
+import it.polimi.ingsw.model.Match;
+import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.network.TestView;
-import it.polimi.ingsw.network.View;
 import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.Test;
 
 import java.rmi.RemoteException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class GameControllerTest {
 
     @Test
     void spawnRoutine() throws ResourceException, RemoteException {
-        Map<String, View> playerMap = new HashMap<>();
+        List<RemotePlayer> players = new ArrayList<>();
         String playerA = "Ada";
         TestView viewA = new TestView();
-        playerMap.put(playerA, viewA);
-        playerMap.put("B", new TestView());
-        playerMap.put("C", new TestView());
-        GameController controller = new GameController(playerMap, BoardType.SMALL);
+        players.add(new RemotePlayer(playerA, viewA));
+        players.add(new RemotePlayer("B", new TestView()));
+        players.add(new RemotePlayer("C", new TestView()));
+
+        GameController controller = new GameController(players, BoardType.SMALL);
         Match match = controller.getMatch();
         GameBoard gameBoard = match.getGameBoard();
 

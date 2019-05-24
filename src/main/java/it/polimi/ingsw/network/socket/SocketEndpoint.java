@@ -158,10 +158,10 @@ public class SocketEndpoint<RequestIn extends Message> implements Closeable, Run
         } catch (InterruptedException e) {
             safeClose();
             Thread.currentThread().interrupt();
-            throw new RemoteException("Request interrupted", e);
+            throw new RemoteException("Request interrupted");
         } catch (IOException e) {
             safeClose();
-            throw new RemoteException("Couldn't send request", e);
+            throw new RemoteException("Couldn't send request");
         } catch (ClassCastException e) {
             safeClose();
             throw new RemoteException("Response is not " + outClass.getSimpleName());
@@ -210,7 +210,7 @@ public class SocketEndpoint<RequestIn extends Message> implements Closeable, Run
         try {
             close();
         } catch (IOException e) {
-            LOG.log(Level.WARNING, "Couldn't close socket", e);
+            LOG.log(Level.WARNING, "Couldn't close socket");
         }
     }
 
@@ -251,11 +251,11 @@ public class SocketEndpoint<RequestIn extends Message> implements Closeable, Run
                 }
             } catch (IOException e) {
                 if (connected.get()) {
-                    LOG.log(Level.SEVERE, "IO error while reading socket", e);
+                    LOG.log(Level.WARNING, "IO error while reading socket");
                 }
                 safeClose();
             } catch (ClassCastException e) {
-                LOG.log(Level.SEVERE, "Invalid request from socket", e);
+                LOG.log(Level.WARNING, "Invalid request from socket, disconnecting");
                 safeClose();
             }
         }

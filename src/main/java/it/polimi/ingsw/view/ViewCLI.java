@@ -77,7 +77,8 @@ public class ViewCLI extends LocalView {
     }
 
     @Override
-    public synchronized List<String> selectObject(List<String> objUuid, int min, int max) { ;
+    public synchronized List<String> selectObject(List<String> objUuid, int min, int max) {
+        System.out.println("Nuova selezione");
         return new ArrayList<>(objUuid.subList(0, min));
     }
 

@@ -64,9 +64,9 @@ public class Lobby {
      * @param player Player to be added.
      */
     public synchronized void addPlayer(RemotePlayer player) {
-        LOG.info(() -> "Added player to lobby: " + player.getNickname());
+        LOG.info(() -> "Adding player to lobby: " + player.getNickname());
+        queue.forEach(remotePlayer -> remotePlayer.safeShowMessage("Nuovo utente in lobby: " + player.getNickname()));
         queue.add(player);
-        //TODO remove fixed value
         if (queue.size() == 5) {
             // Match can be started
             startMatch();
@@ -94,8 +94,8 @@ public class Lobby {
      */
     private synchronized void removePlayer(RemotePlayer player) {
         LOG.info(() -> "Removed player from lobby: " + player.getNickname());
-        //TODO signal to all players that this player is disconnected
         queue.remove(player);
+        queue.forEach(remotePlayer -> remotePlayer.safeShowMessage("Utente rimosso dalla lobby: " + player.getNickname()));
         //TODO remove fixed value
         if (queue.size() < 3) {
             // Disable scheduling because there are not enough players

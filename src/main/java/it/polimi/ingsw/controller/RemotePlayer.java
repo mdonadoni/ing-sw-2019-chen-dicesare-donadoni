@@ -1,14 +1,19 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Identifiable;
+import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.TimedView;
 import it.polimi.ingsw.network.View;
 
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class RemotePlayer {
+    private static final Logger LOG = Logger.getLogger(RemotePlayer.class.getName());
+
     private String nickname;
     private TimedView timedView;
 
@@ -25,8 +30,17 @@ public class RemotePlayer {
         timedView.setTimeLeft(timeLeft);
     }
 
-    public void showMessage(String message) throws RemoteException {
-        timedView.showMessage(message);
+    public void updateModel(MiniModel model, long timeout) throws RemoteException {
+        timedView.updateModel(model, timeout);
+    }
+
+    public void safeShowMessage(String message) {
+        final long showMessageTimeout = 5000;
+        try {
+            timedView.showMessage(message, showMessageTimeout);
+        } catch (RemoteException e) {
+            LOG.log(Level.WARNING, () -> "Couldn't send message to " + nickname);
+        }
     }
 
     public void disconnect() throws RemoteException {

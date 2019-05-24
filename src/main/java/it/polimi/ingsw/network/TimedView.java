@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.model.minified.MiniModel;
+
 import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.List;
@@ -86,12 +88,13 @@ public class TimedView {
      * @throws RemoteException If an error occurs or the timeout is reached.
      */
     private <T> T throwOnTimeout(Callable<T> task, long timeout) throws RemoteException {
-        if (timeout <= 0) {
-            throw new RemoteException("Timed out");
-        }
-
         if (executor.isShutdown()) {
             throw new RemoteException("View already disconnected");
+        }
+
+        if (timeout <= 0) {
+            executor.shutdownNow();
+            throw new RemoteException("Timed out");
         }
 
         Future<T> future = executor.submit(task);
@@ -99,8 +102,10 @@ public class TimedView {
             return future.get(timeout, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            executor.shutdownNow();
             throw new RemoteException("Remote request interrupted", e);
         } catch (TimeoutException | ExecutionException e) {
+            executor.shutdownNow();
             throw new RemoteException("Remote request error", e);
         }
     }
@@ -147,6 +152,46 @@ public class TimedView {
             view.showMessage(message);
             return null;
         });
+    }
+
+    /**
+     * Show message with timeout. The time elapsed is not counted towards the
+     * global time limit.
+     * @param message Message to be sent.
+     * @param timeout Timeout of the request.
+     * @throws RemoteException If there is an error while making the request.
+     */
+    public void showMessage(String message, long timeout) throws RemoteException {
+        throwOnTimeout(() -> {
+            view.showMessage(message);
+            return null;
+        }, timeout);
+    }
+
+    /**
+     * Update model on the view.
+     * @param model Model to be sent.
+     * @throws RemoteException If there is an error while making the request.
+     */
+    public void updateModel(MiniModel model) throws RemoteException {
+        makeTimedRequest(() -> {
+            view.updateModel(model);
+            return null;
+        });
+    }
+
+    /**
+     * Update model on the view with a given timeout. The time elapsed is not
+     * counted as part of the global limit.
+     * @param model Model to be sent.
+     * @param timeout Timeout of the request.
+     * @throws RemoteException If there is a network error.
+     */
+    public void updateModel(MiniModel model, long timeout) throws RemoteException {
+        throwOnTimeout(() -> {
+            view.updateModel(model);
+            return null;
+        }, timeout);
     }
 
     /**
