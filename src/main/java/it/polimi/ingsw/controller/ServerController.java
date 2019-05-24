@@ -1,8 +1,13 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.BoardType;
+import it.polimi.ingsw.model.Match;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.LocalServer;
 import it.polimi.ingsw.network.View;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,21 +32,15 @@ public class ServerController extends LocalServer {
         RemotePlayer player = new RemotePlayer(nickname, view);
         connectedUser.put(nickname, player);
         lobby.addPlayer(player);
-        /*executor.execute(() -> {
+        executor.execute(() -> {
             try {
-                view.showMessage(MessageFormat.format("Ciao {0}! Io sono il server!", nickname));
-                view.showMessage("Fra cinque secondi sarai disconnesso!");
-                for (int i = 5; i > 0; i--) {
-                    view.showMessage(String.valueOf(i));
-                    Thread.sleep(1000);
-                }
-                view.showMessage("Ora ti disconnetto!");
-                view.disconnect();
-                LOG.info(() -> "User disconnected: " + nickname);
+                Match match = new Match(Arrays.asList("A", "B", "C"), BoardType.SMALL);
+                Player p = match.getPlayerByNickname("A");
+                view.updateModel(new MiniModel(match, p));
             } catch (Exception e) {
-                LOG.log(Level.SEVERE, e, () -> "Error disconnecting " + nickname);
+                LOG.log(Level.SEVERE, e, () -> "Error while using view " + nickname);
             }
-        });*/
+        });
         LOG.log(Level.INFO, "New user connected: {0}", nickname);
         return true;
     }

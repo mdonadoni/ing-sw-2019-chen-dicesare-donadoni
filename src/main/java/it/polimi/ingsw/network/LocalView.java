@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.socket.RemoteServer;
 
 import java.io.IOException;
@@ -85,6 +86,13 @@ public abstract class LocalView implements View, Runnable {
      */
     @Override
     public abstract void showMessage(String message);
+
+    /**
+     * Method used to update the model.
+     * @param model Updated model.
+     */
+    @Override
+    public abstract void updateModel(MiniModel model);
 
     /**
      * Method used to check if connection is up. Shouldn't do anything.

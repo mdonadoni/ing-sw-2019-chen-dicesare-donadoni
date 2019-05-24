@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.model.minified.MiniModel;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -24,6 +26,13 @@ public interface View extends Remote {
      * @throws RemoteException If there is a network error.
      */
     void showMessage(String message) throws RemoteException;
+
+    /**
+     * Update the model of the view.
+     * @param model Updated model.
+     * @throws RemoteException If there is a network error.
+     */
+    void updateModel(MiniModel model) throws RemoteException;
 
     /**
      * No-op method used to establish if connection is still up.

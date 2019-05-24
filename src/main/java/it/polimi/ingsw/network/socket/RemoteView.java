@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.LocalServer;
 import it.polimi.ingsw.network.View;
 import it.polimi.ingsw.network.socket.messages.Message;
@@ -70,6 +71,16 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
     @Override
     public void showMessage(String message) throws RemoteException {
         endpoint.sendAndWaitResponse(new ShowMessageRequest(message), VoidResponse.class);
+    }
+
+    /**
+     * Request to update the model.
+     * @param model Updated model.
+     * @throws RemoteException If there is an error while invoking the update.
+     */
+    @Override
+    public void updateModel(MiniModel model) throws RemoteException {
+        endpoint.sendAndWaitResponse(new UpdateModelRequest(model), VoidResponse.class);
     }
 
     /**

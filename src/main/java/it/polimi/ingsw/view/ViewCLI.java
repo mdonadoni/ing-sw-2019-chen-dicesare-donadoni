@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.LocalView;
 
@@ -83,6 +84,11 @@ public class ViewCLI extends LocalView {
     @Override
     public synchronized void showMessage(String message) {
         System.out.println(message);
+    }
+
+    @Override
+    public void updateModel(MiniModel model) {
+        System.out.println("Received new model");
     }
 
     @Override

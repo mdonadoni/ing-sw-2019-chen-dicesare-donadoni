@@ -25,7 +25,7 @@ public class MiniModel implements Serializable {
         this.myPoints = 0;
     }
 
-    MiniModel(Match match, Player player) {
+    public MiniModel(Match match, Player player) {
         this.match = new MiniMatch(match);
         this.myNickname = player.getNickname();
         this.myPowerUps = new ArrayList<>(player.getPowerUps());
