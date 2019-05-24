@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.network.LocalView;
 import it.polimi.ingsw.view.ViewCLI;
+import it.polimi.ingsw.view.ViewGUI;
 
 import java.rmi.RemoteException;
 import java.util.logging.Level;

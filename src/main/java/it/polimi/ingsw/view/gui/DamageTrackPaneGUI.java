@@ -42,7 +42,7 @@ public class DamageTrackPaneGUI extends GridPane {
                 j = i+3;
             if(i>=10)
                 j = i+4;
-            add(new TokenGUI(damage.get(i)), j, 0);
+            add(new TokenGUI(damage.get(i), 0), j, 0);
         }
     }
 }

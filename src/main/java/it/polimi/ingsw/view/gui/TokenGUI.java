@@ -10,7 +10,7 @@ import javafx.scene.layout.RowConstraints;
 
 public class TokenGUI extends GridPane {
 
-    TokenGUI(PlayerToken token){
+    TokenGUI(PlayerToken token, int type){
 
         ColumnConstraints padCol = new ColumnConstraints();
         ColumnConstraints tokenCol = new ColumnConstraints();
@@ -29,9 +29,17 @@ public class TokenGUI extends GridPane {
         getRowConstraints().add(padRow);
 
         Pane pane = new Pane();
-        pane.setStyle("-fx-background-image: url(/gui/players/marks/" + token.toString().toLowerCase() + "Token.png);" +
-                        "-fx-background-size: stretch;"+
-                        "-fx-effect: innershadow(two-pass-box, black, 9, 0.2, 2, -2);");
+
+        if (type == 0)
+            pane.setStyle("-fx-background-image: url(/gui/players/marks/" + token.toString().toLowerCase() + "Token.png);" +
+                "-fx-background-size: stretch;"+
+                "-fx-effect: innershadow(two-pass-box, black, 10, 0.2, 3, -2);");
+        else if (type == 1)
+            pane.setStyle("-fx-background-image: url(/gui/players/marks/" + token.toString().toLowerCase() + "Token.png);" +
+                "-fx-background-size: stretch;"+
+                "-fx-effect: innershadow(two-pass-box, black, 3, 0.0, 1, -1);");
+
+
         add(pane, 1, 1);
     }
 

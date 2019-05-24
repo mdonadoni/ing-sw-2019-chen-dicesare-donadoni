@@ -20,6 +20,8 @@ public class GameBoardGUI extends GridPane {
     public GameBoardGUI(MiniGameBoard gameBoard) {
         this.gameBoard = gameBoard;
 
+        this.getStylesheets().add("/gui/css/stylesheet.css");
+
         ColumnConstraints colMain = new ColumnConstraints();
         colMain.setPercentWidth(100);
 

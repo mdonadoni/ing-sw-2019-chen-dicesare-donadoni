@@ -5,6 +5,7 @@ import it.polimi.ingsw.util.ColorTranslator;
 import javafx.scene.control.Cell;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -29,9 +30,10 @@ public class NicknamePaneGUI extends GridPane {
         getRowConstraints().add(nameRow);
 
         Label name = new Label(nickname);
+        name.setMinSize(0,0);
         String readableColor = ColorTranslator.getReadableColor(color);
-        this.widthProperty().addListener(event -> {
-            this.setStyle("-fx-font-size: " + this.getWidth()/15);
+        this.heightProperty().addListener(event -> {
+            this.setStyle("-fx-font-size: " + this.getHeight()/1.7);
         });
         name.setStyle("-fx-text-fill: " + readableColor + ";"+
                 "-fx-font-weight: bold;" +

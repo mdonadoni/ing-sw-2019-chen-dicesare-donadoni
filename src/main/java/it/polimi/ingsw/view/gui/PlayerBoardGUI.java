@@ -1,9 +1,12 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.model.minified.MiniPlayer;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+
+import java.util.ArrayList;
 
 public class PlayerBoardGUI extends GridPane {
 
@@ -21,5 +24,6 @@ public class PlayerBoardGUI extends GridPane {
             getRowConstraints().add(row);
 
         add(new PlayerPaneGUI(player), 0, 0);
+        add(new BottomPlayerPaneGUI(player.getWeapons(), new ArrayList<PowerUp>()), 0, 1);
     }
 }

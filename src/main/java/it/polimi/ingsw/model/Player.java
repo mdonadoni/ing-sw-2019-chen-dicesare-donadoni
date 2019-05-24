@@ -239,8 +239,7 @@ public class Player extends Identifiable{
      */
     public void grabAmmo(AmmoTile ammoTile){
         for (AmmoColor c : ammoTile.getAmmo()) {
-            if (countAmmo(c) < 3)
-                ammo.add(c);
+            addAmmo(c);
         }
     }
 
@@ -461,5 +460,14 @@ public class Player extends Identifiable{
     public void addDamage(PlayerToken damageColor, int numberOfDamage){
         for(int i = 0; i<numberOfDamage; i++)
             damageTaken.add(damageColor);
+    }
+
+    /**
+     * Adds a single ammo to the player
+     * @param ammo the ammo to be added
+     */
+    public void addAmmo(AmmoColor ammo){
+        if(countAmmo(ammo) < 3)
+            this.ammo.add(ammo);
     }
 }

@@ -24,6 +24,6 @@ public class MarkTrackPaneGUI extends GridPane {
             getColumnConstraints().add(markCol);
 
         for(int i=0; i<marks.size(); i++)
-            add(new TokenGUI(marks.get(i)), i, 0);
+            add(new TokenGUI(marks.get(i), 1), i, 0);
     }
 }

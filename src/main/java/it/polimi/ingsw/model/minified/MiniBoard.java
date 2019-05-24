@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.StandardSquare;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MiniBoard implements Serializable {
     private static final long serialVersionUID = 6047170014618238453L;
@@ -37,11 +38,11 @@ public class MiniBoard implements Serializable {
         }
     }
 
-    public ArrayList<MiniSpawnPoint> getSpawnPoints() {
+    public List<MiniSpawnPoint> getSpawnPoints() {
         return new ArrayList<>(spawnPoints);
     }
 
-    public ArrayList<MiniStandardSquare> getStandardSquares() {
+    public List<MiniStandardSquare> getStandardSquares() {
         return new ArrayList<>(standardSquares);
     }
 
