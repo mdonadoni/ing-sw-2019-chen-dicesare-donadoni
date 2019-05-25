@@ -25,7 +25,7 @@ public class WeaponGUI extends GridPane {
         getRowConstraints().add(padRow);
         getRowConstraints().add(weaponRow);
         getRowConstraints().add(padRow);
-        System.out.println("/gui/weapons/"+name.toLowerCase()+".png");
+
         Pane weapon = new Pane();
         weapon.setStyle("-fx-background-image: url(/gui/weapons/"+name.toLowerCase()+".png);"+
                         "-fx-background-size: stretch;");

@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.PowerUp;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MiniModel implements Serializable {
     private static final long serialVersionUID = -5949126643305556688L;
@@ -46,5 +47,12 @@ public class MiniModel implements Serializable {
 
     public String getMyNickname() {
         return myNickname;
+    }
+
+    public MiniPlayer getMyMiniPlayer(){
+        return match.getPlayers().stream()
+                .filter(pl -> pl.getNickname().equals(getMyNickname()))
+                .collect(Collectors.toList())
+                .get(0);
     }
 }
