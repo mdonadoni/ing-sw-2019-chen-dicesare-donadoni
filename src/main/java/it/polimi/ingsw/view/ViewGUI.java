@@ -1,30 +1,42 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.minified.MiniGameBoard;
-import it.polimi.ingsw.model.minified.MiniMatch;
 import it.polimi.ingsw.model.minified.MiniModel;
-import it.polimi.ingsw.model.minified.MiniPlayer;
-import it.polimi.ingsw.model.weapons.Weapon;
-import it.polimi.ingsw.view.gui.*;
+import it.polimi.ingsw.view.gui.LoginPane;
+import it.polimi.ingsw.view.gui.Notification;
+import it.polimi.ingsw.view.gui.UserViewGUI;
+import it.polimi.ingsw.view.gui.WaitingPane;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ViewGUI extends Application {
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+    Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Drawing Operations Test");
+        this.primaryStage = primaryStage;
+
+        // Construct dummy view
+        DummyViewGUI dummy = new DummyViewGUI(this);
+
+        primaryStage.setTitle("Adrenalina AM26");
+
+        // Initialize login panel
+        LoginPane login = new LoginPane();
+        login.setLoginCallback(dummy::loginCallback);
+        login.connectedProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue) {
+                primaryStage.getScene().setRoot(new WaitingPane());
+            }
+        });
+
+        primaryStage.setScene(new Scene(login, 854, 480));
+        primaryStage.setMinWidth(854);
+        primaryStage.setMinHeight(480);
+        primaryStage.show();
 
         // Inizio prova board
         /*Match match = new Match(Arrays.asList("a", "b", "c"), BoardType.SMALL);
@@ -38,16 +50,7 @@ public class ViewGUI extends Application {
         gameBoardGUI.getStylesheets().add("/gui/css/stylesheet.css");
         //primaryStage.setScene(new Scene(gameBoardGUI, 600, 400));
         // Fine prova board
-        */
-        LoginPane login = new LoginPane();
 
-        login.connectedProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue) {
-                primaryStage.setScene(new Scene(new WaitingPane(), 800, 600));
-            }
-        });
-
-        //primaryStage.setScene(new Scene(login));
 
         List<String> nicks = new ArrayList<>();
         nicks.add("thatDc");
@@ -111,24 +114,29 @@ public class ViewGUI extends Application {
         MiniModel miniModel = new MiniModel(match, match.getPlayerByNickname("thatDc"));
 
         primaryStage.setScene(new Scene(new UserViewGUI(miniModel), 600, 400));
+
         primaryStage.show();
         primaryStage.setMinWidth(854);
-        primaryStage.setMinHeight(480);
+        primaryStage.setMinHeight(480);*/
 
+    }
 
-        new Thread(() -> {
-            for (int i = 0; i < 5; i++) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                final int p = i;
-                Platform.runLater(() -> {
-                    Notification.newNotification("Prova notifica " + p);
-                });
-            }
-        }).start();
+    public List<String> selectObject(List<String> objUuid, int min, int max) {
+        // TODO
+        return null;
+    }
 
+    public void showMessage(String message) {
+        Platform.runLater(() -> Notification.newNotification(message));
+    }
+
+    public void updateModel(MiniModel model) {
+        Platform.runLater(() ->
+                primaryStage.getScene().setRoot(new UserViewGUI(model))
+        );
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

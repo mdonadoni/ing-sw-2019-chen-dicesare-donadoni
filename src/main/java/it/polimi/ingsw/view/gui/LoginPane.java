@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.network.ConnectionType;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -12,18 +13,25 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
+import java.util.function.Function;
 
 public class LoginPane extends GridPane {
+
+    private static String SOCKET = "Socket";
+    private static String RMI = "RMI";
+
     @FXML
-    private TextField server;
+    private TextField serverField;
     @FXML
-    private ChoiceBox<String> protocol;
+    private ChoiceBox<String> protocolBox;
     @FXML
-    private TextField port;
+    private TextField portField;
     @FXML
-    private TextField nickname;
+    private TextField nicknameField;
     @FXML
-    private Button btnLogin;
+    private Button loginButton;
+
+    private Function<LoginInfo, LoginResult> loginCallback;
 
     private BooleanProperty connected;
 
@@ -44,20 +52,54 @@ public class LoginPane extends GridPane {
 
     @FXML
     private void initialize() {
-        protocol.getItems().addAll("Socket", "RMI");
-        protocol.setValue("Socket");
+        protocolBox.getItems().addAll(SOCKET, RMI);
+        protocolBox.setValue(SOCKET);
     }
 
     @FXML
     private void handleLoginClick() {
-        btnLogin.setDisable(true);
+        // Disable login button
+        loginButton.setDisable(true);
+
+        // Find port
+        int port;
+        try {
+            port = Integer.parseInt(portField.getText());
+        } catch (Exception e) {
+            Notification.newNotification("La porta deve essere un numero");
+            loginButton.setDisable(false);
+            return;
+        }
+         // Find protocolBox
+        ConnectionType type =
+                protocolBox.getSelectionModel().getSelectedItem().equals(SOCKET) ?
+                        ConnectionType.SOCKET : ConnectionType.RMI;
+
+        // Create Login info
+        LoginInfo info = new LoginInfo(
+                serverField.getText(),
+                port,
+                type,
+                nicknameField.getText()
+        );
+
         new Thread(() -> {
-            try {
-                //TODO implement connection
-                Platform.runLater(() -> connected.setValue(true));
-            }catch (Exception e) {
-                Platform.runLater(() -> btnLogin.setDisable(false));
-            }
+            LoginResult result = loginCallback.apply(info);
+            Platform.runLater(() -> {
+                switch (result) {
+                    case CONNECTION_ERROR:
+                        Notification.newNotification("Non riesco a connettermi al server");
+                        loginButton.setDisable(false);
+                        break;
+                    case NICKNAME_NOT_VALID:
+                        Notification.newNotification("Nickname non valido o già utilizzato");
+                        loginButton.setDisable(false);
+                        break;
+                    case LOGIN_SUCCESSFUL:
+                        connected.setValue(true);
+                        break;
+                }
+            });
         }).start();
     }
 
@@ -65,4 +107,7 @@ public class LoginPane extends GridPane {
         return connected;
     }
 
+    public void setLoginCallback(Function<LoginInfo, LoginResult> loginCallback) {
+        this.loginCallback = loginCallback;
+    }
 }

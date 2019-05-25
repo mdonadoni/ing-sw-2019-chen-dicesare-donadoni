@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.socket.messages.server.LoginResponse;
 import it.polimi.ingsw.network.socket.messages.view.DisconnectRequest;
 import it.polimi.ingsw.network.socket.messages.view.RequestViewMethod;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.RemoteException;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
  * Class that represents a RemoteServer. It also acts as a socket endpoint,
  * handling the requests/responses on the view side.
  */
-public class RemoteServer implements Server, ViewMethodRequestHandler, Runnable{
+public class RemoteServer implements Server, ViewMethodRequestHandler, Runnable, Closeable {
     /**
      * Logger.
      */
@@ -101,5 +102,14 @@ public class RemoteServer implements Server, ViewMethodRequestHandler, Runnable{
     @Override
     public void run() {
         endpoint.run();
+    }
+
+    /**
+     * Close the endpoint of this RemoteServer.
+     * @throws IOException If the endpoint cannot be closed.
+     */
+    @Override
+    public void close() throws IOException {
+        endpoint.close();
     }
 }

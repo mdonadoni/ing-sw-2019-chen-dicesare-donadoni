@@ -15,7 +15,7 @@
 
     <!-- Server -->
     <Label text="Server"/>
-    <TextField fx:id="server"
+    <TextField fx:id="serverField"
                text="localhost"
                prefWidth="200.0"
                GridPane.columnIndex="1"/>
@@ -23,7 +23,7 @@
     <!-- Protocol -->
     <Label text="Protocollo"
            GridPane.rowIndex="1"/>
-    <ChoiceBox fx:id="protocol"
+    <ChoiceBox fx:id="protocolBox"
                prefWidth="200.0"
                GridPane.rowIndex="1"
                GridPane.columnIndex="1"/>
@@ -31,7 +31,7 @@
     <!-- Port -->
     <Label text="Porta"
            GridPane.rowIndex="2"/>
-    <TextField fx:id="port"
+    <TextField fx:id="portField"
                text="9999"
                GridPane.rowIndex="2"
                GridPane.columnIndex="1"/>
@@ -39,12 +39,12 @@
     <!-- Nickname -->
     <Label text="Nickname"
            GridPane.rowIndex="3"/>
-    <TextField fx:id="nickname"
+    <TextField fx:id="nicknameField"
                GridPane.rowIndex="3"
                GridPane.columnIndex="1"/>
 
     <!-- Login button -->
-    <Button fx:id="btnLogin"
+    <Button fx:id="loginButton"
             text="Login"
             contentDisplay="CENTER"
             GridPane.rowIndex="4"

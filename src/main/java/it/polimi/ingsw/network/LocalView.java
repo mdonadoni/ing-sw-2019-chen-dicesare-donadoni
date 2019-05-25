@@ -1,15 +1,9 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.model.minified.MiniModel;
-import it.polimi.ingsw.network.socket.RemoteServer;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,47 +11,33 @@ import java.util.logging.Logger;
 /**
  * This class represents a local view.
  */
-public abstract class LocalView implements View, Runnable {
+public abstract class LocalView implements View {
 
     private static final Logger LOG = Logger.getLogger(LocalView.class.getName());
 
-    private Server server = null;
-    private ConnectionType connType = null;
-    private Thread socketThread = null;
+    private ServerConnection connection;
 
     protected LocalView() {
     }
 
     /**
-     * Connect to the server using RMI.
+     * Make new connection to the server.
      * @param address Address of the server.
-     * @param port Port of the RMI registry on the server.
+     * @param port Port of the server.
+     * @param type Type of connection.
      * @throws RemoteException If there is a network error.
      */
-    protected void connectServerRMI(String address, int port) throws IOException {
-        Registry registry = LocateRegistry.getRegistry(address, port);
-        try {
-            server = (Server) registry.lookup("Server");
-        } catch(NotBoundException e) {
-            throw new IOException("Server not bound to registry", e);
+    protected void connectServer(String address, int port, ConnectionType type) throws IOException {
+        if (connection != null) {
+            connection.close();
+            connection = null;
         }
-        UnicastRemoteObject.exportObject(this, 0);
-        connType = ConnectionType.RMI;
-    }
 
-    /**
-     * Connect to the server using a socket.
-     * @param address Address of the server.
-     * @param port Port of the socket server.
-     * @throws IOException If there is an error while making the connection.
-     */
-    protected void connectServerSocket(String address, int port) throws IOException {
-        Socket socket = new Socket(address, port);
-        RemoteServer remote = new RemoteServer(this, socket);
-        server = remote;
-        socketThread = new Thread(remote);
-        socketThread.start();
-        connType = ConnectionType.SOCKET;
+        if (type == ConnectionType.RMI) {
+            connection = new ServerConnectionRMI(address, port, this);
+        } else {
+            connection = new ServerConnectionSocket(address, port, this);
+        }
     }
 
     /** Method to get a reference to the remote server. This method can be
@@ -66,7 +46,7 @@ public abstract class LocalView implements View, Runnable {
      * @return Remote server.
      */
     protected Server getServer() {
-        return server;
+        return connection.getServer();
     }
 
     /**
@@ -106,16 +86,12 @@ public abstract class LocalView implements View, Runnable {
      */
     @Override
     public void disconnect() {
-        if (connType == ConnectionType.RMI) {
+        if (connection != null) {
             try {
-                UnicastRemoteObject.unexportObject(this, true);
-                LOG.info("Unexported remote object");
-            } catch (RemoteException e) {
-                LOG.log(Level.SEVERE, "Cannot unexport remote object", e);
+                connection.close();
+            } catch (IOException e) {
+                LOG.log(Level.WARNING, "Couldn't close connection");
             }
-        } else {
-            socketThread.interrupt();
-            LOG.info("Thread interrupted");
         }
     }
 }
