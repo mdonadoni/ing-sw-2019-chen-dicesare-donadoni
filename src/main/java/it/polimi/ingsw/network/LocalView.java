@@ -86,6 +86,7 @@ public abstract class LocalView implements View {
      */
     @Override
     public void disconnect() {
+        LOG.info("Disconnect called");
         if (connection != null) {
             try {
                 connection.close();

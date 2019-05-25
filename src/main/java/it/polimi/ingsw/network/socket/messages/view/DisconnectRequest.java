@@ -16,7 +16,7 @@ public class DisconnectRequest extends RequestViewMethod {
     @Override
     public Message invokeOn(LocalView view) {
         view.disconnect();
-        return new VoidResponse(this);
+        return null;
     }
 
     /**

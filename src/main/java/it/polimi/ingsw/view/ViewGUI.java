@@ -14,13 +14,14 @@ import java.util.List;
 
 public class ViewGUI extends Application {
     Stage primaryStage;
+    DummyViewGUI dummy;
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
         // Construct dummy view
-        DummyViewGUI dummy = new DummyViewGUI(this);
+        dummy = new DummyViewGUI(this);
 
         primaryStage.setTitle("Adrenalina AM26");
 
@@ -119,6 +120,10 @@ public class ViewGUI extends Application {
         primaryStage.setMinWidth(854);
         primaryStage.setMinHeight(480);*/
 
+    }
+
+    public void stop() {
+        dummy.disconnect();
     }
 
     public List<String> selectObject(List<String> objUuid, int min, int max) {

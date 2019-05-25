@@ -98,11 +98,11 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
      */
     @Override
     public void disconnect() throws RemoteException {
-        endpoint.sendAndWaitResponse(new DisconnectRequest(), VoidResponse.class);
         try {
-            endpoint.disconnect();
+            endpoint.send(new DisconnectRequest());
         } catch (IOException e) {
-            LOG.log(Level.SEVERE, "Couldn't close endpoint", e);
+            LOG.log(Level.SEVERE, "Couldn't send disconnect request", e);
+            throw new RemoteException("Error while disconnecting", e);
         }
     }
 

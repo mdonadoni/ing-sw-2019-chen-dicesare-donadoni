@@ -13,7 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
-import java.util.function.Function;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class LoginPane extends GridPane {
 
@@ -31,7 +32,7 @@ public class LoginPane extends GridPane {
     @FXML
     private Button loginButton;
 
-    private Function<LoginInfo, LoginResult> loginCallback;
+    private BiConsumer<LoginInfo, Consumer<LoginResult>> loginCallback;
 
     private BooleanProperty connected;
 
@@ -84,22 +85,23 @@ public class LoginPane extends GridPane {
         );
 
         new Thread(() -> {
-            LoginResult result = loginCallback.apply(info);
-            Platform.runLater(() -> {
-                switch (result) {
-                    case CONNECTION_ERROR:
-                        Notification.newNotification("Non riesco a connettermi al server");
-                        loginButton.setDisable(false);
-                        break;
-                    case NICKNAME_NOT_VALID:
-                        Notification.newNotification("Nickname non valido o già utilizzato");
-                        loginButton.setDisable(false);
-                        break;
-                    case LOGIN_SUCCESSFUL:
-                        connected.setValue(true);
-                        break;
-                }
-            });
+            loginCallback.accept(info, r ->
+                Platform.runLater(() -> {
+                    switch (r) {
+                        case CONNECTION_ERROR:
+                            Notification.newNotification("Non riesco a connettermi al server");
+                            loginButton.setDisable(false);
+                            break;
+                        case NICKNAME_NOT_VALID:
+                            Notification.newNotification("Nickname non valido o già utilizzato");
+                            loginButton.setDisable(false);
+                            break;
+                        case LOGIN_SUCCESSFUL:
+                            connected.setValue(true);
+                            break;
+                    }
+                })
+            );
         }).start();
     }
 
@@ -107,7 +109,7 @@ public class LoginPane extends GridPane {
         return connected;
     }
 
-    public void setLoginCallback(Function<LoginInfo, LoginResult> loginCallback) {
+    public void setLoginCallback(BiConsumer<LoginInfo, Consumer<LoginResult>> loginCallback) {
         this.loginCallback = loginCallback;
     }
 }

@@ -23,21 +23,20 @@ public class ServerController extends LocalServer {
     @Override
     public synchronized boolean login(String nickname, View view) {
         if (connectedUser.containsKey(nickname)) {
-            RemotePlayer old = connectedUser.get(nickname);
-            if (old.isConnected()) {
-                LOG.log(Level.INFO, "Username already used: {0}", nickname);
-                return false;
-            }
-            RemotePlayer player = new RemotePlayer(nickname, view);
-            connectedUser.put(nickname, player);
-            //TODO handle reconnection to game
-            LOG.log(Level.INFO, "User reconnected: {0}", nickname);
-            return true;
+            LOG.log(Level.INFO, "Username already used: {0}", nickname);
+            return false;
         }
-        RemotePlayer player = new RemotePlayer(nickname, view);
-        connectedUser.put(nickname, player);
-        lobby.addPlayer(player);
+
         LOG.log(Level.INFO, "New user connected: {0}", nickname);
+        RemotePlayer player = new RemotePlayer(nickname, view);
+        player.setDisconnectionCallback(this::handleDisconnection);
+        connectedUser.put(nickname, player);
+
+        if (nicknameToGame.containsKey(player.getNickname())) {
+            //TODO handle reconnection to a match
+        } else {
+            lobby.addPlayer(player);
+        }
         return true;
     }
 
@@ -53,6 +52,14 @@ public class ServerController extends LocalServer {
             nicknameToGame.put(remotePlayer.getNickname(), game);
         });
         executor.execute(game);
+    }
+
+    public synchronized void handleDisconnection(RemotePlayer player) {
+        LOG.log(Level.INFO, "Removing {0} from connected users", player.getNickname());
+        connectedUser.remove(player.getNickname());
+        if (lobby.hasPlayer(player)) {
+            lobby.removePlayer(player);
+        }
     }
 
 

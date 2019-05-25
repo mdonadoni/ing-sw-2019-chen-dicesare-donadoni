@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
@@ -15,10 +14,6 @@ public class Lobby {
      * Countdown before starting a match not full.
      */
     private static final long COUNTDOWN = 30000;
-    /**
-     * Period to clean lobby of disconnected players
-     */
-    private static final long CLEAN_PERIOD = 3000;
 
     /**
      * Server.
@@ -43,20 +38,6 @@ public class Lobby {
      */
     public Lobby(ServerController server) {
         this.server = server;
-        TimerTask cleanQueue = new TimerTask() {
-            @Override
-            public void run() {
-                synchronized (Lobby.this) {
-                    List<RemotePlayer> players = new ArrayList<>(queue);
-                    for (RemotePlayer p : players) {
-                        if (!p.isConnected()) {
-                            removePlayer(p);
-                        }
-                    }
-                }
-            }
-        };
-        timer.schedule(cleanQueue, 0, CLEAN_PERIOD);
     }
 
     /**
@@ -92,7 +73,7 @@ public class Lobby {
      * Remove player from Lobby.
      * @param player
      */
-    private synchronized void removePlayer(RemotePlayer player) {
+    public synchronized void removePlayer(RemotePlayer player) {
         LOG.info(() -> "Removed player from lobby: " + player.getNickname());
         queue.remove(player);
         queue.forEach(remotePlayer -> remotePlayer.safeShowMessage("Utente rimosso dalla lobby: " + player.getNickname()));
@@ -112,5 +93,9 @@ public class Lobby {
         ArrayList<RemotePlayer> players = new ArrayList<>(queue);
         queue.clear();
         server.startNewMatch(players);
+    }
+
+    public synchronized boolean hasPlayer(RemotePlayer player) {
+        return queue.contains(player);
     }
 }
