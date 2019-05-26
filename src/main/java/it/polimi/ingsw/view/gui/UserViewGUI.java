@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.model.minified.MiniGameBoard;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.model.minified.MiniPlayer;
@@ -7,6 +8,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,8 +37,13 @@ public class UserViewGUI extends GridPane {
         List<MiniPlayer> otherPlayers = miniModel.getMatch().getPlayers();
         otherPlayers.remove(myMini);
 
+        List<PowerUp> visiblePowerUps = new ArrayList<>();
+        visiblePowerUps.addAll(miniModel.getMyPowerUps());
+        visiblePowerUps.addAll(miniModel.getMyDrawnPowerUps());
+
+
         add(new GameBoardGUI(miniGb), 0, 0);
-        add(new PlayerBoardGUI(myMini, miniModel.getMyPowerUps()), 0, 1);
+        add(new PlayerBoardGUI(myMini, visiblePowerUps), 0, 1);
         add(new OtherPlayersPaneGUI(otherPlayers), 1, 0, 1, 2);
     }
 }

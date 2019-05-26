@@ -16,6 +16,7 @@ public class MiniModel implements Serializable {
     private final MiniMatch match;
     private final String myNickname;
     private final ArrayList<PowerUp> myPowerUps;
+    private final ArrayList<PowerUp> myDrawnPowerUps;
     private final int myPoints;
 
     @JsonCreator
@@ -23,6 +24,7 @@ public class MiniModel implements Serializable {
         this.match = null;
         this.myNickname = null;
         this.myPowerUps = null;
+        this.myDrawnPowerUps = null;
         this.myPoints = 0;
     }
 
@@ -30,6 +32,7 @@ public class MiniModel implements Serializable {
         this.match = new MiniMatch(match);
         this.myNickname = player.getNickname();
         this.myPowerUps = new ArrayList<>(player.getPowerUps());
+        this.myDrawnPowerUps = new ArrayList<>(player.getDrawnPowerUps());
         this.myPoints = player.getPoints();
     }
 
@@ -39,6 +42,10 @@ public class MiniModel implements Serializable {
 
     public List<PowerUp> getMyPowerUps() {
         return new ArrayList<>(myPowerUps);
+    }
+
+    public ArrayList<PowerUp> getMyDrawnPowerUps() {
+        return myDrawnPowerUps;
     }
 
     public int getMyPoints() {

@@ -81,6 +81,11 @@ public class ViewGUI extends Application {
         tempPlayer.grabWeapon(new Weapon("cyberblade"));
         tempPlayer.grabWeapon(new Weapon("rocketlauncher"));
         tempPlayer.grabWeapon(new Weapon("sledgehammer"));
+        tempPlayer.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.YELLOW));
+        tempPlayer.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.BLUE));
+        tempPlayer.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.RED));
+        tempPlayer.addDrawnPowerUp(new PowerUp(PowerUpType.TELEPORTER, AmmoColor.YELLOW));
+
 
         tempPlayer = match.getPlayerByNickname("Mark03");
         tempPlayer.addDamage(PlayerToken.GREY, 2);

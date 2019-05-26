@@ -45,7 +45,6 @@ public class DummyViewGUI extends LocalView {
                 return;
             }
         } catch (Exception e) {
-            e.printStackTrace();
             callback.accept(LoginResult.CONNECTION_ERROR);
             return;
         }

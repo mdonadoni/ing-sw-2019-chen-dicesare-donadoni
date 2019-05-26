@@ -23,5 +23,6 @@ public class BottomPlayerPaneGUI extends GridPane {
         getColumnConstraints().add(pwuCol);
 
         add(new WeaponPaneGUI(weapons), 0, 0);
+        add(new PowerUpPaneGUI(powerUps), 1, 0);
     }
 }
