@@ -4,11 +4,11 @@ import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.LocalView;
 import it.polimi.ingsw.view.gui.LoginInfo;
 import it.polimi.ingsw.view.gui.LoginResult;
-import javafx.application.Platform;
 
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
+
 public class DummyViewGUI extends LocalView {
     private static final Logger LOG = Logger.getLogger(LocalView.class.getName());
     ViewGUI gui;
@@ -32,11 +32,6 @@ public class DummyViewGUI extends LocalView {
         gui.updateModel(model);
     }
 
-    @Override
-    public void ping() {
-        // Do nothing
-    }
-
     public synchronized void loginCallback(LoginInfo info, Consumer<LoginResult> callback) {
         try {
             connectServer(info.getAddress(), info.getPort(), info.getType());
@@ -53,7 +48,9 @@ public class DummyViewGUI extends LocalView {
 
     @Override
     public synchronized void disconnect() {
+        // Call disconnect on LocalView to close the connections
         super.disconnect();
-        Platform.exit();
+        // Call disconnect on the gui
+        gui.disconnect();
     }
 }

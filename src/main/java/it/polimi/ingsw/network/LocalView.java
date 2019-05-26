@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.minified.MiniModel;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,10 +15,31 @@ import java.util.logging.Logger;
  * This class represents a local view.
  */
 public abstract class LocalView implements View {
-
+    /**
+     * Logger
+     */
     private static final Logger LOG = Logger.getLogger(LocalView.class.getName());
+    /**
+     * Period of the listening of pings from server.
+     */
+    private static final long PING_LISTEN_PERIOD = 15000;
 
+    /**
+     * Connection to the server.
+     */
     private ServerConnection connection;
+    /**
+     * Keeps whether the view has received as least one ping.
+     */
+    private AtomicBoolean firstPing = new AtomicBoolean(true);
+    /**
+     * Keeps wheter the view has received one ping since last time the timer checked.
+     */
+    private AtomicBoolean receivedPing = new AtomicBoolean(false);
+    /**
+     * Timer to schedule the check for the pings from the server.
+     */
+    private Timer timer = new Timer();
 
     protected LocalView() {
     }
@@ -76,9 +100,25 @@ public abstract class LocalView implements View {
 
     /**
      * Method used to check if connection is up. Shouldn't do anything.
+     * When the first ping is received, the timer is started.
      */
     @Override
-    public abstract void ping();
+    public void ping() {
+        receivedPing.set(true);
+
+        if (firstPing.getAndSet(false)) {
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    if (!receivedPing.getAndSet(false)) {
+                        timer.cancel();
+                        disconnect();
+                    }
+                }
+            };
+            timer.schedule(task, 0, PING_LISTEN_PERIOD);
+        }
+    }
 
     /**
      * Signal a disconnection from the server. This method doesn't throw RemoteException because this
@@ -86,7 +126,14 @@ public abstract class LocalView implements View {
      */
     @Override
     public void disconnect() {
-        LOG.info("Disconnect called");
+        closeConnection();
+    }
+
+    /**
+     * Close the connection to the server and stop the timer.
+     */
+    public void closeConnection() {
+        timer.cancel();
         if (connection != null) {
             try {
                 connection.close();

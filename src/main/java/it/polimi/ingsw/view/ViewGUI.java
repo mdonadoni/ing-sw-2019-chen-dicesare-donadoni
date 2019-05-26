@@ -8,9 +8,12 @@ import it.polimi.ingsw.view.gui.WaitingPane;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ViewGUI extends Application {
     Stage primaryStage;
@@ -128,11 +131,10 @@ public class ViewGUI extends Application {
     }
 
     public void stop() {
-        dummy.disconnect();
+        dummy.closeConnection();
     }
 
     public List<String> selectObject(List<String> objUuid, int min, int max) {
-        // TODO
         return null;
     }
 
@@ -148,5 +150,18 @@ public class ViewGUI extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void disconnect() {
+        Platform.runLater(() -> {
+            Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
+            dialog.setTitle("Connessione con il server chiusa");
+            dialog.setHeaderText("La connessione con il server è stata chiusa.");
+            dialog.setContentText("Vuoi chiudere l'applicazione?");
+            Optional<ButtonType> res = dialog.showAndWait();
+            if (res.get() == ButtonType.OK) {
+                Platform.exit();
+            }
+        });
     }
 }

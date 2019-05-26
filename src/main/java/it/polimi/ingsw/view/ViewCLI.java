@@ -88,6 +88,7 @@ public class ViewCLI extends LocalView implements Runnable {
 
     @Override
     public void ping() {
+        super.ping();
         System.out.println("Ping ricevuto");
     }
 }
