@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public enum BaseAction {
+public enum BasicAction {
     MOVEMENT,
     GRAB,
     SHOOT,

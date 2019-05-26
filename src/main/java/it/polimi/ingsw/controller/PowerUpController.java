@@ -19,8 +19,15 @@ public class PowerUpController {
     }
 
     public void activatePowerUp(PowerUp pwu, String sourcePlayer) throws RemoteException{
-        // Didn't find a better way, I'm sorry Lord of Code :(
-        activatePowerUp(pwu, sourcePlayer, new Player("dummy", PlayerToken.BLUE));
+        RemotePlayer sourceRemotePlayer = remoteUsers.get(sourcePlayer);
+        switch(pwu.getType()){
+            case TELEPORTER:
+                teleporter(sourceRemotePlayer);
+                break;
+
+                default:
+                    throw new InvalidOperationException("PowerUp non valido con questi parametri");
+        }
     }
 
     public void activatePowerUp(PowerUp pwu, String sourcePlayer, Player targetPlayer) throws RemoteException{
@@ -33,12 +40,12 @@ public class PowerUpController {
             case NEWTON:
                 newton(sourceRemotePlayer, targetPlayer);
                 break;
-            case TELEPORTER:
-                teleporter(sourceRemotePlayer);
-                break;
             case TARGETING_SCOPE:
                 targeting(targetPlayer, damageColor);
                 break;
+
+                default:
+                    throw new InvalidOperationException("PowerUp non valido con questi parametri");
         }
     }
 

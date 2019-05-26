@@ -84,9 +84,17 @@ public class Match extends Identifiable{
     }
 
     /**
-     * Sets final frenzy mode to true
+     * Sets final frenzy mode to true and evaluates which players will do their Final Frenzy turn before the first player
+     * WARNING: This method MUST be called before calling nextTurn()
      */
     public void activateFinalFrenzy(){
+        int currentPlayerIndex = players.indexOf(getCurrentTurn().getCurrentPlayer());
+
+        for(Player player : players){
+            if(players.indexOf(player) > currentPlayerIndex)
+                player.setBeforeFistPlayerFF(true);
+        }
+
         finalFrenzy = true;
     }
 

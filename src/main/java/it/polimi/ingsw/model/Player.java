@@ -70,6 +70,12 @@ public class Player extends Identifiable{
     private Square square;
 
     /**
+     * When Final Frenzy starts, some actions can be performed only by players who play their FF turn before the
+     * first player of the match
+     */
+    private boolean beforeFistPlayerFF;
+
+    /**
      * Constructor of Player
      * @param nickname nickname of the player.
      */
@@ -469,5 +475,13 @@ public class Player extends Identifiable{
     public void addAmmo(AmmoColor ammo){
         if(countAmmo(ammo) < 3)
             this.ammo.add(ammo);
+    }
+
+    public void setBeforeFistPlayerFF(Boolean val){
+        beforeFistPlayerFF = val;
+    }
+
+    public Boolean getBeforeFirstPlayerFF(){
+        return beforeFistPlayerFF;
     }
 }

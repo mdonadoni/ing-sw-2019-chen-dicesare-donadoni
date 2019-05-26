@@ -1,0 +1,90 @@
+[
+  {
+    "basics": ["movement", "movement", "movement"],
+    "finalfrenzyrequired": false,
+    "boardnotflippedrequired": false,
+    "required": 0,
+    "overwrite": 99,
+    "beforefirstplayer": false
+  },
+  {
+    "basics": ["movement", "grab"],
+    "finalfrenzyrequired": false,
+    "boardnotflippedrequired": false,
+    "required": 0,
+    "overwrite": 3,
+    "beforefirstplayer": false
+  },
+  {
+    "basics": ["shoot"],
+    "finalfrenzyrequired": false,
+    "boardnotflippedrequired": false,
+    "required": 0,
+    "overwrite": 6,
+    "beforefirstplayer": false
+  },
+  {
+    "basics": ["movement", "movement", "grab"],
+    "finalfrenzyrequired": false,
+    "boardnotflippedrequired": true,
+    "required": 3,
+    "overwrite": 99,
+    "beforefirstplayer": false
+  },
+  {
+    "basics": ["movement", "shoot"],
+    "finalfrenzyrequired": false,
+    "boardnotflippedrequired": true,
+    "required": 6,
+    "overwrite": 99,
+    "beforefirstplayer": false
+  },
+  {
+    "basics": ["reload"],
+    "finalfrenzyrequired": false,
+    "boardnotflippedrequired": false,
+    "required": 0,
+    "overwrite": 99,
+    "beforefirstplayer": false
+  },
+  {
+    "basics": ["movement", "reload", "shoot"],
+    "finalfrenzyrequired": true,
+    "boardnotflippedrequired": false,
+    "required": 0,
+    "overwrite": 99,
+    "beforefirstplayer": true
+  },
+  {
+    "basics": ["movement", "movement", "movement", "movement"],
+    "finalfrenzyrequired": true,
+    "boardnotflippedrequired": false,
+    "required": 0,
+    "overwrite": 99,
+    "beforefirstplayer": true
+  },
+  {
+    "basics": ["movement", "movement", "grab"],
+    "finalfrenzyrequired": true,
+    "boardnotflippedrequired": false,
+    "required": 0,
+    "overwrite": 99,
+    "beforefirstplayer": true
+  },
+  {
+    "basics": ["movement", "movement", "reload", "shoot"],
+    "finalfrenzyrequired": true,
+    "boardnotflippedrequired": false,
+    "required": 0,
+    "overwrite": 99,
+    "beforefirstplayer": false
+  },
+  {
+    "basics": ["movement", "movement", "movement", "grab"],
+    "finalfrenzyrequired": true,
+    "boardnotflippedrequired": false,
+    "required": 0,
+    "overwrite": 99,
+    "beforefirstplayer": false
+  }
+]
