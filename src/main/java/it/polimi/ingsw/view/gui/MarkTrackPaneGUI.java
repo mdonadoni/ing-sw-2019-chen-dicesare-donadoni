@@ -4,26 +4,34 @@ import it.polimi.ingsw.model.PlayerToken;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-
 import java.util.List;
 
 public class MarkTrackPaneGUI extends GridPane {
 
     MarkTrackPaneGUI(List<PlayerToken> marks){
         RowConstraints markRow = new RowConstraints();
-        RowConstraints bottomRow = new RowConstraints();
-        bottomRow.setPercentHeight(20);
-        markRow.setPercentHeight(80);
+        //RowConstraints bottomRow = new RowConstraints();
+        //bottomRow.setPercentHeight(20);
+        markRow.setPercentHeight(100);
         ColumnConstraints markCol = new ColumnConstraints();
-        markCol.setPercentWidth(8.33);
+        ColumnConstraints padCol = new ColumnConstraints();
+        padCol.setPercentWidth(20);
+        markCol.setPercentWidth(15);
 
         getRowConstraints().add(markRow);
-        getRowConstraints().add(bottomRow);
 
-        for(int i=0; i<12; i++)
+        getColumnConstraints().add(padCol);
+        for(int i=0; i<4; i++)
             getColumnConstraints().add(markCol);
+        getColumnConstraints().add(padCol);
 
-        for(int i=0; i<marks.size(); i++)
-            add(new TokenGUI(marks.get(i), 1), i, 0);
+        int index = 1;
+        for(PlayerToken color : PlayerToken.values()){
+            int quantity = (int)marks.stream().filter(tk -> tk.equals(color)).count();
+            if(quantity > 0){
+                add(new TokenGUI(color, quantity), index, 0);
+                index++;
+            }
+        }
     }
 }
