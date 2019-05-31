@@ -10,8 +10,8 @@ public class BoardGUI extends GridPane {
         double colWidth = 100.0 / numCols;
         double rowHeight = 100.0 / numRows;
 
-        setHgap(10.0);
-        setVgap(10.0);
+        hgapProperty().bind(widthProperty().multiply(0.03));
+        vgapProperty().bind(heightProperty().multiply(0.03));
 
         // Add columns
         ColumnConstraints col = new ColumnConstraints();

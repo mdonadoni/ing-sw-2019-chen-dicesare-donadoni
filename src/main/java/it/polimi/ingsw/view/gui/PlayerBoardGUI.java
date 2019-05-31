@@ -1,30 +1,40 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.model.PowerUp;
+
 import it.polimi.ingsw.model.minified.MiniPlayer;
-import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
-public class PlayerBoardGUI extends GridPane {
 
-    public PlayerBoardGUI(MiniPlayer player, List<PowerUp> myPowerUps){
+public class PlayerBoardGUI extends FitObject {
+    StretchImage boardImage;
+    private GridPane overlay;
+    PlayerBoardGUI(MiniPlayer player){
+        String path = "/gui/players/" + player.getColor().toString().toLowerCase() + ".png";
+        boardImage = new StretchImage(path);
+        setContentHeight(boardImage.getImageHeight());
+        setContentWidth(boardImage.getImageWidth());
 
-        ColumnConstraints colMain = new ColumnConstraints();
-        colMain.setPercentWidth(100);
+        overlay = GridUtils.newGridPane(Arrays.asList(8.0, 68.0, 24.0), Arrays.asList(33.3, 33.3, 33.3));
 
-        getColumnConstraints().add(colMain);
+        overlay.add(new DamageTrackPaneGUI(player.getDamageTaken()), 1, 1);
+        overlay.add(new SkullTrackPaneGUI(player.getSkulls()), 1, 2);
+        overlay.add(new TopPlayerPaneGUI(player.getNickname(), player.getColor() ,player.getMarks()), 1, 0);
+        overlay.add(new AmmoPaneGUI(player.getAmmo()), 2, 0, 1, 3);
 
-        RowConstraints row = new RowConstraints();
-        row.setPercentHeight(50);
+        getChildren().addAll(boardImage, overlay);
 
-        for(int i=0; i<2; i++)
-            getRowConstraints().add(row);
-
-        add(new PlayerPaneGUI(player), 0, 0);
-        add(new BottomPlayerPaneGUI(player.getWeapons(), myPowerUps), 0, 1);
+        setEffect(new DropShadow());
     }
+
+    public double getImageHeight() {
+        return boardImage.getImageHeight();
+    }
+
+    public double getImageWidth() {
+        return boardImage.getImageWidth();
+    }
+
 }

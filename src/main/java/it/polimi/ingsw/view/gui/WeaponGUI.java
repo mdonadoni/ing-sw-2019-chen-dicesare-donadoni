@@ -1,34 +1,33 @@
 package it.polimi.ingsw.view.gui;
 
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
+import it.polimi.ingsw.model.minified.MiniWeapon;
+import it.polimi.ingsw.util.ResourceException;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
 
-public class WeaponGUI extends GridPane {
-    private static final double ROWPAD = 5;
-    private static final double COLPAD = 10;
-    public WeaponGUI(String name){
-        ColumnConstraints padCol = new ColumnConstraints();
-        ColumnConstraints weaponCol = new ColumnConstraints();
-        RowConstraints padRow = new RowConstraints();
-        RowConstraints weaponRow = new RowConstraints();
+import java.io.InputStream;
 
-        padCol.setPercentWidth(COLPAD);
-        padRow.setPercentHeight(ROWPAD);
-        weaponCol.setPercentWidth(100-(COLPAD*2));
-        weaponRow.setPercentHeight(100-(ROWPAD*2));
+public class WeaponGUI extends ResizableImage {
 
-        getColumnConstraints().add(padCol);
-        getColumnConstraints().add(weaponCol);
-        getColumnConstraints().add(padCol);
-        getRowConstraints().add(padRow);
-        getRowConstraints().add(weaponRow);
-        getRowConstraints().add(padRow);
+    public WeaponGUI(MiniWeapon weapon, boolean reduced) {
+        String path = "/gui/weapons/" + weapon.getName().toLowerCase() + ".png";
+        if (!reduced) {
+            loadImage(path);
+        } else {
+            InputStream stream = getClass().getResourceAsStream(path);
+            if (stream == null) {
+                throw new ResourceException("Couldn't load resource");
+            }
+            Image weaponImage = new Image(stream);
+            Double width = weaponImage.getWidth();
+            Double height = weaponImage.getHeight() * 0.35;
 
-        Pane weapon = new Pane();
-        weapon.setStyle("-fx-background-image: url(/gui/weapons/"+name.toLowerCase()+".png);"+
-                        "-fx-background-size: stretch;");
-        add(weapon, 1, 1);
+            PixelReader reader = weaponImage.getPixelReader();
+            WritableImage reducedImage = new WritableImage(reader, 0, 0, width.intValue(), height.intValue());
+            setImage(reducedImage);
+        }
+        setEffect(new DropShadow());
     }
 }

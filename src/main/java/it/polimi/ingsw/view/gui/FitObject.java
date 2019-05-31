@@ -17,12 +17,12 @@ public class FitObject extends Region {
     }
 
     @Override
-    public double computePrefWidth(double h) {
+    protected double computePrefWidth(double h) {
         return contentWidth;
     }
 
     @Override
-    public double computePrefHeight(double w) {
+    protected double computePrefHeight(double w) {
         return contentHeight;
     }
 

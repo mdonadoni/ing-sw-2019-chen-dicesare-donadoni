@@ -1,17 +1,14 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.model.PowerUp;
+import javafx.scene.effect.DropShadow;
 
-public class PowerUpGUI extends FitObject {
+public class PowerUpGUI extends ResizableImage {
 
     public PowerUpGUI(PowerUp powerup) {
-        String path = "/gui/powerup/" +
+        super("/gui/powerup/" +
                 powerup.getType().toString().toLowerCase() + "_" +
-                powerup.getAmmo().toString().toLowerCase() + ".png";
-
-        StretchImage img = new StretchImage(path);
-        setContentWidth(img.getImageWidth());
-        setContentHeight(img.getImageHeight());
-        getChildren().add(img);
+                powerup.getAmmo().toString().toLowerCase() + ".png");
+        setEffect(new DropShadow());
     }
 }

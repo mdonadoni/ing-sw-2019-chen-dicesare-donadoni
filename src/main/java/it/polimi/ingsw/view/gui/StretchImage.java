@@ -13,6 +13,12 @@ import java.io.InputStream;
 
 public class StretchImage extends Pane {
     Image img;
+    double imageWidth = 0;
+    double imageHeight = 0;
+
+
+    public StretchImage() {
+    }
 
     public StretchImage(Image image) {
         setImage(image);
@@ -23,13 +29,14 @@ public class StretchImage extends Pane {
         if (stream == null) {
             throw new ResourceException("Cannot find image resource");
         }
-        Image image = new Image(stream);
-        setImage(image);
+        setImage(new Image(stream));
     }
 
     private void setImage(Image img) {
         this.img = img;
-        setPrefSize(img.getWidth(), img.getHeight());
+        imageWidth = img.getWidth();
+        imageHeight = img.getHeight();
+        setPrefSize(imageWidth, imageHeight);
         setBackground(
             new Background(
                 new BackgroundFill(
@@ -42,10 +49,10 @@ public class StretchImage extends Pane {
     }
 
     public double getImageWidth() {
-        return img.getWidth();
+        return imageWidth;
     }
 
     public double getImageHeight() {
-        return img.getHeight();
+        return imageHeight;
     }
 }

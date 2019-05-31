@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.model.minified.MiniSquare;
 import it.polimi.ingsw.model.minified.MiniStandardSquare;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -16,8 +17,6 @@ public class SquareGUI extends GridPane {
     public SquareGUI(MiniSquare square) {
         this.square = square;
 
-        getStyleClass().add("highlighted-square");
-
         ColumnConstraints col = new ColumnConstraints();
         col.setPercentWidth(100.0/NUM_COL);
         for (int i = 0; i < NUM_COL; i++) {
@@ -30,6 +29,7 @@ public class SquareGUI extends GridPane {
             getRowConstraints().add(row);
         }
 
+        setEffect(new DropShadow());
         //TODO put player tokens
     }
 

@@ -60,6 +60,11 @@ public class ServerController extends LocalServer {
         if (lobby.hasPlayer(player)) {
             lobby.removePlayer(player);
         }
+        //TODO remove from game
+    }
+
+    public synchronized void notifyGameFinished(GameController game) {
+        //TODO
     }
 
 

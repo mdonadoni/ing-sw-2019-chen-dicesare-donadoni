@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.util.ResourceException;
 import it.polimi.ingsw.model.minified.MiniGameBoard;
 import it.polimi.ingsw.util.Json;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -14,31 +15,19 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 
-public class GameBoardGUI extends GridPane {
-    MiniGameBoard gameBoard;
+public class GameBoardGUI extends FitObject {
+    StretchImage boardImage;
 
     public GameBoardGUI(MiniGameBoard gameBoard) {
-        this.gameBoard = gameBoard;
+        String path = "/gui/boards/" +
+                gameBoard.getBoard().getType().toString().toLowerCase() + ".png";
+        boardImage = new StretchImage(path);
+        getChildren().add(boardImage);
 
-        this.getStylesheets().add("/gui/css/stylesheet.css");
+        setContentHeight(boardImage.getImageHeight());
+        setContentWidth(boardImage.getImageWidth());
 
-        ColumnConstraints colMain = new ColumnConstraints();
-        colMain.setPercentWidth(100);
-
-        RowConstraints rowMain = new RowConstraints();
-        rowMain.setPercentHeight(100);
-
-        getColumnConstraints().add(colMain);
-        getRowConstraints().add(rowMain);
-
-        String cssBoardClass = gameBoard
-                .getBoard()
-                .getType()
-                .toString()
-                .toLowerCase()
-                .replace("_", "") + "-board";
-
-        getStyleClass().add(cssBoardClass);
+        setEffect(new DropShadow());
 
         try {
             String jsonPath = MessageFormat.format(
