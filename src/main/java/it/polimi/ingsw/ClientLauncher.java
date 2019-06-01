@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.view.ViewGUI;
+import it.polimi.ingsw.view.gui.ViewGUI;
 import javafx.application.Application;
 
 public class ClientLauncher {
