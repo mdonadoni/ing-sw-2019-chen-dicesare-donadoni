@@ -11,7 +11,9 @@ import java.util.Arrays;
 public class PlayerBoardGUI extends FitObject {
     StretchImage boardImage;
     private GridPane overlay;
+    MiniPlayer player;
     PlayerBoardGUI(MiniPlayer player){
+        this.player = player;
         String path = "/gui/players/" + player.getColor().toString().toLowerCase() + ".png";
         boardImage = new StretchImage(path);
         setContentHeight(boardImage.getImageHeight());
@@ -36,5 +38,4 @@ public class PlayerBoardGUI extends FitObject {
     public double getImageWidth() {
         return boardImage.getImageWidth();
     }
-
 }

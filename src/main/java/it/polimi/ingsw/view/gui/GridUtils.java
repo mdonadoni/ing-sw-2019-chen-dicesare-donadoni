@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -20,6 +21,14 @@ public class GridUtils {
             constraint.setPercentHeight(row);
             pane.getRowConstraints().add(constraint);
         }
+        return pane;
+    }
+
+    public static GridPane newPaddingPane(Node node, double pad) {
+        GridPane pane = new GridPane();
+        setPercentColumns(pane, pad, 100.0 - 2*pad, pad);
+        setPercentRows(pane, pad, 100.0 - 2*pad, pad);
+        pane.add(node, 1, 1);
         return pane;
     }
 

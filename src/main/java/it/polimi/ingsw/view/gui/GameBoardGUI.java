@@ -2,18 +2,14 @@ package it.polimi.ingsw.view.gui;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.util.ResourceException;
 import it.polimi.ingsw.model.minified.MiniGameBoard;
 import it.polimi.ingsw.util.Json;
+import it.polimi.ingsw.util.ResourceException;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.transform.Rotate;
 
 import java.io.InputStream;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.List;
 
 public class GameBoardGUI extends FitObject {
     StretchImage boardImage;
@@ -46,31 +42,34 @@ public class GameBoardGUI extends FitObject {
             int numberRows = json.get("numberRows").asInt();
             int numberColumns = json.get("numberColumns").asInt();
 
-            double x1 = json.get("x1").asDouble();
-            double y1 = json.get("y1").asDouble();
+            double x1 = json.get("board").get("x1").asDouble();
+            double y1 = json.get("board").get("y1").asDouble();
 
-            double x2 = json.get("x2").asDouble();
-            double y2 = json.get("y2").asDouble();
-
-            GridPane boardPane = new GridPane();
-
-            List<Double> x = Arrays.asList(0.0, x1, x2, boardWidth);
-            for (int i = 1; i < x.size(); i++) {
-                ColumnConstraints col = new ColumnConstraints();
-                col.setPercentWidth((x.get(i) - x.get(i-1)) / boardWidth * 100.0);
-                boardPane.getColumnConstraints().add(col);
-            }
-
-            List<Double> y = Arrays.asList(0.0, y1 ,y2, boardHeight);
-            for (int i = 1; i < y.size(); i++) {
-                RowConstraints row = new RowConstraints();
-                row.setPercentHeight((y.get(i) - y.get(i-1)) / boardHeight * 100.0);
-                boardPane.getRowConstraints().add(row);
-            }
+            double x2 = json.get("board").get("x2").asDouble();
+            double y2 = json.get("board").get("y2").asDouble();
 
             BoardGUI board = new BoardGUI(gameBoard.getBoard(), numberColumns, numberRows);
-            boardPane.add(board, 1, 1);
-            getChildren().add(boardPane);
+            Composition overlay = new Composition();
+            overlay.setCompositionWidth(boardWidth);
+            overlay.setCompositionHeight(boardHeight);
+            overlay.add(board, x1, y1, x2-x1, y2-y1);
+
+            gameBoard.getBoard().getSpawnPoints().forEach(spawn -> {
+                for (int i = 0; i < spawn.getWeapons().size(); i++) {
+                    String color = spawn.getColor().toString().toLowerCase();
+                    JsonNode position = json.get("weapon").get(color).get(i);
+                    double x = position.get("x").asDouble();
+                    double y = position.get("y").asDouble();
+                    double w = position.get("w").asDouble();
+                    double h = position.get("h").asDouble();
+                    double r = position.get("r").asDouble();
+                    WeaponGUI weapon = new WeaponGUI(spawn.getWeapons().get(i), false);
+                    weapon.getTransforms().add(new Rotate(r));
+                    overlay.add(weapon, x, y, w, h);
+                }
+            });
+
+            getChildren().add(overlay);
         } catch (Exception e) {
             throw new ResourceException("Error while parsing GUI board json", e);
         }

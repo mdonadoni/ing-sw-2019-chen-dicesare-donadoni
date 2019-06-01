@@ -63,8 +63,22 @@ public class ViewGUI extends Application {
         nicks.add("Fuljo");
         nicks.add("Ricky");
 
-        Match match = new Match(nicks, BoardType.SMALL);
+        Match match = new Match(nicks, BoardType.BIG);
         match.getGameBoard().refillAmmoTile();
+        match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.BLUE).addWeapon(new Weapon("thor"));
+        match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.BLUE).addWeapon(new Weapon("zx-2"));
+        match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.BLUE).addWeapon(new Weapon("powerglove"));
+
+
+        match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.RED).addWeapon(new Weapon("heatseeker"));
+        match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.RED).addWeapon(new Weapon("railgun"));
+        match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.RED).addWeapon(new Weapon("plasmagun"));
+
+
+        match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.YELLOW).addWeapon(new Weapon("electroscythe"));
+        match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.YELLOW).addWeapon(new Weapon("grenadelauncher"));
+        match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.YELLOW).addWeapon(new Weapon("furnace"));
+
 
         Player tempPlayer = match.getPlayerByNickname("thatDc");
         tempPlayer.addDamage(PlayerToken.PURPLE, 2);

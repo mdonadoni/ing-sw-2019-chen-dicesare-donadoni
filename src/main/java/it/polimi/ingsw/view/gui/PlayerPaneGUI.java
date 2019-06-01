@@ -8,10 +8,10 @@ import javafx.scene.layout.GridPane;
 import java.util.List;
 
 public class PlayerPaneGUI extends GridPane {
-    private static double BOARD_PERCENT = 50;
-    private static double BOARD_REDUCED_PERCENT = 65;
+    private static final double BOARD_PERCENT = 50;
+    private static final double BOARD_REDUCED_PERCENT = 65;
 
-    private PlayerBoardGUI playerBoardGUI;
+    private PlayerBoardGUI playerBoard;
     private boolean reduced;
 
 
@@ -27,10 +27,10 @@ public class PlayerPaneGUI extends GridPane {
             GridUtils.setPercentRows(this, 100.0 - BOARD_PERCENT, BOARD_PERCENT);
         }
 
-        playerBoardGUI = new PlayerBoardGUI(player);
+        playerBoard = new PlayerBoardGUI(player);
 
-        add(new BottomPlayerPaneGUI(player.getWeapons(), myPowerUps), 0, 0);
-        add(playerBoardGUI, 0, 1);
+        add(new PlayerCardsPaneGUI(player.getWeapons(), myPowerUps), 0, 0);
+        add(playerBoard, 0, 1);
     }
 
     public PlayerPaneGUI(MiniPlayer player){
@@ -44,7 +44,7 @@ public class PlayerPaneGUI extends GridPane {
 
     @Override
     protected double computePrefHeight(double w) {
-        double boardHeight = w / playerBoardGUI.getImageWidth() * playerBoardGUI.getImageHeight();
+        double boardHeight = w / playerBoard.getImageWidth() * playerBoard.getImageHeight();
         if (reduced) {
             return boardHeight / BOARD_REDUCED_PERCENT * 100.0;
         } else {

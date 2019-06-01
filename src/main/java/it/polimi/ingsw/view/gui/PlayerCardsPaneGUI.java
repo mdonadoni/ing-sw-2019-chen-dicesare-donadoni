@@ -6,12 +6,12 @@ import javafx.scene.layout.GridPane;
 
 import java.util.List;
 
-public class BottomPlayerPaneGUI extends GridPane {
+public class PlayerCardsPaneGUI extends GridPane {
     private static final double WEAPONSPACE = 50;
 
     boolean reduced;
 
-    public BottomPlayerPaneGUI(List<MiniWeapon> weapons, List<PowerUp> powerUps){
+    public PlayerCardsPaneGUI(List<MiniWeapon> weapons, List<PowerUp> powerUps){
         GridUtils.setPercentRows(this, 100);
         if (powerUps == null) {
             reduced = true;
@@ -27,7 +27,7 @@ public class BottomPlayerPaneGUI extends GridPane {
         }
     }
 
-    public BottomPlayerPaneGUI(List<MiniWeapon> weapons){
+    public PlayerCardsPaneGUI(List<MiniWeapon> weapons){
         this(weapons, null);
     }
 }

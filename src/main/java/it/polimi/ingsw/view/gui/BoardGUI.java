@@ -10,9 +10,6 @@ public class BoardGUI extends GridPane {
         double colWidth = 100.0 / numCols;
         double rowHeight = 100.0 / numRows;
 
-        hgapProperty().bind(widthProperty().multiply(0.03));
-        vgapProperty().bind(heightProperty().multiply(0.03));
-
         // Add columns
         ColumnConstraints col = new ColumnConstraints();
         col.setPercentWidth(colWidth);
@@ -30,13 +27,13 @@ public class BoardGUI extends GridPane {
         // Add standard squares
         board.getStandardSquares().forEach((sq) -> {
             SquareGUI squareGUI = new SquareGUI(sq);
-            add(squareGUI, sq.getCoordinates().getColumn(), sq.getCoordinates().getRow());
+            add(GridUtils.newPaddingPane(squareGUI, 10), sq.getCoordinates().getColumn(), sq.getCoordinates().getRow());
         });
 
         // Add spawnpoints
         board.getSpawnPoints().forEach((spawn) -> {
             SquareGUI spawnGUI = new SquareGUI(spawn);
-            add(spawnGUI, spawn.getCoordinates().getColumn(), spawn.getCoordinates().getRow());
+            add(GridUtils.newPaddingPane(spawnGUI, 10), spawn.getCoordinates().getColumn(), spawn.getCoordinates().getRow());
         });
     }
 }

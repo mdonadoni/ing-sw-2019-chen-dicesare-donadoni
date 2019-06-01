@@ -11,6 +11,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
 import java.util.ArrayList;
@@ -21,29 +22,34 @@ public class UserViewGUI extends GridPane {
 
     private static final double BOARDSPACE = 65;
 
+    private OtherPlayersPaneGUI otherPlayers;
+    private GameBoardGUI gameBoard;
+    private PlayerPaneGUI player;
+
     public UserViewGUI(MiniModel miniModel){
         GridUtils.setPercentColumns(this, BOARDSPACE, 100.0 - BOARDSPACE);
         GridUtils.setPercentRows(this, 66.6, 33.3);
 
         MiniGameBoard miniGb = miniModel.getMatch().getGameBoard();
         MiniPlayer myMini = miniModel.getMyMiniPlayer();
-        List<MiniPlayer> otherPlayers = miniModel.getMatch().getPlayers();
-        otherPlayers.remove(myMini);
+        List<MiniPlayer> others = miniModel.getMatch().getPlayers();
+        others.remove(myMini);
 
         List<PowerUp> visiblePowerUps = new ArrayList<>();
         visiblePowerUps.addAll(miniModel.getMyPowerUps());
         visiblePowerUps.addAll(miniModel.getMyDrawnPowerUps());
 
-        getStylesheets().add("/gui/css/stylesheet.css");
+        otherPlayers = new OtherPlayersPaneGUI(others);
+        gameBoard = new GameBoardGUI(miniGb);
+        player = new PlayerPaneGUI(myMini, visiblePowerUps);
 
-        ScrollPane scroll = new ScrollPane(new OtherPlayersPaneGUI(otherPlayers));
+        ScrollPane scroll = new ScrollPane(otherPlayers);
         scroll.setFitToWidth(true);
-        //scroll.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
-        //scroll.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-        scroll.setStyle("-fx-background-color: transparent;");
+        scroll.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        scroll.getStylesheets().add("/gui/css/stylesheet.css");
 
-        add(new GameBoardGUI(miniGb), 0, 0);
-        add(new PlayerPaneGUI(myMini, visiblePowerUps), 0, 1);
+        add(gameBoard, 0, 0);
+        add(player, 0, 1);
         add(scroll, 1, 0, 1, 2);
 
         setBackground(new Background(
