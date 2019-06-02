@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.minified.MiniGameBoard;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.model.minified.MiniPlayer;
 import it.polimi.ingsw.view.gui.util.GridUtils;
+import it.polimi.ingsw.view.gui.util.Selectable;
+import it.polimi.ingsw.view.gui.util.SelectableContainer;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserViewGUI extends GridPane {
+public class UserViewGUI extends GridPane implements SelectableContainer {
 
     private static final double BOARDSPACE = 65;
 
@@ -59,5 +61,13 @@ public class UserViewGUI extends GridPane {
                         new Image(getClass().getResourceAsStream("/gui/background.jpg"))
                 ), CornerRadii.EMPTY, Insets.EMPTY
         )));
+    }
+
+    @Override
+    public Selectable findSelectable(String uuid) {
+        Selectable res = gameBoard.findSelectable(uuid);
+        if (res == null) res = player.findSelectable(uuid);
+        if (res == null) res = otherPlayers.findSelectable(uuid);
+        return res;
     }
 }

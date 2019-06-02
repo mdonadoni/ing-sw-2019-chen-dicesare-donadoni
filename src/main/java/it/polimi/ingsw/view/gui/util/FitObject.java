@@ -38,9 +38,14 @@ public class FitObject extends Region {
 
     @Override
     protected void layoutChildren() {
-        super.layoutChildren();
-        double layoutWidth = Math.min(getWidth(), getHeight()/ contentHeight * contentWidth);
-        double layoutHeight = Math.min(getHeight(), getWidth()/ contentWidth * contentHeight);
-        getChildren().forEach((child) -> layoutInArea(child, (getWidth() - layoutWidth)/2, (getHeight()-layoutHeight)/2, layoutWidth, layoutHeight, 0, HPos.LEFT, VPos.TOP));
+        double left = getInsets().getLeft();
+        double right = getInsets().getRight();
+        double top = getInsets().getTop();
+        double bottom = getInsets().getBottom();
+        double realWidth = getWidth() - left - right;
+        double realHeight = getHeight() - top- bottom;
+        double layoutWidth = Math.min(realWidth, realHeight/ contentHeight * contentWidth);
+        double layoutHeight = Math.min(realHeight, realWidth/ contentWidth * contentHeight);
+        getChildren().forEach((child) -> layoutInArea(child, left + (realWidth - layoutWidth)/2, top + (realHeight -layoutHeight)/2, layoutWidth, layoutHeight, 0, HPos.LEFT, VPos.TOP));
     }
 }

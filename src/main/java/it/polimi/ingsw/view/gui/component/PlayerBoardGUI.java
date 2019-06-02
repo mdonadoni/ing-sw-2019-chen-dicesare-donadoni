@@ -2,19 +2,21 @@ package it.polimi.ingsw.view.gui.component;
 
 
 import it.polimi.ingsw.model.minified.MiniPlayer;
+import it.polimi.ingsw.view.gui.util.Selectable;
 import it.polimi.ingsw.view.gui.util.FitObject;
 import it.polimi.ingsw.view.gui.util.GridUtils;
+import it.polimi.ingsw.view.gui.util.SelectableComponent;
 import it.polimi.ingsw.view.gui.util.StretchImage;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
 
 import java.util.Arrays;
 
 
-public class PlayerBoardGUI extends FitObject {
+public class PlayerBoardGUI extends FitObject implements Selectable {
     StretchImage boardImage;
     private GridPane overlay;
     MiniPlayer player;
+    SelectableComponent select;
     PlayerBoardGUI(MiniPlayer player){
         this.player = player;
         String path = "/gui/players/" + player.getColor().toString().toLowerCase() + ".png";
@@ -31,7 +33,7 @@ public class PlayerBoardGUI extends FitObject {
 
         getChildren().addAll(boardImage, overlay);
 
-        setEffect(new DropShadow());
+        select = new SelectableComponent(this, player.getUuid());
     }
 
     public double getImageHeight() {
@@ -40,5 +42,25 @@ public class PlayerBoardGUI extends FitObject {
 
     public double getImageWidth() {
         return boardImage.getImageWidth();
+    }
+
+    @Override
+    public String getUuid() {
+        return select.getUuid();
+    }
+
+    @Override
+    public void enable(Runnable notifyChange) {
+        select.enable(notifyChange);
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        select.setSelected(selected);
+    }
+
+    @Override
+    public void disable() {
+        select.disable();
     }
 }

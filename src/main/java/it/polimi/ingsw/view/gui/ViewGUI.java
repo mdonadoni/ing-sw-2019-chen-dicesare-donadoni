@@ -1,28 +1,37 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.model.minified.MiniModel;
-import it.polimi.ingsw.view.gui.DummyViewGUI;
-import it.polimi.ingsw.view.gui.LoginPane;
-import it.polimi.ingsw.view.gui.util.Notification;
 import it.polimi.ingsw.view.gui.component.UserViewGUI;
-import it.polimi.ingsw.view.gui.WaitingPane;
+import it.polimi.ingsw.view.gui.util.Notification;
+import it.polimi.ingsw.view.gui.util.Selectable;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class ViewGUI extends Application {
     Stage primaryStage;
     DummyViewGUI dummy;
+    UserViewGUI userView;
+    BorderPane mainPane;
+    Button confirmSelection;
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+
+        mainPane = new BorderPane();
+        confirmSelection = new Button("Conferma");
+        confirmSelection.setDisable(true);
+        mainPane.setBottom(confirmSelection);
 
         // Construct dummy view
         dummy = new DummyViewGUI(this);
@@ -99,8 +108,11 @@ public class ViewGUI extends Application {
         tempPlayer.grabWeapon(new Weapon("cyberblade"));
         tempPlayer.grabWeapon(new Weapon("rocketlauncher"));
         tempPlayer.grabWeapon(new Weapon("sledgehammer"));
-        tempPlayer.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.YELLOW));
-        tempPlayer.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.BLUE));
+        PowerUp p1, p2;
+        p1 = new PowerUp(PowerUpType.NEWTON, AmmoColor.YELLOW);
+        p2 = new PowerUp(PowerUpType.NEWTON, AmmoColor.BLUE);
+        tempPlayer.addPowerUp(p1);
+        tempPlayer.addPowerUp(p2);
         tempPlayer.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.RED));
         tempPlayer.addDrawnPowerUp(new PowerUp(PowerUpType.TELEPORTER, AmmoColor.YELLOW));
 
@@ -137,11 +149,28 @@ public class ViewGUI extends Application {
 
         MiniModel miniModel = new MiniModel(match, match.getPlayerByNickname("thatDc"));
 
-        primaryStage.setScene(new Scene(new UserViewGUI(miniModel), 600, 400));
+        userView = new UserViewGUI(miniModel);
+        confirmSelection = new Button("Conferma");
+        confirmSelection.setDisable(true);
+
+        BorderPane main = new BorderPane();
+        main.setCenter(userView);
+        main.setBottom(confirmSelection);
+
+        primaryStage.setScene(new Scene(main, 600, 400));
 
         primaryStage.show();
         primaryStage.setMinWidth(854);
-        primaryStage.setMinHeight(480);*/
+        primaryStage.setMinHeight(480);
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println(selectObject(Arrays.asList(p1.getUuid(), p2.getUuid()), 0, 1));
+        }).start();*/
 
     }
 
@@ -150,7 +179,18 @@ public class ViewGUI extends Application {
     }
 
     public List<String> selectObject(List<String> objUuid, int min, int max) {
-        return null;
+        List<Selectable> selectables = new ArrayList<>();
+        for (String uuid : objUuid) {
+            Selectable s = userView.findSelectable(uuid);
+            if (s == null) {
+                throw new RuntimeException("Selectable not found: " + uuid);
+            }
+            selectables.add(s);
+        }
+
+        SelectionManager selectionManager = new SelectionManager(selectables, confirmSelection, min, max);
+        selectionManager.start();
+        return selectionManager.getSelected();
     }
 
     public void showMessage(String message) {
@@ -158,13 +198,11 @@ public class ViewGUI extends Application {
     }
 
     public void updateModel(MiniModel model) {
-        Platform.runLater(() ->
-                primaryStage.getScene().setRoot(new UserViewGUI(model))
-        );
-    }
-
-    public static void main(String[] args) {
-        launch(args);
+        Platform.runLater(() -> {
+            userView = new UserViewGUI(model);
+            mainPane.setCenter(userView);
+            primaryStage.getScene().setRoot(mainPane);
+        });
     }
 
     public void disconnect() {
@@ -179,4 +217,9 @@ public class ViewGUI extends Application {
             }
         });
     }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
 }

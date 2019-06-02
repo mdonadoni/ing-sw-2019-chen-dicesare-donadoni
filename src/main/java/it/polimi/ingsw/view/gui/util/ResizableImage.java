@@ -35,4 +35,8 @@ public class ResizableImage extends FitObject {
         }
         setImage(new Image(stream));
     }
+
+    public StretchImage getImage() {
+        return stretchImage;
+    }
 }

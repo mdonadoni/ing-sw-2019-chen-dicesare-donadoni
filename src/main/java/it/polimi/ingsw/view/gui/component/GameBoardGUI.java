@@ -5,17 +5,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.minified.MiniGameBoard;
 import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.util.ResourceException;
-import it.polimi.ingsw.view.gui.util.Composition;
-import it.polimi.ingsw.view.gui.util.FitObject;
-import it.polimi.ingsw.view.gui.util.StretchImage;
+import it.polimi.ingsw.view.gui.util.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.transform.Rotate;
 
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-public class GameBoardGUI extends FitObject {
+public class GameBoardGUI extends FitObject implements SelectableContainer {
     StretchImage boardImage;
+    BoardGUI boardGUI;
+    List<WeaponGUI> weaponsGUI = new ArrayList<>();
 
     public GameBoardGUI(MiniGameBoard gameBoard) {
         String path = "/gui/boards/" +
@@ -51,11 +53,11 @@ public class GameBoardGUI extends FitObject {
             double x2 = json.get("board").get("x2").asDouble();
             double y2 = json.get("board").get("y2").asDouble();
 
-            BoardGUI board = new BoardGUI(gameBoard.getBoard(), numberColumns, numberRows);
+            boardGUI = new BoardGUI(gameBoard.getBoard(), numberColumns, numberRows);
             Composition overlay = new Composition();
             overlay.setCompositionWidth(boardWidth);
             overlay.setCompositionHeight(boardHeight);
-            overlay.add(board, x1, y1, x2-x1, y2-y1);
+            overlay.add(boardGUI, x1, y1, x2-x1, y2-y1);
 
             gameBoard.getBoard().getSpawnPoints().forEach(spawn -> {
                 for (int i = 0; i < spawn.getWeapons().size(); i++) {
@@ -76,5 +78,15 @@ public class GameBoardGUI extends FitObject {
         } catch (Exception e) {
             throw new ResourceException("Error while parsing GUI board json", e);
         }
+    }
+
+    @Override
+    public Selectable findSelectable(String uuid) {
+        for (WeaponGUI w : weaponsGUI) {
+            if (w.getUuid().equals(uuid)) {
+                return w;
+            }
+        }
+        return boardGUI.findSelectable(uuid);
     }
 }

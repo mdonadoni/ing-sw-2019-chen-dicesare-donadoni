@@ -3,16 +3,19 @@ package it.polimi.ingsw.view.gui.component;
 import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.model.minified.MiniPlayer;
 import it.polimi.ingsw.view.gui.util.GridUtils;
+import it.polimi.ingsw.view.gui.util.Selectable;
+import it.polimi.ingsw.view.gui.util.SelectableContainer;
 import javafx.geometry.Orientation;
 import javafx.scene.layout.GridPane;
 
 import java.util.List;
 
-public class PlayerPaneGUI extends GridPane {
+public class PlayerPaneGUI extends GridPane implements SelectableContainer {
     private static final double BOARD_PERCENT = 50;
     private static final double BOARD_REDUCED_PERCENT = 65;
 
     private PlayerBoardGUI playerBoard;
+    private PlayerCardsPaneGUI playerCards;
     private boolean reduced;
 
 
@@ -29,8 +32,9 @@ public class PlayerPaneGUI extends GridPane {
         }
 
         playerBoard = new PlayerBoardGUI(player);
+        playerCards = new PlayerCardsPaneGUI(player.getWeapons(), myPowerUps);
 
-        add(new PlayerCardsPaneGUI(player.getWeapons(), myPowerUps), 0, 0);
+        add(playerCards, 0, 0);
         add(playerBoard, 0, 1);
     }
 
@@ -51,5 +55,13 @@ public class PlayerPaneGUI extends GridPane {
         } else {
             return boardHeight / BOARD_PERCENT * 100.0;
         }
+    }
+
+    @Override
+    public Selectable findSelectable(String uuid) {
+        if (playerBoard.getUuid().equals(uuid)) {
+            return playerBoard;
+        }
+        return playerCards.findSelectable(uuid);
     }
 }
