@@ -42,12 +42,15 @@ public class Action {
      */
     private boolean beforeFirstPlayer;
 
+    private boolean alwaysavailable;
+
     public Action(){
         finalFrenzyRequired = false;
         boardNotFlippedRequired = false;
         damageOverwrite = 99;
         damageRequired = 0;
         beforeFirstPlayer = false;
+        alwaysavailable = false;
     }
 
     public static List<Action> loadActions() {
@@ -67,6 +70,10 @@ public class Action {
                 action.setFinalFrenzyRequired(node.get("finalfrenzyrequired").asBoolean());
                 action.setBoardNotFlippedRequired(node.get("boardnotflippedrequired").asBoolean());
                 action.setBeforeFirstPlayer(node.get("beforefirstplayer").asBoolean());
+
+                JsonNode always = node.get("always available");
+                if(always != null)
+                    action.setAlwaysavailable(always.asBoolean());
 
                 actions.add(action);
             }
@@ -132,7 +139,7 @@ public class Action {
         return damageOverwrite;
     }
 
-    public void setBoardNotFlippedRequired(Boolean val){
+    public void setBoardNotFlippedRequired(boolean val){
         boardNotFlippedRequired = val;
     }
 
@@ -140,12 +147,24 @@ public class Action {
         return boardNotFlippedRequired;
     }
 
-    public void setBeforeFirstPlayer(Boolean val){
+    public void setBeforeFirstPlayer(boolean val){
         beforeFirstPlayer = val;
     }
 
     public boolean getBeforeFirstPlayer(){
         return  beforeFirstPlayer;
+    }
+
+    public void setAlwaysavailable(boolean val){
+        alwaysavailable = val;
+    }
+
+    public boolean getAlwaysavailable(){
+        return alwaysavailable;
+    }
+
+    public List<BasicAction> getActions(){
+        return actions;
     }
 
     /**
@@ -166,8 +185,11 @@ public class Action {
             res = false;
         }
 
-        if(player.getDamageTaken().size() < damageRequired || player.getDamageTaken().size() > damageOverwrite)
+        if(player.getDamageTaken().size() < damageRequired || player.getDamageTaken().size() >= damageOverwrite)
             res = false;
+
+        if(alwaysavailable)
+            res = true;
 
         return res;
     }

@@ -86,7 +86,7 @@ public class GameController implements Runnable{
                 try{
                     if(match.getCurrentTurn().getCurrentPlayer().isActive()){
                         spawnRoutine(match.getCurrentTurn().getCurrentPlayer(), 2);
-                        turn = new TurnController(match);
+                        turn = new TurnController(match, remotePlayers);
                         turn.startTurn();
                     }
                     match.nextTurn();
@@ -105,7 +105,7 @@ public class GameController implements Runnable{
 
         while(match.isActive()){
             if(match.getCurrentTurn().getCurrentPlayer().isActive()){
-                turn = new TurnController(match);
+                turn = new TurnController(match, remotePlayers);
                 turn.startTurn();
                 match.nextTurn();
             }

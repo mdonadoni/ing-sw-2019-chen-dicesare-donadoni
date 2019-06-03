@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.weapons.Weapon;
 
+import javax.swing.event.ListDataEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -274,11 +275,35 @@ public class Player extends Identifiable{
     }
 
     /**
+     * Adds the weapon to the player and removes the weapon from the square
+     * @param weapon
+     */
+    public void grabWeaponFromGround(Weapon weapon){
+        try{
+            SpawnPoint spwSquare = (SpawnPoint) this.getSquare();
+            if(!spwSquare.getWeapons().contains(weapon))
+                throw new InvalidOperationException("There's no such weapon on this square");
+            if (weapons.size() < 3){
+                weapons.add(weapon);
+                spwSquare.removeWeapon(weapon);
+            }
+            else
+                throw new FullInventoryException();
+        } catch (ClassCastException e){
+            throw new InvalidOperationException("You cannot grab a weapon if you are on a StandardSquare!");
+        }
+    }
+
+    /**
      * Get the list of weapon.
      * @return the list of weapon.
      */
     public List<Weapon> getWeapons() {
-        return weapons;
+        return new ArrayList<>(weapons);
+    }
+
+    public void removeWeapon(Weapon weapon){
+        this.weapons.remove(weapon);
     }
 
     /**
@@ -483,5 +508,71 @@ public class Player extends Identifiable{
 
     public Boolean getBeforeFirstPlayerFF(){
         return beforeFistPlayerFF;
+    }
+
+    /**
+     * This method returns all the actions a player can perform
+     * @param ffActive whether the Final Frenzy is active
+     * @return An ArrayList containing all the actions that a player can perform
+     */
+    public List<Action> supplyActions(boolean ffActive){
+        List<Action> actions;
+        List<Action> availableActions = new ArrayList<>();
+
+        actions = Action.loadActions();
+        for(Action act : actions){
+            if(act.canPerform(this, ffActive))
+                availableActions.add(act);
+        }
+
+        return availableActions;
+    }
+
+    /**
+     * States whether a player can pay a certain cost. First checks if you can pay using solely the ammos, then if you
+     * can't, checks also the powerups.
+     * @param cost List of AmmoColors that represents the cost of the thing you have to pay for
+     * @return True if you can pay, false if you are too poor to pay
+     */
+    public boolean canPay(List<AmmoColor> cost){
+        List<AmmoColor> ammoCost = new ArrayList<>(cost);
+        // Firstly runs through all the available ammo
+        for(AmmoColor singleAmmo : this.ammo){
+            ammoCost.remove(singleAmmo);
+        }
+        // If the cost has been "payed", we can state that we are able to pay the cost
+        if(ammoCost.isEmpty())
+            return true;
+        // Otherwise must check also the powerups
+        else{
+            for (PowerUp pwu : this.powerUps){
+                ammoCost.remove(pwu.getAmmo());
+            }
+        }
+        return ammoCost.isEmpty();
+    }
+
+    /**
+     * Pay a certain cost, you MUST verify that the player can pay che cost using the canPay method, otherwise this won't
+     * work. For now, if you are able to pay with powerups, the last powerup will be selected.
+     * @param cost The cost to be payed
+     */
+    public void payCost(List<AmmoColor> cost) {
+        if(!canPay(cost))
+            throw new InvalidOperationException(nickname + " cannot pay the cost");
+        // First pay using the ammo of the player
+        for(AmmoColor singleCost : cost){
+            if(this.ammo.contains(singleCost))
+                this.ammo.remove(singleCost);
+            // If no ammo is available, then use a powerup
+            else{
+                PowerUp selectedPwu = this.getPowerUps().get(0);
+                for(PowerUp pwu : this.getPowerUps()){
+                    if(pwu.getAmmo().equals(singleCost))
+                        selectedPwu = pwu;
+                }
+                this.powerUps.remove(selectedPwu);
+            }
+        }
     }
 }

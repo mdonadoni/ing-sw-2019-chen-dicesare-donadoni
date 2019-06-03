@@ -40,12 +40,13 @@
     "beforefirstplayer": false
   },
   {
-    "basics": ["reload"],
+    "basics": ["skip"],
     "finalfrenzyrequired": false,
     "boardnotflippedrequired": false,
     "required": 0,
     "overwrite": 99,
-    "beforefirstplayer": false
+    "beforefirstplayer": false,
+    "alwaysavailable": true
   },
   {
     "basics": ["movement", "reload", "shoot"],

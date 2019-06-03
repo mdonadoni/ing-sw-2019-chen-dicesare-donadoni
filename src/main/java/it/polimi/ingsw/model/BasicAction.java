@@ -4,5 +4,6 @@ public enum BasicAction {
     MOVEMENT,
     GRAB,
     SHOOT,
-    RELOAD
+    RELOAD,
+    SKIP
 }

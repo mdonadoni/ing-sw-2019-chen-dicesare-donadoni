@@ -71,7 +71,7 @@ public class AmmoTile extends Identifiable implements Serializable {
      * @return the list of ammo.
      */
     public List<AmmoColor> getAmmo() {
-        return this.ammo;
+        return new ArrayList<>(this.ammo);
     }
 
     /**
@@ -80,5 +80,14 @@ public class AmmoTile extends Identifiable implements Serializable {
      */
     public boolean hasPowerUp(){
         return ammo.size()==2;
+    }
+
+    public int countAmmo(AmmoColor color){
+        int res = 0;
+        for(AmmoColor ammoCol : ammo){
+            if(ammoCol.equals(color))
+                res++;
+        }
+        return res;
     }
 }

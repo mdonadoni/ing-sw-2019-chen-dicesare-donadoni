@@ -70,7 +70,7 @@ class ActionTest {
         assertEquals(act.getDamageRequired(), 0);
 
         act = actions.get(5);
-        assertTrue(act.canReload());
+        assertFalse(act.canReload());
         assertFalse(act.canShoot());
         assertFalse(act.canMove());
         assertEquals(act.countMovement(), 0);

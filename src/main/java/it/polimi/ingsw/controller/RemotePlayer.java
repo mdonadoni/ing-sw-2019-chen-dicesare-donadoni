@@ -276,4 +276,8 @@ public class RemotePlayer {
     public void setDisconnectionCallback(Consumer<RemotePlayer> disconnectionCallback) {
         this.disconnectionCallback = disconnectionCallback;
     }
+
+    public View getView(){
+        return view;
+    }
 }
