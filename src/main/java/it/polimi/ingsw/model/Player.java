@@ -552,27 +552,8 @@ public class Player extends Identifiable{
         return ammoCost.isEmpty();
     }
 
-    /**
-     * Pay a certain cost, you MUST verify that the player can pay che cost using the canPay method, otherwise this won't
-     * work. For now, if you are able to pay with powerups, the last powerup will be selected.
-     * @param cost The cost to be payed
-     */
-    public void payCost(List<AmmoColor> cost) {
-        if(!canPay(cost))
-            throw new InvalidOperationException(nickname + " cannot pay the cost");
-        // First pay using the ammo of the player
-        for(AmmoColor singleCost : cost){
-            if(this.ammo.contains(singleCost))
-                this.ammo.remove(singleCost);
-            // If no ammo is available, then use a powerup
-            else{
-                PowerUp selectedPwu = this.getPowerUps().get(0);
-                for(PowerUp pwu : this.getPowerUps()){
-                    if(pwu.getAmmo().equals(singleCost))
-                        selectedPwu = pwu;
-                }
-                this.powerUps.remove(selectedPwu);
-            }
-        }
+    public void removePowerUp(PowerUp pwu){
+        powerUps.remove(pwu);
     }
+
 }

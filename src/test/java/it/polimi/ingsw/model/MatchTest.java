@@ -66,4 +66,11 @@ class MatchTest {
         assertTrue(match.isActive());
 
     }
+
+    @Test
+    void getOtherPlayers() {
+        assertFalse(match.getOtherPlayers("A").contains(playerA));
+        assertFalse(match.getOtherPlayers("C").contains(playerC));
+        assertFalse(match.getOtherPlayers("E").contains(playerE));
+    }
 }

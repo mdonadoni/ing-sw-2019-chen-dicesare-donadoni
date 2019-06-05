@@ -16,7 +16,7 @@ class ActionControllerTest {
     private Match match;
     private Map<String, RemotePlayer> users;
     private ActionController controller;
-    private Square redSpawn;
+    private SpawnPoint redSpawn;
     private TestView adaView;
     private Player player;
     private Action action;
@@ -158,12 +158,87 @@ class ActionControllerTest {
 
         action.addAction(BasicAction.GRAB);
         player.move(redSpawn);
-        goHereSpawn = (SpawnPoint) redSpawn;
+        goHereSpawn = redSpawn;
         goHereSpawn.addWeapon(extraWeapon);
 
         controller.performAction(player, action);
 
         assertTrue(player.getWeapons().contains(extraWeapon));
         assertEquals(goHereSpawn.getWeapons().size(), 1);
+    }
+
+    @Test
+    void performActionGrabWeaponWithCost() throws RemoteException{
+        // Setup weapon costs
+        weaponOne.addPickupColor(AmmoColor.RED);
+        weaponOne.addPickupColor(AmmoColor.BLUE);
+        weaponOne.addPickupColor(AmmoColor.BLUE);
+        weaponTwo.addPickupColor(AmmoColor.YELLOW);
+        weaponThree.addPickupColor(AmmoColor.YELLOW);
+        weaponThree.addPickupColor(AmmoColor.BLUE);
+
+        // Add weapons to the spawn
+        redSpawn.addWeapon(weaponOne);
+        redSpawn.addWeapon(weaponTwo);
+        redSpawn.addWeapon(weaponThree);
+
+        // Add player something to pay with
+        player.addAmmo(AmmoColor.RED);
+        player.addAmmo(AmmoColor.BLUE);
+        player.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.BLUE));
+        player.addPowerUp(new PowerUp(PowerUpType.TELEPORTER, AmmoColor.BLUE));
+
+        // Setup action
+        action.addAction(BasicAction.GRAB);
+        player.move(redSpawn);
+
+        // Do the damn thing
+        controller.performAction(player, action);
+
+        // Please don't crash
+        assertEquals(redSpawn.getWeapons().size(), 2);
+        assertEquals(player.getWeapons().size(), 1);
+        assertTrue(player.getAmmo().isEmpty());
+        assertEquals(player.getPowerUps().size(), 1);
+    }
+
+    @Test
+    void performActionReload() throws RemoteException{
+        // Setup action
+        action.addAction(BasicAction.RELOAD);
+
+        // Setup weapon costs
+        weaponOne.addPickupColor(AmmoColor.RED);
+        weaponOne.addPickupColor(AmmoColor.RED);
+        weaponOne.setAdditionalRechargeColor(AmmoColor.BLUE);
+        weaponTwo.addPickupColor(AmmoColor.RED);
+        weaponTwo.setAdditionalRechargeColor(AmmoColor.BLUE);
+
+        // Add weapons to player
+        player.grabWeapon(weaponOne);
+        player.grabWeapon(weaponTwo);
+        player.grabWeapon(weaponThree);
+
+        // Set weapons ad discharged
+        for(Weapon wp : player.getWeapons()){
+            wp.setCharged(false);
+        }
+
+        // Give player something to pay with
+        player.addAmmo(AmmoColor.RED);
+        player.addAmmo(AmmoColor.RED);
+        player.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.BLUE));
+        player.addPowerUp(new PowerUp(PowerUpType.TELEPORTER, AmmoColor.YELLOW));
+
+        // Do the thing
+        controller.performAction(player, action);
+
+        // Check everything gone right
+        assertTrue(player.getAmmo().isEmpty());
+        assertEquals(player.getPowerUps().size(), 1);
+        assertEquals(player.getPowerUps().get(0).getAmmo(), AmmoColor.YELLOW);
+        assertTrue(weaponOne.getCharged());
+        assertFalse(weaponTwo.getCharged());
+        assertTrue(weaponThree.getCharged());
     }
 }

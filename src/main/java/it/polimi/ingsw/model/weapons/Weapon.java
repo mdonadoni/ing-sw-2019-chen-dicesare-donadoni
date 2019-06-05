@@ -14,7 +14,13 @@ import java.util.List;
 public class Weapon extends Identifiable {
     private String name;
     private boolean charged = false;
+    /**
+     * Cost you need to pay when you try to pickup a weapon
+     */
     private List<AmmoColor> pickupColor = new ArrayList<>();
+    /**
+     * In order to recharge the weapon, you need to pay this cost
+     */
     private AmmoColor additionalRechargeColor;
     private ArrayList<Attack> attacks = new ArrayList<>();
 
@@ -81,5 +87,13 @@ public class Weapon extends Identifiable {
     }
     public void removeAttack(int ndx){
         attacks.remove(ndx);
+    }
+
+    public List<AmmoColor> getTotalRechargeCost(){
+        List<AmmoColor> totalCost = new ArrayList<>(pickupColor);
+        if(additionalRechargeColor != null)
+            totalCost.add(additionalRechargeColor);
+
+        return totalCost;
     }
 }

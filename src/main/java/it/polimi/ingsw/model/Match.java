@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.util.ResourceException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Match extends Identifiable{
     /**
@@ -146,5 +147,16 @@ public class Match extends Identifiable{
                 activePlayers++;
 
         return activePlayers >= 3;
+    }
+
+    /**
+     * Get all the enemies of a given player
+     * @param nickname the player I want to exclude from the list
+     * @return a List containing all the players except the one given
+     */
+    public List<Player> getOtherPlayers(String nickname){
+        return players.stream()
+                .filter(e -> !e.getNickname().equals(nickname))
+                .collect(Collectors.toList());
     }
 }

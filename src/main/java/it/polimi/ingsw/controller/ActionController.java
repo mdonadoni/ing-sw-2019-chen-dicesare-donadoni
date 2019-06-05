@@ -108,25 +108,42 @@ public class ActionController {
 
     }
 
-    private void handleReload(String playerName){
-
+    /**
+     * Handled the recharge routine for a player
+     * @param playerName the player acting
+     * @throws RemoteException in case something goes wrong
+     */
+    private void handleReload(String playerName) throws RemoteException {
+        Player player = match.getPlayerByNickname(playerName);
+        RemotePlayer remotePlayer = remoteUsers.get(playerName);
+        // Cycle through all the player weapons
+        for(Weapon currentWeapon : player.getWeapons()){
+            if(player.canPay(currentWeapon.getTotalRechargeCost())){
+                // Ask the user if he wants to recharge this weapon
+                List<Weapon> selectingWeapon = new ArrayList<>();
+                selectingWeapon.add(currentWeapon);
+                remotePlayer.selectIdentifiable(selectingWeapon, 0, 1);
+                // Pay the recharge cost
+                PaymentGateway.payCost(currentWeapon.getTotalRechargeCost(), player, remotePlayer);
+                // Set the recharge flag
+                currentWeapon.setCharged(true);
+            }
+        }
     }
 
     /**
      * The player performs the grab action, if he's on a StandardSquare, automatically gets the ammotile, otherwise
      * asks the user which weapon he wants to grab and handles possible difficult situations
      * @param playerName the player who's acting
-     * @throws RemoteException in case something goes wrongchr
+     * @throws RemoteException in case something goes wrong
      */
     private void handleGrab(String playerName)  throws RemoteException{
         Player player = match.getPlayerByNickname(playerName);
         RemotePlayer remotePlayer = remoteUsers.get(playerName);
         Board board = match.getGameBoard().getBoard();
-        List<Coordinate> stdCoord = board.getStandardSquares().stream()
-                .map(StandardSquare::getCoordinates)
-                .collect(Collectors.toList());
+
         // Check if the player is on a standard square
-        if(stdCoord.contains(player.getSquare().getCoordinates())){
+        if(board.isStandardSquare(player.getSquare().getCoordinates())){
             StandardSquare sq = (StandardSquare) player.getSquare();
             // Automatically grab the ammoTile, if there's one
             if(sq.hasAmmoTile()){
@@ -143,14 +160,25 @@ public class ActionController {
             // Grab the weapon
             try{
                 player.grabWeaponFromGround(selectedWeapon);
+                PaymentGateway.payCost(selectedWeapon.getPickupColor(), player, remotePlayer); // Pay the cost
             } catch (FullInventoryException e){ // If we already have 3 weapons, we must discard one
                 discardWeapon(selectedWeapon, player);
             }
         }
     }
 
-    private void handleShoot(String playerName){
+    /**
+     * Dummy method, will be implemented later
+     */
+    private void handleShoot(String playerName) throws RemoteException{
+        Player player = match.getPlayerByNickname(playerName);
+        RemotePlayer remotePlayer = remoteUsers.get(playerName);
+        List<Player> otherPlayers = match.getOtherPlayers(playerName);
 
+        Player victim = remotePlayer.selectIdentifiable(otherPlayers, 1, 1).get(0);
+
+        victim.takeDamage(player.getColor(), 2);
+        victim.addMark(player.getColor(), 1);
     }
 
     /**
