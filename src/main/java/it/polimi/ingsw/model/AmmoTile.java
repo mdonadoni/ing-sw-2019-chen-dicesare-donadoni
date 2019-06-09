@@ -24,8 +24,9 @@ public class AmmoTile extends Identifiable implements Serializable {
      */
     @JsonCreator
     private AmmoTile(@JsonProperty("ammo") List<AmmoColor> ammo) {
-        ammo = new ArrayList<>(ammo);
+        this.ammo = new ArrayList<>(ammo);
     }
+
     /**
      * Constructor that make a tile made of 2 or 3 ammo
      * @param ammos ammunition colors
