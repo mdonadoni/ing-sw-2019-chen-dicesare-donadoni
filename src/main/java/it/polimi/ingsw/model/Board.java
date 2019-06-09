@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.util.ResourceManager;
 
 import java.io.InputStream;
 import java.util.*;
@@ -45,7 +46,7 @@ public class Board {
         this.type = boardType;
         try {
             String path = "/boards/" + boardType.name().toLowerCase() + ".json";
-            InputStream in = Board.class.getResourceAsStream(path);
+            InputStream in = ResourceManager.get(path);
             ObjectMapper mapper = Json.getMapper();
             JsonNode json = mapper.readTree(in);
 

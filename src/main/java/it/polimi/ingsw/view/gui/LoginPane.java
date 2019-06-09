@@ -1,19 +1,18 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.network.ConnectionType;
+import it.polimi.ingsw.view.gui.util.Loader;
 import it.polimi.ingsw.view.gui.util.Notification;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-import java.io.IOException;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -38,16 +37,7 @@ public class LoginPane extends GridPane {
     private BooleanProperty connected;
 
     public LoginPane() {
-        FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/gui/fxml/LoginPane.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+        Loader.load("/gui/fxml/LoginPane.fxml", this);
 
         connected = new SimpleBooleanProperty(false);
     }

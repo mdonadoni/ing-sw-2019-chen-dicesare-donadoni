@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.Identifiable;
 import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.util.ResourceManager;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class Weapon extends Identifiable {
     public Weapon(String name){
         this.name = name;
     }
-    public Weapon(WeaponType name) throws ResourceException {
-        this(Weapon.class.getResourceAsStream("/weapons/"+name.toString().toLowerCase()+".json"));
+    public Weapon(WeaponType name) {
+        this(ResourceManager.get("/weapons/"+name.toString().toLowerCase()+".json"));
     }
     public Weapon(InputStream stream) throws ResourceException {
         try {

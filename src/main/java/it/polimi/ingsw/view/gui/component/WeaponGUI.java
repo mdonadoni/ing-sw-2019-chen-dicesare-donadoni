@@ -2,8 +2,9 @@ package it.polimi.ingsw.view.gui.component;
 
 import it.polimi.ingsw.model.minified.MiniWeapon;
 import it.polimi.ingsw.util.ResourceException;
-import it.polimi.ingsw.view.gui.util.Selectable;
+import it.polimi.ingsw.util.ResourceManager;
 import it.polimi.ingsw.view.gui.util.ResizableImage;
+import it.polimi.ingsw.view.gui.util.Selectable;
 import it.polimi.ingsw.view.gui.util.SelectableComponent;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -25,7 +26,7 @@ public class WeaponGUI extends ResizableImage implements Selectable {
         if (!reduced) {
             loadImage(path);
         } else {
-            InputStream stream = getClass().getResourceAsStream(path);
+            InputStream stream = ResourceManager.get(path);
             if (stream == null) {
                 throw new ResourceException("Couldn't load resource");
             }

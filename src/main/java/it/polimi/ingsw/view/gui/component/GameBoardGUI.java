@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.minified.MiniGameBoard;
 import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.util.ResourceManager;
 import it.polimi.ingsw.view.gui.util.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.transform.Rotate;
@@ -34,7 +35,7 @@ public class GameBoardGUI extends FitObject implements SelectableContainer {
             String jsonPath = MessageFormat.format(
                     "/gui/boards/{0}.json",
                     gameBoard.getBoard().getType().toString().toLowerCase());
-            InputStream in = getClass().getResourceAsStream(jsonPath);
+            InputStream in = ResourceManager.get(jsonPath);
             if (in == null) {
                 throw new ResourceException("Cannot find board gui");
             }

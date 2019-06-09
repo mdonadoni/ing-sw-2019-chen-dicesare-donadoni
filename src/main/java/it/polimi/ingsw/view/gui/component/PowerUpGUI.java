@@ -16,8 +16,6 @@ public class PowerUpGUI extends ResizableImage implements Selectable {
                 powerup.getAmmo().toString().toLowerCase() + ".png");
         this.powerup = powerup;
 
-        System.out.println("New powerup: " + powerup.getUuid());
-
         setEffect(new DropShadow());
 
         select = new SelectableComponent(this, powerup.getUuid());

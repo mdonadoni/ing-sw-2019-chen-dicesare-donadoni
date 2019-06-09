@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.weapons.Weapon;
 import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.util.ResourceManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,7 +72,7 @@ public class GameBoard {
 
     private void initPowerUpDeck(){
         ObjectMapper mapper = Json.getMapper();
-        InputStream stream = GameBoard.class.getResourceAsStream("/decks/powerUpDeck.json");
+        InputStream stream = ResourceManager.get("/decks/powerUpDeck.json");
         try {
             JsonNode json = mapper.readTree(stream);
 
@@ -88,7 +89,7 @@ public class GameBoard {
 
     private void initAmmoTileDeck(){
         ObjectMapper mapper = Json.getMapper();
-        InputStream stream = GameBoard.class.getResourceAsStream("/decks/ammoTileDeck.json");
+        InputStream stream = ResourceManager.get("/decks/ammoTileDeck.json");
         try{
             JsonNode json = mapper.readTree(stream);
 

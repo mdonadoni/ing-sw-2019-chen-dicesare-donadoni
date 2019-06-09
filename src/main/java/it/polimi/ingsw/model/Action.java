@@ -2,9 +2,9 @@ package it.polimi.ingsw.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.model.weapons.Weapon;
 import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.util.ResourceManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,7 +56,7 @@ public class Action {
     public static List<Action> loadActions() {
         List<Action> actions = new ArrayList<>();
         try{
-            InputStream stream = Action.class.getResourceAsStream("/rules/actions.json");
+            InputStream stream = ResourceManager.get("/rules/actions.json");
             ObjectMapper mapper = Json.getMapper();
             JsonNode json = mapper.readTree(stream);
 

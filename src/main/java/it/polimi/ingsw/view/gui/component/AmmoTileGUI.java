@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.gui.component;
 
 import it.polimi.ingsw.model.AmmoTile;
-import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.util.ResourceManager;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -19,9 +19,7 @@ public class AmmoTileGUI extends Pane {
             initials.add(0, "p");
         }
         String path = "/gui/ammo/" + String.join("", initials) + ".png";
-        if (getClass().getResource(path) == null) {
-            throw new ResourceException("Cannot find ammo tile gui");
-        }
+        ResourceManager.get(path);
 
         setStyle("-fx-background-image: url(" + path + ");" +
                  "-fx-background-size: stretch;");

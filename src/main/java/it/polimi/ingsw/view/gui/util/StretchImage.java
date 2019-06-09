@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.gui.util;
 
-import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.util.ResourceManager;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -8,8 +8,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
-
-import java.io.InputStream;
 
 public class StretchImage extends Pane {
     Image img;
@@ -25,11 +23,7 @@ public class StretchImage extends Pane {
     }
 
     public StretchImage(String path) {
-        InputStream stream = getClass().getResourceAsStream(path);
-        if (stream == null) {
-            throw new ResourceException("Cannot find image resource");
-        }
-        setImage(new Image(stream));
+        setImage(new Image(ResourceManager.get(path)));
     }
 
     private void setImage(Image img) {

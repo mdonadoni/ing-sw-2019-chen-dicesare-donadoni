@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.util.ResourceManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +18,7 @@ public class UserDialog {
     public static Map<DialogType, String> loadDialogs(){
         try{
             Map<DialogType, String> dialogMap = new HashMap<>();
-            InputStream stream = UserDialog.class.getResourceAsStream("/dialogs/dialoglines.json");
+            InputStream stream = ResourceManager.get("/dialogs/dialoglines.json");
             ObjectMapper mapper = Json.getMapper();
             JsonNode json = mapper.readTree(stream);
 
