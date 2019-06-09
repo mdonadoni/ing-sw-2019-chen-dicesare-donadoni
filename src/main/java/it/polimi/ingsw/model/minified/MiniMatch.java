@@ -13,13 +13,13 @@ public class MiniMatch extends Identifiable implements Serializable {
 
     private final ArrayList<MiniPlayer> players;
     private final MiniGameBoard gameBoard;
-    private final String currentPlayer;
+    private final MiniTurn currentTurn;
 
     @JsonCreator
     private MiniMatch() {
         this.players = null;
         this.gameBoard = null;
-        this.currentPlayer = null;
+        this.currentTurn = null;
     }
 
     public MiniMatch(Match match) {
@@ -27,7 +27,7 @@ public class MiniMatch extends Identifiable implements Serializable {
         this.players = new ArrayList<>();
         match.getPlayers().forEach((p) -> players.add(new MiniPlayer(p)));
         this.gameBoard = new MiniGameBoard(match.getGameBoard());
-        this.currentPlayer = match.getCurrentTurn().getCurrentPlayer().getNickname();
+        this.currentTurn = new MiniTurn(match.getCurrentTurn().getCurrentPlayer(), match.getFinalFrenzy());
     }
 
     public List<MiniPlayer> getPlayers() {
@@ -38,7 +38,7 @@ public class MiniMatch extends Identifiable implements Serializable {
         return gameBoard;
     }
 
-    public String getCurrentPlayer() {
-        return currentPlayer;
+    public MiniTurn getCurrentTurn() {
+        return currentTurn;
     }
 }

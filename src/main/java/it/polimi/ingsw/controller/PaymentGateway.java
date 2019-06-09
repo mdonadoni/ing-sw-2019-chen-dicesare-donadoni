@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.AmmoColor;
-import it.polimi.ingsw.model.InvalidOperationException;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PowerUp;
+import it.polimi.ingsw.model.*;
 
 import java.rmi.RemoteException;
 import java.util.List;
@@ -11,16 +8,20 @@ import java.util.stream.Collectors;
 
 public class PaymentGateway {
 
-    private PaymentGateway(){
-        super();
+    private Match match;
+
+    public PaymentGateway(Match match){
+        this.match = match;
     }
 
     /**
      * Pay a certain cost, you MUST verify that the player can pay che cost using the canPay method, otherwise this won't
-     * work. For now, if you are able to pay with powerups, the last powerup will be selected.
+     * work.
      * @param cost The cost to be payed
+     * @param player The player that has to pay
+     * @param remotePlayer The RemotePlayer object that refers to the player
      */
-    public static void payCost(List<AmmoColor> cost, Player player, RemotePlayer remotePlayer) throws RemoteException {
+    public void payCost(List<AmmoColor> cost, Player player, RemotePlayer remotePlayer) throws RemoteException {
         String nickname = player.getNickname();
         if(!player.canPay(cost))
             throw new InvalidOperationException(nickname + " cannot pay the cost");
@@ -36,6 +37,7 @@ public class PaymentGateway {
                         .collect(Collectors.toList());
                 PowerUp selectedPwu = remotePlayer.selectIdentifiable(payablePwu, 1, 1).get(0);
                 player.removePowerUp(selectedPwu);
+                match.getGameBoard().getPowerUpDeck().discard(selectedPwu);
             }
         }
     }

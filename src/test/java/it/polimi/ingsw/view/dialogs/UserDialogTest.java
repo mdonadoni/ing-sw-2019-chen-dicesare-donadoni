@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.dialogs;
 
+import it.polimi.ingsw.controller.UserDialog;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -67,6 +67,8 @@ public class GameBoard {
 
         initPowerUpDeck();
         initAmmoTileDeck();
+
+        refillAmmoTile();
     }
 
     private void initPowerUpDeck(){

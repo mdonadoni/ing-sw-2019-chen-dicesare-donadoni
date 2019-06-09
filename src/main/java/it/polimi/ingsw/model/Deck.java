@@ -54,6 +54,10 @@ public class Deck<T> {
         return availableCards.pop();
     }
 
+    public T peek(){
+        return availableCards.get(0);
+    }
+
     /**
      * Discard a card. This card is added to the stack of discarded cards, and
      * will become available when there are no available cards left (or when the

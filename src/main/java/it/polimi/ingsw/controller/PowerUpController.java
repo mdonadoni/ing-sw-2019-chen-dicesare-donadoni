@@ -96,5 +96,6 @@ public class PowerUpController {
      */
     private void targeting(Player targetPlayer, PlayerToken damageColor){
         targetPlayer.addDamage(damageColor, 1);
+        // TODO: Handle payment
     }
 }

@@ -60,7 +60,7 @@ class ActionTest {
 
     @Test
     void fromResourceTest(){
-        List<Action> actions = Action.loadActions();
+        List<Action> actions = ActionSupplier.getInstance().getActions();
 
         Action act = actions.get(0);
 

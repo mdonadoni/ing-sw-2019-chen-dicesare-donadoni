@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.util.ResourceException;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,7 +25,7 @@ public class Match extends Identifiable{
      */
     private int turnsElapsed;
 
-    public Match(List<String> nicknames, BoardType boardType) throws ResourceException {
+    public Match(List<String> nicknames, BoardType boardType){
         if (nicknames.size() < 3) {
             throw new InvalidOperationException("Not enough players");
         }
@@ -51,7 +49,7 @@ public class Match extends Identifiable{
     /**
      * Standard constructor, generates his id
      */
-    Match() throws ResourceException{
+    Match(){
         finalFrenzy = false;
         gameBoard = new GameBoard();
     }
@@ -158,5 +156,9 @@ public class Match extends Identifiable{
         return players.stream()
                 .filter(e -> !e.getNickname().equals(nickname))
                 .collect(Collectors.toList());
+    }
+
+    public boolean getFinalFrenzy(){
+        return finalFrenzy;
     }
 }

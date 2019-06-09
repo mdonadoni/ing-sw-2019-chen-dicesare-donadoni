@@ -15,10 +15,18 @@ class PaymentGatewayTest {
 
     private Player player;
     private RemotePlayer remotePlayer;
+    private Match match;
+    private PaymentGateway paymentGateway;
 
     @BeforeEach
     void setup(){
-        player = new Player("Ada", PlayerToken.BLUE);
+        List<String> nicks = new ArrayList<>();
+        nicks.add("Ada");
+        nicks.add("Bob Ross");
+        nicks.add("Charlie Brown");
+        match = new Match(nicks, BoardType.SMALL);
+        paymentGateway = new PaymentGateway(match);
+        player = match.getPlayerByNickname("Ada");
         remotePlayer = new RemotePlayer("Ada", new TestView());
         remotePlayer.setTimeLeft(2000);
     }
@@ -35,7 +43,7 @@ class PaymentGatewayTest {
         player.addAmmo(AmmoColor.RED);
         player.addAmmo(AmmoColor.BLUE);
 
-        PaymentGateway.payCost(cost, player, remotePlayer);
+        paymentGateway.payCost(cost, player, remotePlayer);
         // YRRB - RBR => Y
         assertEquals(player.getAmmo().get(0), AmmoColor.YELLOW);
 
@@ -44,7 +52,7 @@ class PaymentGatewayTest {
         player.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.BLUE));
         player.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.RED));
 
-        PaymentGateway.payCost(cost, player, remotePlayer);
+        paymentGateway.payCost(cost, player, remotePlayer);
         // YRR[B][R] - RBR => Y[R]
         assertEquals(player.getAmmo().get(0), AmmoColor.YELLOW);
         assertEquals(player.getPowerUps().get(0).getAmmo(), AmmoColor.RED);
@@ -53,7 +61,7 @@ class PaymentGatewayTest {
         player.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.BLUE));
         player.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.RED));
 
-        PaymentGateway.payCost(cost, player, remotePlayer);
+        paymentGateway.payCost(cost, player, remotePlayer);
         // YY[R][R][B] - RBR => YY
         assertTrue(player.getPowerUps().isEmpty());
         assertEquals(player.getAmmo().size(), 2);

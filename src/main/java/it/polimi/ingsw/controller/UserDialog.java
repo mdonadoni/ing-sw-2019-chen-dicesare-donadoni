@@ -1,9 +1,10 @@
-package it.polimi.ingsw.view.dialogs;
+package it.polimi.ingsw.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.view.dialogs.DialogType;
 
 import java.io.IOException;
 import java.io.InputStream;

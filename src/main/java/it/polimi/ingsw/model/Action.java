@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Action {
+public class Action extends Identifiable{
     private List<BasicAction> actions = new ArrayList<>();
 
     /**
@@ -51,37 +51,6 @@ public class Action {
         damageRequired = 0;
         beforeFirstPlayer = false;
         alwaysavailable = false;
-    }
-
-    public static List<Action> loadActions() {
-        List<Action> actions = new ArrayList<>();
-        try{
-            InputStream stream = Action.class.getResourceAsStream("/rules/actions.json");
-            ObjectMapper mapper = Json.getMapper();
-            JsonNode json = mapper.readTree(stream);
-
-            for(JsonNode node : json){
-                Action action = new Action();
-                for(JsonNode basic : node.get("basics")){
-                    action.addAction(BasicAction.valueOf(basic.asText().toUpperCase()));
-                }
-                action.setDamageOverwrite(node.get("overwrite").asInt());
-                action.setDamageRequired(node.get("required").asInt());
-                action.setFinalFrenzyRequired(node.get("finalfrenzyrequired").asBoolean());
-                action.setBoardNotFlippedRequired(node.get("boardnotflippedrequired").asBoolean());
-                action.setBeforeFirstPlayer(node.get("beforefirstplayer").asBoolean());
-
-                JsonNode always = node.get("always available");
-                if(always != null)
-                    action.setAlwaysavailable(always.asBoolean());
-
-                actions.add(action);
-            }
-        } catch (IOException e){
-            throw new ResourceException("Cannot read actions file", e);
-        }
-
-        return actions;
     }
 
     public void addAction(BasicAction act){
@@ -192,5 +161,33 @@ public class Action {
             res = true;
 
         return res;
+    }
+
+    public boolean expendsUse(){
+        return !(actions.size() == 1 && actions.get(0).equals(BasicAction.POWERUP));
+    }
+
+    public boolean endsTurn(){
+        return (actions.size() == 1 && actions.get(0).equals(BasicAction.RELOAD));
+    }
+
+    public boolean canOnlyMove(){
+        boolean res = true;
+
+        for(BasicAction basic : actions){
+            if (basic != BasicAction.MOVEMENT)
+                res = false;
+        }
+
+        return res;
+    }
+
+    public String info(){
+        String retString = new String();
+
+        for(BasicAction basic : actions)
+            retString = retString.concat(basic.toString() + " ");
+
+        return retString;
     }
 }

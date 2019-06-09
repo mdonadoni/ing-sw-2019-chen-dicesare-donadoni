@@ -6,11 +6,16 @@ import javax.swing.event.ListDataEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class represent a Player of the game.
  */
 public class Player extends Identifiable{
+
+    private static final int MAX_POWERUP_HAND = 3;
+    private static final int MAX_WEAPON_HAND = 3;
+
     /**
      * It's the nickname of the player identify the Player.
      */
@@ -142,11 +147,12 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Get the list of the damage taken by the player.
-     * @return the list of PlayerToken as the damage taken.
+     * The damage order of this player's board. It is used to calculate points assignment.
+     * @return A list containing the Tokens of the players that dealt damage to this player, ordered by the amount of
+     *         damage dealt and secondly by the recentness the damage.
      */
     public List<PlayerToken> getDamageOrder(){
-        return damageTaken;
+        return Util.uniqueStableSortByCount(damageTaken);
     }
 
     /**
@@ -269,7 +275,7 @@ public class Player extends Identifiable{
      * @param weapon the weapon to grab.
      */
     public void grabWeapon(Weapon weapon) {
-        if (weapons.size() < 3) {
+        if (weapons.size() < MAX_WEAPON_HAND) {
             weapons.add(weapon);
         }
     }
@@ -283,7 +289,7 @@ public class Player extends Identifiable{
             SpawnPoint spwSquare = (SpawnPoint) this.getSquare();
             if(!spwSquare.getWeapons().contains(weapon))
                 throw new InvalidOperationException("There's no such weapon on this square");
-            if (weapons.size() < 3){
+            if (weapons.size() < MAX_WEAPON_HAND){
                 weapons.add(weapon);
                 spwSquare.removeWeapon(weapon);
             }
@@ -292,6 +298,10 @@ public class Player extends Identifiable{
         } catch (ClassCastException e){
             throw new InvalidOperationException("You cannot grab a weapon if you are on a StandardSquare!");
         }
+    }
+
+    public boolean canGrabWeapon(){
+        return weapons.size() < MAX_WEAPON_HAND;
     }
 
     /**
@@ -403,10 +413,14 @@ public class Player extends Identifiable{
      * @param pwu the PowerUp to be added
      */
     public void addPowerUp(PowerUp pwu){
-        if(powerUps.size() < 3)
+        if(powerUps.size() < MAX_POWERUP_HAND)
             powerUps.add(pwu);
         else
-            throw new InvalidOperationException("Player "+ nickname + " already has 3 Power-Ups!");
+            throw new InvalidOperationException("Player "+ nickname + " already has"+ MAX_POWERUP_HAND +"Power-Ups!");
+    }
+
+    public boolean canAddPowerUp(){
+        return powerUps.size() < MAX_POWERUP_HAND;
     }
 
     /**
@@ -519,13 +533,14 @@ public class Player extends Identifiable{
         List<Action> actions;
         List<Action> availableActions = new ArrayList<>();
 
-        actions = Action.loadActions();
+        actions = ActionSupplier.getInstance().getActions();
         for(Action act : actions){
             if(act.canPerform(this, ffActive))
                 availableActions.add(act);
         }
 
         return availableActions;
+        //TODO: Make a Singleton class with all the actions so that in every moment of the match an Action has the same UUID
     }
 
     /**
@@ -554,6 +569,15 @@ public class Player extends Identifiable{
 
     public void removePowerUp(PowerUp pwu){
         powerUps.remove(pwu);
+    }
+
+    /**
+     * @return a list containing all the player's powerups that are usable in any situation
+     */
+    public List<PowerUp> getAloneUsablePowerUps(){
+        return powerUps.stream()
+                .filter(e -> e.getType().equals(PowerUpType.NEWTON) || e.getType().equals(PowerUpType.TELEPORTER))
+                .collect(Collectors.toList());
     }
 
 }
