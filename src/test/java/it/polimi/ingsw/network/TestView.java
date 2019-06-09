@@ -9,13 +9,16 @@ import java.util.List;
 
 public class TestView implements View {
 
-    public String toBeSelected;
+    public List<String> toBeSelected = new ArrayList<>();
 
     public List<String> selectObject(List<String> objUuid, int min, int max) throws RemoteException {
-        if(toBeSelected!=null){
-            String returnVal = toBeSelected;
-            toBeSelected = null;
-            return new ArrayList<>(Arrays.asList(returnVal));
+        if(toBeSelected.size()>0){
+            String returnVal = toBeSelected.get(0);
+            toBeSelected.remove(0);
+            if(returnVal!=null)
+                return new ArrayList<>(Arrays.asList(returnVal));
+            else
+                return new ArrayList<>(objUuid.subList(0, min));
         }
         else
             return new ArrayList<>(objUuid.subList(0, min));

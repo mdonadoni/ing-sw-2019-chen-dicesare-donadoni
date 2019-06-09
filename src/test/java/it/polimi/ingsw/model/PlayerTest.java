@@ -13,6 +13,8 @@ class PlayerTest {
 
     Player player;
 
+    private static final int BASIC_ACTION_N = 5;
+
     @BeforeEach
     void setUp() {
         player=new Player("test", PlayerToken.YELLOW);
@@ -25,11 +27,11 @@ class PlayerTest {
         player.addMark(PlayerToken.BLUE,3);
         player.addMark(PlayerToken.GREEN,3);
         player.takeDamage(PlayerToken.BLUE,1);
-        assertEquals(5, player.getDamageOrder().size());
+        assertEquals(5, player.getDamageTaken().size());
         assertEquals(0, player.countMarks(PlayerToken.BLUE));
         assertEquals(3, player.countMarks(PlayerToken.GREEN));
         player.takeDamage(PlayerToken.BLUE,10);
-        assertEquals(12, player.getDamageOrder().size());
+        assertEquals(12, player.getDamageTaken().size());
     }
 
     @Test
@@ -106,11 +108,11 @@ class PlayerTest {
 
     @Test
     void supplyActions() {
-        assertEquals(player.supplyActions(false).size(), 4);
+        assertEquals(player.supplyActions(false).size(), BASIC_ACTION_N);
         player.takeDamage(PlayerToken.GREY, 3);
-        assertEquals(player.supplyActions(false).size(), 4);
+        assertEquals(player.supplyActions(false).size(), BASIC_ACTION_N);
         player.takeDamage(PlayerToken.GREY, 4);
-        assertEquals(player.supplyActions(false).size(), 4);
+        assertEquals(player.supplyActions(false).size(), BASIC_ACTION_N);
     }
 
     @Test

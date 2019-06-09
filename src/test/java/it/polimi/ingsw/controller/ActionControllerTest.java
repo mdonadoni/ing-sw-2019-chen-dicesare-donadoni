@@ -26,6 +26,9 @@ class ActionControllerTest {
     private Weapon weaponOne;
     private Weapon weaponTwo;
     private Weapon weaponThree;
+    private PowerUp teleporter;
+    private PowerUp newton;
+    private PowerUp targeting;
 
     @BeforeEach
     void setUp(){
@@ -52,6 +55,10 @@ class ActionControllerTest {
         weapons.add(weaponOne);
         weapons.add(weaponTwo);
         weapons.add(weaponThree);
+
+        teleporter = new PowerUp(PowerUpType.TELEPORTER, AmmoColor.YELLOW);
+        newton = new PowerUp(PowerUpType.NEWTON, AmmoColor.BLUE);
+        targeting = new PowerUp(PowerUpType.TARGETING_SCOPE, AmmoColor.RED);
     }
 
     @Test
@@ -67,7 +74,8 @@ class ActionControllerTest {
 
         for(Square sq : redSpawn.getSquaresByDistance(2)){
             if(sq instanceof StandardSquare){
-                adaView.toBeSelected = sq.getUuid();
+                adaView.toBeSelected.clear();
+                adaView.toBeSelected.add(sq.getUuid());
                 shouldEndHere = (StandardSquare) sq;
             }
         }
@@ -95,7 +103,8 @@ class ActionControllerTest {
         // Select a new square to move on, now distance is only 1
         for(Square sq : redSpawn.getSquaresByDistance(1)){
             if(sq instanceof StandardSquare){
-                adaView.toBeSelected = sq.getUuid();
+                adaView.toBeSelected.clear();
+                adaView.toBeSelected.add(sq.getUuid());
                 shouldEndHere = (StandardSquare) sq;
             }
         }
@@ -125,7 +134,7 @@ class ActionControllerTest {
         // Select a SpawnSquare different to the redSpawn
         for(Square sq : redSpawn.getSquaresByDistance(3)){
             if(!sq.equals(redSpawn) && sq instanceof SpawnPoint){
-                adaView.toBeSelected = sq.getUuid();
+                adaView.toBeSelected.add(sq.getUuid());
                 goHereSpawn = (SpawnPoint) sq;
             }
         }
@@ -240,5 +249,54 @@ class ActionControllerTest {
         assertTrue(weaponOne.getCharged());
         assertFalse(weaponTwo.getCharged());
         assertTrue(weaponThree.getCharged());
+    }
+
+    @Test
+    void performDrawPowerUpNoDiscard() throws RemoteException{
+        action.addAction(BasicAction.GRAB);
+
+        StandardSquare stdSq = match.getGameBoard().getBoard().getStandardSquares().get(0);
+        player.move(stdSq);
+
+        stdSq.removeAmmoTile();
+        stdSq.setAmmoTile(new AmmoTile(AmmoColor.RED, AmmoColor.RED));
+
+        PowerUp peekPwu = match.getGameBoard().getPowerUpDeck().peek();
+
+        player.addPowerUp(teleporter);
+        player.addPowerUp(newton);
+
+        controller.performAction(player, action);
+
+        assertTrue(player.getPowerUps().contains(teleporter));
+        assertTrue(player.getPowerUps().contains(newton));
+        assertTrue(player.getPowerUps().contains(peekPwu));
+    }
+
+    @Test
+    void performDrawPowerUpWithDiscard() throws RemoteException{
+        action.addAction(BasicAction.GRAB);
+
+        StandardSquare stdSq = match.getGameBoard().getBoard().getStandardSquares().get(1);
+        player.move(stdSq);
+
+        stdSq.removeAmmoTile();
+        stdSq.setAmmoTile(new AmmoTile(AmmoColor.RED, AmmoColor.RED));
+
+        PowerUp peekPwu = match.getGameBoard().getPowerUpDeck().peek();
+
+        player.addPowerUp(teleporter);
+        player.addPowerUp(newton);
+        player.addPowerUp(targeting);
+
+        adaView.toBeSelected.add(teleporter.getUuid());
+
+        controller.performAction(player, action);
+
+        assertTrue(player.getPowerUps().contains(targeting));
+        assertTrue(player.getPowerUps().contains(newton));
+        assertTrue(player.getPowerUps().contains(peekPwu));
+        assertFalse(player.getPowerUps().contains(teleporter));
+        assertTrue(match.getGameBoard().getPowerUpDeck().getDiscarded().contains(teleporter));
     }
 }

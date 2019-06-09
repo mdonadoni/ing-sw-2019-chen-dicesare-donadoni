@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Action {
+public class Action extends Identifiable{
     private List<BasicAction> actions = new ArrayList<>();
 
     /**
@@ -192,5 +192,33 @@ public class Action {
             res = true;
 
         return res;
+    }
+
+    public boolean expendsUse(){
+        return !(actions.size() == 1 && actions.get(0).equals(BasicAction.POWERUP));
+    }
+
+    public boolean endsTurn(){
+        return (actions.size() == 1 && actions.get(0).equals(BasicAction.RELOAD));
+    }
+
+    public boolean canOnlyMove(){
+        boolean res = true;
+
+        for(BasicAction basic : actions){
+            if (basic != BasicAction.MOVEMENT)
+                res = false;
+        }
+
+        return res;
+    }
+
+    public String info(){
+        String retString = new String();
+
+        for(BasicAction basic : actions)
+            retString = retString.concat(basic.toString() + " ");
+
+        return retString;
     }
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.minified.MiniModel;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,7 +106,12 @@ public class GameController implements Runnable{
         while(match.isActive()){
             if(match.getCurrentTurn().getCurrentPlayer().isActive()){
                 turn = new TurnController(match, remotePlayers);
-                turn.startTurn();
+                try{
+                    turn.startTurn();
+                }catch(RemoteException e){
+                    e.printStackTrace();
+                }
+
                 match.nextTurn();
             }
         }

@@ -5,5 +5,6 @@ public enum BasicAction {
     GRAB,
     SHOOT,
     RELOAD,
-    SKIP
+    SKIP,
+    POWERUP
 }

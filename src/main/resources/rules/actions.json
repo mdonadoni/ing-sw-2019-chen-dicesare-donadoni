@@ -87,5 +87,14 @@
     "required": 0,
     "overwrite": 99,
     "beforefirstplayer": false
+  },
+  {
+    "basics": ["powerup"],
+    "finalfrenzyrequired": false,
+    "boardnotflippedrequired": false,
+    "required": 0,
+    "overwrite": 99,
+    "beforefirstplayer": false,
+    "alwaysavailable": true
   }
 ]

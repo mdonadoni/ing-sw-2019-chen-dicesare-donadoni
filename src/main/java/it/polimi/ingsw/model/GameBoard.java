@@ -58,6 +58,7 @@ public class GameBoard {
         powerUpDeck = factory.createPowerUpDeck();
         ammoTileDeck = factory.createAmmoTileDeck();
         board = factory.createBoard();
+        refillAmmoTile();
     }
 
     /**

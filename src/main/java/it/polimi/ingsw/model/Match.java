@@ -157,4 +157,8 @@ public class Match extends Identifiable{
                 .filter(e -> !e.getNickname().equals(nickname))
                 .collect(Collectors.toList());
     }
+
+    public boolean getFinalFrenzy(){
+        return finalFrenzy;
+    }
 }

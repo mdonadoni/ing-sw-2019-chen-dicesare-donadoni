@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.weapons.Weapon;
 import it.polimi.ingsw.view.dialogs.DialogType;
-import it.polimi.ingsw.view.dialogs.UserDialog;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -19,7 +18,8 @@ public class ActionController {
 
     private Match match;
     private Map<String, RemotePlayer> remoteUsers;
-    private static final int DIALOGTIMEOUT = 3000;
+    private PowerUpController powerUpController;
+    private PaymentGateway paymentGateway;
 
     /**
      * Standard constructor
@@ -29,6 +29,8 @@ public class ActionController {
     public ActionController(Match match, Map<String, RemotePlayer> remoteUsers){
         this.match = match;
         this.remoteUsers = remoteUsers;
+        this.powerUpController = new PowerUpController(match, remoteUsers);
+        this.paymentGateway = new PaymentGateway(match);
     }
 
     /**
@@ -59,7 +61,6 @@ public class ActionController {
         }
         if(nMov>0)
             handleMovement(playerName, nMov);
-        nMov = 0;
     }
 
     /**
@@ -85,6 +86,8 @@ public class ActionController {
             case SKIP:
                 handleSkip(playerName);
                 break;
+            case POWERUP:
+                handleUsePowerUp(playerName);
         }
 
     }
@@ -109,11 +112,11 @@ public class ActionController {
     }
 
     /**
-     * Handled the recharge routine for a player
+     * Handles the recharge routine for a player
      * @param playerName the player acting
      * @throws RemoteException in case something goes wrong
      */
-    private void handleReload(String playerName) throws RemoteException {
+    public void handleReload(String playerName) throws RemoteException {
         Player player = match.getPlayerByNickname(playerName);
         RemotePlayer remotePlayer = remoteUsers.get(playerName);
         // Cycle through all the player weapons
@@ -124,7 +127,7 @@ public class ActionController {
                 selectingWeapon.add(currentWeapon);
                 remotePlayer.selectIdentifiable(selectingWeapon, 0, 1);
                 // Pay the recharge cost
-                PaymentGateway.payCost(currentWeapon.getTotalRechargeCost(), player, remotePlayer);
+                paymentGateway.payCost(currentWeapon.getTotalRechargeCost(), player, remotePlayer);
                 // Set the recharge flag
                 currentWeapon.setCharged(true);
             }
@@ -147,7 +150,12 @@ public class ActionController {
             StandardSquare sq = (StandardSquare) player.getSquare();
             // Automatically grab the ammoTile, if there's one
             if(sq.hasAmmoTile()){
-                player.grabAmmo(sq.getAmmoTile());
+                AmmoTile tile = sq.getAmmoTile();
+                player.grabAmmo(tile);
+                if(tile.hasPowerUp()){ // In case the Ammotile has a powerup
+                    drawPowerUp(player, remotePlayer);
+                }
+                match.getGameBoard().getAmmoTileDeck().discard(tile); // Discard the tile
                 sq.removeAmmoTile();
             }
         }
@@ -158,12 +166,12 @@ public class ActionController {
             weapons = weapons.stream().filter(e -> player.canPay(e.getPickupColor())).collect(Collectors.toList());
             Weapon selectedWeapon = remotePlayer.selectIdentifiable(weapons, 1, 1).get(0);
             // Grab the weapon
-            try{
+            if(player.canGrabWeapon()){
                 player.grabWeaponFromGround(selectedWeapon);
-                PaymentGateway.payCost(selectedWeapon.getPickupColor(), player, remotePlayer); // Pay the cost
-            } catch (FullInventoryException e){ // If we already have 3 weapons, we must discard one
-                discardWeapon(selectedWeapon, player);
+                paymentGateway.payCost(selectedWeapon.getPickupColor(), player, remotePlayer); // Pay the cost
             }
+            else
+                discardWeapon(selectedWeapon, player);
         }
     }
 
@@ -188,7 +196,7 @@ public class ActionController {
      */
     private void handleSkip(String playerName) throws RemoteException {
         RemotePlayer remotePlayer = remoteUsers.get(playerName);
-        remotePlayer.showMessage(UserDialog.getDialog(DialogType.SKIP_DIALOG), DIALOGTIMEOUT);
+        remotePlayer.safeShowMessage(DialogType.SKIP_DIALOG, new ArrayList<String>());
     }
 
     /**
@@ -207,5 +215,60 @@ public class ActionController {
         selectedWeapon.setCharged(true);
         spw.addWeapon(selectedWeapon);
         player.grabWeaponFromGround(extraOne);
+    }
+
+    /**
+     * Makes a player use a PowerUp he owns
+     * @param playerName The player acting
+     * @throws RemoteException In case something goes wrong
+     */
+    private void handleUsePowerUp(String playerName) throws RemoteException {
+        Player player = match.getPlayerByNickname(playerName);
+        RemotePlayer remotePlayer = remoteUsers.get(playerName);
+        List<PowerUp> availablePowerups = player.getAloneUsablePowerUps();
+        List<Player> enemies = match.getOtherPlayers(playerName);
+
+        // Ask the user which powerup he wants to use
+        List<PowerUp> selection = remotePlayer.selectIdentifiable(availablePowerups, 0, 1);
+
+        if(!selection.isEmpty()){
+            PowerUp selectedPowerup = selection.get(0);
+            // Activate the PowerUp, due to the game ruling, the selectedPowerUp can be only a TELEPORTER or a NEWTON
+            if(selectedPowerup.getType().equals(PowerUpType.TELEPORTER))
+                powerUpController.activatePowerUp(selectedPowerup, playerName);
+            else if(selectedPowerup.getType().equals(PowerUpType.NEWTON)){
+                Player targetPlayer = remotePlayer.selectIdentifiable(enemies, 1, 1).get(0);
+                powerUpController.activatePowerUp(selectedPowerup, playerName, targetPlayer);
+            }
+
+            player.removePowerUp(selectedPowerup);
+            match.getGameBoard().getPowerUpDeck().discard(selectedPowerup);
+        }
+    }
+
+    /**
+     * A player draws a PowerUp, discards one if necessary
+     * @param player The player acting
+     * @param remotePlayer The RemotePlayer object that refers to the player
+     * @throws RemoteException In case something goes wrong
+     */
+    private void drawPowerUp(Player player, RemotePlayer remotePlayer) throws RemoteException{
+        // Get the PowerUp from the deck
+        PowerUp toBeDrawn = match.getGameBoard().getPowerUpDeck().draw();
+
+        // Check if it needs to discard one
+        if(player.canAddPowerUp()){
+            player.addPowerUp(toBeDrawn); // That's it
+        }
+        else{
+            player.addDrawnPowerUp(toBeDrawn);
+            // Now the player has to select which powerup it wants to discard
+            PowerUp selectedPwu = remotePlayer.selectIdentifiable(player.getPowerUps(), 1, 1).get(0);
+            // Clear up the things
+            player.removePowerUp(selectedPwu);
+            match.getGameBoard().getPowerUpDeck().discard(selectedPwu);
+            player.addPowerUp(toBeDrawn);
+            player.clearDrawnPowerUps(); // Clear the player's hand
+        }
     }
 }

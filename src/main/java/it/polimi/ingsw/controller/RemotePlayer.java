@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Identifiable;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.View;
+import it.polimi.ingsw.view.dialogs.DialogType;
 
 import java.rmi.RemoteException;
 import java.util.Date;
@@ -184,7 +185,6 @@ public class RemotePlayer {
         return result;
     }
 
-
     /**
      * Show message.
      * @param message Massage to be shown.
@@ -195,6 +195,16 @@ public class RemotePlayer {
             view.showMessage(message);
             return null;
         });
+    }
+
+    /**
+     * Show message.
+     * @param dialogType Enum that describes the type of the dialog to be shown
+     * @param params List of params to be filled in the message
+     * @throws RemoteException In case something goes wrong
+     */
+    public void showMessage(DialogType dialogType, List<String> params) throws RemoteException{
+        showMessage(UserDialog.getDialog(dialogType, params));
     }
 
     /**
@@ -271,6 +281,10 @@ public class RemotePlayer {
         } catch (RemoteException e) {
             LOG.log(Level.WARNING, () -> "Couldn't send message to " + nickname);
         }
+    }
+
+    public void safeShowMessage(DialogType dialogType, List<String> params){
+        safeShowMessage(UserDialog.getDialog(dialogType, params));
     }
 
     public void setDisconnectionCallback(Consumer<RemotePlayer> disconnectionCallback) {
