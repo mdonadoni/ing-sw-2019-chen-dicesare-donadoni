@@ -1,13 +1,5 @@
 package it.polimi.ingsw.model;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.util.Json;
-import it.polimi.ingsw.util.ResourceException;
-import it.polimi.ingsw.util.ResourceManager;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,37 +43,6 @@ public class Action extends Identifiable{
         damageRequired = 0;
         beforeFirstPlayer = false;
         alwaysavailable = false;
-    }
-
-    public static List<Action> loadActions() {
-        List<Action> actions = new ArrayList<>();
-        try{
-            InputStream stream = ResourceManager.get("/rules/actions.json");
-            ObjectMapper mapper = Json.getMapper();
-            JsonNode json = mapper.readTree(stream);
-
-            for(JsonNode node : json){
-                Action action = new Action();
-                for(JsonNode basic : node.get("basics")){
-                    action.addAction(BasicAction.valueOf(basic.asText().toUpperCase()));
-                }
-                action.setDamageOverwrite(node.get("overwrite").asInt());
-                action.setDamageRequired(node.get("required").asInt());
-                action.setFinalFrenzyRequired(node.get("finalfrenzyrequired").asBoolean());
-                action.setBoardNotFlippedRequired(node.get("boardnotflippedrequired").asBoolean());
-                action.setBeforeFirstPlayer(node.get("beforefirstplayer").asBoolean());
-
-                JsonNode always = node.get("always available");
-                if(always != null)
-                    action.setAlwaysavailable(always.asBoolean());
-
-                actions.add(action);
-            }
-        } catch (IOException e){
-            throw new ResourceException("Cannot read actions file", e);
-        }
-
-        return actions;
     }
 
     public void addAction(BasicAction act){
