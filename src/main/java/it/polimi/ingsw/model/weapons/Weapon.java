@@ -31,7 +31,7 @@ public class Weapon extends Identifiable {
     public Weapon(WeaponType name) {
         this(ResourceManager.get("/weapons/"+name.toString().toLowerCase()+".json"));
     }
-    public Weapon(InputStream stream) throws ResourceException {
+    public Weapon(InputStream stream) {
         try {
             ObjectMapper mapper = Json.getMapper();
             JsonNode json = mapper.readTree(stream);

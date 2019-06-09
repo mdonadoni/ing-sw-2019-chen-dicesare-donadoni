@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.GameBoard;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.network.TestView;
-import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.Test;
 
 import java.rmi.RemoteException;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class GameControllerTest {
 
     @Test
-    void spawnRoutine() throws ResourceException, RemoteException {
+    void spawnRoutine() throws RemoteException {
         List<RemotePlayer> players = new ArrayList<>();
         String playerA = "Ada";
         TestView viewA = new TestView();

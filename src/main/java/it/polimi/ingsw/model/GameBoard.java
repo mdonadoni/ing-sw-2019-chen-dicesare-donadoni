@@ -1,14 +1,7 @@
 package it.polimi.ingsw.model;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.weapons.Weapon;
-import it.polimi.ingsw.util.Json;
-import it.polimi.ingsw.util.ResourceException;
-import it.polimi.ingsw.util.ResourceManager;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,58 +43,21 @@ public class GameBoard {
     /**
      * Standard constructor
      */
-    GameBoard() throws ResourceException {
+    GameBoard() {
     }
 
     /**
      * Constructor that allows to specify the number of skulls
      * @param skulls number of skulls to be placed on the gameboard
      */
-    public GameBoard(int skulls, BoardType boardType){
+    public GameBoard(int skulls, ModelFactory factory){
         remainingSkulls = skulls;
         initialSkullNumber = skulls;
         killShotTrack = new ArrayList<>();
         weaponDeck = new Deck<>();
-        powerUpDeck = new Deck<>();
-        ammoTileDeck = new Deck<>();
-        board = new Board(boardType);
-
-        initPowerUpDeck();
-        initAmmoTileDeck();
-    }
-
-    private void initPowerUpDeck(){
-        ObjectMapper mapper = Json.getMapper();
-        InputStream stream = ResourceManager.get("/decks/powerUpDeck.json");
-        try {
-            JsonNode json = mapper.readTree(stream);
-
-            for (JsonNode pwu : json){
-                for (int i = 0; i<2; i++)
-                    powerUpDeck.add(new PowerUp(pwu));
-            }
-
-            powerUpDeck.shuffle();
-        } catch (IOException e){
-            throw new ResourceException("Cannot read powerUpDeck resource", e);
-        }
-    }
-
-    private void initAmmoTileDeck(){
-        ObjectMapper mapper = Json.getMapper();
-        InputStream stream = ResourceManager.get("/decks/ammoTileDeck.json");
-        try{
-            JsonNode json = mapper.readTree(stream);
-
-            for(JsonNode ammoTile : json){
-                for(int i = 0; i<3; i++){
-                    ammoTileDeck.add(new AmmoTile(ammoTile));
-                }
-            }
-            ammoTileDeck.shuffle();
-        } catch(IOException e){
-            throw new ResourceException("Cannot read ammoTileDeck resource", e);
-        }
+        powerUpDeck = factory.createPowerUpDeck();
+        ammoTileDeck = factory.createAmmoTileDeck();
+        board = factory.createBoard();
     }
 
     /**
@@ -185,10 +141,6 @@ public class GameBoard {
 
     public Deck<AmmoTile> getAmmoTileDeck(){
         return ammoTileDeck;
-    }
-
-    public void initBoard(BoardType bdType) throws ResourceException{
-        board = new Board(bdType);
     }
 
     public Board getBoard() {

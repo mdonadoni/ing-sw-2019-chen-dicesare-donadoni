@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model.minified;
 
 import it.polimi.ingsw.model.AmmoColor;
-import it.polimi.ingsw.util.Json;
-import it.polimi.ingsw.util.ResourceException;
 import it.polimi.ingsw.model.weapons.Weapon;
+import it.polimi.ingsw.util.Json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,14 +12,14 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MiniWeaponTest {
     MiniWeapon miniWeapon;
     Weapon weapon;
 
     @BeforeEach
-    void setUp() throws ResourceException {
+    void setUp() {
         weapon = new Weapon(MiniWeaponTest.class.getResourceAsStream("/weapons/testweapon.json"));
         miniWeapon = new MiniWeapon(weapon);
     }

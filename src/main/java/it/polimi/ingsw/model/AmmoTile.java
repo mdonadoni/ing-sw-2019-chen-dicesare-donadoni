@@ -2,10 +2,11 @@ package it.polimi.ingsw.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class represents a tile of ammo.
@@ -26,35 +27,15 @@ public class AmmoTile extends Identifiable implements Serializable {
         ammo = new ArrayList<>(ammo);
     }
     /**
-     * Constructor that make a tile made of 3 ammo
-     * @param ammoColor1 first ammo
-     * @param ammoColor2 second ammo
-     * @param ammoColor3 third ammo
+     * Constructor that make a tile made of 2 or 3 ammo
+     * @param ammos ammunition colors
      */
-    public AmmoTile(AmmoColor ammoColor1, AmmoColor ammoColor2, AmmoColor ammoColor3){
-        ammo = new ArrayList<>();
-        ammo.add(ammoColor1);
-        ammo.add(ammoColor2);
-        ammo.add(ammoColor3);
-    }
-
-    /**
-     * Constructor that make a tile made of 2 ammo
-     * @param ammoColor1 first ammo
-     * @param ammoColor2 second ammo
-     */
-    public AmmoTile(AmmoColor ammoColor1, AmmoColor ammoColor2){
-        ammo = new ArrayList<>();
-        ammo.add(ammoColor1);
-        ammo.add(ammoColor2);
-     }
-
-     public AmmoTile(JsonNode json){
-        ammo = new ArrayList<>();
-        for(JsonNode color : json.get("ammos")){
-            ammo.add(AmmoColor.valueOf(color.asText().toUpperCase()));
+    public AmmoTile(AmmoColor ...ammos){
+        if (ammos.length < 2 || ammos.length > 3) {
+            throw new InvalidOperationException("AmmoTile not valid");
         }
-     }
+        ammo = new ArrayList<>(Arrays.asList(ammos));
+    }
 
     /**
      * Add an ammo on a tile.

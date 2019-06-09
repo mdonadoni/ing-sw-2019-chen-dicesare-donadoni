@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.minified;
 
 import it.polimi.ingsw.model.BoardType;
-import it.polimi.ingsw.util.Json;
+import it.polimi.ingsw.model.JsonModelFactory;
 import it.polimi.ingsw.model.Match;
-import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.util.Json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,8 +18,8 @@ class MiniMatchTest {
     MiniMatch miniMatch;
 
     @BeforeEach
-    void setUp() throws ResourceException {
-        miniMatch = new MiniMatch(new Match(Arrays.asList("a", "b", "c"), BoardType.SMALL));
+    void setUp() {
+        miniMatch = new MiniMatch(new Match(Arrays.asList("a", "b", "c"), new JsonModelFactory(BoardType.SMALL)));
     }
 
     @Test

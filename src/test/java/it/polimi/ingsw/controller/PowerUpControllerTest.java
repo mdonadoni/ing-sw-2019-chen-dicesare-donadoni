@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.TestView;
-import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +23,7 @@ class PowerUpControllerTest {
     Map<String, RemotePlayer> remotePlayers;
 
     @BeforeEach
-    void setup() throws ResourceException {
+    void setup() {
         nicks = new ArrayList<>();
         nicks.add("Ada");
         nicks.add("Bob");
@@ -32,7 +31,7 @@ class PowerUpControllerTest {
         remotePlayers = new HashMap<>();
         for (String nick : nicks)
             remotePlayers.put(nick, new RemotePlayer(nick, new TestView()));
-        match = new Match(nicks, BoardType.MEDIUM_2);
+        match = new Match(nicks, new JsonModelFactory(BoardType.MEDIUM_2));
         board = match.getGameBoard().getBoard();
         pwuC = new PowerUpController(match, remotePlayers);
     }

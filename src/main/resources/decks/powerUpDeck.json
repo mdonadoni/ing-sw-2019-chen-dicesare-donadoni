@@ -1,50 +1,62 @@
 [
   {
     "type": "tagback_granade",
-    "color":"red"
+    "color":"red",
+    "number": 2
   },
   {
     "type": "tagback_granade",
-    "color": "blue"
+    "color": "blue",
+    "number": 2
   },
   {
     "type": "tagback_granade",
-    "color": "yellow"
+    "color": "yellow",
+    "number": 2
   },
   {
     "type": "newton",
-    "color": "red"
+    "color": "red",
+    "number": 2
   },
   {
     "type": "newton",
-    "color": "blue"
+    "color": "blue",
+    "number": 2
   },
   {
-  "type": "newton",
-  "color": "yellow"
-  },
-  {
-    "type": "targeting_scope",
-    "color": "red"
-  },
-  {
-    "type": "targeting_scope",
-    "color": "blue"
+    "type": "newton",
+    "color": "yellow",
+    "number": 2
   },
   {
     "type": "targeting_scope",
-    "color": "yellow"
+    "color": "red",
+    "number": 2
+  },
+  {
+    "type": "targeting_scope",
+    "color": "blue",
+    "number": 2
+  },
+  {
+    "type": "targeting_scope",
+    "color": "yellow",
+    "number": 2
   },
   {
     "type": "teleporter",
-    "color": "red"
+    "color": "red",
+    "number": 2
   },
   {
     "type": "teleporter",
-    "color": "blue"
+    "color": "blue",
+    "number": 2
   },
   {
     "type": "teleporter",
-    "color": "yellow"
+    "color": "yellow",
+    "number": 2
   }
 ]

@@ -1,38 +1,50 @@
 [
   {
-    "ammos": ["yellow", "blue", "blue"]
+    "ammos": ["yellow", "blue", "blue"],
+    "number": 3
   },
   {
-    "ammos": ["yellow", "red", "red"]
+    "ammos": ["yellow", "red", "red"],
+    "number": 3
   },
   {
-    "ammos": ["red", "blue", "blue"]
+    "ammos": ["red", "blue", "blue"],
+    "number": 3
   },
   {
-    "ammos": ["red", "yellow", "yellow"]
+    "ammos": ["red", "yellow", "yellow"],
+    "number": 3
   },
   {
-    "ammos": ["blue", "yellow", "yellow"]
+    "ammos": ["blue", "yellow", "yellow"],
+    "number": 3
   },
   {
-    "ammos": ["blue", "red", "red"]
+    "ammos": ["blue", "red", "red"],
+    "number": 3
   },
   {
-    "ammos": ["yellow", "yellow"]
+    "ammos": ["yellow", "yellow"],
+    "number": 3
   },
   {
-    "ammos": ["red", "red"]
+    "ammos": ["red", "red"],
+    "number": 3
   },
   {
-    "ammos": ["blue", "blue"]
+    "ammos": ["blue", "blue"],
+    "number": 3
   },
   {
-    "ammos": ["yellow", "red"]
+    "ammos": ["yellow", "red"],
+    "number": 3
   },
   {
-    "ammos": ["yellow", "blue"]
+    "ammos": ["yellow", "blue"],
+    "number": 3
   },
   {
-    "ammos": ["red", "blue"]
+    "ammos": ["red", "blue"],
+    "number": 3
   }
 ]

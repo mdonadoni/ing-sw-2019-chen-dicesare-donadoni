@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.minified;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.util.Json;
-import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,8 +17,8 @@ class MiniModelTest {
     MiniModel miniModel;
 
     @BeforeEach
-    void setUp() throws ResourceException {
-        miniModel = new MiniModel(new Match(Arrays.asList("Gennaro", "Luca", "Marco"), BoardType.SMALL), new Player("Gennaro", PlayerToken.YELLOW));
+    void setUp() {
+        miniModel = new MiniModel(new Match(Arrays.asList("Gennaro", "Luca", "Marco"), new JsonModelFactory(BoardType.SMALL)), new Player("Gennaro", PlayerToken.YELLOW));
     }
 
     @Test

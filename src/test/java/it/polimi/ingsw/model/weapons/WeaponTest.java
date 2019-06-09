@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.weapons;
 
 import it.polimi.ingsw.model.AmmoColor;
-import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class WeaponTest {
 
     @Test
-    public void fromResourceTest() throws ResourceException {
+    public void fromResourceTest() {
         Weapon wp = new Weapon(WeaponTest.class.getResourceAsStream("/weapons/testweapon.json"));
         assertEquals(wp.getName(), "testweapon");
         assertEquals(wp.getAdditionalRechargeColor(), AmmoColor.BLUE);

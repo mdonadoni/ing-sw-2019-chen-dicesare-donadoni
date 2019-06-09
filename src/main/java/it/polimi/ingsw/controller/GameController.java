@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.minified.MiniModel;
-import it.polimi.ingsw.util.ResourceException;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -22,10 +21,10 @@ public class GameController implements Runnable{
         this.match = match;
     }
 
-    public GameController(List<RemotePlayer> connectedPlayers, BoardType bdType) throws ResourceException {
+    public GameController(List<RemotePlayer> connectedPlayers, BoardType bdType) {
         List<String> nicknames = new ArrayList<>();
         connectedPlayers.forEach(remotePlayer -> nicknames.add(remotePlayer.getNickname()));
-        match = new Match(nicknames, bdType);
+        match = new Match(nicknames, new JsonModelFactory(bdType));
         remotePlayers = new HashMap<>();
         connectedPlayers.forEach(remotePlayer -> remotePlayers.put(remotePlayer.getNickname(), remotePlayer));
     }

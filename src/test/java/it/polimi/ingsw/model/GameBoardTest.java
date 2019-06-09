@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 class GameBoardTest {
 
@@ -20,8 +20,8 @@ class GameBoardTest {
     List<PlayerToken> tetraGrey;
     List<PlayerToken> tripleBlue;
 
-    private void initGb() throws ResourceException {
-        gb = new GameBoard(5, BoardType.SMALL);
+    private void initGb() {
+        gb = new GameBoard(5, new JsonModelFactory(BoardType.SMALL));
 
         singleYellow = new ArrayList<>();
         singleYellow.add(PlayerToken.YELLOW);
@@ -49,7 +49,7 @@ class GameBoardTest {
     }
 
     @Test
-    void addKill() throws ResourceException{
+    void addKill() {
         initGb();
 
         gb.addKill(singleYellow); // 0
@@ -68,7 +68,7 @@ class GameBoardTest {
     }
 
     @Test
-    void countKills() throws ResourceException{
+    void countKills() {
         initGb();
 
         gb.addKill(tripleBlue); // 0
@@ -88,7 +88,7 @@ class GameBoardTest {
     }
 
     @Test
-    void getKillShotTrackOrder() throws ResourceException{
+    void getKillShotTrackOrder() {
         initGb();
 
         gb.addKill(singleGreen); // 0

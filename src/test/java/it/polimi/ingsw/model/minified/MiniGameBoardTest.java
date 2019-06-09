@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.minified;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.BoardType;
+import it.polimi.ingsw.model.GameBoard;
+import it.polimi.ingsw.model.JsonModelFactory;
+import it.polimi.ingsw.model.PlayerToken;
 import it.polimi.ingsw.util.Json;
-import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +14,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MiniGameBoardTest {
 
@@ -20,8 +22,8 @@ class MiniGameBoardTest {
     MiniGameBoard miniGameBoard;
 
     @BeforeEach
-    void setUp() throws ResourceException {
-        gameBoard = new GameBoard(5, BoardType.SMALL);
+    void setUp() {
+        gameBoard = new GameBoard(5, new JsonModelFactory(BoardType.SMALL));
         gameBoard.addKill(Arrays.asList(PlayerToken.BLUE, PlayerToken.YELLOW));
         gameBoard.addKill(Arrays.asList(PlayerToken.GREEN, PlayerToken.GREY));
         miniGameBoard = new MiniGameBoard(gameBoard);

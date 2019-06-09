@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -82,9 +81,9 @@ class BoardTest {
     }
 
     @Test
-    void readResources() throws ResourceException {
+    void readResources() {
         for (BoardType type : BoardType.values()) {
-            new Board(type);
+            new JsonBoardFactory(type).createBoard();
         }
     }
 }

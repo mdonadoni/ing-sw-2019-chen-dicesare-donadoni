@@ -30,7 +30,7 @@ class ActionControllerTest {
     @BeforeEach
     void setUp(){
         List<String> nicks = new ArrayList<String>(Arrays.asList("Ada", "Bruce", "Charlie", "Daniel"));
-        match = new Match(nicks, BoardType.SMALL);
+        match = new Match(nicks, new JsonModelFactory(BoardType.SMALL));
         users = new HashMap<>();
         for(String nick : nicks){
             users.put(nick, new RemotePlayer(nick, new TestView()));

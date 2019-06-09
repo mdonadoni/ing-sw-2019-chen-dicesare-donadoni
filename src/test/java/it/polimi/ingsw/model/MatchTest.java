@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.util.ResourceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,10 +17,10 @@ class MatchTest {
     private Player playerE;
 
     @BeforeEach
-    void setupPlayers() throws ResourceException {
+    void setupPlayers() {
         match = new Match(
                 Arrays.asList("A", "B", "C", "D", "E"),
-                BoardType.SMALL
+                new JsonModelFactory(BoardType.SMALL)
         );
 
         Function<String, Player> getByNickname = (name) -> {

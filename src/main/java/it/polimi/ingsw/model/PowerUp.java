@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import java.io.Serializable;
 
 /**
@@ -26,11 +24,6 @@ public class PowerUp extends Identifiable implements Serializable {
     public PowerUp(PowerUpType type, AmmoColor ammo) {
         this.type = type;
         this.ammo = ammo;
-    }
-
-    public PowerUp(JsonNode json){
-        type = PowerUpType.valueOf(json.get("type").asText().toUpperCase());
-        ammo = AmmoColor.valueOf(json.get("color").asText().toUpperCase());
     }
 
     /**
