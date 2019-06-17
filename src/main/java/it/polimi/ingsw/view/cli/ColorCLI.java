@@ -12,7 +12,7 @@ public class ColorCLI {
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_GREY = "\u001B[90m";
 
     public static final String BOLD = "\u001B[1";
 
@@ -44,8 +44,8 @@ public class ColorCLI {
         return ANSI_CYAN+s+ANSI_RESET;
     }
 
-    public static String turnWhite(String s){
-        return ANSI_WHITE+s+ANSI_RESET;
+    public static String turnGrey(String s){
+        return ANSI_GREY+s+ANSI_RESET;
     }
 
     public static String getPlayerColor(PlayerToken pt, String s){
@@ -57,7 +57,7 @@ public class ColorCLI {
             out = ColorCLI.turnGreen(s);
         }
         else if (pt==PlayerToken.GREY){
-            out = ColorCLI.turnWhite(s);
+            out = ColorCLI.turnGrey(s);
         }
         else if (pt==PlayerToken.PURPLE){
             out = ColorCLI.turnPurple(s);
