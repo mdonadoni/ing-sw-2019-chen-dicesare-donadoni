@@ -15,6 +15,8 @@ public class Player extends Identifiable{
 
     private static final int MAX_POWERUP_HAND = 3;
     private static final int MAX_WEAPON_HAND = 3;
+    private static final int LETHAL_DAMAGE_INDEX = 10;
+    private static final int OVERKILL_DAMAGE_INDEX = 11;
 
     /**
      * It's the nickname of the player identify the Player.
@@ -143,7 +145,7 @@ public class Player extends Identifiable{
      * @return true if the player has taken at least 11 damage, false otherwise.
      */
     public boolean isDead(){
-        return damageTaken.size()>=11;
+        return damageTaken.size()>LETHAL_DAMAGE_INDEX;
     }
 
     /**
@@ -163,12 +165,16 @@ public class Player extends Identifiable{
         return damageTaken.get(0);
     }
 
+    public PlayerToken getLethalDamage(){
+        return damageTaken.get(10);
+    }
+
     /**
      * Get the player token that inflicted the kill damage.
      * @return the PlayerToken that killed the player.
      */
     public PlayerToken getKillshot(){
-        return damageTaken.get(10);
+        return damageTaken.get(LETHAL_DAMAGE_INDEX);
     }
 
     /**
@@ -176,7 +182,10 @@ public class Player extends Identifiable{
      * @return the last PlayerToken of damage taken by the player.
      */
     public PlayerToken getOverkill(){
-        return damageTaken.get(11);
+        if(damageTaken.size() > OVERKILL_DAMAGE_INDEX)
+            return damageTaken.get(OVERKILL_DAMAGE_INDEX);
+        else
+            return null;
     }
 
     /**
@@ -574,10 +583,9 @@ public class Player extends Identifiable{
     /**
      * @return a list containing all the player's powerups that are usable in any situation
      */
-    public List<PowerUp> getAloneUsablePowerUps(){
+    public List<PowerUp> getActivablePowerups(){
         return powerUps.stream()
                 .filter(e -> e.getType().equals(PowerUpType.NEWTON) || e.getType().equals(PowerUpType.TELEPORTER))
                 .collect(Collectors.toList());
     }
-
 }

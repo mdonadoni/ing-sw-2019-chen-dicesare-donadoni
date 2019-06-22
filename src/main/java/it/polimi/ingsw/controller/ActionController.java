@@ -225,7 +225,7 @@ public class ActionController {
     private void handleUsePowerUp(String playerName) throws RemoteException {
         Player player = match.getPlayerByNickname(playerName);
         RemotePlayer remotePlayer = remoteUsers.get(playerName);
-        List<PowerUp> availablePowerups = player.getAloneUsablePowerUps();
+        List<PowerUp> availablePowerups = player.getActivablePowerups();
         List<Player> enemies = match.getOtherPlayers(playerName);
 
         // Ask the user which powerup he wants to use

@@ -3,15 +3,10 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 
 import java.rmi.RemoteException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * TODO
- */
 public class TurnController {
     private static final Logger LOG = Logger.getLogger(TurnController.class.getName());
     private static final int NUMBER_OF_MOVES = 2;
@@ -23,7 +18,6 @@ public class TurnController {
     Map<String, RemotePlayer> remoteUsers;
     private ActionController actionController;
     private RemotePlayer remotePlayer;
-    private String currentNick;
 
     /**
      * Standard TurnController constructor, initialises everything it needs
@@ -35,7 +29,6 @@ public class TurnController {
         movesLeft = NUMBER_OF_MOVES;
         this.remoteUsers = remoteUsers;
         currentPlayer = match.getCurrentTurn().getCurrentPlayer();
-        currentNick = currentPlayer.getNickname();
         actionController = new ActionController(match, remoteUsers);
         remotePlayer = remoteUsers.get(currentPlayer.getNickname());
     }

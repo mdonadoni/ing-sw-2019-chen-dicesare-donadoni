@@ -161,4 +161,19 @@ public class Match extends Identifiable{
     public boolean getFinalFrenzy(){
         return finalFrenzy;
     }
+
+    /**
+     * Get the player who is using the tokens with a certain color
+     * @param color The color of the player I want to be returned
+     * @return The player with the given color associated
+     */
+    public Player getPlayerByTokenColor(PlayerToken color){
+        Player resPlayer = null;
+        for(Player player : players){
+            if(player.getColor().equals(color))
+                resPlayer = player;
+        }
+
+        return resPlayer;
+    }
 }
