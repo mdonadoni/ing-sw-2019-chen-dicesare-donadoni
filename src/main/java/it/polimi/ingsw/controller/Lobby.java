@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.util.config.Config;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,7 +15,9 @@ public class Lobby {
     /**
      * Countdown before starting a match not full.
      */
-    private static final long COUNTDOWN = 30000;
+    private static final long COUNTDOWN = Config.getLobbyTimeout() * 1000;
+    private static final int MIN_PLAYERS = Config.getMinPlayers();
+    private static final int MAX_PLAYERS = Config.getMaxPlayers();
 
     /**
      * Server.
@@ -48,10 +52,10 @@ public class Lobby {
         LOG.info(() -> "Adding player to lobby: " + player.getNickname());
         queue.forEach(remotePlayer -> remotePlayer.safeShowMessage("Nuovo utente in lobby: " + player.getNickname()));
         queue.add(player);
-        if (queue.size() == 5) {
+        if (queue.size() == MAX_PLAYERS) {
             // Match can be started
             startMatch();
-        } else if (queue.size() >= 3 && !scheduled) {
+        } else if (queue.size() >= MIN_PLAYERS && !scheduled) {
             // Schedule countdown before starting match
             scheduled = true;
             TimerTask task = new TimerTask() {
@@ -76,9 +80,10 @@ public class Lobby {
     public synchronized void removePlayer(RemotePlayer player) {
         LOG.info(() -> "Removed player from lobby: " + player.getNickname());
         queue.remove(player);
+        //TODO fix showMessage
         queue.forEach(remotePlayer -> remotePlayer.safeShowMessage("Utente rimosso dalla lobby: " + player.getNickname()));
-        //TODO remove fixed value
-        if (queue.size() < 3) {
+
+        if (queue.size() < MIN_PLAYERS) {
             // Disable scheduling because there are not enough players
             scheduled = false;
         }

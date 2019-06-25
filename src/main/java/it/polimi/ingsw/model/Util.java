@@ -28,7 +28,7 @@ public class Util {
             count.put(obj, count.getOrDefault(obj, 0)+1);
         }
 
-        Collections.sort(unique, Comparator.comparingInt(count::get).reversed());
+        unique.sort(Comparator.comparingInt(count::get).reversed());
         return unique;
     }
 }
