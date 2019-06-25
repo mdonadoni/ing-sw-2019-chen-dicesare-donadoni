@@ -12,7 +12,7 @@ public class MiniTurn implements Serializable {
     private static final long serialVersionUID = -1196895368824964464L;
 
     private final String currentPlayer;
-    private final List<MiniAction> avaibleActions;
+    private final ArrayList<MiniAction> avaibleActions;
 
     @JsonCreator
     private MiniTurn(){

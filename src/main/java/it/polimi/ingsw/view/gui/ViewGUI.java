@@ -73,7 +73,7 @@ public class ViewGUI extends Application {
         nicks.add("Fuljo");
         nicks.add("Ricky");
 
-        Match match = new Match(nicks, BoardType.BIG);
+        Match match = new Match(nicks, new JsonModelFactory(BoardType.BIG));
         match.getGameBoard().refillAmmoTile();
         match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.BLUE).addWeapon(new Weapon("thor"));
         match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.BLUE).addWeapon(new Weapon("zx-2"));
@@ -165,13 +165,15 @@ public class ViewGUI extends Application {
 
         new Thread(() -> {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(5000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println(selectObject(Arrays.asList(p1.getUuid(), p2.getUuid()), 0, 1));
+            System.out.println(selectObject(
+                    Arrays.asList(miniModel.getMatch().getCurrentTurn().getAvaibleActions().get(0).getUuid(),
+                            miniModel.getMatch().getCurrentTurn().getAvaibleActions().get(1).getUuid()),
+                    1, 1));
         }).start();*/
-
     }
 
     public void stop() {
@@ -208,6 +210,7 @@ public class ViewGUI extends Application {
     public void disconnect() {
         Platform.runLater(() -> {
             Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
+            dialog.initOwner(primaryStage);
             dialog.setTitle("Connessione con il server chiusa");
             dialog.setHeaderText("La connessione con il server è stata chiusa.");
             dialog.setContentText("Vuoi chiudere l'applicazione?");

@@ -11,10 +11,7 @@ import it.polimi.ingsw.view.gui.util.SelectableContainer;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
@@ -29,6 +26,7 @@ public class UserViewGUI extends GridPane implements SelectableContainer {
     private OtherPlayersPaneGUI otherPlayers;
     private GameBoardGUI gameBoard;
     private PlayerPaneGUI player;
+    private ActionsPaneGUI actions;
 
     public UserViewGUI(MiniModel miniModel){
         GridUtils.setPercentColumns(this, BOARDSPACE, 100.0 - BOARDSPACE);
@@ -46,13 +44,18 @@ public class UserViewGUI extends GridPane implements SelectableContainer {
         otherPlayers = new OtherPlayersPaneGUI(others);
         gameBoard = new GameBoardGUI(miniGb);
         player = new PlayerPaneGUI(myMini, visiblePowerUps);
+        actions = new ActionsPaneGUI(miniModel.getMatch().getCurrentTurn().getAvaibleActions());
 
         ScrollPane scroll = new ScrollPane(otherPlayers);
         scroll.setFitToWidth(true);
         scroll.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         scroll.getStylesheets().add("/gui/css/stylesheet.css");
 
-        add(gameBoard, 0, 0);
+        BorderPane borderPane = new BorderPane();
+        borderPane.setCenter(gameBoard);
+        borderPane.setLeft(actions);
+
+        add(borderPane, 0, 0);
         add(player, 0, 1);
         add(scroll, 1, 0, 1, 2);
 
@@ -67,6 +70,7 @@ public class UserViewGUI extends GridPane implements SelectableContainer {
     @Override
     public Selectable findSelectable(String uuid) {
         Selectable res = gameBoard.findSelectable(uuid);
+        if (res == null) res = actions.findSelectable(uuid);
         if (res == null) res = player.findSelectable(uuid);
         if (res == null) res = otherPlayers.findSelectable(uuid);
         return res;
