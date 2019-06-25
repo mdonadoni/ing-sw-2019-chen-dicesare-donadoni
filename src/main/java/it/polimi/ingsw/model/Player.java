@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.weapons.Weapon;
 
-import javax.swing.event.ListDataEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
