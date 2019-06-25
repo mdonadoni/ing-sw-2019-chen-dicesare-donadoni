@@ -176,4 +176,8 @@ public class Match extends Identifiable{
 
         return resPlayer;
     }
+
+    public boolean gameEnded(){
+        return gameBoard.getRemainingSkulls() == 0;
+    }
 }

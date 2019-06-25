@@ -25,6 +25,7 @@ class TurnControllerTest {
     private Action usePwu;
     private Action skip;
     private PowerUp teleporter;
+    private Updater updater;
 
     @BeforeEach
     void setUp(){
@@ -40,7 +41,7 @@ class TurnControllerTest {
             remoteUsers.put(nick, new RemotePlayer(nick, new TestView()));
         alfView = (TestView) remoteUsers.get("Alfonsina").getView();
         match = new Match(nicks, new JsonModelFactory(BoardType.SMALL));
-        turnController = new TurnController(match, remoteUsers);
+        turnController = new TurnController(match, remoteUsers, new Updater(remoteUsers, match));
 
         player = match.getPlayerByNickname("Alfonsina");
         blueSpawn = match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.BLUE);

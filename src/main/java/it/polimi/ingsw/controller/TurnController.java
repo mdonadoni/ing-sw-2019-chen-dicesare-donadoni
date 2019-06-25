@@ -15,22 +15,24 @@ public class TurnController {
     private Match match;
     private int movesLeft;
     private Player currentPlayer;
-    Map<String, RemotePlayer> remoteUsers;
+    private Map<String, RemotePlayer> remoteUsers;
     private ActionController actionController;
     private RemotePlayer remotePlayer;
+    private Updater updater;
 
     /**
      * Standard TurnController constructor, initialises everything it needs
      * @param match the current match
      * @param remoteUsers a map containing all the RemotePlayer objects
      */
-    public TurnController(Match match, Map<String, RemotePlayer> remoteUsers){
+    public TurnController(Match match, Map<String, RemotePlayer> remoteUsers, Updater updater){
         this.match = match;
         movesLeft = NUMBER_OF_MOVES;
         this.remoteUsers = remoteUsers;
         currentPlayer = match.getCurrentTurn().getCurrentPlayer();
-        actionController = new ActionController(match, remoteUsers);
+        actionController = new ActionController(match, remoteUsers, updater);
         remotePlayer = remoteUsers.get(currentPlayer.getNickname());
+        this.updater = updater;
     }
 
     public void startTurn() throws RemoteException {

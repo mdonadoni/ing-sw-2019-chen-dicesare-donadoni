@@ -29,6 +29,7 @@ class ActionControllerTest {
     private PowerUp teleporter;
     private PowerUp newton;
     private PowerUp targeting;
+    private Updater updater;
 
     @BeforeEach
     void setUp(){
@@ -39,7 +40,7 @@ class ActionControllerTest {
             users.put(nick, new RemotePlayer(nick, new TestView()));
         }
         adaView = (TestView) users.get("Ada").getView();
-        controller = new ActionController(match, users);
+        controller = new ActionController(match, users, new Updater(users, match));
         redSpawn = match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.RED);
         match.getGameBoard().refillAmmoTile();
         player = match.getPlayerByNickname("Ada");

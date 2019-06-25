@@ -20,17 +20,19 @@ public class ActionController {
     private Map<String, RemotePlayer> remoteUsers;
     private PowerUpController powerUpController;
     private PaymentGateway paymentGateway;
+    private Updater updater;
 
     /**
      * Standard constructor
      * @param match the match currently going on
      * @param remoteUsers a map containing all the RemotePlayer references
      */
-    public ActionController(Match match, Map<String, RemotePlayer> remoteUsers){
+    public ActionController(Match match, Map<String, RemotePlayer> remoteUsers, Updater updater){
         this.match = match;
         this.remoteUsers = remoteUsers;
         this.powerUpController = new PowerUpController(match, remoteUsers);
         this.paymentGateway = new PaymentGateway(match);
+        this.updater = updater;
     }
 
     /**
@@ -61,6 +63,9 @@ public class ActionController {
         }
         if(nMov>0)
             handleMovement(playerName, nMov);
+
+        // Everyone should update now the model
+        updater.updateModelToEveryone();
     }
 
     /**
@@ -109,6 +114,7 @@ public class ActionController {
         // Apply the movement
         player.move(selectedSquare);
 
+        updater.updateModel(playerName);
     }
 
     /**
@@ -132,6 +138,8 @@ public class ActionController {
                 currentWeapon.setCharged(true);
             }
         }
+
+        updater.updateModel(playerName);
     }
 
     /**
@@ -166,13 +174,15 @@ public class ActionController {
             weapons = weapons.stream().filter(e -> player.canPay(e.getPickupColor())).collect(Collectors.toList());
             Weapon selectedWeapon = remotePlayer.selectIdentifiable(weapons, 1, 1).get(0);
             // Grab the weapon
+            paymentGateway.payCost(selectedWeapon.getPickupColor(), player, remotePlayer); // In this city you pay before, then you get the camels
             if(player.canGrabWeapon()){
                 player.grabWeaponFromGround(selectedWeapon);
-                paymentGateway.payCost(selectedWeapon.getPickupColor(), player, remotePlayer); // Pay the cost
             }
             else
-                discardWeapon(selectedWeapon, player);
+                discardAndGrabWeapon(selectedWeapon, player);
         }
+
+        updater.updateModel(playerName);
     }
 
     /**
@@ -187,34 +197,43 @@ public class ActionController {
 
         victim.takeDamage(player.getColor(), 2);
         victim.addMark(player.getColor(), 1);
+
+        updater.updateModel(playerName);
     }
 
     /**
      * Just notifies the user that he skipped his turn
      * @param playerName the player I want to notify
-     * @throws RemoteException in case something bad happens
      */
-    private void handleSkip(String playerName) throws RemoteException {
+    private void handleSkip(String playerName) {
         RemotePlayer remotePlayer = remoteUsers.get(playerName);
         remotePlayer.safeShowMessage(DialogType.SKIP_DIALOG, new ArrayList<String>());
     }
 
     /**
      * Makes the player discard a weapon and then adds the weapon that didn't fit before
-     * @param extraOne the weapon he couldn't grab
+     * @param toBeGrabbed the weapon he couldn't grab
      * @param player the player who's acting
      * @throws RemoteException in case something goes wrong
      */
-    private void discardWeapon(Weapon extraOne, Player player) throws RemoteException{
+    private void discardAndGrabWeapon(Weapon toBeGrabbed, Player player) throws RemoteException{
         List<Weapon> weapons = new ArrayList<>(player.getWeapons());
         RemotePlayer remote = remoteUsers.get(player.getNickname());
         SpawnPoint spw = (SpawnPoint) player.getSquare();
 
+        // Select which weapon to discard
         Weapon selectedWeapon = remote.selectIdentifiable(weapons, 1, 1).get(0);
         player.removeWeapon(selectedWeapon);
         selectedWeapon.setCharged(true);
+
+        // Make room in the square for the discarded weapon
+        spw.removeWeapon(toBeGrabbed);
+        // Place down the weapon
         spw.addWeapon(selectedWeapon);
-        player.grabWeaponFromGround(extraOne);
+        // Adds the weapon to the player
+        player.grabWeapon(toBeGrabbed);
+
+        updater.updateModel(player.getNickname());
     }
 
     /**
@@ -244,6 +263,8 @@ public class ActionController {
             player.removePowerUp(selectedPowerup);
             match.getGameBoard().getPowerUpDeck().discard(selectedPowerup);
         }
+
+        updater.updateModel(playerName);
     }
 
     /**
@@ -270,5 +291,7 @@ public class ActionController {
             player.addPowerUp(toBeDrawn);
             player.clearDrawnPowerUps(); // Clear the player's hand
         }
+
+        updater.updateModel(player.getNickname());
     }
 }

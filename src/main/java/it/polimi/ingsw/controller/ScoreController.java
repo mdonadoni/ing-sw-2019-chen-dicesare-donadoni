@@ -97,5 +97,8 @@ public class ScoreController {
 
         // Finally, reset the damage, so that the player can play again
         player.resetDamage();
+
+        // Aaaaaand remove him from the board
+        player.removeFromBoard();
     }
 }

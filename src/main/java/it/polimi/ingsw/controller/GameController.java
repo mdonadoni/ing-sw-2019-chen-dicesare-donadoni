@@ -17,6 +17,7 @@ public class GameController implements Runnable{
     private Match match;
     private TurnController turn;
     private Map<String, RemotePlayer> remotePlayers;
+    private Updater updater;
 
     public GameController(Match match){
         this.match = match;
@@ -28,6 +29,7 @@ public class GameController implements Runnable{
         match = new Match(nicknames, new JsonModelFactory(bdType));
         remotePlayers = new HashMap<>();
         connectedPlayers.forEach(remotePlayer -> remotePlayers.put(remotePlayer.getNickname(), remotePlayer));
+        updater = new Updater(remotePlayers, match);
     }
 
     public void spawnRoutine(Player player, int cardsToDraw) throws RemoteException {
@@ -40,6 +42,8 @@ public class GameController implements Runnable{
             // Draw PowerUps from the deck
             for (int i = 0; i < cardsToDraw; i++)
                 player.addDrawnPowerUp(match.getGameBoard().getPowerUpDeck().draw());
+
+            updater.updateModel(player.getNickname());
 
             // Add to the sending list also the power-up currently in the player's inventory
             tempPowerUps.addAll(player.getPowerUps());
@@ -63,57 +67,59 @@ public class GameController implements Runnable{
 
             // Finally discard the used PowerUp
             match.getGameBoard().getPowerUpDeck().discard(chosenPwu);
+
+            updater.updateModel(player.getNickname());
         }
     }
-    // Don't take this method too seriously, it's just an idea on how it should work
+
+
+
+    /**
+     * This method is what in Toscana they call "Troiaio", has a bunch of try/catch so that all the RemoteExceptions
+     * thrown are handled correctly
+     */
     public void run() {
         // Send initial model
-        remotePlayers.forEach((nickname, player) -> {
-            try {
-                player.updateModel(
-                        new MiniModel(match, match.getPlayerByNickname(nickname)),
-                        5000
-                );
-            } catch (RemoteException e) {
-                handleDisconnection(player);
-            }
-        });
+        updater.updateModelToEveryone();
 
-        // Do things
+        // Beginning of the match: everyone should spawn ad get a turn
         if(match.isActive()){
-            // First turn for everyone!
+            // While it's the first turn for the current player
             while(match.getCurrentTurn().getType() == TurnType.FIRST_TURN){
                 try{
+                    // Should check if the player is active
                     if(match.getCurrentTurn().getCurrentPlayer().isActive()){
                         spawnRoutine(match.getCurrentTurn().getCurrentPlayer(), 2);
-                        turn = new TurnController(match, remotePlayers);
+                        turn = new TurnController(match, remotePlayers, updater);
                         turn.startTurn();
                     }
                     match.nextTurn();
                 } catch(RemoteException e){
                     LOG.log(Level.WARNING, "Player {0} disconnected, setting him inactive...",
                             match.getCurrentTurn().getCurrentPlayer().getNickname());
-                    handleDisconnection(
-                            remotePlayers.get(
-                                match.getCurrentTurn().getCurrentPlayer().getNickname()
-                            )
-                    );
+                    handleDisconnection(remotePlayers.get(match.getCurrentTurn().getCurrentPlayer().getNickname()));
                 }
-
             }
         }
-
-        while(match.isActive()){
-            if(match.getCurrentTurn().getCurrentPlayer().isActive()){
-                turn = new TurnController(match, remotePlayers);
+        // This is the main game cycle: runs until there are enough players. The game also ends when there have been
+        // enough kills
+        while(match.isActive() && !match.gameEnded()){
+            Player currentPlayer = match.getCurrentTurn().getCurrentPlayer();
+            if(currentPlayer.isActive()){
+                turn = new TurnController(match, remotePlayers, updater);
                 try{
+                    // If the player has no square, it means it should respawn
+                    if(currentPlayer.getSquare() == null)
+                        spawnRoutine(currentPlayer, 1);
+                    // Finally start his turn
                     turn.startTurn();
                 }catch(RemoteException e){
-                    e.printStackTrace();
+                    LOG.log(Level.WARNING, "Player {0} disconnected, setting him inactive...",
+                            currentPlayer.getNickname());
+                    handleDisconnection(remotePlayers.get(currentPlayer.getNickname()));
                 }
-
-                match.nextTurn();
             }
+            match.nextTurn();
         }
     }
 

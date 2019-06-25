@@ -284,7 +284,7 @@ public class Player extends Identifiable{
      * @param weapon the weapon to grab.
      */
     public void grabWeapon(Weapon weapon) {
-        if (weapons.size() < MAX_WEAPON_HAND) {
+        if (canGrabWeapon()) {
             weapons.add(weapon);
         }
     }
@@ -298,7 +298,7 @@ public class Player extends Identifiable{
             SpawnPoint spwSquare = (SpawnPoint) this.getSquare();
             if(!spwSquare.getWeapons().contains(weapon))
                 throw new InvalidOperationException("There's no such weapon on this square");
-            if (weapons.size() < MAX_WEAPON_HAND){
+            if (canGrabWeapon()){
                 weapons.add(weapon);
                 spwSquare.removeWeapon(weapon);
             }
@@ -549,7 +549,6 @@ public class Player extends Identifiable{
         }
 
         return availableActions;
-        //TODO: Make a Singleton class with all the actions so that in every moment of the match an Action has the same UUID
     }
 
     /**
@@ -587,5 +586,12 @@ public class Player extends Identifiable{
         return powerUps.stream()
                 .filter(e -> e.getType().equals(PowerUpType.NEWTON) || e.getType().equals(PowerUpType.TELEPORTER))
                 .collect(Collectors.toList());
+    }
+
+    public void removeFromBoard(){
+        if(square != null){
+            square.removePlayer(this);
+            square = null;
+        }
     }
 }

@@ -46,6 +46,7 @@ class ScoreControllerTest {
 
     @Test
     void singleSimpleKill() {
+        bedaPlayer.move(match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.RED));
         bedaPlayer.addDamage(adaColor, 4);
         bedaPlayer.addDamage(cosoColor, 2);
         bedaPlayer.addDamage(adaColor, 4);
@@ -62,6 +63,8 @@ class ScoreControllerTest {
         assertTrue(match.getGameBoard().getKillShotTrackOrder().contains(debianColor));
 
         assertFalse(bedaPlayer.isDead());
+
+        assertNull(bedaPlayer.getSquare());
     }
 
     @Test
