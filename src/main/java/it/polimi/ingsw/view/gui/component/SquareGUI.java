@@ -13,6 +13,9 @@ public class SquareGUI extends GridPane implements Selectable {
     private static final int NUM_ROW = 3;
     private static final int NUM_COL_AMMO = 2;
     private static final int NUM_ROW_AMMO = 2;
+    private static final Integer[] ROW_TOKEN = new Integer[]{0, 1, 2, 2, 2};
+    private static final Integer[] COL_TOKEN = new Integer[]{2, 2, 2, 1, 0};
+
 
     MiniSquare square;
     SelectableComponent select;
@@ -35,7 +38,10 @@ public class SquareGUI extends GridPane implements Selectable {
         setEffect(new DropShadow());
 
         select = new SelectableComponent(this, square.getUuid());
-        //TODO put player tokens
+
+        for (int i = 0; i < square.getPlayers().size(); i++) {
+            add(new TokenGUI(square.getPlayers().get(i), 1), COL_TOKEN[i], ROW_TOKEN[i]);
+        }
     }
 
     public SquareGUI(MiniStandardSquare stdSquare) {
