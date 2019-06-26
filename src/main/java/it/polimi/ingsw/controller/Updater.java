@@ -29,14 +29,15 @@ public class Updater {
     public void updateModel(String nickname){
         RemotePlayer remotePlayer = remotePlayers.get(nickname);
         try {
-            remotePlayer.updateModel(new MiniModel(match, match.getPlayerByNickname(nickname)), 2000);
+            LOG.log(Level.INFO, "Sending updates to {0}", nickname);
+            remotePlayer.updateModel(new MiniModel(match, match.getPlayerByNickname(nickname)), 8000);
         } catch (RemoteException e) {
             handleUpdateFailure(remotePlayer);
         }
     }
 
     private void handleUpdateFailure(RemotePlayer player) {
-        LOG.log(Level.WARNING, "Error while sending updates");
+        LOG.log(Level.WARNING, "Error while sending updates for player {0}", player.getNickname());
         match.getPlayerByNickname(player.getNickname()).setActive(false);
     }
 }

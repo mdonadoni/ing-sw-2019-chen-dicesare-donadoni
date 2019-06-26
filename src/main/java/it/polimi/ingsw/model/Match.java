@@ -124,7 +124,7 @@ public class Match extends Identifiable{
         }
         Player nextPlayer = players.get(indexNextPlayer);
 
-        if (turnsElapsed <= players.size())
+        if (turnsElapsed < players.size())
             currentTurn = new Turn(nextPlayer, TurnType.FIRST_TURN);
         else if(finalFrenzy)
             currentTurn = new Turn(nextPlayer, TurnType.FINAL_FRENZY);

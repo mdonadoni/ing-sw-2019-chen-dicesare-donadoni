@@ -256,7 +256,10 @@ public class ActionController {
             if(selectedPowerup.getType().equals(PowerUpType.TELEPORTER))
                 powerUpController.activatePowerUp(selectedPowerup, playerName);
             else if(selectedPowerup.getType().equals(PowerUpType.NEWTON)){
-                Player targetPlayer = remotePlayer.selectIdentifiable(enemies, 1, 1).get(0);
+                List<Player> selectableEnemies = enemies.stream()
+                        .filter(en -> en.getSquare()!=null)
+                        .collect(Collectors.toList());
+                Player targetPlayer = remotePlayer.selectIdentifiable(selectableEnemies, 1, 1).get(0);
                 powerUpController.activatePowerUp(selectedPowerup, playerName, targetPlayer);
             }
 

@@ -5,12 +5,13 @@ import it.polimi.ingsw.model.*;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TurnController {
     private static final Logger LOG = Logger.getLogger(TurnController.class.getName());
     private static final int NUMBER_OF_MOVES = 2;
-    private static final int TURN_MAX_TIME = 20000;
+    private static final int TURN_MAX_TIME = 180000;
 
     private Match match;
     private int movesLeft;
@@ -41,6 +42,7 @@ public class TurnController {
 
     public void startTurn() throws RemoteException {
         initTurn();
+        LOG.log(Level.INFO, "A turn has started for {0}", currentPlayer.getNickname());
 
         // Do maximum NUMBER_OF_MOVES actions and use powerups
         while(movesLeft > 0){
@@ -49,12 +51,15 @@ public class TurnController {
 
         // EOT: Reload your weapons
         actionController.handleReload(currentPlayer.getNickname());
+        LOG.log(Level.INFO, "Turn ended!");
     }
 
     private void selectWhatToDo() throws RemoteException{
         List<Action> availableActions = currentPlayer.supplyActions(match.getFinalFrenzy());
 
         Action selectedAction = remotePlayer.selectIdentifiable(availableActions, 1, 1).get(0);
+
+        LOG.log(Level.INFO, "Action selected: {0}", selectedAction.info());
 
         actionController.performAction(currentPlayer, selectedAction);
 

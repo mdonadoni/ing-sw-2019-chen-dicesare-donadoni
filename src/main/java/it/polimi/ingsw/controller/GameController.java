@@ -36,7 +36,9 @@ public class GameController implements Runnable{
         List<PowerUp> tempPowerUps = new ArrayList<>();
         RemotePlayer remotePlayer = remotePlayers.get(player.getNickname());
 
-        remotePlayer.setTimeLeft(50000);
+        remotePlayer.setTimeLeft(60000);
+
+        LOG.log(Level.INFO, "Starting a spawn routine for {0}", player.getNickname());
 
         if(player.getSquare() == null && player.isActive()){
             // Draw PowerUps from the deck
@@ -73,6 +75,7 @@ public class GameController implements Runnable{
     }
 
     private void checkForPeopleToRespawn(){
+        LOG.log(Level.INFO, "Checking if someone has to respawn");
         for(Player player : match.getPlayers()){
             if(player.getSquare() == null && player.isActive()){
                 try{
@@ -89,9 +92,12 @@ public class GameController implements Runnable{
      * thrown are handled correctly
      */
     public void run() {
+        LOG.log(Level.INFO, "Starting a new match!");
         // Send initial model
+        LOG.log(Level.INFO, "Sending initial model to everyone");
         updater.updateModelToEveryone();
 
+        LOG.log(Level.INFO, "First turn for everyone");
         // Beginning of the match: everyone should spawn ad get a turn
         if(match.isActive()){
             // While it's the first turn for the current player
@@ -111,6 +117,8 @@ public class GameController implements Runnable{
                 }
             }
         }
+
+        LOG.log(Level.INFO, "Main game cycle starting now...");
         // This is the main game cycle: runs until there are enough players. The game also ends when there have been
         // enough kills
         while(match.isActive() && !match.gameEnded()){
