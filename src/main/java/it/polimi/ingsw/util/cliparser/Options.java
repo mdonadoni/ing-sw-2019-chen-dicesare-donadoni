@@ -13,13 +13,23 @@ public class Options {
      * Map between option's name and actual Option object.
      */
     private Map<String, Option> options = new HashMap<>();
+    private List<Option[]> exclusiveGroups = new ArrayList<>();
+
+    /**
+     * Check whether the given option can be added or not.
+     * @param opt Option to be checked
+     * @return True if it can be added, false otherwise.
+     */
+    private boolean canAdd(Option opt) {
+        return !options.containsKey(opt.getName());
+    }
 
     /**
      * Add new option.
      * @param option Option to be added.
      */
     public void addOption(Option option) {
-        if (options.containsKey(option.getName())) {
+        if (!canAdd(option)) {
             throw new CLIParserException("Cannot have two options with same name");
         }
         options.put(option.getName(), option);
@@ -33,6 +43,23 @@ public class Options {
      */
     public void addOption(String name, boolean hasArgument, String description) {
         addOption(new Option(name, hasArgument, description));
+    }
+
+    /**
+     * Add options that need to be mutually exclusive.
+     * @param options Options mutually exclusive.
+     */
+    public void addMutuallyExclusiveOptions(Option ...options) {
+        for (Option opt : options) {
+            if (!canAdd(opt)) {
+                throw new CLIParserException("Cannot add option " + opt.getName());
+            }
+        }
+
+        exclusiveGroups.add(options);
+        for (Option opt : options) {
+            addOption(opt);
+        }
     }
 
     /**
@@ -59,5 +86,13 @@ public class Options {
      */
     List<Option> getOptions() {
         return new ArrayList<>(options.values());
+    }
+
+    /**
+     * Get list of groups of options mutually exclusive.
+     * @return List of group of mutually exclusive options.
+     */
+    List<Option[]> getExclusiveGroups() {
+        return exclusiveGroups;
     }
 }

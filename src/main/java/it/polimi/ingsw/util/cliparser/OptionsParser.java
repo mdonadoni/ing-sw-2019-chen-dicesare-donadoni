@@ -44,6 +44,19 @@ public class OptionsParser {
             }
         }
 
+        // Check mutually exclusive
+        for (Option[] group : options.getExclusiveGroups()) {
+            int count = 0;
+            for (Option opt : group) {
+                if (parsed.hasOption(opt)) {
+                    count++;
+                }
+            }
+            if (count > 1) {
+                throw new CLIParserException("Cannot have more than one exclusive option");
+            }
+        }
+
         return parsed;
     }
 }

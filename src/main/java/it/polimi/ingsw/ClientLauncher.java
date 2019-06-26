@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.util.cliparser.*;
 import it.polimi.ingsw.util.config.Config;
+import it.polimi.ingsw.view.ViewBot;
 import it.polimi.ingsw.view.gui.ViewGUI;
 import javafx.application.Application;
 
@@ -13,6 +14,7 @@ public class ClientLauncher {
     private static final Option HOSTNAME = new Option("hostname", true, "hostname or ip of the client");
     private static final Option GUI = new Option("gui", false, "use graphical user interface");
     private static final Option CLI = new Option("cli", false, "use command line interface");
+    private static final Option BOT = new Option("bot", false, "start new bot");
     private static final Option DEBUG = new Option("debug", false, "enable debug messages (not recommended while using cli)");
 
     public static void main(String[] args) {
@@ -22,8 +24,7 @@ public class ClientLauncher {
         // Add options
         Options options = new Options();
         options.addOption(HOSTNAME);
-        options.addOption(GUI);
-        options.addOption(CLI);
+        options.addMutuallyExclusiveOptions(GUI, CLI, BOT);
         options.addOption(DEBUG);
 
         // Parse options
@@ -47,10 +48,12 @@ public class ClientLauncher {
         // This is needed to make RMI work
         System.setProperty("java.rmi.server.hostname", Config.getHostname());
 
-        if (parsed.hasOption(GUI) && !parsed.hasOption(CLI)) {
+        if (parsed.hasOption(GUI)) {
             Application.launch(ViewGUI.class);
-        } else if (parsed.hasOption(CLI) && !parsed.hasOption(GUI)) {
-            //TODO start cli
+        } else if (parsed.hasOption(CLI)) {
+            // TODO start CLI
+        } else if (parsed.hasOption(BOT)) {
+            new ViewBot().run();
         } else {
             HelpPrinter.print(options);
         }
