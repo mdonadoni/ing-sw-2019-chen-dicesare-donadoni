@@ -1,17 +1,17 @@
 package it.polimi.ingsw.model.minified;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.util.Json;
+import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.AmmoTile;
+import it.polimi.ingsw.model.Coordinate;
+import it.polimi.ingsw.model.StandardSquare;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MiniStandardSquareTest {
 
@@ -35,19 +35,14 @@ class MiniStandardSquareTest {
     }
 
     @Test
-    void serialization() throws IOException {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){
-            ObjectOutput out = new ObjectOutputStream(bos);
-            out.writeObject(miniSquare);
-            out.flush();
-        }
+    void serialization() throws IOException, ClassNotFoundException {
+        MiniStandardSquare des = UtilSerialization.javaSerializable(miniSquare, MiniStandardSquare.class);
+        assertEquals(des.getUuid(), miniSquare.getUuid());
     }
 
     @Test
     void jackson() throws IOException {
-        String j = Json.getMapper().writeValueAsString(miniSquare);
-        MiniStandardSquare fromJson = Json.getMapper().readValue(j, MiniStandardSquare.class);
-        assertEquals(miniSquare.getUuid(), fromJson.getUuid());
+        MiniStandardSquare des = UtilSerialization.jackson(miniSquare, MiniStandardSquare.class);
+        assertEquals(des.getUuid(), miniSquare.getUuid());
     }
-
 }

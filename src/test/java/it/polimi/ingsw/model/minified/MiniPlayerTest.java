@@ -1,15 +1,14 @@
 package it.polimi.ingsw.model.minified;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.AmmoTile;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerToken;
 import it.polimi.ingsw.model.weapons.Weapon;
-import it.polimi.ingsw.util.Json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,18 +58,14 @@ class MiniPlayerTest {
     }
 
     @Test
-    void serialization() throws IOException {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){
-            ObjectOutput out = new ObjectOutputStream(bos);
-            out.writeObject(mp);
-            out.flush();
-        }
+    void serialization() throws IOException, ClassNotFoundException {
+        MiniPlayer des = UtilSerialization.javaSerializable(mp, MiniPlayer.class);
+        assertEquals(des.getUuid(), mp.getUuid());
     }
 
     @Test
     void jackson() throws IOException {
-        String j = Json.getMapper().writeValueAsString(mp);
-        MiniPlayer fromJson = Json.getMapper().readValue(j, MiniPlayer.class);
-        assertEquals(mp.getUuid(), fromJson.getUuid());
+        MiniPlayer des = UtilSerialization.jackson(mp, MiniPlayer.class);
+        assertEquals(des.getUuid(), mp.getUuid());
     }
 }

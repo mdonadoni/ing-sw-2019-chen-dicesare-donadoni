@@ -1,14 +1,10 @@
 package it.polimi.ingsw.model.minified;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.util.Json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,17 +24,12 @@ class MiniModelTest {
     }
 
     @Test
-    void serialization() throws IOException {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){
-            ObjectOutput out = new ObjectOutputStream(bos);
-            out.writeObject(miniModel);
-            out.flush();
-        }
+    void serialization() throws IOException, ClassNotFoundException {
+        UtilSerialization.javaSerializable(miniModel, MiniModel.class);
     }
 
     @Test
     void jackson() throws IOException {
-        String j = Json.getMapper().writeValueAsString(miniModel);
-        Json.getMapper().readValue(j, MiniModel.class);
+        UtilSerialization.jackson(miniModel, MiniModel.class);
     }
 }

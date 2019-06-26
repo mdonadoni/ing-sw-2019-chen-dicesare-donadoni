@@ -2,18 +2,14 @@ package it.polimi.ingsw.model.minified;
 
 import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.Coordinate;
-import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.model.SpawnPoint;
 import it.polimi.ingsw.model.weapons.Weapon;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MiniSpawnPointTest {
 
@@ -36,18 +32,14 @@ class MiniSpawnPointTest {
     }
 
     @Test
-    void serialization() throws IOException {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){
-            ObjectOutput out = new ObjectOutputStream(bos);
-            out.writeObject(miniSpawn);
-            out.flush();
-        }
+    void serialization() throws IOException, ClassNotFoundException {
+        MiniSpawnPoint des = UtilSerialization.javaSerializable(miniSpawn, MiniSpawnPoint.class);
+        assertEquals(des.getUuid(), spawn.getUuid());
     }
 
     @Test
     void jackson() throws IOException {
-        String j = Json.getMapper().writeValueAsString(miniSpawn);
-        MiniSpawnPoint fromJson = Json.getMapper().readValue(j, MiniSpawnPoint.class);
-        assertEquals(miniSpawn.getUuid(), fromJson.getUuid());
+        MiniSpawnPoint des = UtilSerialization.jackson(miniSpawn, MiniSpawnPoint.class);
+        assertEquals(des.getUuid(), spawn.getUuid());
     }
 }

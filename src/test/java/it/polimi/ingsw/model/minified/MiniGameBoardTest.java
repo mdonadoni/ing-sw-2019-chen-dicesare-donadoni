@@ -4,14 +4,10 @@ import it.polimi.ingsw.model.BoardType;
 import it.polimi.ingsw.model.GameBoard;
 import it.polimi.ingsw.model.JsonModelFactory;
 import it.polimi.ingsw.model.PlayerToken;
-import it.polimi.ingsw.util.Json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,17 +33,12 @@ class MiniGameBoardTest {
     }
 
     @Test
-    void serialization() throws IOException {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){
-            ObjectOutput out = new ObjectOutputStream(bos);
-            out.writeObject(miniGameBoard);
-            out.flush();
-        }
+    void serialization() throws IOException, ClassNotFoundException {
+        UtilSerialization.javaSerializable(miniGameBoard, MiniGameBoard.class);
     }
 
     @Test
     void jackson() throws IOException {
-        String j = Json.getMapper().writeValueAsString(miniGameBoard);
-        Json.getMapper().readValue(j, MiniGameBoard.class);
+        UtilSerialization.jackson(miniGameBoard, MiniGameBoard.class);
     }
 }
