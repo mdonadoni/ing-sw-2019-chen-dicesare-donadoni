@@ -1,9 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.minified.MiniModel;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,6 +87,7 @@ public class GameController implements Runnable{
                 try{
                     // Should check if the player is active
                     if(match.getCurrentTurn().getCurrentPlayer().isActive()){
+                        remotePlayers.get(match.getCurrentTurn().getCurrentPlayer().getNickname()).setTimeLeft(20000);
                         spawnRoutine(match.getCurrentTurn().getCurrentPlayer(), 2);
                         turn = new TurnController(match, remotePlayers, updater);
                         turn.startTurn();

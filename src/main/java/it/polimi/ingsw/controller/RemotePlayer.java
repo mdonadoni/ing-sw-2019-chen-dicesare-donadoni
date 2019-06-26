@@ -6,10 +6,7 @@ import it.polimi.ingsw.network.View;
 import it.polimi.ingsw.view.dialogs.DialogType;
 
 import java.rmi.RemoteException;
-import java.util.Date;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -166,7 +163,8 @@ public class RemotePlayer {
      * @throws RemoteException If there is an error while making the request.
      */
     public List<String> selectObject(List<String> objUuid, int min, int max) throws RemoteException {
-        return makeTimedRequest(() -> view.selectObject(objUuid, min, max));
+        ArrayList<String> array = new ArrayList<>(objUuid);
+        return makeTimedRequest(() -> view.selectObject(array, min, max));
     }
 
     public <T extends Identifiable> List<T> selectIdentifiable(List<T> objects, int min, int max) throws RemoteException {

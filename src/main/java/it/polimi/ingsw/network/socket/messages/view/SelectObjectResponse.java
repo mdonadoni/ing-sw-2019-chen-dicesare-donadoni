@@ -41,7 +41,7 @@ public class SelectObjectResponse extends Message {
      * Get selectSquares result.
      * @return List of squares' coordinates chosen.
      */
-    public List<String> getResult() {
+    public ArrayList<String> getResult() {
         return res;
     }
 }

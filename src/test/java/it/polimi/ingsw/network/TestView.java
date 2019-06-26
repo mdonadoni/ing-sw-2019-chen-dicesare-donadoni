@@ -11,7 +11,7 @@ public class TestView implements View {
 
     public List<String> toBeSelected = new ArrayList<>();
 
-    public List<String> selectObject(List<String> objUuid, int min, int max) throws RemoteException {
+    public ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max) throws RemoteException {
         if(toBeSelected.size()>0){
             String returnVal = toBeSelected.get(0);
             toBeSelected.remove(0);
