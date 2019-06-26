@@ -178,6 +178,7 @@ public class RemotePlayer {
                 .filter(obj -> selected.contains(obj.getUuid()))
                 .collect(Collectors.toList());
         if (result.size() != selected.size() || result.size() < min || result.size() > max) {
+            stop();
             throw new RemoteException("Something went wrong while selecting");
         }
         return result;
