@@ -6,9 +6,11 @@ import it.polimi.ingsw.model.minified.MiniModel;
 
 import java.rmi.RemoteException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Updater {
-
+    private static final Logger LOG = Logger.getLogger(Updater.class.getName());
     private Map<String, RemotePlayer> remotePlayers;
     Match match;
 
@@ -34,6 +36,7 @@ public class Updater {
     }
 
     private void handleUpdateFailure(RemotePlayer player) {
+        LOG.log(Level.WARNING, "Error while sending updates");
         match.getPlayerByNickname(player.getNickname()).setActive(false);
     }
 }

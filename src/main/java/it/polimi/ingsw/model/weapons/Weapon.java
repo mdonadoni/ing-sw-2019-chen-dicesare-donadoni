@@ -42,7 +42,10 @@ public class Weapon extends Identifiable {
             for(JsonNode color : json.get("pickupColor")){
                 addPickupColor(AmmoColor.valueOf(color.asText().toUpperCase()));
             }
-            setAdditionalRechargeColor(AmmoColor.valueOf(json.get("additionalRechargeColor").asText().toUpperCase()));
+
+            JsonNode additionalRecharge = json.get("additionalRechargeColor");
+            if(additionalRecharge != null)
+                setAdditionalRechargeColor(AmmoColor.valueOf(additionalRecharge.asText().toUpperCase()));
 
             for(JsonNode attack : json.get("attacks")){
                 addAttack(new Attack(attack));

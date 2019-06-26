@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.minified.MiniModel;
-
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +27,7 @@ public class GameController implements Runnable{
         remotePlayers = new HashMap<>();
         connectedPlayers.forEach(remotePlayer -> remotePlayers.put(remotePlayer.getNickname(), remotePlayer));
         updater = new Updater(remotePlayers, match);
+        turn = new TurnController(match, remotePlayers, updater);
     }
 
     public void spawnRoutine(Player player, int cardsToDraw) throws RemoteException {
@@ -72,7 +70,17 @@ public class GameController implements Runnable{
         }
     }
 
-
+    private void checkForPeopleToRespawn(){
+        for(Player player : match.getPlayers()){
+            if(player.getSquare() == null && player.isActive()){
+                try{
+                    spawnRoutine(player, 1);
+                }catch(RemoteException e){
+                    player.setActive(false);
+                }
+            }
+        }
+    }
 
     /**
      * This method is what in Toscana they call "Troiaio", has a bunch of try/catch so that all the RemoteExceptions
@@ -86,11 +94,11 @@ public class GameController implements Runnable{
         if(match.isActive()){
             // While it's the first turn for the current player
             while(match.getCurrentTurn().getType() == TurnType.FIRST_TURN){
+                Player currentPlayer = match.getCurrentTurn().getCurrentPlayer();
                 try{
                     // Should check if the player is active
-                    if(match.getCurrentTurn().getCurrentPlayer().isActive()){
-                        spawnRoutine(match.getCurrentTurn().getCurrentPlayer(), 2);
-                        turn = new TurnController(match, remotePlayers, updater);
+                    if(currentPlayer.isActive()){
+                        spawnRoutine(currentPlayer, 2);
                         turn.startTurn();
                     }
                     match.nextTurn();
@@ -105,12 +113,10 @@ public class GameController implements Runnable{
         // enough kills
         while(match.isActive() && !match.gameEnded()){
             Player currentPlayer = match.getCurrentTurn().getCurrentPlayer();
+            // When someone dies, he should respawn
+            checkForPeopleToRespawn();
             if(currentPlayer.isActive()){
-                turn = new TurnController(match, remotePlayers, updater);
                 try{
-                    // If the player has no square, it means it should respawn
-                    if(currentPlayer.getSquare() == null)
-                        spawnRoutine(currentPlayer, 1);
                     // Finally start his turn
                     turn.startTurn();
                 }catch(RemoteException e){
@@ -123,6 +129,12 @@ public class GameController implements Runnable{
         }
     }
 
+    /**
+     * When a player disconnects, if the controller tries to ask him something, a RemoteException is thrown. The exception
+     * runs up till this level where it's handled. Basically this method fixes the model so that when a player disconnects
+     * the model remains in a coherent state.
+     * @param player The player who disconnected
+     */
     private void handleDisconnection(RemotePlayer player) {
         // TODO handle disconnection
         match.getPlayerByNickname(player.getNickname()).setActive(false);

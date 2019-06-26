@@ -34,4 +34,13 @@ class WeaponTest {
         assertTrue(eff2.isLine());
         assertEquals(att.getAdditionalAttacks().get(0).getCost().get(0), AmmoColor.RED);
     }
+
+    @Test
+    public void fromResource(){
+        Weapon wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/lockrifle.json"));
+        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/electroscythe.json"));
+        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/machinegun.json"));
+        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/tractorbeam.json"));
+
+    }
 }

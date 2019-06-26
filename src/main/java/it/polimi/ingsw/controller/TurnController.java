@@ -27,16 +27,20 @@ public class TurnController {
      */
     public TurnController(Match match, Map<String, RemotePlayer> remoteUsers, Updater updater){
         this.match = match;
-        movesLeft = NUMBER_OF_MOVES;
         this.remoteUsers = remoteUsers;
-        currentPlayer = match.getCurrentTurn().getCurrentPlayer();
         actionController = new ActionController(match, remoteUsers, updater);
-        remotePlayer = remoteUsers.get(currentPlayer.getNickname());
         this.updater = updater;
     }
 
-    public void startTurn() throws RemoteException {
+    private void initTurn(){
+        movesLeft = NUMBER_OF_MOVES;
+        currentPlayer = match.getCurrentTurn().getCurrentPlayer();
+        remotePlayer = remoteUsers.get(currentPlayer.getNickname());
         remotePlayer.setTimeLeft(TURN_MAX_TIME);
+    }
+
+    public void startTurn() throws RemoteException {
+        initTurn();
 
         // Do maximum NUMBER_OF_MOVES actions and use powerups
         while(movesLeft > 0){

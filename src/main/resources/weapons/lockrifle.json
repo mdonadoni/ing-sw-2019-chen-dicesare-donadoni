@@ -1,0 +1,68 @@
+{
+  "name": "lockrifle",
+  "charged": true,
+  "pickupColor": [
+    "BLUE"
+  ],
+  "additionalRechargeColor": "BLUE",
+  "attacks": [
+    {
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": -1,
+          "maxDistance": -1,
+          "exclusive": true,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 2,
+              "harm": "DAMAGE"
+            },
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "MARK"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [
+        {
+          "chainAttack": false,
+          "baseFire": [
+            {
+              "type": "player",
+              "numberOfTargets": 1,
+              "visibility": "VISIBLE",
+              "minDistance": -1,
+              "maxDistance": -1,
+              "exclusive": true,
+              "inherited": false,
+              "special": [],
+              "effects": [
+                {
+                  "type": "harmful",
+                  "value": 1,
+                  "harm": "MARK"
+                }
+              ]
+            }
+          ],
+          "additionalAttacks": [],
+          "bonusMovement": [],
+          "cost": [
+            "RED"
+          ]
+        }
+      ],
+      "bonusMovement": [],
+      "cost": []
+    }
+  ]
+}
