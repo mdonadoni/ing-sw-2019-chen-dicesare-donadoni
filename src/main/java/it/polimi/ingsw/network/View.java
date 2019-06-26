@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.minified.MiniModel;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Interface that represents the methods of the view.
@@ -18,7 +18,7 @@ public interface View extends Remote {
      * @return List of selected squares' coordinates.
      * @throws RemoteException If there is a network error.
      */
-    List<String> selectObject(List<String> objUuid, int min, int max) throws RemoteException;
+    ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max) throws RemoteException;
 
     /**
      * Show a message on the view.

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.io.Serializable;
 
 /**
@@ -15,6 +17,11 @@ public class PowerUp extends Identifiable implements Serializable {
      * The ammo that the power-up can be used as.
      */
     private AmmoColor ammo;
+
+    @JsonCreator
+    private PowerUp() {
+
+    }
 
     /**
      * Constructor of the class

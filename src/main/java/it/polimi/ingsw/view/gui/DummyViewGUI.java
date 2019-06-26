@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.LocalView;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -16,8 +16,8 @@ public class DummyViewGUI extends LocalView {
     }
 
     @Override
-    public synchronized List<String> selectObject(List<String> objUuid, int min, int max) {
-        return gui.selectObject(objUuid, min, max);
+    public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max) {
+        return new ArrayList<>(gui.selectObject(objUuid, min, max));
     }
 
     @Override

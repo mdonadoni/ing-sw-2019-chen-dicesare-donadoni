@@ -11,7 +11,7 @@ import it.polimi.ingsw.network.socket.messages.view.*;
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,7 +58,7 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
      * @throws RemoteException If there is an error invoking this method.
      */
     @Override
-    public List<String> selectObject(List<String> squares, int min, int max) throws RemoteException {
+    public ArrayList<String> selectObject(ArrayList<String> squares, int min, int max) throws RemoteException {
         SelectObjectResponse res = endpoint.sendAndWaitResponse(new SelectObjectRequest(squares, min, max), SelectObjectResponse.class);
         return res.getResult();
     }

@@ -36,6 +36,8 @@ public class GameController implements Runnable{
         List<PowerUp> tempPowerUps = new ArrayList<>();
         RemotePlayer remotePlayer = remotePlayers.get(player.getNickname());
 
+        remotePlayer.setTimeLeft(50000);
+
         if(player.getSquare() == null && player.isActive()){
             // Draw PowerUps from the deck
             for (int i = 0; i < cardsToDraw; i++)

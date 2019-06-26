@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.minified.MiniModel;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -81,7 +81,7 @@ public abstract class LocalView implements View {
      * @return List of selected squares' coordinates.
      */
     @Override
-    public abstract List<String> selectObject(List<String> objUuid, int min, int max);
+    public abstract ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max);
 
     /**
      * Show a message. This method doesn't throw RemoteException because this

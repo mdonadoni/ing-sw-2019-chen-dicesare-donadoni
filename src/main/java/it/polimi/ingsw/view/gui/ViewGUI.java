@@ -200,8 +200,8 @@ public class ViewGUI extends Application {
     }
 
     public void updateModel(MiniModel model) {
+        userView = new UserViewGUI(model);
         Platform.runLater(() -> {
-            userView = new UserViewGUI(model);
             mainPane.setCenter(userView);
             primaryStage.getScene().setRoot(mainPane);
         });

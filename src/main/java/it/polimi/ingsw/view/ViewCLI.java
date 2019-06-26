@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.LocalView;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,7 +64,7 @@ public class ViewCLI extends LocalView implements Runnable {
     }
 
     @Override
-    public synchronized List<String> selectObject(List<String> objUuid, int min, int max) {
+    public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max) {
         System.out.println("Nuova selezione");
         return new ArrayList<>(objUuid.subList(0, min));
     }
