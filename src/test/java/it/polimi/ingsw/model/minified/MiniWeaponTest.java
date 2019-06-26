@@ -2,14 +2,10 @@ package it.polimi.ingsw.model.minified;
 
 import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.weapons.Weapon;
-import it.polimi.ingsw.util.Json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,18 +30,14 @@ class MiniWeaponTest {
     }
 
     @Test
-    void serialization() throws IOException {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){
-            ObjectOutput out = new ObjectOutputStream(bos);
-            out.writeObject(miniWeapon);
-            out.flush();
-        }
+    void serialization() throws IOException, ClassNotFoundException {
+        MiniWeapon des = UtilSerialization.javaSerializable(miniWeapon, MiniWeapon.class);
+        assertEquals(des.getUuid(), miniWeapon.getUuid());
     }
 
     @Test
     void jackson() throws IOException {
-        String j = Json.getMapper().writeValueAsString(miniWeapon);
-        MiniWeapon fromJson = Json.getMapper().readValue(j, MiniWeapon.class);
-        assertEquals(miniWeapon.getUuid(), fromJson.getUuid());
+        MiniWeapon des = UtilSerialization.jackson(miniWeapon, MiniWeapon.class);
+        assertEquals(des.getUuid(), miniWeapon.getUuid());
     }
 }

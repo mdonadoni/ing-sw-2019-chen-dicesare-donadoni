@@ -3,16 +3,12 @@ package it.polimi.ingsw.model.minified;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.BoardSample;
 import it.polimi.ingsw.model.Coordinate;
-import it.polimi.ingsw.util.Json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MiniBoardTest {
     Board board;
@@ -32,18 +28,13 @@ class MiniBoardTest {
     }
 
     @Test
-    void serialization() throws IOException {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){
-            ObjectOutput out = new ObjectOutputStream(bos);
-            out.writeObject(miniBoard);
-            out.flush();
-        }
+    void serialization() throws IOException, ClassNotFoundException {
+        UtilSerialization.javaSerializable(miniBoard, MiniBoard.class);
     }
 
     @Test
     void jackson() throws IOException {
-        String j = Json.getMapper().writeValueAsString(miniBoard);
-        Json.getMapper().readValue(j, MiniBoard.class);
+        UtilSerialization.jackson(miniBoard, MiniBoard.class);
     }
 
 }
