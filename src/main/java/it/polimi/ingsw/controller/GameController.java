@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +16,7 @@ public class GameController implements Runnable{
     private TurnController turn;
     private Map<String, RemotePlayer> remotePlayers;
     private Updater updater;
+    private AtomicBoolean finished = new AtomicBoolean(false);
 
     public GameController(Match match){
         this.match = match;
@@ -92,7 +94,7 @@ public class GameController implements Runnable{
      * thrown are handled correctly
      */
     public void run() {
-        LOG.log(Level.INFO, "Starting a new match!");
+        LOG.log(Level.INFO, "Starting match {0}", match.getUuid());
         // Send initial model
         LOG.log(Level.INFO, "Sending initial model to everyone");
         updater.updateModelToEveryone();
@@ -137,6 +139,14 @@ public class GameController implements Runnable{
             }
             match.nextTurn();
         }
+
+        // The match is finished
+        LOG.log(Level.INFO, "Match {0} finished", match.getUuid());
+        finished.set(true);
+    }
+
+    public boolean isFinished() {
+        return finished.get();
     }
 
     /**
@@ -150,11 +160,11 @@ public class GameController implements Runnable{
         match.getPlayerByNickname(player.getNickname()).setActive(false);
     }
 
-    public Match getMatch(){
+    Match getMatch(){
         return match;
     }
 
-    public RemotePlayer getRemotePlayer(String nickname){
+    RemotePlayer getRemotePlayer(String nickname){
         return remotePlayers.get(nickname);
     }
 }

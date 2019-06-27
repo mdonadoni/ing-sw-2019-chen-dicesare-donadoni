@@ -32,10 +32,11 @@ public class ServerController extends LocalServer {
         player.setDisconnectionCallback(this::handleDisconnection);
         connectedUser.put(nickname, player);
 
-        if (nicknameToGame.containsKey(player.getNickname())) {
-            //TODO handle reconnection to a match
-        } else {
+        GameController game = nicknameToGame.get(player.getNickname());
+        if (game == null || game.isFinished()) {
             lobby.addPlayer(player);
+        } else {
+            //TODO handle reconnection to a match
         }
         return true;
     }
@@ -62,10 +63,4 @@ public class ServerController extends LocalServer {
         }
         //TODO remove from game
     }
-
-    public synchronized void notifyGameFinished(GameController game) {
-        //TODO
-    }
-
-
 }
