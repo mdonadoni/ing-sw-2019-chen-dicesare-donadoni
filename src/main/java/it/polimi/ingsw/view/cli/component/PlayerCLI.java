@@ -1,8 +1,12 @@
-package it.polimi.ingsw.view.cli;
+package it.polimi.ingsw.view.cli.component;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.minified.MiniGameBoard;
 import it.polimi.ingsw.model.minified.MiniPlayer;
 import it.polimi.ingsw.model.minified.MiniWeapon;
+import it.polimi.ingsw.view.cli.util.CharCli;
+import it.polimi.ingsw.view.cli.util.ColorCLI;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +14,25 @@ public class PlayerCLI {
 
     private static final int LENGTH = 15 ;
 
-    public static synchronized ArrayList viewPlayer(MiniPlayer miniPlayer, List<PowerUp> powerUps){
+    private MiniPlayer player;
+    List<PowerUp> powerUp;
+    private ArrayList<WeaponCLI> weaponCLI;
+
+    PlayerCLI(MiniPlayer miniPlayer, List<PowerUp> powerUp){
+        this.player = miniPlayer;
+        this.powerUp = powerUp;
+        weaponCLI = new ArrayList<>();
+        for(MiniWeapon w : miniPlayer.getWeapons()){
+            weaponCLI.add( new WeaponCLI(w));
+        }
+    }
+
+    public synchronized ArrayList viewPlayer(){
         int space;
         String out;
         ArrayList<String> outList = new ArrayList<>();
-        out = ColorCLI.getPlayerColor(miniPlayer.getColor(), miniPlayer.getNickname());
-        space = LENGTH - miniPlayer.getNickname().length() +2;
+        out = ColorCLI.getPlayerColor(player.getColor(), player.getNickname());
+        space = LENGTH - player.getNickname().length() +2;
         //out = String.format("%-15s", out);
         out = CharCli.addSpace(out,space);
         outList.add(out);
@@ -26,27 +43,27 @@ public class PlayerCLI {
         outList.add(out);
         //marks
         out=""+CharCli.VERTICAL_WALL;
-        for( PlayerToken pt : miniPlayer.getMarks() ) {
+        for( PlayerToken pt : player.getMarks() ) {
 
             out = out.concat(ColorCLI.getPlayerColor(pt, CharCli.MARK_TOKEN));
         }
-        space = LENGTH - miniPlayer.getMarks().size();
+        space = LENGTH - player.getMarks().size();
         //out = String.format("%-15s", out);
         out = CharCli.addSpace(out,space);
         out = out.concat(""+CharCli.VERTICAL_WALL);
         outList.add(out);
         //damage
         out=""+CharCli.VERTICAL_WALL;
-        for( PlayerToken pt : miniPlayer.getDamageTaken()){
+        for( PlayerToken pt : player.getDamageTaken()){
             out = out.concat(ColorCLI.getPlayerColor(pt, CharCli.DAMAGE_TOKEN));
         }
-        space = 12 - miniPlayer.getDamageTaken().size();
+        space = 12 - player.getDamageTaken().size();
         out = CharCli.addSpace(out, space);
         out = out.concat("   "+ CharCli.VERTICAL_WALL);
         outList.add(out);
         //skulls
         out=""+CharCli.VERTICAL_WALL;
-        space = miniPlayer.getSkulls();
+        space = player.getSkulls();
         for (int i=space ; i>0 ; i--){
             out = out.concat(CharCli.SKULL);
         }
@@ -56,8 +73,8 @@ public class PlayerCLI {
         outList.add(out);
         //ammo
         out=""+CharCli.VERTICAL_WALL;
-        space = miniPlayer.getAmmo().size();
-        for(AmmoColor ac : miniPlayer.getAmmo()){
+        space = player.getAmmo().size();
+        for(AmmoColor ac : player.getAmmo()){
             out = out.concat(ColorCLI.getAmmoColor(ac,CharCli.AMMO));
         }
         space = LENGTH - space ;
@@ -70,23 +87,13 @@ public class PlayerCLI {
         out = out.concat(""+CharCli.BOTTOM_RIGHT_CORNER);
         outList.add(out);
         //weapon
-        out="";
-        for(MiniWeapon wp : miniPlayer.getWeapons()){
-            out=wp.getName();
-            space = out.length();
-            out = out.concat("("+ColorCLI.getAmmoColor(wp.getAdditionalRechargeColor(), CharCli.AMMO)+")");
-            space += 3;
-            for ( AmmoColor ac : wp.getPickupColor()){
-                out = out.concat(ColorCLI.getAmmoColor(ac, CharCli.AMMO));
-                space++;
-            }
-            space = LENGTH - space +2;
-            out = CharCli.addSpace(out, space);
+        for(WeaponCLI w : weaponCLI){
+            out = (String)w.viewWeapon().get(0);
             outList.add(out);
         }
         //powerup
-        if(powerUps!=null) {
-            for (PowerUp p : powerUps) {
+        if(powerUp!=null) {
+            for (PowerUp p : powerUp) {
                 out = ColorCLI.getAmmoColor(p.getAmmo(), p.getType().toString());
                 outList.add(out);
             }

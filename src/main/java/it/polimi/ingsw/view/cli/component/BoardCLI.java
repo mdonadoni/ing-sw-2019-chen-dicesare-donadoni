@@ -1,14 +1,23 @@
-package it.polimi.ingsw.view.cli;
+package it.polimi.ingsw.view.cli.component;
 
 import it.polimi.ingsw.model.minified.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.view.cli.util.CharCli;
+import it.polimi.ingsw.view.cli.util.ColorCLI;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoardCLI {
     public static final int LENGTH = 15;
 
-    public synchronized static List viewBoard(MiniBoard miniBoard) {
+    private MiniBoard miniBoard;
+
+    public BoardCLI(MiniBoard miniBoard){
+        this.miniBoard=miniBoard;
+    }
+
+    public List viewBoard() {
         MiniSquare ms;
         ArrayList<String> outList = new ArrayList<>();
         ArrayList<String> tempList1 = new ArrayList<>();
@@ -54,7 +63,7 @@ public class BoardCLI {
         return outList;
     }
 
-    public static synchronized List viewSquare(MiniSquare ms) {
+    public List viewSquare(MiniSquare ms) {
         ArrayList<String> outList = new ArrayList<>();
         String out ;
         int space;
@@ -141,106 +150,11 @@ public class BoardCLI {
         return outList;
     }
 
-    public static synchronized MiniSquare searchSquare(ArrayList<MiniSquare> list, Coordinate coordinate) {
+    private  MiniSquare searchSquare(ArrayList<MiniSquare> list, Coordinate coordinate) {
         for (MiniSquare ms : list) {
             if (coordinate.equals(ms.getCoordinates()))
                 return ms;
         }
         return null;
     }
-
-    public static synchronized List viewGameBoard(MiniGameBoard gameBoard){
-        ArrayList<String> outLIst = new ArrayList<>();
-        String out=" ";
-        PlayerToken pt;
-        //player kill shot track
-        ArrayList<ArrayList<PlayerToken>> killShotTrack = gameBoard.getKillShotTrack();
-        for(ArrayList<PlayerToken> kills : killShotTrack){
-            if(gameBoard.getRemainingSkulls()>0){
-                pt = kills.get(0);
-                if(kills.size()>1) {
-                    out = out.concat(" +"+ColorCLI.getPlayerColor(pt, CharCli.DAMAGE_TOKEN));
-                }else {
-                    out = out.concat(" "+ColorCLI.getPlayerColor(pt, CharCli.DAMAGE_TOKEN));
-                }
-            }else{
-                out = out.concat("|");
-                for(PlayerToken p : kills){
-                    out = out.concat(ColorCLI.getPlayerColor(p, CharCli.DAMAGE_TOKEN));
-                }
-            }
-        }
-        //remain skulls
-        for (int i=gameBoard.getRemainingSkulls(); i>0 ; i--){
-            out = out.concat(" "+ColorCLI.turnRed(CharCli.SKULL));
-        }
-        outLIst.add(out);
-        //board
-        outLIst.addAll(viewBoard(gameBoard.getBoard()));
-        return outLIst;
-    }
-
-    public static synchronized List viewMatch(MiniMatch match){
-        ArrayList<String> outList = new ArrayList<>();
-        ArrayList<String> squareList = new ArrayList<>();
-        String out;
-        //current turn
-        out = "Turno di : " +match.getCurrentTurn().getCurrentPlayer();
-        squareList.add(out);
-        //players
-        outList.add("");
-        outList.add("");
-        for( MiniPlayer p : match.getPlayers()){
-            outList.addAll(PlayerCLI.viewPlayer(p,null));
-        }
-        //gameboard
-        squareList.add("");
-        squareList.addAll(viewGameBoard(match.getGameBoard()));
-
-        CharCli.concatRow( outList ,squareList);
-        return outList;
-    }
-
-    public static synchronized List viewModel(MiniModel model){
-        ArrayList<String> outList = new ArrayList<>();
-        String out;
-        //match
-        outList.addAll(viewMatch(model.getMatch()));
-        //player
-        outList.addAll(PlayerCLI.viewPlayer(model.getMyMiniPlayer(), model.getMyPowerUps()));
-        out="Punti : "+model.getMyPoints();
-        outList.add(out);
-        return outList;
-    }
-/*
-    public static void main (String[] args){
-        Match match = new Match(
-                Arrays.asList("Sim", "Mar", "Fed", "D", "E"),
-                new JsonModelFactory(BoardType.SMALL)
-        );
-        Player pA = match.getPlayerByNickname("Sim");
-        Player pB = match.getPlayerByNickname("Mar");
-        Player pC = match.getPlayerByNickname("Fed");
-        Player pD = match.getPlayerByNickname("D");
-        Player pE = match.getPlayerByNickname("E");
-        pA.addMark(PlayerToken.BLUE, 2);
-        pA.addDamage(PlayerToken.YELLOW, 5);
-        pA.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.RED));
-        Weapon w1 =new Weapon("Vortex");
-        w1.setAdditionalRechargeColor(AmmoColor.RED);
-        w1.addPickupColor(AmmoColor.YELLOW);
-        w1.addPickupColor(AmmoColor.BLUE);
-        pA.grabWeapon(w1);
-
-        MiniMatch miniMatch = new MiniMatch(match);
-        MiniModel miniModel = new MiniModel(match,match.getPlayerByNickname("Sim"));
-
-
-        ArrayList<String> s = (ArrayList<String>) BoardCLI.viewModel(miniModel);
-        for( String sa : s){
-            System.out.println(sa);
-        }
-    }
-
- */
 }

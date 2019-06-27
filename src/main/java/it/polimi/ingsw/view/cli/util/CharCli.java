@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.cli;
+package it.polimi.ingsw.view.cli.util;
 
 import it.polimi.ingsw.model.Cardinal;
 import it.polimi.ingsw.model.LinkType;
