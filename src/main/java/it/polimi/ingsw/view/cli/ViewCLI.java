@@ -1,12 +1,12 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.LocalView;
+import it.polimi.ingsw.view.cli.component.ModelCLI;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,13 +46,13 @@ public class ViewCLI extends LocalView implements Runnable {
             System.out.println("Porta server:");
             int port = Integer.parseInt(scanner.nextLine());
 
-            System.out.println("Choose username: ");
+            System.out.println("Scegli username: ");
             String nickname = scanner.nextLine();
 
             try {
                 connectServer(address, port, type);
                 if (!getServer().login(nickname, this)) {
-                    System.out.println("Username already used!");
+                    System.out.println("Username già utilizzato o non valido!");
                     connected = false;
                 }
             } catch (IOException e) {
@@ -66,28 +66,60 @@ public class ViewCLI extends LocalView implements Runnable {
     @Override
     public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max) {
         System.out.println("Nuova selezione");
-        return new ArrayList<>(objUuid.subList(0, min));
+        for (int i = 0; i < objUuid.size(); i++) {
+            System.out.println(i + ") " + objUuid.get(i));
+        }
+
+        while (true) {
+            System.out.println("Scegli da " + min + " a " + max + "elementi");
+            String res = scanner.nextLine();
+            String[] selection =  res.split("\\s+");
+            Set<String> uuid = new HashSet<>();
+            try {
+                for (String s : selection) {
+                    int idx = Integer.parseInt(s);
+                    if (idx < 0 || idx >= objUuid.size()) {
+                        throw new RuntimeException("Invalid selection");
+                    }
+                    if (uuid.contains(objUuid.get(idx))) {
+                        throw new RuntimeException("uuid already chosen");
+                    }
+                    uuid.add(objUuid.get(idx));
+                }
+            } catch (Exception e) {
+                continue;
+            }
+
+            if (uuid.size() >= min && uuid.size() <= max) {
+                return new ArrayList<>(uuid);
+            }
+        }
     }
 
     @Override
-    public synchronized void showMessage(String message) {
+    public void showMessage(String message) {
         System.out.println(message);
     }
 
     @Override
-    public void updateModel(MiniModel model) {
-        System.out.println("Received new model");
+    public synchronized void updateModel(MiniModel model) {
+        ModelCLI modelCLI = new ModelCLI(model);
+        cls();
+        List<String> view = (List<String>) modelCLI.viewModel();
+        for (String s : view) {
+            System.out.println(s);
+        }
+    }
+
+    private void cls() {
+        for (int i = 0; i < 50; i++) {
+            System.out.println();
+        }
     }
 
     @Override
-    public synchronized void disconnect() {
+    public void disconnect() {
         super.disconnect();
         System.out.println("Disconnected from server");
-    }
-
-    @Override
-    public void ping() {
-        super.ping();
-        System.out.println("Ping ricevuto");
     }
 }

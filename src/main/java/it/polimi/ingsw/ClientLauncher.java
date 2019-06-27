@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.util.cliparser.*;
 import it.polimi.ingsw.util.config.Config;
 import it.polimi.ingsw.view.ViewBot;
+import it.polimi.ingsw.view.cli.ViewCLI;
 import it.polimi.ingsw.view.gui.ViewGUI;
 import javafx.application.Application;
 
@@ -51,7 +52,7 @@ public class ClientLauncher {
         if (parsed.hasOption(GUI)) {
             Application.launch(ViewGUI.class);
         } else if (parsed.hasOption(CLI)) {
-            // TODO start CLI
+            new ViewCLI().run();
         } else if (parsed.hasOption(BOT)) {
             new ViewBot().run();
         } else {
