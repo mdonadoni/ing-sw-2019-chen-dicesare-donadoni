@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.minified.MiniModel;
+import it.polimi.ingsw.model.PowerUp;
+import it.polimi.ingsw.model.minified.*;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.LocalView;
 
@@ -13,6 +14,8 @@ public class ViewBot extends LocalView implements Runnable {
 
     private static final Random RAND = new Random();
 
+    private MiniModel model;
+
     private static int randInt(int a, int b) {
         int delta = b-a+1;
         int rand = RAND.nextInt(delta);
@@ -23,10 +26,51 @@ public class ViewBot extends LocalView implements Runnable {
     public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max) {
         System.out.println("SELECT: " + objUuid + " min " + min + " max " +  max);
 
+        // Check if MiniModel actually has what we need to search for
+        for (String uuid : objUuid) {
+            boolean found = false;
+            for (PowerUp p : model.getMyDrawnPowerUps()) {
+                found = found || p.getUuid().equals(uuid);
+            }
+            for (PowerUp p : model.getMyPowerUps()) {
+                found = found || p.getUuid().equals(uuid);
+            }
+
+            MiniMatch match = model.getMatch();
+            for (MiniAction a : match.getCurrentTurn().getAvaibleActions()) {
+                found = found || a.getUuid().equals(uuid);
+            }
+
+            MiniBoard board = match.getGameBoard().getBoard();
+            for (MiniSpawnPoint s : board.getSpawnPoints()) {
+                found = found || s.getUuid().equals(uuid);
+                for (MiniWeapon w : s.getWeapons()) {
+                    found = found || w.getUuid().equals(uuid);
+                }
+            }
+            for (MiniStandardSquare s : board.getStandardSquares()) {
+                found = found || s.getUuid().equals(uuid);
+            }
+
+            for (MiniPlayer p : match.getPlayers()) {
+                found = found || p.getUuid().equals(uuid);
+                for (MiniWeapon w : p.getWeapons()) {
+                    found = found || w.getUuid().equals(uuid);
+                }
+            }
+
+            found = found || model.getMyMiniPlayer().getUuid().equals(uuid);
+
+            if (!found) {
+                System.out.println("ERROR " + uuid);
+                System.exit(1);
+            }
+        }
+
         ArrayList<String> shuffled = new ArrayList<>(objUuid);
         Collections.shuffle(shuffled, RAND);
 
-        // TODO remove these lines whene everythin is fixed
+        // TODO remove these lines whene everything is fixed
         max = Math.min(max, shuffled.size());
         min = Math.min(min, max);
 
@@ -43,6 +87,7 @@ public class ViewBot extends LocalView implements Runnable {
     @Override
     public synchronized void updateModel(MiniModel model) {
         System.out.println("NEW MODEL");
+        this.model = model;
     }
 
     @Override
