@@ -54,11 +54,12 @@ public class GameBoard {
         remainingSkulls = skulls;
         initialSkullNumber = skulls;
         killShotTrack = new ArrayList<>();
-        weaponDeck = new Deck<>();
+        weaponDeck = factory.createWeaponDeck();
         powerUpDeck = factory.createPowerUpDeck();
         ammoTileDeck = factory.createAmmoTileDeck();
         board = factory.createBoard();
         refillAmmoTile();
+        refillSpawnPoints();
     }
 
     /**
@@ -69,6 +70,13 @@ public class GameBoard {
             if(!sq.hasAmmoTile()){
                 sq.setAmmoTile(ammoTileDeck.draw());
             }
+        }
+    }
+
+    public void refillSpawnPoints() {
+        for(SpawnPoint spw : board.getSpawnPoints()){
+            while(spw.getWeapons().size()<3)
+                spw.addWeapon(weaponDeck.draw());
         }
     }
 

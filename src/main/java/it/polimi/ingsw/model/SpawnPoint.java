@@ -57,6 +57,10 @@ public class SpawnPoint extends Square {
         }
     }
 
+    public void removeAllWeapons(){
+        weapons.clear();
+    }
+
     /**
      * Add a weapon to this SpawnPoint.
      * @param weapon Weapon to be added.

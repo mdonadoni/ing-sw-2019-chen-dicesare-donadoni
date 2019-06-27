@@ -1,9 +1,7 @@
 {
   "name": "lockrifle",
   "charged": true,
-  "pickupColor": [
-    "BLUE"
-  ],
+  "pickupColor": ["BLUE"],
   "additionalRechargeColor": "BLUE",
   "attacks": [
     {

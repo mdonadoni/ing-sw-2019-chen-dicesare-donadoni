@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
  * Controller class that manages an Action
  */
 public class ActionController {
+    private static final Logger LOG = Logger.getLogger(ActionController.class.getName());
 
     private Match match;
     private Map<String, RemotePlayer> remoteUsers;
@@ -125,17 +128,21 @@ public class ActionController {
     public void handleReload(String playerName) throws RemoteException {
         Player player = match.getPlayerByNickname(playerName);
         RemotePlayer remotePlayer = remoteUsers.get(playerName);
+
+        LOG.log(Level.INFO, "Reload routine started");
+
         // Cycle through all the player weapons
         for(Weapon currentWeapon : player.getWeapons()){
-            if(player.canPay(currentWeapon.getTotalRechargeCost())){
+            if(player.canPay(currentWeapon.getTotalRechargeCost()) && !currentWeapon.isCharged()){
                 // Ask the user if he wants to recharge this weapon
                 List<Weapon> selectingWeapon = new ArrayList<>();
                 selectingWeapon.add(currentWeapon);
-                remotePlayer.selectIdentifiable(selectingWeapon, 0, 1);
-                // Pay the recharge cost
-                paymentGateway.payCost(currentWeapon.getTotalRechargeCost(), player, remotePlayer);
-                // Set the recharge flag
-                currentWeapon.setCharged(true);
+                if(remotePlayer.selectIdentifiable(selectingWeapon, 0, 1).size() == 1){
+                    // Pay the recharge cost
+                    paymentGateway.payCost(currentWeapon.getTotalRechargeCost(), player, remotePlayer);
+                    // Set the recharge flag
+                    currentWeapon.setCharged(true);
+                }
             }
         }
 
@@ -171,15 +178,20 @@ public class ActionController {
             SpawnPoint spw = (SpawnPoint) player.getSquare();
             List<Weapon> weapons = spw.getWeapons();
             // Filter the weapons so that I prompt the user only those who can be grabbed
-            weapons = weapons.stream().filter(e -> player.canPay(e.getPickupColor())).collect(Collectors.toList());
-            Weapon selectedWeapon = remotePlayer.selectIdentifiable(weapons, 1, 1).get(0);
-            // Grab the weapon
-            paymentGateway.payCost(selectedWeapon.getPickupColor(), player, remotePlayer); // In this city you pay before, then you get the camels
-            if(player.canGrabWeapon()){
-                player.grabWeaponFromGround(selectedWeapon);
+            List<Weapon> grabbableWeapons = weapons.stream()
+                    .filter(e -> player.canPay(e.getPickupColor()))
+                    .collect(Collectors.toList());
+            if(!grabbableWeapons.isEmpty()){
+                Weapon selectedWeapon = remotePlayer.selectIdentifiable(grabbableWeapons, 1, 1).get(0);
+                // Grab the weapon
+                // In this city you pay before, then you get the camels
+                paymentGateway.payCost(selectedWeapon.getPickupColor(), player, remotePlayer);
+                if(player.canGrabWeapon()){
+                    player.grabWeaponFromGround(selectedWeapon);
+                }
+                else
+                    discardAndGrabWeapon(selectedWeapon, player);
             }
-            else
-                discardAndGrabWeapon(selectedWeapon, player);
         }
 
         updater.updateModel(playerName);

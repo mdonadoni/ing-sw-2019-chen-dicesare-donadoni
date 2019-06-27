@@ -123,6 +123,8 @@ class PlayerTest {
         cost.add(AmmoColor.RED);
         cost.add(AmmoColor.YELLOW);
 
+        assertFalse(player.canPay(cost));
+
         player.addAmmo(AmmoColor.YELLOW);
         player.addAmmo(AmmoColor.RED);
 
@@ -151,6 +153,17 @@ class PlayerTest {
         cost.remove(AmmoColor.RED);
 
         assertTrue(player.canPay(cost));
+    }
+
+    @Test
+    void canPay2(){
+        List<AmmoColor> cost = new ArrayList<>();
+
+        cost.add(AmmoColor.BLUE);
+
+        player.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.YELLOW));
+
+        assertFalse(player.canPay(cost));
     }
 
 }

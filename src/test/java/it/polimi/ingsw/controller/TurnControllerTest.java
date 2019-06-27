@@ -178,6 +178,9 @@ class TurnControllerTest {
         weaponBB.addPickupColor(AmmoColor.BLUE);
         weaponBB.setCharged(false);
 
+        alfView.toBeSelected.add(weaponRR.getUuid());
+        alfView.toBeSelected.add(weaponYB.getUuid());
+
         player.grabWeapon(weaponRR);
         player.grabWeapon(weaponYB);
         player.grabWeapon(weaponBB);
@@ -185,9 +188,9 @@ class TurnControllerTest {
         turnController.startTurn();
 
         assertTrue(secondMov.getPlayers().contains(player));
-        assertFalse(weaponBB.getCharged());
-        assertTrue(weaponRR.getCharged());
-        assertTrue(weaponYB.getCharged());
+        assertFalse(weaponBB.isCharged());
+        assertTrue(weaponRR.isCharged());
+        assertTrue(weaponYB.isCharged());
         assertEquals(player.countAmmo(AmmoColor.RED), 1);
         assertEquals(player.countAmmo(AmmoColor.BLUE), 0);
         assertEquals(player.countAmmo(AmmoColor.YELLOW), 1);
