@@ -1,0 +1,67 @@
+{
+  "name": "plasmagun",
+  "charged": true,
+  "pickupColor": ["YELLOW"],
+  "additionalRechargeColor": "BLUE",
+  "attacks":[
+    {
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": -1,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 2,
+              "harm": "DAMAGE"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [
+        {
+          "chainAttack": false,
+          "baseFire": [
+            {
+              "type": "player",
+              "numberOfTargets": 1,
+              "visibility": "VISIBLE",
+              "minDistance": -1,
+              "maxDistance": -1,
+              "exclusive": false,
+              "inherited": true,
+              "special": [],
+              "effects": [
+                {
+                  "type": "harmful",
+                  "value": 1,
+                  "harm": "DAMAGE"
+                }
+              ]
+            }
+          ],
+          "additionalAttacks": [],
+          "bonusMovement": [],
+          "cost": ["BLUE"]
+        }
+      ],
+      "bonusMovement": [
+        {
+          "value": 2,
+          "visibleDest": "DC",
+          "line": false,
+          "fixed": false,
+          "self": true
+        }
+      ],
+      "cost": []
+    }
+  ]
+}

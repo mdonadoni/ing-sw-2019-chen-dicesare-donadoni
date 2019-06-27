@@ -1,0 +1,69 @@
+{
+  "name": "furnace",
+  "charged": true,
+  "pickupColor": ["BLUE"],
+  "additionalRechargeColor": "RED",
+  "attacks": [
+    {
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "square",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": 1,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": false,
+          "special": ["ROOM", "AOE"],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "DAMAGE"
+            }
+          ],
+          "maxPlayerDistance": 0,
+          "numberOfPlayers": -1,
+          "vortex": false
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    },
+    {
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "square",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": 1,
+          "maxDistance": 1,
+          "exclusive": false,
+          "inherited": false,
+          "special": ["AOE"],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "DAMAGE"
+            },
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "MARK"
+            }
+          ],
+          "maxPlayerDistance": 0,
+          "numberOfPlayers": -1,
+          "vortex": false
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    }
+  ]
+}

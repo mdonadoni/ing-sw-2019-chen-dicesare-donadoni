@@ -1,0 +1,85 @@
+{
+  "name": "thor",
+  "charged": true,
+  "pickupColor": ["RED"],
+  "additionalRechargeColor": "BLUE",
+  "attacks": [
+    {
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": -1,
+          "maxDistance": -1,
+          "exclusive": true,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 2,
+              "harm": "DAMAGE"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [
+        {
+          "chainAttack": true,
+          "baseFire": [
+            {
+              "type": "player",
+              "numberOfTargets": 1,
+              "visibility": "VISIBLE",
+              "minDistance": -1,
+              "maxDistance": -1,
+              "exclusive": true,
+              "inherited": false,
+              "special": [],
+              "effects": [
+                {
+                  "type": "harmful",
+                  "value": 1,
+                  "harm": "DAMAGE"
+                }
+              ]
+            }
+          ],
+          "additionalAttacks": [
+            {
+              "chainAttack": true,
+              "baseFire": [
+                {
+                  "type": "player",
+                  "numberOfTargets": 1,
+                  "visibility": "VISIBLE",
+                  "minDistance": -1,
+                  "maxDistance": -1,
+                  "exclusive": true,
+                  "inherited": false,
+                  "special": [],
+                  "effects": [
+                    {
+                      "type": "harmful",
+                      "value": 2,
+                      "harm": "DAMAGE"
+                    }
+                  ]
+                }
+              ],
+              "additionalAttacks": [],
+              "bonusMovement": [],
+              "cost": ["BLUE"]
+            }
+          ],
+          "bonusMovement": [],
+          "cost": ["BLUE"]
+        }
+      ],
+      "bonusMovement": [],
+      "cost": []
+    }
+  ]
+}

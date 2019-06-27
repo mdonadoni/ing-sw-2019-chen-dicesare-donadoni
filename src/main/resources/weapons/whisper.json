@@ -1,0 +1,38 @@
+{
+  "name": "whisper",
+  "charged": true,
+  "pickupColor": ["BLUE", "YELLOW"],
+  "additionalRechargeColor": "BLUE",
+  "attacks": [
+    {
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": 2,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 3,
+              "harm": "DAMAGE"
+            },
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "MARK"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    }
+  ]
+}

@@ -130,6 +130,9 @@ public class Match extends Identifiable{
             currentTurn = new Turn(nextPlayer, TurnType.FINAL_FRENZY);
         else
             currentTurn = new Turn(nextPlayer, TurnType.STANDARD);
+
+        // Refill the ammotile on the squares
+        gameBoard.refillAmmoTile();
     }
 
     /**

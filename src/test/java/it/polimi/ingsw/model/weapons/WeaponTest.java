@@ -41,6 +41,11 @@ class WeaponTest {
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/electroscythe.json"));
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/machinegun.json"));
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/tractorbeam.json"));
+        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/thor.json"));
+        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/plasmagun.json"));
+        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/whisper.json"));
+        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/vortexcannon.json"));
+        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/furnace.json"));
 
     }
 }
