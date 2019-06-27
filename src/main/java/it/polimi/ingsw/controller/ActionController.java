@@ -181,12 +181,6 @@ public class ActionController {
             List<Weapon> grabbableWeapons = weapons.stream()
                     .filter(e -> player.canPay(e.getPickupColor()))
                     .collect(Collectors.toList());
-            for(Weapon wp : weapons){
-                System.out.println(wp);
-                System.out.println(wp.getPickupColor());
-            }
-            System.out.println(weapons);
-            System.out.println(grabbableWeapons);
             if(!grabbableWeapons.isEmpty()){
                 Weapon selectedWeapon = remotePlayer.selectIdentifiable(grabbableWeapons, 1, 1).get(0);
                 // Grab the weapon
