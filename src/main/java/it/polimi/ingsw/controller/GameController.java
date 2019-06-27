@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+
+import java.beans.beancontext.BeanContextServiceAvailableEvent;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,6 +97,13 @@ public class GameController implements Runnable{
      */
     public void run() {
         LOG.log(Level.INFO, "Starting match {0}", match.getUuid());
+        LOG.log(Level.INFO, "Giving everyone some ammos");
+        for(Player player : match.getPlayers()){
+            player.addAmmo(AmmoColor.RED);
+            player.addAmmo(AmmoColor.BLUE);
+            player.addAmmo(AmmoColor.YELLOW);
+        }
+
         // Send initial model
         LOG.log(Level.INFO, "Sending initial model to everyone");
         updater.updateModelToEveryone();

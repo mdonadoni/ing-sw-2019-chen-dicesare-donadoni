@@ -60,6 +60,9 @@ class ActionControllerTest {
         teleporter = new PowerUp(PowerUpType.TELEPORTER, AmmoColor.YELLOW);
         newton = new PowerUp(PowerUpType.NEWTON, AmmoColor.BLUE);
         targeting = new PowerUp(PowerUpType.TARGETING_SCOPE, AmmoColor.RED);
+
+        for(SpawnPoint spw : match.getGameBoard().getBoard().getSpawnPoints())
+            spw.removeAllWeapons();
     }
 
     @Test
@@ -237,8 +240,13 @@ class ActionControllerTest {
         // Give player something to pay with
         player.addAmmo(AmmoColor.RED);
         player.addAmmo(AmmoColor.RED);
-        player.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.BLUE));
+        PowerUp bluePwu = new PowerUp(PowerUpType.NEWTON, AmmoColor.BLUE);
+        player.addPowerUp(bluePwu);
         player.addPowerUp(new PowerUp(PowerUpType.TELEPORTER, AmmoColor.YELLOW));
+
+        adaView.toBeSelected.add(weaponOne.getUuid());
+        adaView.toBeSelected.add(bluePwu.getUuid());
+        adaView.toBeSelected.add(weaponThree.getUuid());
 
         // Do the thing
         controller.performAction(player, action);
@@ -247,9 +255,9 @@ class ActionControllerTest {
         assertTrue(player.getAmmo().isEmpty());
         assertEquals(player.getPowerUps().size(), 1);
         assertEquals(player.getPowerUps().get(0).getAmmo(), AmmoColor.YELLOW);
-        assertTrue(weaponOne.getCharged());
-        assertFalse(weaponTwo.getCharged());
-        assertTrue(weaponThree.getCharged());
+        assertTrue(weaponOne.isCharged());
+        assertFalse(weaponTwo.isCharged());
+        assertTrue(weaponThree.isCharged());
     }
 
     @Test

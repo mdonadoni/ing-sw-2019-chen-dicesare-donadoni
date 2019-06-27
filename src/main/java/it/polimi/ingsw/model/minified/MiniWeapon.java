@@ -27,7 +27,7 @@ public class MiniWeapon extends Identifiable implements Serializable {
     MiniWeapon(Weapon weapon) {
         super(weapon.getUuid());
         this.name = weapon.getName();
-        this.charged = weapon.getCharged();
+        this.charged = weapon.isCharged();
         this.pickupColor = new ArrayList<>(weapon.getPickupColor());
         this.additionalRechargeColor = weapon.getAdditionalRechargeColor();
     }

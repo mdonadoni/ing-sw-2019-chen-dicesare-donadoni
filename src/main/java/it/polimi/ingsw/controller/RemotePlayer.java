@@ -21,11 +21,11 @@ public class RemotePlayer {
     /**
      * Period between one ping and the successive one.
      */
-    private static final long PING_PERIOD = 5000;
+    private static final long PING_PERIOD = 11000;
     /**
      * Maximum waiting time for a ping response.
      */
-    private static final long PING_TIMEOUT = 3000;
+    private static final long PING_TIMEOUT = 8000;
     /**
      * Reference to view to be decorated.
      */

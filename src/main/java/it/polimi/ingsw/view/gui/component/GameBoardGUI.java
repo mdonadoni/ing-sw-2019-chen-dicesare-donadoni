@@ -72,6 +72,7 @@ public class GameBoardGUI extends FitObject implements SelectableContainer {
                     WeaponGUI weapon = new WeaponGUI(spawn.getWeapons().get(i), false);
                     weapon.getTransforms().add(new Rotate(r));
                     overlay.add(weapon, x, y, w, h);
+                    weaponsGUI.add(weapon);
                 }
             });
 

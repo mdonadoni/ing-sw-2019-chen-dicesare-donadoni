@@ -60,7 +60,7 @@ public class Weapon extends Identifiable {
     public String getName() {
         return name;
     }
-    public Boolean getCharged() {
+    public Boolean isCharged() {
         return charged;
     }
     public void setCharged(Boolean charged) {

@@ -38,6 +38,7 @@ class WeaponTest {
     @Test
     public void fromResource(){
         Weapon wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/lockrifle.json"));
+        assertEquals(wp.getPickupColor().get(0), AmmoColor.BLUE);
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/electroscythe.json"));
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/machinegun.json"));
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/tractorbeam.json"));

@@ -11,6 +11,9 @@ import java.util.logging.Logger;
 
 public class Updater {
     private static final Logger LOG = Logger.getLogger(Updater.class.getName());
+
+    private static final int UPDATE_TIMEOUT = 10000;
+
     private Map<String, RemotePlayer> remotePlayers;
     Match match;
 
@@ -30,7 +33,7 @@ public class Updater {
         RemotePlayer remotePlayer = remotePlayers.get(nickname);
         try {
             LOG.log(Level.INFO, "Sending updates to {0}", nickname);
-            remotePlayer.updateModel(new MiniModel(match, match.getPlayerByNickname(nickname)), 8000);
+            remotePlayer.updateModel(new MiniModel(match, match.getPlayerByNickname(nickname)), UPDATE_TIMEOUT);
         } catch (RemoteException e) {
             handleUpdateFailure(remotePlayer);
         }
