@@ -34,6 +34,7 @@ public class ScoreController {
         for(Player player : match.getPlayers()){
             if(player.isDead()){
                 assignPlayerBoardScore(player);
+                verifyMultikills(player);
                 fixTokensAndThings(player);
             }
         }
@@ -54,7 +55,8 @@ public class ScoreController {
      */
     private void assignPlayerBoardScore(Player player){
         // Assign the first blood points
-        match.getPlayerByTokenColor(player.getFirstBlood()).addPoints(FIRSTBLOOD_POINTS);
+        if(!player.getDamageTaken().isEmpty())
+            match.getPlayerByTokenColor(player.getFirstBlood()).addPoints(FIRSTBLOOD_POINTS);
 
         // Assign damage points
         // Firstly we create a List containing all the player that damaged the victim, ordered by damage inflicted
@@ -69,8 +71,9 @@ public class ScoreController {
             else
                 playerDamage.addPoints(LOWEST_DAMAGE_POINTS);
         }
+    }
 
-        // To verify multikills
+    private void verifyMultikills(Player player){
         if(killedSomeone.contains(player.getLethalDamage()))
             match.getPlayerByTokenColor(player.getLethalDamage()).addPoints(MULTIKILL_POINTS);
         else

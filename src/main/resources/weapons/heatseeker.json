@@ -1,0 +1,33 @@
+{
+  "name": "heatseeker",
+  "charged": true,
+  "pickupColor": ["YELLOW"],
+  "additionalRechargeColor": "RED",
+  "attacks": [
+    {
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "INVISIBLE",
+          "minDistance": -1,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 3,
+              "harm": "DAMAGE"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    }
+  ]
+}

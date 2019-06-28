@@ -47,6 +47,7 @@ class WeaponTest {
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/whisper.json"));
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/vortexcannon.json"));
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/furnace.json"));
+        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/heatseeker.json"));
 
     }
 }

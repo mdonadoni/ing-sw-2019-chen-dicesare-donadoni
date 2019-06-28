@@ -165,7 +165,7 @@ public class Player extends Identifiable{
     }
 
     public PlayerToken getLethalDamage(){
-        return damageTaken.get(10);
+        return damageTaken.get(LETHAL_DAMAGE_INDEX);
     }
 
     /**
