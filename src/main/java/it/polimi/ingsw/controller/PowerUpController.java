@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.*;
 
 import java.rmi.RemoteException;
@@ -69,7 +70,7 @@ public class PowerUpController {
         Square playerTargetSquare = targetPlayer.getSquare();
         List<Square> squares = new ArrayList<>(playerTargetSquare.getSquaresByDistanceAligned(2));
         // Ask the player for a target square
-        Square chosenSquare = sourcePlayer.selectIdentifiable(squares, 1, 1, SelectDialog.MOVE_DIALOG).get(0);
+        Square chosenSquare = sourcePlayer.selectIdentifiable(squares, 1, 1, Dialog.MOVE).get(0);
         // Move the bloody victim
         targetPlayer.move(chosenSquare);
     }
@@ -84,7 +85,7 @@ public class PowerUpController {
         // Build the list containing all the squares (teleporting bruh!)
         List<Square> squares = new ArrayList<>(board.getAllSquares());
         // Send the list to the client and wait for a response
-        Square chosenSquare = player.selectIdentifiable(squares, 1, 1, SelectDialog.MOVE_DIALOG).get(0);
+        Square chosenSquare = player.selectIdentifiable(squares, 1, 1, Dialog.MOVE).get(0);
         // Move the player
         match.getPlayerByNickname(player.getNickname()).move(chosenSquare);
     }

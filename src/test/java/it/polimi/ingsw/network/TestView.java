@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.controller.SelectDialog;
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 
 import java.rmi.RemoteException;
@@ -12,7 +12,7 @@ public class TestView implements View {
 
     public List<String> toBeSelected = new ArrayList<>();
 
-    public ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, SelectDialog dialog) throws RemoteException {
+    public ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, Dialog dialog) throws RemoteException {
         if(toBeSelected.size()>0){
             String returnVal = toBeSelected.get(0);
             toBeSelected.remove(0);

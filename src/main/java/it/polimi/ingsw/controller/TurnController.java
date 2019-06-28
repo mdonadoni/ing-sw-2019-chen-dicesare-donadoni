@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.*;
 
 import java.rmi.RemoteException;
@@ -64,7 +65,7 @@ public class TurnController {
     private void selectWhatToDo() throws RemoteException{
         List<Action> availableActions = currentPlayer.supplyActions(match.getFinalFrenzy());
 
-        Action selectedAction = remotePlayer.selectIdentifiable(availableActions, 1, 1, SelectDialog.ACTION_SELECT_DIALOG).get(0);
+        Action selectedAction = remotePlayer.selectIdentifiable(availableActions, 1, 1, Dialog.ACTION_SELECT).get(0);
 
         LOG.log(Level.INFO, "Action selected: {0}", selectedAction.info());
 

@@ -1,9 +1,10 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.dialogs.Dialog;
+import it.polimi.ingsw.common.dialogs.Dialogs;
 import it.polimi.ingsw.model.Identifiable;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.View;
-import it.polimi.ingsw.view.dialogs.DialogType;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -163,12 +164,12 @@ public class RemotePlayer {
      * @return List of chosen objects.
      * @throws RemoteException If there is an error while making the request.
      */
-    public List<String> selectObject(List<String> objUuid, int min, int max, SelectDialog dialog) throws RemoteException {
+    public List<String> selectObject(List<String> objUuid, int min, int max, Dialog dialog) throws RemoteException {
         ArrayList<String> array = new ArrayList<>(objUuid);
         return makeTimedRequest(() -> view.selectObject(array, min, max, dialog));
     }
 
-    public <T extends Identifiable> List<T> selectIdentifiable(List<T> objects, int min, int max, SelectDialog dialog) throws RemoteException {
+    public <T extends Identifiable> List<T> selectIdentifiable(List<T> objects, int min, int max, Dialog dialog) throws RemoteException {
         List<String> uuids = objects
                 .stream()
                 .map(Identifiable::getUuid)
@@ -203,8 +204,8 @@ public class RemotePlayer {
      * @param params List of params to be filled in the message
      * @throws RemoteException In case something goes wrong
      */
-    public void showMessage(DialogType dialogType, List<String> params) throws RemoteException{
-        showMessage(UserDialog.getDialog(dialogType, params));
+    public void showMessage(Dialog dialogType, String...params) throws RemoteException{
+        showMessage(Dialogs.getDialog(dialogType, params));
     }
 
     /**
@@ -283,8 +284,8 @@ public class RemotePlayer {
         }
     }
 
-    public void safeShowMessage(DialogType dialogType, List<String> params){
-        safeShowMessage(UserDialog.getDialog(dialogType, params));
+    public void safeShowMessage(Dialog dialogType, String ...params){
+        safeShowMessage(Dialogs.getDialog(dialogType, params));
     }
 
     public void setDisconnectionCallback(Consumer<RemotePlayer> disconnectionCallback) {

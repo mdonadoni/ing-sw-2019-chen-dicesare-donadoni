@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.controller.SelectDialog;
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.LocalView;
@@ -67,7 +67,7 @@ public class ViewCLI extends LocalView implements Runnable {
     }
 
     @Override
-    public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, SelectDialog dialog) {
+    public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, Dialog dialog) {
         System.out.println("Nuova selezione");
         for (int i = 0; i < objUuid.size(); i++) {
             System.out.println(i + ") " + Descriptions.find(model, objUuid.get(i)));
