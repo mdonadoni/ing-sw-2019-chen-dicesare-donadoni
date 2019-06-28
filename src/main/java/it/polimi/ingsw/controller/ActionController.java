@@ -113,7 +113,7 @@ public class ActionController {
         // Build the list of the squares available for the movement
         List<Square> whereToMove = player.getSquare().getSquaresByDistance(nMov);
         // Ask the player where to move
-        selectedSquare = remotePlayer.selectIdentifiable(whereToMove, 1, 1).get(0);
+        selectedSquare = remotePlayer.selectIdentifiable(whereToMove, 1, 1, SelectDialog.MOVE_DIALOG).get(0);
         // Apply the movement
         player.move(selectedSquare);
 
@@ -137,7 +137,7 @@ public class ActionController {
                 // Ask the user if he wants to recharge this weapon
                 List<Weapon> selectingWeapon = new ArrayList<>();
                 selectingWeapon.add(currentWeapon);
-                if(remotePlayer.selectIdentifiable(selectingWeapon, 0, 1).size() == 1){
+                if(remotePlayer.selectIdentifiable(selectingWeapon, 0, 1, SelectDialog.RELOAD_DIALOG).size() == 1){
                     // Pay the recharge cost
                     paymentGateway.payCost(currentWeapon.getTotalRechargeCost(), player, remotePlayer);
                     // Set the recharge flag
@@ -182,7 +182,7 @@ public class ActionController {
                     .filter(e -> player.canPay(e.getPickupColor()))
                     .collect(Collectors.toList());
             if(!grabbableWeapons.isEmpty()){
-                Weapon selectedWeapon = remotePlayer.selectIdentifiable(grabbableWeapons, 1, 1).get(0);
+                Weapon selectedWeapon = remotePlayer.selectIdentifiable(grabbableWeapons, 1, 1, SelectDialog.WEAPON_GRAB_DIALOG).get(0);
                 // Grab the weapon
                 // In this city you pay before, then you get the camels
                 paymentGateway.payCost(selectedWeapon.getPickupColor(), player, remotePlayer);
@@ -205,7 +205,7 @@ public class ActionController {
         RemotePlayer remotePlayer = remoteUsers.get(playerName);
         List<Player> otherPlayers = match.getOtherPlayers(playerName);
 
-        Player victim = remotePlayer.selectIdentifiable(otherPlayers, 1, 1).get(0);
+        Player victim = remotePlayer.selectIdentifiable(otherPlayers, 1, 1, SelectDialog.SHOOT_TARGET_DIALOG).get(0);
 
         victim.takeDamage(player.getColor(), 2);
         victim.addMark(player.getColor(), 1);
@@ -234,7 +234,7 @@ public class ActionController {
         SpawnPoint spw = (SpawnPoint) player.getSquare();
 
         // Select which weapon to discard
-        Weapon selectedWeapon = remote.selectIdentifiable(weapons, 1, 1).get(0);
+        Weapon selectedWeapon = remote.selectIdentifiable(weapons, 1, 1, SelectDialog.DISCARD_WEAPON_DIALOG).get(0);
         player.removeWeapon(selectedWeapon);
         selectedWeapon.setCharged(true);
 
@@ -260,7 +260,7 @@ public class ActionController {
         List<Player> enemies = match.getOtherPlayers(playerName);
 
         // Ask the user which powerup he wants to use
-        List<PowerUp> selection = remotePlayer.selectIdentifiable(availablePowerups, 0, 1);
+        List<PowerUp> selection = remotePlayer.selectIdentifiable(availablePowerups, 0, 1, SelectDialog.SELECT_POWERUP_DIALOG);
 
         if(!selection.isEmpty()){
             PowerUp selectedPowerup = selection.get(0);
@@ -271,7 +271,7 @@ public class ActionController {
                 List<Player> selectableEnemies = enemies.stream()
                         .filter(en -> en.getSquare()!=null)
                         .collect(Collectors.toList());
-                Player targetPlayer = remotePlayer.selectIdentifiable(selectableEnemies, 1, 1).get(0);
+                Player targetPlayer = remotePlayer.selectIdentifiable(selectableEnemies, 1, 1, SelectDialog.TARGET_PLAYER_DIALOG).get(0);
                 powerUpController.activatePowerUp(selectedPowerup, playerName, targetPlayer);
             }
 
@@ -299,7 +299,7 @@ public class ActionController {
         else{
             player.addDrawnPowerUp(toBeDrawn);
             // Now the player has to select which powerup it wants to discard
-            PowerUp selectedPwu = remotePlayer.selectIdentifiable(player.getPowerUps(), 1, 1).get(0);
+            PowerUp selectedPwu = remotePlayer.selectIdentifiable(player.getPowerUps(), 1, 1, SelectDialog.DISCARD_POWERUP_DIALOG).get(0);
             // Clear up the things
             player.removePowerUp(selectedPwu);
             match.getGameBoard().getPowerUpDeck().discard(selectedPwu);

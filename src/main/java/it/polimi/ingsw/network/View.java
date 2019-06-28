@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.controller.SelectDialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 
 import java.rmi.Remote;
@@ -15,10 +16,11 @@ public interface View extends Remote {
      * @param objUuid Coordinates of the squares.
      * @param min Minimum number of squares to be chosen.
      * @param max Maximum number of squares to be chosen.
+     * @param dialog The dialog to be shown
      * @return List of selected squares' coordinates.
      * @throws RemoteException If there is a network error.
      */
-    ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max) throws RemoteException;
+    ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, SelectDialog dialog) throws RemoteException;
 
     /**
      * Show a message on the view.

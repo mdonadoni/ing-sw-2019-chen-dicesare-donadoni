@@ -35,7 +35,7 @@ public class PaymentGateway {
                 List<PowerUp> payablePwu = player.getPowerUps().stream()
                         .filter(e -> e.getAmmo().equals(singleCost))
                         .collect(Collectors.toList());
-                PowerUp selectedPwu = remotePlayer.selectIdentifiable(payablePwu, 1, 1).get(0);
+                PowerUp selectedPwu = remotePlayer.selectIdentifiable(payablePwu, 1, 1, SelectDialog.PAY_COST_POWERUP_DIALOG).get(0);
                 player.removePowerUp(selectedPwu);
                 match.getGameBoard().getPowerUpDeck().discard(selectedPwu);
             }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.socket.messages.view;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.controller.SelectDialog;
 import it.polimi.ingsw.network.LocalView;
 import it.polimi.ingsw.network.socket.messages.Message;
 
@@ -27,16 +28,24 @@ public class SelectObjectRequest extends RequestViewMethod {
      */
     private int max;
 
+
+    /**
+     * Enum that represents the dialog type
+     */
+    private SelectDialog dialog;
+
     /**
      * Constructor of a SelectObjectRequest.
      * @param objUuid List of squares' coordinates.
      * @param min Minimum number of squares to be chosen.
      * @param max Maximum number of squares to be chosen.
+     * @param dialog the dialog to be shown
      */
     @JsonCreator
     public SelectObjectRequest(@JsonProperty("objUuid") List<String> objUuid,
                                @JsonProperty("min") int min,
-                               @JsonProperty("max") int max) {
+                               @JsonProperty("max") int max,
+                               @JsonProperty("dialog") SelectDialog dialog) {
         this.objUuid = new ArrayList<>(objUuid);
         this.min = min;
         this.max = max;
@@ -49,6 +58,6 @@ public class SelectObjectRequest extends RequestViewMethod {
      */
     @Override
     public Message invokeOn(LocalView view) {
-        return new SelectObjectResponse(this, view.selectObject(objUuid, min, max));
+        return new SelectObjectResponse(this, view.selectObject(objUuid, min, max, dialog));
     }
 }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.controller.SelectDialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.LocalView;
@@ -22,7 +23,7 @@ public class ViewBot extends LocalView implements Runnable {
     }
 
     @Override
-    public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max) {
+    public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, SelectDialog dialog) {
         System.out.println("SELECT: " + objUuid + " min " + min + " max " +  max);
 
         // Check if MiniModel actually has what we need to search for

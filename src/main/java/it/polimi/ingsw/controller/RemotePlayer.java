@@ -159,20 +159,21 @@ public class RemotePlayer {
      * @param objUuid Coordinates of the squares.
      * @param min Minimum number of squares to be chosen.
      * @param max Maximum number of squares to be chosen.
+     * @param dialog The dialog type
      * @return List of chosen objects.
      * @throws RemoteException If there is an error while making the request.
      */
-    public List<String> selectObject(List<String> objUuid, int min, int max) throws RemoteException {
+    public List<String> selectObject(List<String> objUuid, int min, int max, SelectDialog dialog) throws RemoteException {
         ArrayList<String> array = new ArrayList<>(objUuid);
-        return makeTimedRequest(() -> view.selectObject(array, min, max));
+        return makeTimedRequest(() -> view.selectObject(array, min, max, dialog));
     }
 
-    public <T extends Identifiable> List<T> selectIdentifiable(List<T> objects, int min, int max) throws RemoteException {
+    public <T extends Identifiable> List<T> selectIdentifiable(List<T> objects, int min, int max, SelectDialog dialog) throws RemoteException {
         List<String> uuids = objects
                 .stream()
                 .map(Identifiable::getUuid)
                 .collect(Collectors.toList());
-        List<String> selected = selectObject(uuids, min, max);
+        List<String> selected = selectObject(uuids, min, max, dialog);
         List<T> result = objects
                 .stream()
                 .filter(obj -> selected.contains(obj.getUuid()))
