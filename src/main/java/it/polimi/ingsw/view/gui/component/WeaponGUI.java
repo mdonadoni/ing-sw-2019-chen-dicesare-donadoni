@@ -6,6 +6,7 @@ import it.polimi.ingsw.util.ResourceManager;
 import it.polimi.ingsw.view.gui.util.ResizableImage;
 import it.polimi.ingsw.view.gui.util.Selectable;
 import it.polimi.ingsw.view.gui.util.SelectableComponent;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
@@ -15,8 +16,6 @@ import java.io.InputStream;
 
 public class WeaponGUI extends ResizableImage implements Selectable {
     MiniWeapon weapon;
-
-    DropShadow shadow;
     SelectableComponent select;
 
     public WeaponGUI(MiniWeapon weapon, boolean reduced) {
@@ -39,7 +38,14 @@ public class WeaponGUI extends ResizableImage implements Selectable {
             setImage(reducedImage);
         }
 
-        shadow = new DropShadow();
+        DropShadow shadow = new DropShadow();
+
+        if (!weapon.isCharged()) {
+            ColorAdjust colorAdjust = new ColorAdjust();
+            colorAdjust.setSaturation(-1);
+            shadow.setInput(colorAdjust);
+        }
+
         getImage().setEffect(shadow);
 
         select = new SelectableComponent(getImage(), weapon.getUuid());
