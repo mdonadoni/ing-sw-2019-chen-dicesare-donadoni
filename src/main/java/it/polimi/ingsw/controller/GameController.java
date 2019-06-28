@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
 
-import java.beans.beancontext.BeanContextServiceAvailableEvent;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +18,7 @@ public class GameController implements Runnable{
     private Map<String, RemotePlayer> remotePlayers;
     private Updater updater;
     private AtomicBoolean finished = new AtomicBoolean(false);
+    private ScoreController scoreController;
 
     public GameController(Match match){
         this.match = match;
@@ -32,6 +32,7 @@ public class GameController implements Runnable{
         connectedPlayers.forEach(remotePlayer -> remotePlayers.put(remotePlayer.getNickname(), remotePlayer));
         updater = new Updater(remotePlayers, match);
         turn = new TurnController(match, remotePlayers, updater);
+        scoreController = new ScoreController(match);
     }
 
     public void spawnRoutine(Player player, int cardsToDraw) throws RemoteException {
@@ -57,7 +58,7 @@ public class GameController implements Runnable{
 
             // Send tempPowerUps and wait for a response
             LOG.log(Level.INFO, "Sending message to {0}", player.getNickname());
-            chosenPwu = remotePlayer.selectIdentifiable(tempPowerUps, 1, 1).get(0);
+            chosenPwu = remotePlayer.selectIdentifiable(tempPowerUps, 1, 1, SelectDialog.SPAWN_DIALOG).get(0);
 
             player.removeDrawnPowerUp(chosenPwu);
             player.discardPowerUp(chosenPwu);
@@ -151,6 +152,8 @@ public class GameController implements Runnable{
 
         // The match is finished
         LOG.log(Level.INFO, "Match {0} finished", match.getUuid());
+        LOG.log(Level.INFO, "Calculating final scores");
+        scoreController.endGamePoints();
         finished.set(true);
     }
 

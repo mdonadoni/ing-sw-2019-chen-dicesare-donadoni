@@ -20,6 +20,7 @@ public class TurnController {
     private ActionController actionController;
     private RemotePlayer remotePlayer;
     private Updater updater;
+    private ScoreController scoreController;
 
     /**
      * Standard TurnController constructor, initialises everything it needs
@@ -31,6 +32,7 @@ public class TurnController {
         this.remoteUsers = remoteUsers;
         actionController = new ActionController(match, remoteUsers, updater);
         this.updater = updater;
+        this.scoreController = new ScoreController(match);
     }
 
     private void initTurn(){
@@ -54,12 +56,15 @@ public class TurnController {
         // EOT: Reload your weapons
         actionController.handleReload(currentPlayer.getNickname());
         LOG.log(Level.INFO, "Turn ended!");
+
+        // Check score updates in case someone died (Press F to pay respect)
+        scoreController.lookForScoreUpdates();
     }
 
     private void selectWhatToDo() throws RemoteException{
         List<Action> availableActions = currentPlayer.supplyActions(match.getFinalFrenzy());
 
-        Action selectedAction = remotePlayer.selectIdentifiable(availableActions, 1, 1).get(0);
+        Action selectedAction = remotePlayer.selectIdentifiable(availableActions, 1, 1, SelectDialog.ACTION_SELECT_DIALOG).get(0);
 
         LOG.log(Level.INFO, "Action selected: {0}", selectedAction.info());
 

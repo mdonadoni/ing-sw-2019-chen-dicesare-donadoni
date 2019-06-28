@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.controller.SelectDialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.LocalServer;
 import it.polimi.ingsw.network.View;
@@ -54,12 +55,13 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
      * @param squares Coordinates of the squares.
      * @param min Minimum number of squares to be chosen.
      * @param max Maximum number of squares to be chosen.
+     * @param dialog The dialog type
      * @return List of squares' coordinates.
      * @throws RemoteException If there is an error invoking this method.
      */
     @Override
-    public ArrayList<String> selectObject(ArrayList<String> squares, int min, int max) throws RemoteException {
-        SelectObjectResponse res = endpoint.sendAndWaitResponse(new SelectObjectRequest(squares, min, max), SelectObjectResponse.class);
+    public ArrayList<String> selectObject(ArrayList<String> squares, int min, int max, SelectDialog dialog) throws RemoteException {
+        SelectObjectResponse res = endpoint.sendAndWaitResponse(new SelectObjectRequest(squares, min, max, dialog), SelectObjectResponse.class);
         return res.getResult();
     }
 
