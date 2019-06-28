@@ -48,7 +48,7 @@ public class ModelCLI {
         Player pD = match.getPlayerByNickname("D");
         Player pE = match.getPlayerByNickname("E");
         pA.addMark(PlayerToken.BLUE, 2);
-        pA.addDamage(PlayerToken.YELLOW, 5);
+        pA.addDamageWithoutMarks(PlayerToken.YELLOW, 5);
         pA.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.RED));
         Weapon w1 =new Weapon("Vortex");
         w1.setAdditionalRechargeColor(AmmoColor.RED);

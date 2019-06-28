@@ -95,7 +95,7 @@ public class PowerUpController {
      * @param damageColor the damage to be added
      */
     private void targeting(Player targetPlayer, PlayerToken damageColor){
-        targetPlayer.addDamage(damageColor, 1);
+        targetPlayer.addDamageWithoutMarks(damageColor, 1);
         // TODO: Handle payment
     }
 }

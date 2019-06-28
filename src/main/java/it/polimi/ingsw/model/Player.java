@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.weapons.Weapon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,8 +15,11 @@ public class Player extends Identifiable{
 
     private static final int MAX_POWERUP_HAND = 3;
     private static final int MAX_WEAPON_HAND = 3;
-    private static final int LETHAL_DAMAGE_INDEX = 10;
-    private static final int OVERKILL_DAMAGE_INDEX = 11;
+    private static final int MAX_DAMAGE = 12;
+    private static final int LETHAL_DAMAGE_INDEX = MAX_DAMAGE-2;
+    private static final int OVERKILL_DAMAGE_INDEX = MAX_DAMAGE-1;
+    private static final int FIRST_BLOOD_INDEX = 0;
+    private static final int MAX_MARKS_PER_PLAYER = 3;
 
     /**
      * It's the nickname of the player identify the Player.
@@ -144,7 +148,7 @@ public class Player extends Identifiable{
      * @return true if the player has taken at least 11 damage, false otherwise.
      */
     public boolean isDead(){
-        return damageTaken.size()>LETHAL_DAMAGE_INDEX;
+        return damageTaken.size() > LETHAL_DAMAGE_INDEX;
     }
 
     /**
@@ -161,19 +165,19 @@ public class Player extends Identifiable{
      * @return the first PlayerToken on this player.
      */
     public PlayerToken getFirstBlood(){
-        return damageTaken.get(0);
+        if (FIRST_BLOOD_INDEX < damageTaken.size()) {
+            return damageTaken.get(FIRST_BLOOD_INDEX);
+        } else {
+            return null;
+        }
     }
 
     public PlayerToken getLethalDamage(){
-        return damageTaken.get(LETHAL_DAMAGE_INDEX);
-    }
-
-    /**
-     * Get the player token that inflicted the kill damage.
-     * @return the PlayerToken that killed the player.
-     */
-    public PlayerToken getKillshot(){
-        return damageTaken.get(LETHAL_DAMAGE_INDEX);
+        if (LETHAL_DAMAGE_INDEX < damageTaken.size()) {
+            return damageTaken.get(LETHAL_DAMAGE_INDEX);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -181,10 +185,11 @@ public class Player extends Identifiable{
      * @return the last PlayerToken of damage taken by the player.
      */
     public PlayerToken getOverkill(){
-        if(damageTaken.size() > OVERKILL_DAMAGE_INDEX)
+        if(OVERKILL_DAMAGE_INDEX < damageTaken.size()) {
             return damageTaken.get(OVERKILL_DAMAGE_INDEX);
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -200,7 +205,7 @@ public class Player extends Identifiable{
      * @return List of damage streak.
      */
     public List<PlayerToken> getDamageTaken() {
-        return damageTaken;
+        return new ArrayList<>(damageTaken);
     }
 
     /**
@@ -209,16 +214,11 @@ public class Player extends Identifiable{
      * @param n the number of damage inflicted
      */
     public void takeDamage(PlayerToken token, int n){
-        PlayerToken p;
-        for(int i=0; i<n && damageTaken.size()<12; i++){
-            for (Iterator<PlayerToken> it = marks.iterator(); it.hasNext(); ) {
-                p = it.next();
-                if(p==token){
-                    damageTaken.add(token);
-                    it.remove();
-                }
-            }
+        n += countMarks(token);
+        marks.removeIf(p -> p == token);
+        while (n > 0 && damageTaken.size() < MAX_DAMAGE) {
             damageTaken.add(token);
+            n--;
         }
     }
 
@@ -235,8 +235,10 @@ public class Player extends Identifiable{
      * @param n the number of marks
      */
     public void addMark(PlayerToken token, int n){
-        for(int i=0; i<n && countMarks(token)<3; i++) {
+        n = Math.min(n, MAX_MARKS_PER_PLAYER - countMarks(token));
+        while (n > 0) {
             marks.add(token);
+            n--;
         }
     }
 
@@ -246,12 +248,7 @@ public class Player extends Identifiable{
      * @return the number of same PlayerToken
      */
     public int countMarks(PlayerToken token){
-        int counter=0;
-        for( PlayerToken p : marks){
-            if(p==token)
-                counter++;
-        }
-        return counter;
+        return Collections.frequency(marks, token);
     }
 
     /**
@@ -270,12 +267,7 @@ public class Player extends Identifiable{
      * @return the number of ammo
      */
     public int countAmmo(AmmoColor ammoColor){
-        int counter=0;
-        for( AmmoColor a : ammo){
-            if(a==ammoColor)
-                counter++;
-        }
-        return counter;
+        return Collections.frequency(ammo, ammoColor);
     }
 
     /**
@@ -368,7 +360,7 @@ public class Player extends Identifiable{
      * @param points gained points by the player.
      */
     public void addPoints(int points){
-        this.points+=points;
+        this.points += points;
     }
 
     /**
@@ -402,7 +394,7 @@ public class Player extends Identifiable{
      *
      */
     public void removeAmmo(AmmoColor ammoColor, int n){
-        if(countAmmo(ammoColor)<n) {
+        if(countAmmo(ammoColor) < n) {
             throw new InvalidOperationException("The player doesn't have enough ammo");
         }
         AmmoColor a;
@@ -510,9 +502,10 @@ public class Player extends Identifiable{
      * weird ruling
      * @param damageColor the color of the damage
      */
-    public void addDamage(PlayerToken damageColor, int numberOfDamage){
-        for(int i = 0; i<numberOfDamage; i++)
+    public void addDamageWithoutMarks(PlayerToken damageColor, int numberOfDamage){
+        for(int i = 0; i < numberOfDamage && damageTaken.size() < MAX_DAMAGE; i++) {
             damageTaken.add(damageColor);
+        }
     }
 
     /**

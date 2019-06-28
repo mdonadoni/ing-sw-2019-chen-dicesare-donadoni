@@ -81,10 +81,10 @@ public class ViewGUI extends Application {
 
 
         Player tempPlayer = match.getPlayerByNickname("thatDc");
-        tempPlayer.addDamage(PlayerToken.PURPLE, 2);
-        tempPlayer.addDamage(PlayerToken.BLUE, 2);
-        tempPlayer.addDamage(PlayerToken.GREEN, 3);
-        tempPlayer.addDamage(PlayerToken.YELLOW, 1);
+        tempPlayer.addDamageWithoutMarks(PlayerToken.PURPLE, 2);
+        tempPlayer.addDamageWithoutMarks(PlayerToken.BLUE, 2);
+        tempPlayer.addDamageWithoutMarks(PlayerToken.GREEN, 3);
+        tempPlayer.addDamageWithoutMarks(PlayerToken.YELLOW, 1);
         tempPlayer.setSkulls(3);
         tempPlayer.addMark(PlayerToken.YELLOW, 3);
         tempPlayer.addMark(PlayerToken.BLUE, 3);
@@ -108,14 +108,14 @@ public class ViewGUI extends Application {
 
 
         tempPlayer = match.getPlayerByNickname("Mark03");
-        tempPlayer.addDamage(PlayerToken.GREY, 2);
+        tempPlayer.addDamageWithoutMarks(PlayerToken.GREY, 2);
         tempPlayer.addMark(PlayerToken.BLUE, 1);
         tempPlayer.setSkulls(1);
         tempPlayer.grabWeapon(new Weapon("lockrifle"));
 
         tempPlayer = match.getPlayerByNickname("Simone");
-        tempPlayer.addDamage(PlayerToken.YELLOW, 2);
-        tempPlayer.addDamage(PlayerToken.BLUE, 3);
+        tempPlayer.addDamageWithoutMarks(PlayerToken.YELLOW, 2);
+        tempPlayer.addDamageWithoutMarks(PlayerToken.BLUE, 3);
         tempPlayer.addMark(PlayerToken.PURPLE, 1);
         tempPlayer.addMark(PlayerToken.GREY, 2);
         tempPlayer.setSkulls(0);
@@ -124,14 +124,14 @@ public class ViewGUI extends Application {
         tempPlayer.addAmmo(AmmoColor.RED);
 
         tempPlayer = match.getPlayerByNickname("Fuljo");
-        tempPlayer.addDamage(PlayerToken.GREY, 3);
+        tempPlayer.addDamageWithoutMarks(PlayerToken.GREY, 3);
         tempPlayer.addMark(PlayerToken.GREEN, 2);
         tempPlayer.setSkulls(2);
         tempPlayer.grabWeapon(new Weapon("tractorbeam"));
         tempPlayer.grabWeapon(new Weapon("hellion"));
 
         tempPlayer = match.getPlayerByNickname("Ricky");
-        tempPlayer.addDamage(PlayerToken.YELLOW, 2);
+        tempPlayer.addDamageWithoutMarks(PlayerToken.YELLOW, 2);
         tempPlayer.addMark(PlayerToken.BLUE, 1);
         tempPlayer.setSkulls(0);
         tempPlayer.addAmmo(AmmoColor.BLUE);

@@ -105,8 +105,8 @@ public class PlayerCLI {
     public static void main(String[] args){
         Player p = new Player("a", PlayerToken.PURPLE);
         p.addMark(PlayerToken.YELLOW,2);
-        p.addDamage(PlayerToken.GREY, 3);
-        p.addDamage(PlayerToken.BLUE,1);
+        p.addDamageWithoutMarks(PlayerToken.GREY, 3);
+        p.addDamageWithoutMarks(PlayerToken.BLUE,1);
 
         Weapon w1 =new Weapon("Vortex");
         w1.setAdditionalRechargeColor(AmmoColor.RED);

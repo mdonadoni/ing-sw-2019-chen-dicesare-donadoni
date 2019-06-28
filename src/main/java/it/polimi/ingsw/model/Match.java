@@ -1,9 +1,14 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.util.config.Config;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Match extends Identifiable{
+    private static final int MIN_PLAYERS = Config.getMinPlayers();
+    private static final int MAX_PLAYERS = Config.getMaxPlayers();
+    private static final int SKULLS = 8;
     /**
      * States whether the match in in final frenzy
      */
@@ -26,10 +31,10 @@ public class Match extends Identifiable{
     private int turnsElapsed;
 
     public Match(List<String> nicknames, ModelFactory factory) {
-        if (nicknames.size() < 3) {
+        if (nicknames.size() < MIN_PLAYERS) {
             throw new InvalidOperationException("Not enough players");
         }
-        if (nicknames.size() > 5) {
+        if (nicknames.size() > MAX_PLAYERS) {
             throw new InvalidOperationException("Too many players");
         }
 
@@ -40,7 +45,7 @@ public class Match extends Identifiable{
         Iterator<PlayerToken> token = tokens.iterator();
         nicknames.forEach((nickname) -> players.add(new Player(nickname, token.next())));
 
-        this.gameBoard = new GameBoard(8, factory);
+        this.gameBoard = new GameBoard(SKULLS, factory);
         this.currentTurn = new Turn(players.get(0), TurnType.FIRST_TURN);
         players.get(0).setStartingPlayer(true);
         this.turnsElapsed = 0;
@@ -59,7 +64,7 @@ public class Match extends Identifiable{
      * @param player the player to be added
      */
     public void addPlayer(Player player){
-            if(players.size() < 5)
+            if(players.size() < MAX_PLAYERS)
                 players.add(player);
             else
                 throw new InvalidOperationException("Maximum number of active players reached");
@@ -147,7 +152,7 @@ public class Match extends Identifiable{
             if(player.isActive())
                 activePlayers++;
 
-        return activePlayers >= 3;
+        return activePlayers >= MIN_PLAYERS;
     }
 
     /**

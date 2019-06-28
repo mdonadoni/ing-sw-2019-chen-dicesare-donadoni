@@ -97,7 +97,7 @@ class ActionTest {
         assertFalse(act.canPerform(player, true));
 
         // Now shouldn't work cause we have a better option
-        player.addDamage(PlayerToken.GREY, 8);
+        player.addDamageWithoutMarks(PlayerToken.GREY, 8);
         assertFalse(act.canPerform(player, false));
         assertFalse(act.canPerform(player, true));
 
@@ -107,14 +107,14 @@ class ActionTest {
         act.setBoardNotFlippedRequired(true);
         player.resetDamage();
         // But still we did not take enough damage
-        player.addDamage(PlayerToken.GREY, 2);
+        player.addDamageWithoutMarks(PlayerToken.GREY, 2);
         assertFalse(act.canPerform(player, false));
         assertFalse(act.canPerform(player, true));
 
         // Ok now we're ready, injured enough
-        player.addDamage(PlayerToken.GREY, 1);
+        player.addDamageWithoutMarks(PlayerToken.GREY, 1);
         assertTrue(act.canPerform(player, false));
-        player.addDamage(PlayerToken.GREY, 2);
+        player.addDamageWithoutMarks(PlayerToken.GREY, 2);
         assertTrue(act.canPerform(player, false));
 
         // If we are in Final Frenzy, I cannot do these powerful actions

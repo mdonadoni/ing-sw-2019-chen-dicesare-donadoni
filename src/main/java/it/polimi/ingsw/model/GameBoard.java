@@ -75,7 +75,7 @@ public class GameBoard {
 
     public void refillSpawnPoints() {
         for(SpawnPoint spw : board.getSpawnPoints()){
-            while(spw.getWeapons().size()<3)
+            while(!spw.isFull())
                 spw.addWeapon(weaponDeck.draw());
         }
     }

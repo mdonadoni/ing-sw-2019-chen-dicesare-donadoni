@@ -11,8 +11,10 @@ import java.util.List;
 /**
  * This class represents a tile of ammo.
  */
-public class AmmoTile extends Identifiable implements Serializable {
+public class AmmoTile implements Serializable {
     private static final long serialVersionUID = 5130130440250960678L;
+    private static final int MAX_AMMO = 3;
+    private static final int MIN_AMMO = MAX_AMMO - 1;
     /**
      * List of ammo on the tile.
      */
@@ -32,7 +34,7 @@ public class AmmoTile extends Identifiable implements Serializable {
      * @param ammos ammunition colors
      */
     public AmmoTile(AmmoColor ...ammos){
-        if (ammos.length < 2 || ammos.length > 3) {
+        if (ammos.length < MIN_AMMO || ammos.length > MAX_AMMO) {
             throw new InvalidOperationException("AmmoTile not valid");
         }
         ammo = new ArrayList<>(Arrays.asList(ammos));
@@ -43,7 +45,7 @@ public class AmmoTile extends Identifiable implements Serializable {
      * @param ammoColor the color of ammo to add.
      */
     public void addAmmo(AmmoColor ammoColor) {
-        if(ammo.size()<3) {
+        if(ammo.size() < MAX_AMMO) {
             ammo.add(ammoColor);
         }
     }
@@ -61,7 +63,7 @@ public class AmmoTile extends Identifiable implements Serializable {
      * @return True if the tile has a power-up, false otherwise.
      */
     public boolean hasPowerUp(){
-        return ammo.size()==2;
+        return ammo.size() == MIN_AMMO;
     }
 
     public int countAmmo(AmmoColor color){

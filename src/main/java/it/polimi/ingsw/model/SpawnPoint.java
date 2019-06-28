@@ -10,6 +10,7 @@ import java.util.List;
  * up to three weapons.
  */
 public class SpawnPoint extends Square {
+    private static final int MAX_WEAPON_SPAWNPOINT = 3;
     /**
      * Color of the SpawnPoint.
      */
@@ -66,10 +67,14 @@ public class SpawnPoint extends Square {
      * @param weapon Weapon to be added.
      */
     public void addWeapon(Weapon weapon) {
-        if (weapons.size() == 3) {
+        if (weapons.size() == MAX_WEAPON_SPAWNPOINT) {
             throw new InvalidOperationException("Too many weapons");
         }
         weapons.add(weapon);
+    }
+
+    public boolean isFull() {
+        return weapons.size() == MAX_WEAPON_SPAWNPOINT;
     }
 
     /**

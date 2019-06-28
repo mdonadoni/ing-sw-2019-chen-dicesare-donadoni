@@ -47,10 +47,10 @@ class ScoreControllerTest {
     @Test
     void singleSimpleKill() {
         bedaPlayer.move(match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.RED));
-        bedaPlayer.addDamage(adaColor, 4);
-        bedaPlayer.addDamage(cosoColor, 2);
-        bedaPlayer.addDamage(adaColor, 4);
-        bedaPlayer.addDamage(debianColor, 1);
+        bedaPlayer.addDamageWithoutMarks(adaColor, 4);
+        bedaPlayer.addDamageWithoutMarks(cosoColor, 2);
+        bedaPlayer.addDamageWithoutMarks(adaColor, 4);
+        bedaPlayer.addDamageWithoutMarks(debianColor, 1);
 
         controller.lookForScoreUpdates();
 
@@ -71,16 +71,16 @@ class ScoreControllerTest {
     void singleKillOverkill(){
         adaPlayer.addSkull();
 
-        cosoPlayer.addDamage(adaColor, 2);
-        cosoPlayer.addDamage(debianColor, 3);
+        cosoPlayer.addDamageWithoutMarks(adaColor, 2);
+        cosoPlayer.addDamageWithoutMarks(debianColor, 3);
 
-        bedaPlayer.addDamage(debianColor, 1);
+        bedaPlayer.addDamageWithoutMarks(debianColor, 1);
 
-        adaPlayer.addDamage(bedaColor, 4);
-        adaPlayer.addDamage(bedaColor, 1);
-        adaPlayer.addDamage(debianColor, 3);
-        adaPlayer.addDamage(cosoColor, 2);
-        adaPlayer.addDamage(bedaColor, 2);
+        adaPlayer.addDamageWithoutMarks(bedaColor, 4);
+        adaPlayer.addDamageWithoutMarks(bedaColor, 1);
+        adaPlayer.addDamageWithoutMarks(debianColor, 3);
+        adaPlayer.addDamageWithoutMarks(cosoColor, 2);
+        adaPlayer.addDamageWithoutMarks(bedaColor, 2);
 
         controller.lookForScoreUpdates();
 
@@ -101,9 +101,9 @@ class ScoreControllerTest {
         for(int i=0; i<8; i++)
             adaPlayer.addSkull();
 
-        adaPlayer.addDamage(debianColor, 4);
-        adaPlayer.addDamage(cosoColor,4);
-        adaPlayer.addDamage(bedaColor, 4);
+        adaPlayer.addDamageWithoutMarks(debianColor, 4);
+        adaPlayer.addDamageWithoutMarks(cosoColor,4);
+        adaPlayer.addDamageWithoutMarks(bedaColor, 4);
 
         controller.lookForScoreUpdates();
 
@@ -116,8 +116,8 @@ class ScoreControllerTest {
 
     @Test
     void multikillTest(){
-        bedaPlayer.addDamage(adaColor, 11);
-        cosoPlayer.addDamage(adaColor, 11);
+        bedaPlayer.addDamageWithoutMarks(adaColor, 11);
+        cosoPlayer.addDamageWithoutMarks(adaColor, 11);
 
         controller.lookForScoreUpdates();
 

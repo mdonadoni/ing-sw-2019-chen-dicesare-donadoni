@@ -33,14 +33,12 @@ class AmmoTileTest {
 
     @Test
     void serialization() throws IOException, ClassNotFoundException {
-        AmmoTile des = UtilSerialization.javaSerializable(ammoTile, AmmoTile.class);
-        assertEquals(des.getUuid(), ammoTile.getUuid());
+        UtilSerialization.javaSerializable(ammoTile, AmmoTile.class);
     }
 
     @Test
     void jackson() throws IOException {
-        AmmoTile des = UtilSerialization.jackson(ammoTile, AmmoTile.class);
-        assertEquals(des.getUuid(), ammoTile.getUuid());
+        UtilSerialization.jackson(ammoTile, AmmoTile.class);
     }
 
 }
