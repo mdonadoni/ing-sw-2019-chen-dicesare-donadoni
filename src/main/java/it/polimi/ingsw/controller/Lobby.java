@@ -50,7 +50,13 @@ public class Lobby {
      */
     public synchronized void addPlayer(RemotePlayer player) {
         LOG.info(() -> "Adding player to lobby: " + player.getNickname());
-        queue.forEach(remotePlayer -> remotePlayer.safeShowMessage("Nuovo utente in lobby: " + player.getNickname()));
+
+        // Notify other players
+        for (int i = 0; i < queue.size(); i++) {
+            RemotePlayer other = queue.get(i);
+            other.safeShowMessage("Nuovo utente in lobby: " + player.getNickname());
+        }
+
         queue.add(player);
         if (queue.size() == MAX_PLAYERS) {
             // Match can be started
@@ -81,7 +87,11 @@ public class Lobby {
         LOG.info(() -> "Removed player from lobby: " + player.getNickname());
         queue.remove(player);
         //TODO fix showMessage
-        queue.forEach(remotePlayer -> remotePlayer.safeShowMessage("Utente rimosso dalla lobby: " + player.getNickname()));
+        // Notify other players
+        for (int i = 0; i < queue.size(); i++) {
+            RemotePlayer other = queue.get(i);
+            other.safeShowMessage("Utente rimosso dalla lobby: " + player.getNickname());
+        }
 
         if (queue.size() < MIN_PLAYERS) {
             // Disable scheduling because there are not enough players
