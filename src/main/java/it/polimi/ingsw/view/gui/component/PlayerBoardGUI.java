@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.gui.util.FitObject;
 import it.polimi.ingsw.view.gui.util.GridUtils;
 import it.polimi.ingsw.view.gui.util.SelectableComponent;
 import it.polimi.ingsw.view.gui.util.StretchImage;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.GridPane;
 
 import java.util.Arrays;
@@ -32,6 +33,12 @@ public class PlayerBoardGUI extends FitObject implements Selectable {
         overlay.add(new AmmoPaneGUI(player.getAmmo()), 2, 0, 1, 3);
 
         getChildren().addAll(boardImage, overlay);
+
+        if (!player.isActive()) {
+            ColorAdjust grayscale = new ColorAdjust();
+            grayscale.setSaturation(-1);
+            setEffect(grayscale);
+        }
 
         select = new SelectableComponent(this, player.getUuid());
     }

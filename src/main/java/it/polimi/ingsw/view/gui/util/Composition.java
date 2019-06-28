@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view.gui.util;
 
-import javafx.geometry.BoundingBox;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
+import javafx.scene.transform.Rotate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,17 +13,18 @@ public class Composition extends Region {
 
     private double compositionWidth;
     private double compositionHeight;
-    private Map<Node, BoundingBox> nodeBounds = new HashMap<>();
+    private Map<Node, Position> nodeBounds = new HashMap<>();
     private boolean preserveRatio = false;
 
 
-    public void add(Node node, double x, double y, double widht, double height) {
-        add(node, new BoundingBox(x, y, 0, widht, height, 0));
+    public void add(Node node, double x, double y, double width, double height) {
+        add(node, new Position(x, y, width, height, 0));
     }
 
-    public void add(Node node, BoundingBox bounds) {
+    public void add(Node node, Position bounds) {
         getChildren().add(node);
         nodeBounds.put(node, bounds);
+        node.getTransforms().add(new Rotate(bounds.getRotation()));
     }
 
     public void setPreserveRatio(boolean preserveRatio) {
@@ -54,7 +55,7 @@ public class Composition extends Region {
     @Override
     protected void layoutChildren() {
         getChildren().forEach(node -> {
-            BoundingBox bounds = nodeBounds.get(node);
+            Position bounds = nodeBounds.get(node);
             double factorX = getWidth()/ compositionWidth;
             double factorY = getHeight()/ compositionHeight;
             if (preserveRatio) {
@@ -64,8 +65,8 @@ public class Composition extends Region {
             }
             layoutInArea(
                     node,
-                    bounds.getMinX() * factorX,
-                    bounds.getMinY() * factorY,
+                    bounds.getX() * factorX,
+                    bounds.getY() * factorY,
                     bounds.getWidth() * factorX,
                     bounds.getHeight() * factorY,
                     0,

@@ -2,13 +2,13 @@ package it.polimi.ingsw.view.gui.component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.model.PlayerToken;
 import it.polimi.ingsw.model.minified.MiniGameBoard;
 import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.util.ResourceException;
 import it.polimi.ingsw.util.ResourceManager;
 import it.polimi.ingsw.view.gui.util.*;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.transform.Rotate;
 
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -42,39 +42,61 @@ public class GameBoardGUI extends FitObject implements SelectableContainer {
             ObjectMapper mapper = Json.getMapper();
             JsonNode json = mapper.readTree(in);
 
-            double boardWidth = json.get("boardWidth").asDouble();
-            double boardHeight = json.get("boardHeight").asDouble();
+            double boardWidth = json.get("gameBoardWidth").asDouble();
+            double boardHeight = json.get("gameBoardHeight").asDouble();
 
             int numberRows = json.get("numberRows").asInt();
             int numberColumns = json.get("numberColumns").asInt();
 
-            double x1 = json.get("board").get("x1").asDouble();
-            double y1 = json.get("board").get("y1").asDouble();
-
-            double x2 = json.get("board").get("x2").asDouble();
-            double y2 = json.get("board").get("y2").asDouble();
-
+            Position boardPosition = Position.fromJson(json.get("board"));
             boardGUI = new BoardGUI(gameBoard.getBoard(), numberColumns, numberRows);
+
             Composition overlay = new Composition();
             overlay.setCompositionWidth(boardWidth);
             overlay.setCompositionHeight(boardHeight);
-            overlay.add(boardGUI, x1, y1, x2-x1, y2-y1);
+            overlay.add(boardGUI,boardPosition);
 
+            // Add weapon
             gameBoard.getBoard().getSpawnPoints().forEach(spawn -> {
                 for (int i = 0; i < spawn.getWeapons().size(); i++) {
                     String color = spawn.getColor().toString().toLowerCase();
-                    JsonNode position = json.get("weapon").get(color).get(i);
-                    double x = position.get("x").asDouble();
-                    double y = position.get("y").asDouble();
-                    double w = position.get("w").asDouble();
-                    double h = position.get("h").asDouble();
-                    double r = position.get("r").asDouble();
+                    Position position = Position.fromJson(json.get("weapon").get(color).get(i));
                     WeaponGUI weapon = new WeaponGUI(spawn.getWeapons().get(i), false);
-                    weapon.getTransforms().add(new Rotate(r));
-                    overlay.add(weapon, x, y, w, h);
+                    overlay.add(weapon, position);
                     weaponsGUI.add(weapon);
                 }
             });
+
+            // Add killshots
+            Position killshot = Position.fromJson(json.get("killshot"));
+            // TODO remove fixed value
+            int initialSkulls = gameBoard.getInitialSkullNumber();
+            int emptySkulls = 8 - initialSkulls;
+            double tokenWidth = killshot.getWidth()/8;
+            double tokenHeight = killshot.getHeight();
+            for (int i = 0; i < 8; i++) {
+                if (i >= emptySkulls) {
+                    if (i - emptySkulls < gameBoard.getKillShotTrack().size()) {
+                        List<PlayerToken> tokens = gameBoard.getKillShotTrack().get(i - emptySkulls);
+                        for (int t = 0; t < tokens.size(); t++) {
+                            Position token = new Position();
+                            token.setX(killshot.getX() + i * tokenWidth);
+                            token.setY(killshot.getY() + t * tokenHeight / 4);
+                            token.setWidth(tokenWidth);
+                            token.setHeight(tokenHeight);
+                            overlay.add(new TokenGUI(tokens.get(t), 1), token);
+                        }
+                    } else {
+                        overlay.add(
+                            new SkullGUI(),
+                            killshot.getX() + i*tokenWidth,
+                            killshot.getY(),
+                            tokenWidth,
+                            tokenHeight
+                        );
+                    }
+                }
+            }
 
             getChildren().add(overlay);
         } catch (Exception e) {
