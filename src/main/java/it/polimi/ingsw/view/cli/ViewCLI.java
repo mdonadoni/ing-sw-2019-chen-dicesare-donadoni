@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.LocalView;
+import it.polimi.ingsw.view.Descriptions;
 import it.polimi.ingsw.view.cli.component.ModelCLI;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class ViewCLI extends LocalView implements Runnable {
 
 
     private Scanner scanner;
+    private MiniModel model;
 
     public ViewCLI() {
         scanner = new Scanner(System.in);
@@ -67,16 +69,19 @@ public class ViewCLI extends LocalView implements Runnable {
     public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max) {
         System.out.println("Nuova selezione");
         for (int i = 0; i < objUuid.size(); i++) {
-            System.out.println(i + ") " + objUuid.get(i));
+            System.out.println(i + ") " + Descriptions.find(model, objUuid.get(i)));
         }
 
         while (true) {
-            System.out.println("Scegli da " + min + " a " + max + "elementi");
+            System.out.println("Scegli da " + min + " a " + max + " elementi");
             String res = scanner.nextLine();
             String[] selection =  res.split("\\s+");
             Set<String> uuid = new HashSet<>();
             try {
                 for (String s : selection) {
+                    if (s.length() == 0) {
+                        continue;
+                    }
                     int idx = Integer.parseInt(s);
                     if (idx < 0 || idx >= objUuid.size()) {
                         throw new RuntimeException("Invalid selection");
@@ -103,6 +108,7 @@ public class ViewCLI extends LocalView implements Runnable {
 
     @Override
     public synchronized void updateModel(MiniModel model) {
+        this.model = model;
         ModelCLI modelCLI = new ModelCLI(model);
         cls();
         List<String> view = (List<String>) modelCLI.viewModel();
