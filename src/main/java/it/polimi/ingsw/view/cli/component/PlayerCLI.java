@@ -1,7 +1,8 @@
 package it.polimi.ingsw.view.cli.component;
 
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.minified.MiniGameBoard;
+import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.PlayerToken;
+import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.model.minified.MiniPlayer;
 import it.polimi.ingsw.model.minified.MiniWeapon;
 import it.polimi.ingsw.view.cli.util.CharCli;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class PlayerCLI {
 
-    private static final int LENGTH = 15 ;
+    static final int LENGTH = 15 ;
 
     private MiniPlayer player;
     List<PowerUp> powerUp;

@@ -128,14 +128,19 @@ public class BoardCLI {
                 outList.add(out);
             }
             out = "" + left;
-            for (AmmoColor ac : mss.getAmmoTile().getAmmo()) {
-                out = out.concat(ColorCLI.getAmmoColor(ac, CharCli.AMMO));
+            if (mss.hasAmmo()) {
+                for (AmmoColor ac : mss.getAmmoTile().getAmmo()) {
+                    out = out.concat(ColorCLI.getAmmoColor(ac, CharCli.AMMO));
+                }
+                if (mss.getAmmoTile().hasPowerUp()) {
+                    out = out.concat("p-u");
+                    out = CharCli.addSpace(out, LENGTH - 5);
+                } else {
+                    out = CharCli.addSpace(out, LENGTH - 3);
+                }
+            } else {
+                out = CharCli.addSpace(out, LENGTH);
             }
-            if (mss.getAmmoTile().hasPowerUp()) {
-                out = out.concat("p-u");
-                out = CharCli.addSpace(out, LENGTH - 5);
-            } else
-                out = CharCli.addSpace(out, LENGTH - 3);
             out = out.concat("" + right);
             outList.add(out);
         }

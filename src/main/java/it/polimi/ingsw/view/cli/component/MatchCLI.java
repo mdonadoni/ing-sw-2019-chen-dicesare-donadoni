@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.cli.component;
 
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.minified.MiniMatch;
 import it.polimi.ingsw.model.minified.MiniPlayer;
 import it.polimi.ingsw.view.cli.util.CharCli;
@@ -38,6 +37,10 @@ public class MatchCLI {
         //gameboard
         squareList.add("");
         squareList.addAll(gameBoardCLI.viewGameBoard());
+
+        while(outList.size() < squareList.size()) {
+            outList.add(CharCli.addSpace("", PlayerCLI.LENGTH+2));
+        }
 
         CharCli.concatRow( outList ,squareList);
         return outList;
