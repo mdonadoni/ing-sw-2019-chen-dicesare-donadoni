@@ -21,9 +21,9 @@ public class MatchCLI {
         }
     }
 
-    public List viewMatch(){
-        ArrayList<String> outList = new ArrayList<>();
-        ArrayList<String> squareList = new ArrayList<>();
+    public List<String> viewMatch(){
+        List<String> outList = new ArrayList<>();
+        List<String> squareList = new ArrayList<>();
         String out;
         //current turn
         out = "Turno di : " +miniMatch.getCurrentTurn().getCurrentPlayer();

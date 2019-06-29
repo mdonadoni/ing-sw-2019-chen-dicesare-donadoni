@@ -49,6 +49,7 @@ public class SelectObjectRequest extends RequestViewMethod {
         this.objUuid = new ArrayList<>(objUuid);
         this.min = min;
         this.max = max;
+        this.dialog = dialog;
     }
 
     /**

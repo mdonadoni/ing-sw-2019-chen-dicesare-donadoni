@@ -35,7 +35,7 @@ public class ViewCLI extends LocalView implements Runnable {
             connection = null;
             while (connection == null || (!connection.equals("rmi") && !connection.equals("socket"))) {
                 println("Connessione [rmi/socket]:");
-                connection = scanner.nextLine();
+                connection = readLine();
             }
 
             ConnectionType type;
@@ -46,13 +46,13 @@ public class ViewCLI extends LocalView implements Runnable {
             }
 
             println("Indirizzo server:");
-            String address = scanner.nextLine();
+            String address = readLine();
 
             println("Porta server:");
-            int port = Integer.parseInt(scanner.nextLine());
+            int port = readInt();
 
             println("Scegli username: ");
-            String nickname = scanner.nextLine();
+            String nickname = readLine();
 
             try {
                 connectServer(address, port, type);
@@ -82,7 +82,7 @@ public class ViewCLI extends LocalView implements Runnable {
         while (!validSelection) {
             validSelection = true;
             // Ask what to do
-            println(Dialogs.getDialog(dialog, Integer.toString(min), Integer.toString(max)));
+            printDialog(dialog, Integer.toString(min), Integer.toString(max));
             // Split on spaces
             String[] selection = scanner.nextLine().split("\\s+");
             selectedUuid = new HashSet<>();
@@ -121,13 +121,39 @@ public class ViewCLI extends LocalView implements Runnable {
 
     @Override
     public synchronized void updateModel(MiniModel model) {
+        // Save new model
         this.model = model;
+        // Create new cli model
         ModelCLI modelCLI = new ModelCLI(model);
+        // Clear screen
         cls();
-        List<String> view = (List<String>) modelCLI.viewModel();
+        // Print model
+        List<String> view = modelCLI.viewModel();
         for (String s : view) {
             println(s);
         }
+    }
+
+    private synchronized String  readLine() {
+        return scanner.nextLine();
+    }
+
+    private synchronized int readInt() {
+        int integer = 0;
+        boolean valid = false;
+        while (!valid) {
+            valid = true;
+            try {
+                integer = Integer.parseInt(readLine());
+            } catch (NumberFormatException e) {
+                valid = false;
+            }
+
+            if (!valid) {
+                printDialog(Dialog.INVALID_INTEGER);
+            }
+        }
+        return integer;
     }
 
     private void cls() {

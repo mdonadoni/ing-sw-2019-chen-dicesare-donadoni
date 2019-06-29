@@ -19,7 +19,7 @@ public class GameBoardCLI {
         this.boardCLI = new BoardCLI(miniGameBoard.getBoard());
     }
 
-    public List viewGameBoard(){
+    public List<String> viewGameBoard(){
         ArrayList<String> outLIst = new ArrayList<>();
         String out=" ";
         PlayerToken pt;

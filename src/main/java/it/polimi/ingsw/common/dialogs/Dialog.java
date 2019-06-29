@@ -17,5 +17,6 @@ public enum Dialog {
     SKIP,
     USER_CONNECTED,
     INVALID_SELECTION,
-    NEW_SELECTION
+    NEW_SELECTION,
+    INVALID_INTEGER
 }

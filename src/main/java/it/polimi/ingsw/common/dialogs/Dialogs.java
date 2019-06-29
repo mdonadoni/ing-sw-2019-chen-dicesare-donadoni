@@ -26,14 +26,22 @@ public class Dialogs {
 
             // Insert the dialogs in the hashmap
             for(Dialog dialog : Dialog.values()){
-                dialogMap.put(dialog, json.get(dialog.name().toLowerCase()).asText());
+                String key = dialog.name().toLowerCase();
+                if (!json.has(key)) {
+                    throw new ResourceException("Cannot find dialog " + key);
+                }
+                String value = json.get(key).asText();
+                if (value.length() == 0) {
+                    throw new ResourceException("Cannot find value of " + key);
+                }
+                dialogMap.put(dialog, value);
             }
         } catch (IOException e){
             throw new ResourceException("Cannot read dialog lines file", e);
         }
     }
 
-    public static String getDialog(Dialog type, String ...params){
+    public static synchronized String getDialog(Dialog type, String ...params){
         if (dialogMap == null) {
             loadDialogs();
         }

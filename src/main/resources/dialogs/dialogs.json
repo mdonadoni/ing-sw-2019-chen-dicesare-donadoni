@@ -15,5 +15,6 @@
   "skip": "Hai scelto di saltare il tuo turno",
   "user_connected": "Utente {0} si è connesso",
   "invalid_selection": "Selezione non valida",
-  "new_selection": "Nuova selezione"
+  "new_selection": "Nuova selezione",
+  "invalid_integer": "Inserisci un intero valido"
 }

@@ -16,7 +16,7 @@ public class PlayerCLI {
     static final int LENGTH = 15 ;
 
     private MiniPlayer player;
-    List<PowerUp> powerUp;
+    private List<PowerUp> powerUp;
     private ArrayList<WeaponCLI> weaponCLI;
 
     PlayerCLI(MiniPlayer miniPlayer, List<PowerUp> powerUp){
@@ -28,7 +28,7 @@ public class PlayerCLI {
         }
     }
 
-    public synchronized ArrayList viewPlayer(){
+    public synchronized List<String> viewPlayer(){
         int space;
         String out;
         ArrayList<String> outList = new ArrayList<>();
@@ -89,7 +89,7 @@ public class PlayerCLI {
         outList.add(out);
         //weapon
         for(WeaponCLI w : weaponCLI){
-            out = (String)w.viewWeapon().get(0);
+            out = w.viewWeapon().get(0);
             outList.add(out);
         }
         //powerup

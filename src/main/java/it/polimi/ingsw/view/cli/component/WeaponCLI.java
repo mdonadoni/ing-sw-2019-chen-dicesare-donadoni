@@ -6,6 +6,7 @@ import it.polimi.ingsw.view.cli.util.CharCli;
 import it.polimi.ingsw.view.cli.util.ColorCLI;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WeaponCLI {
     private MiniWeapon miniWeapon;
@@ -15,10 +16,10 @@ public class WeaponCLI {
         this.miniWeapon = miniWeapon;
     }
 
-    public ArrayList viewWeapon(){
+    public List<String> viewWeapon(){
         String out;
         int space;
-        ArrayList<String> outList = new ArrayList<>();
+        List<String> outList = new ArrayList<>();
         out=miniWeapon.getName();
         space = out.length();
         out = out.concat("("+ ColorCLI.getAmmoColor(miniWeapon.getAdditionalRechargeColor(), CharCli.AMMO)+")");
