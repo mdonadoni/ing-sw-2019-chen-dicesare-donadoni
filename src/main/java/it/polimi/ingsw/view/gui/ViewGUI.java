@@ -167,7 +167,7 @@ public class ViewGUI extends Application {
     }
 
     public void stop() {
-        dummy.closeConnection();
+        System.exit(0);
     }
 
     public List<String> selectObject(List<String> objUuid, int min, int max) {

@@ -4,13 +4,12 @@ import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.model.minified.MiniGameBoard;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.model.minified.MiniPlayer;
-import it.polimi.ingsw.util.ResourceManager;
 import it.polimi.ingsw.view.gui.util.GridUtils;
+import it.polimi.ingsw.view.gui.util.ImageManager;
 import it.polimi.ingsw.view.gui.util.Selectable;
 import it.polimi.ingsw.view.gui.util.SelectableContainer;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -62,7 +61,7 @@ public class UserViewGUI extends GridPane implements SelectableContainer {
         setBackground(new Background(
                 new BackgroundFill(
                 new ImagePattern(
-                        new Image(ResourceManager.get("/gui/background.jpg"))
+                        ImageManager.getResourceImage("/gui/background.jpg")
                 ), CornerRadii.EMPTY, Insets.EMPTY
         )));
     }

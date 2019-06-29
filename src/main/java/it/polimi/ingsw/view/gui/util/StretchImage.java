@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.util;
 
-import it.polimi.ingsw.util.ResourceManager;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -23,7 +22,7 @@ public class StretchImage extends Pane {
     }
 
     public StretchImage(String path) {
-        setImage(new Image(ResourceManager.get(path)));
+        setImage(ImageManager.getResourceImage(path));
     }
 
     private void setImage(Image img) {

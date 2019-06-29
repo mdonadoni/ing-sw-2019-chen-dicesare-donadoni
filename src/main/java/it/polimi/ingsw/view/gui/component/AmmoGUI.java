@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.component;
 
 import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.view.gui.util.ResizableImage;
 import javafx.scene.layout.*;
 
 public class AmmoGUI extends GridPane {
@@ -24,10 +25,6 @@ public class AmmoGUI extends GridPane {
         getRowConstraints().add(ammoRow);
         getRowConstraints().add(padRow);
 
-        Pane ammopane = new Pane();
-        ammopane.setStyle("-fx-background-image: url(/gui/ammo/"+color.toString().toLowerCase()+"Ammo.png);"+
-                        "-fx-background-size: stretch;");
-
-        add(ammopane, 1, 1);
+        add(new ResizableImage("/gui/ammo/"+color.toString().toLowerCase()+"Ammo.png"), 1, 1);
     }
 }

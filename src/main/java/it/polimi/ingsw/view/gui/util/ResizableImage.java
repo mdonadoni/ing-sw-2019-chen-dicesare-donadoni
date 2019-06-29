@@ -1,10 +1,6 @@
 package it.polimi.ingsw.view.gui.util;
 
-import it.polimi.ingsw.util.ResourceException;
-import it.polimi.ingsw.util.ResourceManager;
 import javafx.scene.image.Image;
-
-import java.io.InputStream;
 
 public class ResizableImage extends FitObject {
     StretchImage stretchImage;
@@ -14,7 +10,7 @@ public class ResizableImage extends FitObject {
     }
 
     public ResizableImage(String path) {
-        loadImage(path);
+        setImage(path);
     }
 
     public ResizableImage(Image img) {
@@ -29,12 +25,8 @@ public class ResizableImage extends FitObject {
         getChildren().add(stretchImage);
     }
 
-    public void loadImage(String path) {
-        InputStream stream = ResourceManager.get(path);
-        if (stream == null) {
-            throw new ResourceException("Cannot find image resource");
-        }
-        setImage(new Image(stream));
+    public void setImage(String path) {
+        setImage(ImageManager.getResourceImage(path));
     }
 
     public StretchImage getImage() {
