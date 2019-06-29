@@ -14,12 +14,12 @@ public class HarmfulEffect extends Effect {
     @JsonCreator
     public HarmfulEffect(@JsonProperty("amount") int value,
                          @JsonProperty("type") HarmType type){
-        setAmount(value);
+        setValue(value);
         this.type = type;
     }
 
     HarmfulEffect(JsonNode json){
-        setAmount(json.get("value").asInt());
+        setValue(json.get("value").asInt());
         setType(HarmType.valueOf(json.get("harm").asText().toUpperCase()));
     }
 

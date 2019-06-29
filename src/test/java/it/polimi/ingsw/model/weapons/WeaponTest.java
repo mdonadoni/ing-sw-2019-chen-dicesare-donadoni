@@ -27,10 +27,10 @@ class WeaponTest {
         HarmfulEffect eff1 = (HarmfulEffect)plTg.getEffects().get(1);
         MovementEffect eff2 = (MovementEffect)plTg.getEffects().get(2);
         assertEquals(eff0.getType(), HarmType.DAMAGE);
-        assertEquals(eff0.getAmount(), 2);
+        assertEquals(eff0.getValue(), 2);
         assertEquals(eff1.getType(), HarmType.MARK);
-        assertEquals(eff1.getAmount(), 1);
-        assertEquals(eff2.getAmount(), 3);
+        assertEquals(eff1.getValue(), 1);
+        assertEquals(eff2.getValue(), 3);
         assertTrue(eff2.isLine());
         assertEquals(att.getAdditionalAttacks().get(0).getCost().get(0), AmmoColor.RED);
     }
@@ -48,6 +48,5 @@ class WeaponTest {
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/vortexcannon.json"));
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/furnace.json"));
         wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/heatseeker.json"));
-
     }
 }

@@ -20,8 +20,8 @@
             {
               "type": "movement",
               "value": 2,
-              "visibleDest": "DC",
-              "line": true,
+              "visibleDest": "VISIBLE",
+              "line": false,
               "fixed": false,
               "self": false
             },
@@ -52,9 +52,9 @@
           "effects": [
             {
               "type": "movement",
-              "visibleDest": "DC",
+              "visibleDest": "VISIBLE",
               "value": 2,
-              "line": true,
+              "line": false,
               "fixed": false,
               "self": false
             },

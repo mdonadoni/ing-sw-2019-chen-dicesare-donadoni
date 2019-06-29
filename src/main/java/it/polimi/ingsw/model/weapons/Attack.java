@@ -64,4 +64,10 @@ public class Attack extends Identifiable {
     public List<AmmoColor> getCost(){
         return cost;
     }
+    public boolean hasBonusMovement(){
+        return !bonusMovement.isEmpty();
+    }
+    public boolean hasAdditionalAttacks(){
+        return !additionalAttacks.isEmpty();
+    }
 }
