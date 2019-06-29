@@ -16,4 +16,6 @@ public enum Dialog {
     TARGET_PLAYER,
     SKIP,
     USER_CONNECTED,
+    INVALID_SELECTION,
+    NEW_SELECTION
 }

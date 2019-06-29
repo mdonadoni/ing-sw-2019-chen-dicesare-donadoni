@@ -13,5 +13,7 @@
   "action_select": "Scegli la mossa che vuoi fare",
   "target_player": "Scegli da {0} a {1} avversari come target",
   "skip": "Hai scelto di saltare il tuo turno",
-  "user_connected": "Utente {0} si è connesso"
+  "user_connected": "Utente {0} si è connesso",
+  "invalid_selection": "Selezione non valida",
+  "new_selection": "Nuova selezione"
 }
