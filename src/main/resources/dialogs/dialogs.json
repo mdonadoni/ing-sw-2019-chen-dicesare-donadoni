@@ -18,5 +18,6 @@
   "user_connected": "Utente {0} si è connesso",
   "invalid_selection": "Selezione non valida",
   "new_selection": "Nuova selezione",
-  "invalid_integer": "Inserisci un intero valido"
+  "invalid_integer": "Inserisci un intero valido",
+  "confirm": "Conferma"
 }

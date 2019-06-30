@@ -18,7 +18,7 @@ public class DummyViewGUI extends LocalView {
 
     @Override
     public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, Dialog dialog) {
-        return new ArrayList<>(gui.selectObject(objUuid, min, max));
+        return new ArrayList<>(gui.selectObject(objUuid, min, max, dialog));
     }
 
     @Override
