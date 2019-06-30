@@ -57,7 +57,7 @@ public class ActionSupplier {
     }
 
     public List<Action> getActions(){
-        return actions;
+        return new ArrayList<>(actions);
     }
 
 }

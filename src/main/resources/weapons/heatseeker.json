@@ -5,6 +5,7 @@
   "additionalRechargeColor": "RED",
   "attacks": [
     {
+      "id": "J256M8GE3",
       "chainAttack": false,
       "baseFire": [
         {

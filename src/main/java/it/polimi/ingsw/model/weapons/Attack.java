@@ -13,10 +13,12 @@ public class Attack extends Identifiable {
     private List<MovementEffect> bonusMovement = new ArrayList<>();
     private List<Attack> additionalAttacks = new ArrayList<>();
     private List<AmmoColor> cost = new ArrayList<>();
+    private String descriptionId;
 
     Attack(){ }
 
     Attack(JsonNode json){
+        descriptionId = json.get("id").asText();
         chainAttack = json.get("chainAttack").asBoolean();
         for(JsonNode target : json.get("baseFire")){
             if(target.get("type").asText().equals("player"))
@@ -69,5 +71,8 @@ public class Attack extends Identifiable {
     }
     public boolean hasAdditionalAttacks(){
         return !additionalAttacks.isEmpty();
+    }
+    public String getDescriptionId(){
+        return descriptionId;
     }
 }

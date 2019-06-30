@@ -8,6 +8,7 @@
   "additionalRechargeColor": "BLUE",
   "attacks": [
     {
+      "id": "ABCDEFGH",
       "chainAttack": false,
       "baseFire": [
         {
@@ -43,6 +44,7 @@
       ],
       "additionalAttacks": [
         {
+          "id": "123456789",
           "chainAttack": false,
           "baseFire": [],
           "additionalAttacks": [],

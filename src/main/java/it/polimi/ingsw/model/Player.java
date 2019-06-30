@@ -540,7 +540,29 @@ public class Player extends Identifiable{
                 availableActions.add(act);
         }
 
+        if (getActivablePowerups().isEmpty()) {
+            availableActions = availableActions.stream()
+                    .filter(act -> !act.getActions().contains(BasicAction.POWERUP))
+                    .collect(Collectors.toList());
+        }
+        if(!canShoot()){
+            availableActions = availableActions.stream()
+                    .filter(act -> !act.getActions().contains(BasicAction.SHOOT))
+                    .collect(Collectors.toList());
+        }
+
         return availableActions;
+    }
+
+    private boolean canShoot(){
+        boolean result = false;
+
+        for(Weapon wp : weapons){
+            if(wp.isCharged())
+                result = true;
+        }
+
+        return result;
     }
 
     /**

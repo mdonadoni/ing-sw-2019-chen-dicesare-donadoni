@@ -298,12 +298,17 @@ public class ActionController {
         }
         else{
             player.addDrawnPowerUp(toBeDrawn);
+            updater.updateModel(player.getNickname());
             // Now the player has to select which powerup it wants to discard
-            PowerUp selectedPwu = remotePlayer.selectIdentifiable(player.getPowerUps(), 1, 1, Dialog.DISCARD_POWERUP).get(0);
+            List <PowerUp> tempList = new ArrayList<>();
+            tempList.addAll(player.getPowerUps());
+            tempList.addAll(player.getDrawnPowerUps());
+            PowerUp selectedPwu = remotePlayer.selectIdentifiable(tempList, 1, 1, Dialog.DISCARD_POWERUP).get(0);
             // Clear up the things
             player.removePowerUp(selectedPwu);
             match.getGameBoard().getPowerUpDeck().discard(selectedPwu);
-            player.addPowerUp(toBeDrawn);
+            if(!toBeDrawn.equals(selectedPwu))
+                player.addPowerUp(toBeDrawn);
             player.clearDrawnPowerUps(); // Clear the player's hand
         }
 

@@ -5,6 +5,7 @@
   "additionalRechargeColor": "BLUE",
   "attacks": [
     {
+      "id": "s5l3WKQeS",
       "chainAttack": false,
       "baseFire": [
         {
@@ -27,6 +28,7 @@
       ],
       "additionalAttacks": [
         {
+          "id": "EUpDfAAF1",
           "chainAttack": true,
           "baseFire": [
             {
@@ -49,6 +51,7 @@
           ],
           "additionalAttacks": [
             {
+              "id": "MAOw5iHzA",
               "chainAttack": true,
               "baseFire": [
                 {

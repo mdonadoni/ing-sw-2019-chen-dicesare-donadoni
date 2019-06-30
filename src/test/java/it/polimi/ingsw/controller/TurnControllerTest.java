@@ -46,19 +46,19 @@ class TurnControllerTest {
         player = match.getPlayerByNickname("Alfonsina");
         blueSpawn = match.getGameBoard().getBoard().getSpawnPointByColor(AmmoColor.BLUE);
 
-        movAction = player.supplyActions(match.getFinalFrenzy()).stream()
+        movAction = ActionSupplier.getInstance().getActions().stream()
                 .filter(e -> e.canOnlyMove() && e.getActions().size() == 3)
                 .collect(Collectors.toList())
                 .get(0);
-        grabAction = player.supplyActions(match.getFinalFrenzy()).stream()
+        grabAction = ActionSupplier.getInstance().getActions().stream()
                 .filter(e -> e.canMove() && e.canGrab())
                 .collect(Collectors.toList())
                 .get(0);
-        usePwu = player.supplyActions(match.getFinalFrenzy()).stream()
+        usePwu = ActionSupplier.getInstance().getActions().stream()
                 .filter(e -> !e.expendsUse())
                 .collect(Collectors.toList())
                 .get(0);
-        skip = player.supplyActions(match.getFinalFrenzy()).stream()
+        skip = ActionSupplier.getInstance().getActions().stream()
                 .filter(e -> e.getActions().contains(BasicAction.SKIP))
                 .collect(Collectors.toList())
                 .get(0);

@@ -3,10 +3,12 @@ package it.polimi.ingsw.model.minified;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.Identifiable;
+import it.polimi.ingsw.model.weapons.Attack;
 import it.polimi.ingsw.model.weapons.Weapon;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MiniWeapon extends Identifiable implements Serializable {
 
@@ -15,6 +17,7 @@ public class MiniWeapon extends Identifiable implements Serializable {
     private final boolean charged;
     private final ArrayList<AmmoColor> pickupColor;
     private final AmmoColor additionalRechargeColor;
+    private final List<MiniAttack> attacks;
 
     @JsonCreator
     private MiniWeapon() {
@@ -22,6 +25,7 @@ public class MiniWeapon extends Identifiable implements Serializable {
         charged = false;
         pickupColor = null;
         additionalRechargeColor = null;
+        attacks = null;
     }
 
     MiniWeapon(Weapon weapon) {
@@ -30,6 +34,9 @@ public class MiniWeapon extends Identifiable implements Serializable {
         this.charged = weapon.isCharged();
         this.pickupColor = new ArrayList<>(weapon.getPickupColor());
         this.additionalRechargeColor = weapon.getAdditionalRechargeColor();
+        attacks = new ArrayList<>();
+        for(Attack atk : weapon.getAttacks())
+            attacks.add(new MiniAttack(atk));
     }
 
     public String getName() {
