@@ -70,9 +70,9 @@ class ShootControllerTest {
 
         // Inject all the choices
         // There's only 1 attack so there's no need to inject it, it will be automatically selected
-        adaView.toBeSelected.add(daniel.getUuid()); // Hit Daniel
-        adaView.toBeSelected.add(attack.getAdditionalAttacks().get(0).getUuid());
-        adaView.toBeSelected.add(bruce.getUuid());
+        adaView.addSelectable(daniel.getUuid()); // Hit Daniel
+        adaView.addSelectable(attack.getAdditionalAttacks().get(0).getUuid());
+        adaView.addSelectable(bruce.getUuid());
 
         controller.shoot(ada, weapon);
 
@@ -96,8 +96,8 @@ class ShootControllerTest {
         daniel.move(board.getSquare(new Coordinate(2, 3)));
 
         // Inject the choices
-        adaView.toBeSelected.add(daniel.getUuid());
-        adaView.toBeSelected.add(board.getSquare(new Coordinate(2, 1)).getUuid());
+        adaView.addSelectable(daniel.getUuid());
+        adaView.addSelectable(board.getSquare(new Coordinate(2, 1)).getUuid());
 
         controller.shoot(ada, weapon);
 
@@ -122,9 +122,9 @@ class ShootControllerTest {
         ada.addAmmo(AmmoColor.BLUE);
 
         // Inject choices
-        adaView.toBeSelected.add(weapon.getAttacks().get(1).getUuid());
-        adaView.toBeSelected.add(daniel.getUuid());
-        adaView.toBeSelected.add(board.getSquare(new Coordinate(2, 1)).getUuid());
+        adaView.addSelectable(weapon.getAttacks().get(1).getUuid());
+        adaView.addSelectable(daniel.getUuid());
+        adaView.addSelectable(board.getSquare(new Coordinate(2, 1)).getUuid());
 
         controller.shoot(ada, weapon);
 
@@ -149,7 +149,7 @@ class ShootControllerTest {
         ada.addAmmo(AmmoColor.RED);
 
         // Inject choices
-        adaView.toBeSelected.add(weapon.getAttacks().get(1).getUuid());
+        adaView.addSelectable(weapon.getAttacks().get(1).getUuid());
 
         controller.shoot(ada, weapon);
 
@@ -170,9 +170,9 @@ class ShootControllerTest {
         daniel.move(board.getSquare(new Coordinate(2, 3)));
 
         // Inject Choices
-        adaView.toBeSelected.add(weapon.getAttacks().get(0).getBonusMovement().get(0).getUuid());
-        adaView.toBeSelected.add(board.getSquare(new Coordinate(0,1)).getUuid());
-        adaView.toBeSelected.add(charlie.getUuid());
+        adaView.addSelectable(weapon.getAttacks().get(0).getBonusMovement().get(0).getUuid());
+        adaView.addSelectable(board.getSquare(new Coordinate(0,1)).getUuid());
+        adaView.addSelectable(charlie.getUuid());
 
         controller.shoot(ada, weapon);
 
@@ -180,5 +180,17 @@ class ShootControllerTest {
         assertEquals(charlie.getDamageTaken().size(), 2);
         assertEquals(charlie.getMarks().size(), 0);
         assertEquals(charlie.getSquare(),board.getSquare(new Coordinate(1, 0)));
+    }
+
+    @Test
+    void machinegunTest() throws RemoteException{
+        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/machinegun.json"));
+        ada.grabWeapon(weapon);
+        ada.move(board.getSquare(new Coordinate(1, 1)));
+        bruce.move(board.getSquare(new Coordinate(1, 2)));
+        charlie.move(board.getSquare(new Coordinate(1, 0)));
+        daniel.move(board.getSquare(new Coordinate(2, 2)));
+
+
     }
 }

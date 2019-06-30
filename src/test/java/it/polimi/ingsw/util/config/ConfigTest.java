@@ -13,7 +13,7 @@ class ConfigTest {
     @Test
     void loadJson() {
         Config.loadJson(getClass().getResourceAsStream("/configtest.json"));
-        assertEquals(Config.getMinPlayers(), 12);
+        assertEquals(Config.getMinPlayers(), 3);
         assertEquals(Config.getHostname(), "10.0.0.1");
     }
 }

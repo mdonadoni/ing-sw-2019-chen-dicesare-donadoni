@@ -71,20 +71,20 @@ class TurnControllerTest {
         player.move(blueSpawn);
 
         // First we have to choose the action
-        alfView.toBeSelected.add(movAction.getUuid());
+        alfView.addSelectable(movAction.getUuid());
 
         // The choices should be only two: first movement + second movement (distance 3 each)
         // Impose first movement
         List<Square> firstMovList = blueSpawn.getSquaresByDistance(3);
         Square firstMov = firstMovList.get(rand.nextInt(firstMovList.size()));
-        alfView.toBeSelected.add(firstMov.getUuid());
+        alfView.addSelectable(firstMov.getUuid());
         // Choose second action
-        alfView.toBeSelected.add(movAction.getUuid());
+        alfView.addSelectable(movAction.getUuid());
 
         // Impose second movement
         List<Square> secondMovList = firstMov.getSquaresByDistance(3);
         Square secondMov = secondMovList.get(rand.nextInt(secondMovList.size()));
-        alfView.toBeSelected.add(secondMov.getUuid());
+        alfView.addSelectable(secondMov.getUuid());
         turnController.startTurn();
 
         // Let's see if everything has gone right
@@ -101,22 +101,22 @@ class TurnControllerTest {
         player.move(blueSpawn);
 
         // First action: movement
-        alfView.toBeSelected.add(movAction.getUuid());
+        alfView.addSelectable(movAction.getUuid());
 
         // Where shall we move?
         List<Square> movList = blueSpawn.getSquaresByDistance(3);
         Square firstMov = movList.get(rand.nextInt(movList.size()));
-        alfView.toBeSelected.add(firstMov.getUuid());
+        alfView.addSelectable(firstMov.getUuid());
 
         // Second action: grab
-        alfView.toBeSelected.add(grabAction.getUuid());
+        alfView.addSelectable(grabAction.getUuid());
 
         // Another movement, must end on a standard square
         movList = firstMov.getSquaresByDistance(1).stream()
                 .filter(e -> match.getGameBoard().getBoard().isStandardSquare(e.getCoordinates()))
                 .collect(Collectors.toList());
         StandardSquare secondMov = (StandardSquare) movList.get(rand.nextInt(movList.size()));
-        alfView.toBeSelected.add(secondMov.getUuid());
+        alfView.addSelectable(secondMov.getUuid());
 
         AmmoTile tile = secondMov.getAmmoTile();
 
@@ -135,14 +135,14 @@ class TurnControllerTest {
     void turnGrabGrabReload() throws RemoteException{
         player.move(blueSpawn);
         // The only action of this turn, will be repeated
-        alfView.toBeSelected.add(grabAction.getUuid());
+        alfView.addSelectable(grabAction.getUuid());
 
         // Where do we go?
         List<Square> movList = blueSpawn.getSquaresByDistance(1).stream()
                 .filter(e -> match.getGameBoard().getBoard().isStandardSquare(e.getCoordinates()))
                 .collect(Collectors.toList());
         StandardSquare firstMov = (StandardSquare) movList.get(rand.nextInt(movList.size()));
-        alfView.toBeSelected.add(firstMov.getUuid());
+        alfView.addSelectable(firstMov.getUuid());
 
         // Inject tile
         AmmoTile firstTile = new AmmoTile(AmmoColor.RED, AmmoColor.RED, AmmoColor.YELLOW);
@@ -150,14 +150,14 @@ class TurnControllerTest {
         firstMov.setAmmoTile(firstTile);
 
         // Same action
-        alfView.toBeSelected.add(grabAction.getUuid());
+        alfView.addSelectable(grabAction.getUuid());
 
         // Second movement
         movList = firstMov.getSquaresByDistance(1).stream()
                 .filter(e -> !e.equals(firstMov) && match.getGameBoard().getBoard().isStandardSquare(e.getCoordinates()))
                 .collect(Collectors.toList());
         StandardSquare secondMov = (StandardSquare) movList.get(rand.nextInt(movList.size()));
-        alfView.toBeSelected.add(secondMov.getUuid());
+        alfView.addSelectable(secondMov.getUuid());
 
         // Inject second tile
         AmmoTile secondTile = new AmmoTile(AmmoColor.YELLOW, AmmoColor.BLUE, AmmoColor.RED);
@@ -178,8 +178,8 @@ class TurnControllerTest {
         weaponBB.addPickupColor(AmmoColor.BLUE);
         weaponBB.setCharged(false);
 
-        alfView.toBeSelected.add(weaponRR.getUuid());
-        alfView.toBeSelected.add(weaponYB.getUuid());
+        alfView.addSelectable(weaponRR.getUuid());
+        alfView.addSelectable(weaponYB.getUuid());
 
         player.grabWeapon(weaponRR);
         player.grabWeapon(weaponYB);
@@ -202,18 +202,18 @@ class TurnControllerTest {
         player.addPowerUp(teleporter);
 
         // Inject choices:
-        alfView.toBeSelected.add(movAction.getUuid());
+        alfView.addSelectable(movAction.getUuid());
         Square toMove = blueSpawn.getSquaresByDistance(3).get(1);
-        alfView.toBeSelected.add(toMove.getUuid());
+        alfView.addSelectable(toMove.getUuid());
 
         // Now we did move on a random square, we now inject the powerup usage
-        alfView.toBeSelected.add(usePwu.getUuid());
+        alfView.addSelectable(usePwu.getUuid());
         // Choose the square where to teleport
         Square toTeleport = match.getGameBoard().getBoard().getStandardSquares().get(0);
-        alfView.toBeSelected.add(teleporter.getUuid()); // He selects the only powerup available
-        alfView.toBeSelected.add(toTeleport.getUuid());
+        alfView.addSelectable(teleporter.getUuid()); // He selects the only powerup available
+        alfView.addSelectable(toTeleport.getUuid());
 
-        alfView.toBeSelected.add(skip.getUuid());
+        alfView.addSelectable(skip.getUuid());
 
         turnController.startTurn();
 

@@ -79,7 +79,7 @@ class ActionControllerTest {
         for(Square sq : redSpawn.getSquaresByDistance(2)){
             if(sq instanceof StandardSquare){
                 adaView.toBeSelected.clear();
-                adaView.toBeSelected.add(sq.getUuid());
+                adaView.addSelectable(sq.getUuid());
                 shouldEndHere = (StandardSquare) sq;
             }
         }
@@ -108,7 +108,7 @@ class ActionControllerTest {
         for(Square sq : redSpawn.getSquaresByDistance(1)){
             if(sq instanceof StandardSquare){
                 adaView.toBeSelected.clear();
-                adaView.toBeSelected.add(sq.getUuid());
+                adaView.addSelectable(sq.getUuid());
                 shouldEndHere = (StandardSquare) sq;
             }
         }
@@ -138,7 +138,7 @@ class ActionControllerTest {
         // Select a SpawnSquare different to the redSpawn
         for(Square sq : redSpawn.getSquaresByDistance(3)){
             if(!sq.equals(redSpawn) && sq instanceof SpawnPoint){
-                adaView.toBeSelected.add(sq.getUuid());
+                adaView.addSelectable(sq.getUuid());
                 goHereSpawn = (SpawnPoint) sq;
             }
         }
@@ -244,9 +244,9 @@ class ActionControllerTest {
         player.addPowerUp(bluePwu);
         player.addPowerUp(new PowerUp(PowerUpType.TELEPORTER, AmmoColor.YELLOW));
 
-        adaView.toBeSelected.add(weaponOne.getUuid());
-        adaView.toBeSelected.add(bluePwu.getUuid());
-        adaView.toBeSelected.add(weaponThree.getUuid());
+        adaView.addSelectable(weaponOne.getUuid());
+        adaView.addSelectable(bluePwu.getUuid());
+        adaView.addSelectable(weaponThree.getUuid());
 
         // Do the thing
         controller.performAction(player, action);
@@ -298,7 +298,7 @@ class ActionControllerTest {
         player.addPowerUp(newton);
         player.addPowerUp(targeting);
 
-        adaView.toBeSelected.add(teleporter.getUuid());
+        adaView.addSelectable(teleporter.getUuid());
 
         controller.performAction(player, action);
 
