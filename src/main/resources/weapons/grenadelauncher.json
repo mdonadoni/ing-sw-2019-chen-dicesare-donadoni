@@ -1,0 +1,72 @@
+{
+  "name": "grenadelauncher",
+  "charged": true,
+  "pickupColor": [],
+  "additionalRechargeColor": "RED",
+  "attacks": [
+    {
+      "id": "CV1RWH32M",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": -1,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "DAMAGE"
+            },
+            {
+              "type": "movement",
+              "value": 1,
+              "line": false,
+              "fixed": false,
+              "self": false,
+              "visibleDest": "DC"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [
+        {
+          "id": "8BfTKWgRc",
+          "chainAttack": false,
+          "baseFire": [
+            {
+              "type": "square",
+              "numberOfTargets": 1,
+              "visibility": "VISIBLE",
+              "minDistance": -1,
+              "maxDistance": -1,
+              "exclusive": false,
+              "inherited": false,
+              "special": ["AOE"],
+              "effects": [
+                {
+                  "type": "harmful",
+                  "value": 1,
+                  "harm": "DAMAGE"
+                }
+              ],
+              "maxPlayerDistance": 0,
+              "numberOfPlayers": 5,
+              "vortex": false
+            }
+          ],
+          "additionalAttacks": [],
+          "bonusMovement": [],
+          "cost": ["RED"]
+        }
+      ],
+      "bonusMovement": [],
+      "cost": []
+    }
+  ]
+}

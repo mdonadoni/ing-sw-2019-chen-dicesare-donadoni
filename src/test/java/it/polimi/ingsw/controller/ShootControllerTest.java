@@ -237,4 +237,26 @@ class ShootControllerTest {
         assertEquals(charlie.getDamageTaken().size(), 1);
         assertEquals(daniel.getDamageTaken().size(), 1);
     }
+
+    @Test
+    void flamethrowerTest() throws RemoteException{
+        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/flamethrower.json"));
+        ada.grabWeapon(weapon);
+        ada.move(board.getSquare(new Coordinate(2, 0)));
+        bruce.move(board.getSquare(new Coordinate(1, 0)));
+        charlie.move(board.getSquare(new Coordinate(0, 0)));
+        daniel.move(board.getSquare(new Coordinate(2, 1)));
+
+        ada.addAmmo(AmmoColor.YELLOW);
+        ada.addAmmo(AmmoColor.YELLOW);
+
+        // Inject choices
+        adaView.addSelectable(weapon.getAttacks().get(1).getUuid());
+        adaView.addSelectable(Arrays.asList(bruce.getSquare().getUuid(), charlie.getSquare().getUuid()));
+
+        controller.shoot(ada, weapon);
+
+        assertEquals(bruce.getDamageTaken().size(), 2);
+        assertEquals(charlie.getDamageTaken().size(), 1);
+    }
 }

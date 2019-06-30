@@ -1,0 +1,65 @@
+{
+  "name": "zx2",
+  "charged": true,
+  "pickupColor": ["RED"],
+  "additionalRechargeColor": "YELLOW",
+  "attacks": [
+    {
+      "id": "2mluHdh5L",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": -1,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "DAMAGE"
+            },
+            {
+              "type": "harmful",
+              "value": 2,
+              "harm": "MARK"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    },
+    {
+      "id": "C8xh12Faa",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 3,
+          "visibility": "VISIBLE",
+          "minDistance": -1,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "MARK"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    }
+  ]
+}

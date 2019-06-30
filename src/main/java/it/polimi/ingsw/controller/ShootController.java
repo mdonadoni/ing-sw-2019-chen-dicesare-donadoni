@@ -8,9 +8,7 @@ import it.polimi.ingsw.model.Square;
 import it.polimi.ingsw.model.weapons.*;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -78,9 +76,17 @@ public class ShootController {
                     .collect(Collectors.toList());
 
             if(!selectableAdditional.isEmpty()){ // If the list is empty, it's pointless to go on
-                List<Attack> selected = remotePlayer.selectIdentifiable(selectableAdditional, 0, 1, Dialog.WEAPON_ATTACK);
+                List<Attack> selected;
+                // If there is only one selectable additional attack and it's cost is zero, then it's
+                // auto-activated, since some weapons are tricky to do and we need this workaround
+                if(selectableAdditional.size() == 1 && selectableAdditional.get(0).getCost().isEmpty()){
+                    selected = selectableAdditional;
+                }
+                else{ // Standard path, go on with the attack selection
+                    selected = remotePlayer.selectIdentifiable(selectableAdditional, 0, 1, Dialog.WEAPON_ATTACK);
+                }
 
-                if(selected.isEmpty())
+                if(selected.isEmpty()) // If nothing has been selected, there's no point in continue prompting the player
                     noSelection = true;
                 else{
                     doAttack(player, selected.get(0));
@@ -197,6 +203,12 @@ public class ShootController {
             compatible = true;
         }
 
+        // If the target is inherited, just set as target the fixed square
+        if(target.isInherited()){
+            compatible = true;
+            selectedSquares = Collections.singletonList(targetFixedSquare);
+        }
+
         // Ask the user which squares he wants to target
         while (!compatible){
             selectedSquares = remotePlayer.selectIdentifiable(targetSquares, 0, maxSq, Dialog.TARGET_SQUARE);
@@ -211,9 +223,13 @@ public class ShootController {
         if(!selectedSquares.isEmpty() && target.isRoom())
             selectedSquares = selectedSquares.get(0).getRoomSquares();
 
-        // If it's a vortex-target, make it fixed
-        if(target.isVortex())
-            targetFixedSquare = selectedSquares.get(0);
+        // If it's a vortex-target, make it fixed (in case of doubt, the nearest one)
+        if(target.isVortex()){
+            targetFixedSquare = selectedSquares.stream()
+                    .sorted(Comparator.comparingInt(sq -> sq.getDistance(player.getSquare())))
+                    .collect(Collectors.toList())
+                    .get(0);
+        }
 
         List<Player> targetPlayers = new ArrayList<>();
         List<Player> possibleTargets;

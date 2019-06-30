@@ -1,0 +1,96 @@
+{
+  "name": "flamethrower",
+  "charged": true,
+  "pickupColor": [],
+  "additionalRechargeColor": "RED",
+  "attacks": [
+    {
+      "id": "PmfLXgGCh",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "square",
+          "numberOfTargets": 2,
+          "visibility": "DC",
+          "minDistance": 1,
+          "maxDistance": 2,
+          "exclusive": false,
+          "inherited": false,
+          "special": ["LINE"],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "DAMAGE"
+            }
+          ],
+          "maxPlayerDistance": 0,
+          "numberOfPlayers": 1,
+          "vortex": false
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    },
+    {
+      "id": "QYOqr7EtU",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "square",
+          "numberOfTargets": 2,
+          "visibility": "DC",
+          "minDistance": 1,
+          "maxDistance": 2,
+          "exclusive": false,
+          "inherited": false,
+          "special": ["LINE", "AOE"],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "DAMAGE"
+            }
+          ],
+          "maxPlayerDistance": 0,
+          "numberOfPlayers": 5,
+          "vortex": true
+        }
+      ],
+      "additionalAttacks": [
+        {
+          "id": "6YNL3upeS",
+          "chainAttack": false,
+          "baseFire": [
+            {
+              "type": "square",
+              "numberOfTargets": 1,
+              "visibility": "VISIBLE",
+              "minDistance": 1,
+              "maxDistance": 1,
+              "exclusive": false,
+              "inherited": true,
+              "special": ["AOE"],
+              "effects": [
+                {
+                  "type": "harmful",
+                  "value": 1,
+                  "harm": "DAMAGE"
+                }
+              ],
+              "maxPlayerDistance": 0,
+              "numberOfPlayers": 5,
+              "vortex": false
+            }
+          ],
+          "additionalAttacks": [],
+          "bonusMovement": [],
+          "cost": []
+        }
+      ],
+      "bonusMovement": [],
+      "cost": ["YELLOW", "YELLOW"]
+    }
+  ]
+}

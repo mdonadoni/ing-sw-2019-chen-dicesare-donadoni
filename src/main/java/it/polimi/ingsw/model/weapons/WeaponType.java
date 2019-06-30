@@ -1,13 +1,20 @@
 package it.polimi.ingsw.model.weapons;
 
 public enum WeaponType {
+    CYBERBLADE,
     ELECTROSCYTHE,
+    FLAMETHROWER,
+    FURNACE,
+    GRENADELAUNCHER,
+    HEATSEEKER,
+    HELLION,
     LOCKRIFLE,
     MACHINEGUN,
+    PLASMAGUN,
+    SHOTGUN,
     TRACTORBEAM,
     THOR,
-    PLASMAGUN,
-    WHISPER,
     VORTEXCANNON,
-    FURNACE
+    WHISPER,
+    ZX2
 }

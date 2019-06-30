@@ -1,0 +1,68 @@
+{
+  "name": "shotgun",
+  "charged": true,
+  "pickupColor": ["YELLOW"],
+  "additionalRechargeColor": "YELLOW",
+  "attacks": [
+    {
+      "id": "GU1iHAO9n",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": -1,
+          "maxDistance": 0,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 3,
+              "harm": "DAMAGE"
+            },
+            {
+              "type": "movement",
+              "value": 1,
+              "line": false,
+              "fixed": false,
+              "self": false,
+              "visibleDest": "DC"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    },
+    {
+      "id": "pxOcEfYqZ",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": 1,
+          "maxDistance": 1,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 2,
+              "harm": "DAMAGE"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    }
+  ]
+}
