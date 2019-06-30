@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.*;
 
 import java.rmi.RemoteException;
@@ -58,7 +59,7 @@ public class GameController implements Runnable{
 
             // Send tempPowerUps and wait for a response
             LOG.log(Level.INFO, "Sending message to {0}", player.getNickname());
-            chosenPwu = remotePlayer.selectIdentifiable(tempPowerUps, 1, 1, SelectDialog.SPAWN_DIALOG).get(0);
+            chosenPwu = remotePlayer.selectIdentifiable(tempPowerUps, 1, 1, Dialog.SPAWN).get(0);
 
             player.removeDrawnPowerUp(chosenPwu);
             player.discardPowerUp(chosenPwu);

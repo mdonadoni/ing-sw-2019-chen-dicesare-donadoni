@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.view.gui.component.UserViewGUI;
 import it.polimi.ingsw.view.gui.util.Notification;
@@ -10,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -20,18 +20,15 @@ import java.util.Optional;
 public class ViewGUI extends Application {
     Stage primaryStage;
     DummyViewGUI dummy;
-    UserViewGUI userView;
-    BorderPane mainPane;
+    UserViewGUI mainPane;
     Button confirmSelection;
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
-        mainPane = new BorderPane();
-        confirmSelection = new Button("Conferma");
-        confirmSelection.setDisable(true);
-        mainPane.setBottom(confirmSelection);
+        // Create mainPane for game view
+        mainPane = new UserViewGUI();
 
         // Construct dummy view
         dummy = new DummyViewGUI(this);
@@ -139,7 +136,7 @@ public class ViewGUI extends Application {
 
         MiniModel miniModel = new MiniModel(match, match.getPlayerByNickname("thatDc"));
 
-        userView = new UserViewGUI(miniModel);
+        userView = new ModelGUI(miniModel);
         confirmSelection = new Button("Conferma");
         confirmSelection.setDisable(true);
 
@@ -166,23 +163,32 @@ public class ViewGUI extends Application {
         }).start();*/
     }
 
+    @Override
     public void stop() {
-        dummy.closeConnection();
+        System.exit(0);
     }
 
-    public List<String> selectObject(List<String> objUuid, int min, int max) {
+    public List<String> selectObject(List<String> objUuid, int min, int max, Dialog dialog) {
+        // find selectables
         List<Selectable> selectables = new ArrayList<>();
         for (String uuid : objUuid) {
-            Selectable s = userView.findSelectable(uuid);
+            Selectable s = mainPane.findSelectable(uuid);
             if (s == null) {
                 throw new RuntimeException("Selectable not found: " + uuid);
             }
             selectables.add(s);
         }
 
-        SelectionManager selectionManager = new SelectionManager(selectables, confirmSelection, min, max);
+        // Start SelectionManager
+        SelectionManager selectionManager = new SelectionManager(selectables, mainPane.getConfirmButton(), min, max);
         selectionManager.start();
-        return selectionManager.getSelected();
+        // Put dialog text
+        mainPane.setDialog(dialog, Integer.toString(min), Integer.toString(max));
+        // Get selected
+        List<String> selected = selectionManager.getSelected();
+        // Remove dialog text
+        mainPane.removeDialog();
+        return selected;
     }
 
     public void showMessage(String message) {
@@ -190,11 +196,8 @@ public class ViewGUI extends Application {
     }
 
     public void updateModel(MiniModel model) {
-        userView = new UserViewGUI(model);
-        Platform.runLater(() -> {
-            mainPane.setCenter(userView);
-            primaryStage.getScene().setRoot(mainPane);
-        });
+        mainPane.setModel(model);
+        Platform.runLater(() -> primaryStage.getScene().setRoot(mainPane));
     }
 
     public void disconnect() {

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerToken;
@@ -76,7 +77,7 @@ public class ShootController {
                     .collect(Collectors.toList());
 
             if(!selectableAdditional.isEmpty()){ // If the list is empty, it's pointless to go on
-                List<Attack> selected = remotePlayer.selectIdentifiable(selectableAdditional, 0, 1, SelectDialog.WEAPON_ATTACK_DIALOG);
+                List<Attack> selected = remotePlayer.selectIdentifiable(selectableAdditional, 0, 1, Dialog.WEAPON_ATTACK);
 
                 if(selected.isEmpty())
                     noSelection = true;
@@ -113,7 +114,7 @@ public class ShootController {
         else if (usableAttacks.size() == 1) // If there is only a possible choice, there is no need to ask the user
             return usableAttacks.get(0);
 
-        return remotePlayer.selectIdentifiable(usableAttacks, 1, 1, SelectDialog.WEAPON_ATTACK_DIALOG).get(0);
+        return remotePlayer.selectIdentifiable(usableAttacks, 1, 1, Dialog.WEAPON_ATTACK).get(0);
     }
 
     public void manageMovement(Player source, Player target, MovementEffect movement) throws RemoteException{
@@ -134,7 +135,7 @@ public class ShootController {
         // TODO: isFixed case
 
         // Ask the user
-        Square destSquare = remotePlayer.selectIdentifiable(possibleDestination, 1, 1, SelectDialog.MOVE_DIALOG).get(0);
+        Square destSquare = remotePlayer.selectIdentifiable(possibleDestination, 1, 1, Dialog.MOVE).get(0);
 
         // Actually move the target
         target.move(destSquare);
@@ -145,7 +146,7 @@ public class ShootController {
         boolean expends = false;
         if(!bonusMovementExpended && attack.hasBonusMovement()){
             List<MovementEffect> mov = new ArrayList<>(attack.getBonusMovement());
-            if(!remotePlayer.selectIdentifiable(mov, 0, 1 ,SelectDialog.BONUS_MOV_DIALOG).isEmpty()){
+            if(!remotePlayer.selectIdentifiable(mov, 0, 1 , Dialog.BONUS_MOVEMENT).isEmpty()){
                 manageMovement(player, player, mov.get(0));
                 expends = true;
             }
@@ -194,7 +195,7 @@ public class ShootController {
 
         // Ask the user which squares he wants to target
         while (!compatible){
-            selectedSquares = remotePlayer.selectIdentifiable(targetSquares, 0, maxSq, SelectDialog.TARGET_SQUARE_DIALOG);
+            selectedSquares = remotePlayer.selectIdentifiable(targetSquares, 0, maxSq, Dialog.TARGET_SQUARE);
             if(target.compatibleTargetSquares(player, selectedSquares))
                 compatible = true;
             else{
@@ -230,7 +231,7 @@ public class ShootController {
                         possibleTargets.add(en); // Add him to the list of possible victims
                 }
                 // Ask the user for a target
-                targetPlayers.addAll(remotePlayer.selectIdentifiable(possibleTargets, 0, maxPlayers, SelectDialog.SHOOT_TARGET_DIALOG));
+                targetPlayers.addAll(remotePlayer.selectIdentifiable(possibleTargets, 0, maxPlayers, Dialog.SHOOT_TARGET));
             }
         }
 
@@ -285,7 +286,7 @@ public class ShootController {
 
         // Ask the player who he wants to attacks
         while(!compatible){
-            targets = remotePlayer.selectIdentifiable(enemies, 0, max, SelectDialog.SHOOT_TARGET_DIALOG);
+            targets = remotePlayer.selectIdentifiable(enemies, 0, max, Dialog.SHOOT_TARGET);
             if(!target.compatibleTargetPlayers(player, targets)){
                 // TODO: showMessage() to notify the targets are not compatible
             }

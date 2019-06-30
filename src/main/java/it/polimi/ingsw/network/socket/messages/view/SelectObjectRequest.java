@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.socket.messages.view;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.polimi.ingsw.controller.SelectDialog;
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.network.LocalView;
 import it.polimi.ingsw.network.socket.messages.Message;
 
@@ -32,7 +32,7 @@ public class SelectObjectRequest extends RequestViewMethod {
     /**
      * Enum that represents the dialog type
      */
-    private SelectDialog dialog;
+    private Dialog dialog;
 
     /**
      * Constructor of a SelectObjectRequest.
@@ -45,10 +45,11 @@ public class SelectObjectRequest extends RequestViewMethod {
     public SelectObjectRequest(@JsonProperty("objUuid") List<String> objUuid,
                                @JsonProperty("min") int min,
                                @JsonProperty("max") int max,
-                               @JsonProperty("dialog") SelectDialog dialog) {
+                               @JsonProperty("dialog") Dialog dialog) {
         this.objUuid = new ArrayList<>(objUuid);
         this.min = min;
         this.max = max;
+        this.dialog = dialog;
     }
 
     /**

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.controller.SelectDialog;
+import it.polimi.ingsw.common.dialogs.Dialog;
+import it.polimi.ingsw.common.dialogs.Dialogs;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.LocalView;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.view.Descriptions;
 import it.polimi.ingsw.view.cli.component.ModelCLI;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,8 +34,8 @@ public class ViewCLI extends LocalView implements Runnable {
 
             connection = null;
             while (connection == null || (!connection.equals("rmi") && !connection.equals("socket"))) {
-                System.out.println("Connessione [rmi/socket]:");
-                connection = scanner.nextLine();
+                println("Connessione [rmi/socket]:");
+                connection = readLine();
             }
 
             ConnectionType type;
@@ -43,90 +45,132 @@ public class ViewCLI extends LocalView implements Runnable {
                 type = ConnectionType.SOCKET;
             }
 
-            System.out.println("Indirizzo server:");
-            String address = scanner.nextLine();
+            println("Indirizzo server:");
+            String address = readLine();
 
-            System.out.println("Porta server:");
-            int port = Integer.parseInt(scanner.nextLine());
+            println("Porta server:");
+            int port = readInt();
 
-            System.out.println("Scegli username: ");
-            String nickname = scanner.nextLine();
+            println("Scegli username: ");
+            String nickname = readLine();
 
             try {
                 connectServer(address, port, type);
                 if (!getServer().login(nickname, this)) {
-                    System.out.println("Username già utilizzato o non valido!");
+                    println("Username già utilizzato o non valido!");
                     connected = false;
                 }
             } catch (IOException e) {
                 LOG.log(Level.WARNING, "Couldn't connect to server", e);
-                System.out.println("Impossibile connettersi");
+                println("Impossibile connettersi");
                 connected = false;
             }
         }
     }
 
     @Override
-    public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, SelectDialog dialog) {
-        System.out.println("Nuova selezione");
+    public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, Dialog dialog) {
+        // Print options
+        printDialog(Dialog.NEW_SELECTION);
         for (int i = 0; i < objUuid.size(); i++) {
-            System.out.println(i + ") " + Descriptions.find(model, objUuid.get(i)));
+            println(MessageFormat.format("{0}) {1}", i ,Descriptions.find(model, objUuid.get(i))));
         }
 
-        while (true) {
-            System.out.println("Scegli da " + min + " a " + max + " elementi");
-            String res = scanner.nextLine();
-            String[] selection =  res.split("\\s+");
-            Set<String> uuid = new HashSet<>();
+        boolean validSelection = false;
+        Set<String> selectedUuid = null;
+
+        while (!validSelection) {
+            validSelection = true;
+            // Ask what to do
+            printDialog(dialog, Integer.toString(min), Integer.toString(max));
+            // Split on spaces
+            String[] selection = readLine().split("\\s+");
+            selectedUuid = new HashSet<>();
             try {
+                // For every selection
                 for (String s : selection) {
                     if (s.length() == 0) {
+                        // ignore empty strings
                         continue;
                     }
+                    // parse selection
                     int idx = Integer.parseInt(s);
-                    if (idx < 0 || idx >= objUuid.size()) {
-                        throw new RuntimeException("Invalid selection");
+                    if (idx < 0 || idx >= objUuid.size() || selectedUuid.contains(objUuid.get(idx))) {
+                        validSelection = false;
+                    } else {
+                        selectedUuid.add(objUuid.get(idx));
                     }
-                    if (uuid.contains(objUuid.get(idx))) {
-                        throw new RuntimeException("uuid already chosen");
-                    }
-                    uuid.add(objUuid.get(idx));
                 }
             } catch (Exception e) {
-                continue;
+                validSelection = false;
             }
 
-            if (uuid.size() >= min && uuid.size() <= max) {
-                return new ArrayList<>(uuid);
+            if (!validSelection || selectedUuid.size() < min || selectedUuid.size() > max) {
+                printDialog(Dialog.INVALID_SELECTION);
+                validSelection = false;
             }
         }
+
+        return new ArrayList<>(selectedUuid);
     }
 
     @Override
     public void showMessage(String message) {
-        System.out.println(message);
+        println(message);
     }
 
     @Override
     public synchronized void updateModel(MiniModel model) {
+        // Save new model
         this.model = model;
+        // Create new cli model
         ModelCLI modelCLI = new ModelCLI(model);
+        // Clear screen
         cls();
-        List<String> view = (List<String>) modelCLI.viewModel();
+        // Print model
+        List<String> view = modelCLI.viewModel();
         for (String s : view) {
-            System.out.println(s);
+            println(s);
         }
+    }
+
+    private synchronized String  readLine() {
+        return scanner.nextLine();
+    }
+
+    private synchronized int readInt() {
+        int integer = 0;
+        boolean valid = false;
+        while (!valid) {
+            valid = true;
+            try {
+                integer = Integer.parseInt(readLine());
+            } catch (NumberFormatException e) {
+                valid = false;
+            }
+
+            if (!valid) {
+                printDialog(Dialog.INVALID_INTEGER);
+            }
+        }
+        return integer;
     }
 
     private void cls() {
         for (int i = 0; i < 50; i++) {
-            System.out.println();
+            println();
         }
     }
 
-    @Override
-    public void disconnect() {
-        super.disconnect();
-        System.out.println("Disconnected from server");
+    private void printDialog(Dialog dialog, String ...params) {
+        println(Dialogs.getDialog(dialog, params));
+    }
+
+    private synchronized void println(String s) {
+        System.out.println(s);
+    }
+
+    private void println() {
+        println("");
     }
 }

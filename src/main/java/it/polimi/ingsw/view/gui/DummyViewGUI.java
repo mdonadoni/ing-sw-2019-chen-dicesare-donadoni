@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.controller.SelectDialog;
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.LocalView;
 
@@ -17,8 +17,8 @@ public class DummyViewGUI extends LocalView {
     }
 
     @Override
-    public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, SelectDialog dialog) {
-        return new ArrayList<>(gui.selectObject(objUuid, min, max));
+    public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, Dialog dialog) {
+        return new ArrayList<>(gui.selectObject(objUuid, min, max, dialog));
     }
 
     @Override

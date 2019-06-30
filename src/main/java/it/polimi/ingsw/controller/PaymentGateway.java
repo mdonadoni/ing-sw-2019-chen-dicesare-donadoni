@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.*;
 
 import java.rmi.RemoteException;
@@ -35,7 +36,7 @@ public class PaymentGateway {
                 List<PowerUp> payablePwu = player.getPowerUps().stream()
                         .filter(e -> e.getAmmo().equals(singleCost))
                         .collect(Collectors.toList());
-                PowerUp selectedPwu = remotePlayer.selectIdentifiable(payablePwu, 1, 1, SelectDialog.PAY_COST_POWERUP_DIALOG).get(0);
+                PowerUp selectedPwu = remotePlayer.selectIdentifiable(payablePwu, 1, 1, Dialog.PAY_COST_POWERUP).get(0);
                 player.removePowerUp(selectedPwu);
                 match.getGameBoard().getPowerUpDeck().discard(selectedPwu);
             }

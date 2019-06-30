@@ -1,16 +1,8 @@
 package it.polimi.ingsw.view.cli.component;
 
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.model.minified.MiniModel;
 
-import it.polimi.ingsw.model.minified.*;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.weapons.Weapon;
-
-import java.rmi.MarshalledObject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ModelCLI {
@@ -25,8 +17,8 @@ public class ModelCLI {
         this.matchCLI = new MatchCLI(miniModel.getMatch());
     }
 
-    public List viewModel(){
-        ArrayList<String> outList = new ArrayList<>();
+    public List<String> viewModel(){
+        List<String> outList = new ArrayList<>();
         String out;
         //match
         outList.addAll(matchCLI.viewMatch());

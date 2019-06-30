@@ -17,15 +17,15 @@ public class BoardCLI {
         this.miniBoard=miniBoard;
     }
 
-    public List viewBoard() {
+    public List<String> viewBoard() {
         MiniSquare ms;
-        ArrayList<String> outList = new ArrayList<>();
-        ArrayList<String> tempList1 = new ArrayList<>();
-        ArrayList<String> tempList2 = new ArrayList<>();
+        List<String> outList = new ArrayList<>();
+        List<String> tempList1 = new ArrayList<>();
+        List<String> tempList2 = new ArrayList<>();
         int r = 0;
         int c = 0;
 
-        ArrayList<MiniSquare> squares = new ArrayList();
+        List<MiniSquare> squares = new ArrayList();
         squares.addAll(miniBoard.getSpawnPoints());
         squares.addAll(miniBoard.getStandardSquares());
         int nSquare = squares.size();
@@ -41,14 +41,14 @@ public class BoardCLI {
                 nSquare--;
                 ms = searchSquare(squares, new Coordinate(r, c));
             }else {
-                tempList1 = (ArrayList<String>) viewSquare(ms);
+                tempList1 = viewSquare(ms);
                 c++;
                 nSquare--;
                 ms = searchSquare(squares, new Coordinate(r, c));
             }
             while (ms != null) {
                 //square
-                tempList2 = (ArrayList<String>) viewSquare(ms);
+                tempList2 = viewSquare(ms);
                 CharCli.concatRow(tempList1, tempList2);
                 nSquare--;
                 c++;
@@ -63,7 +63,7 @@ public class BoardCLI {
         return outList;
     }
 
-    public List viewSquare(MiniSquare ms) {
+    public List<String> viewSquare(MiniSquare ms) {
         ArrayList<String> outList = new ArrayList<>();
         String out ;
         int space;
@@ -155,7 +155,7 @@ public class BoardCLI {
         return outList;
     }
 
-    private  MiniSquare searchSquare(ArrayList<MiniSquare> list, Coordinate coordinate) {
+    private  MiniSquare searchSquare(List<MiniSquare> list, Coordinate coordinate) {
         for (MiniSquare ms : list) {
             if (coordinate.equals(ms.getCoordinates()))
                 return ms;

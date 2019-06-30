@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.controller.SelectDialog;
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 
 import java.io.IOException;
@@ -83,7 +83,7 @@ public abstract class LocalView implements View {
      * @return List of selected squares' coordinates.
      */
     @Override
-    public abstract ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, SelectDialog dialog);
+    public abstract ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, Dialog dialog);
 
     /**
      * Show a message. This method doesn't throw RemoteException because this
