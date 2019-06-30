@@ -84,7 +84,7 @@ public class ViewCLI extends LocalView implements Runnable {
             // Ask what to do
             printDialog(dialog, Integer.toString(min), Integer.toString(max));
             // Split on spaces
-            String[] selection = scanner.nextLine().split("\\s+");
+            String[] selection = readLine().split("\\s+");
             selectedUuid = new HashSet<>();
             try {
                 // For every selection
