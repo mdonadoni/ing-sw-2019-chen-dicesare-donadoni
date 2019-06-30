@@ -12,7 +12,9 @@ public class ScoreController {
 
     private static final int FIRSTBLOOD_POINTS = 1;
     private static final Integer[] DAMAGE_POINTS = new Integer[] {8, 6, 4, 2, 1, 1};
+    private static final Integer[] KILLSHOT_TRACK_POINTS = new Integer[] {8, 6, 4, 2, 1, 1};
     private static final int LOWEST_DAMAGE_POINTS = 1;
+    private static final int LOWEST_KILLSHOT_TRACK_POINTS = 1;
     private static final int OVERKILL_MARKS = 1;
     private static final int MULTIKILL_POINTS = 1;
 
@@ -47,6 +49,18 @@ public class ScoreController {
         for(Player player : match.getPlayers()){
             assignPlayerBoardScore(player);
         }
+
+        // Calculate points from the killshot track
+        List<Player> killers = match.getGameBoard().getKillShotTrackOrder().stream()
+                .map(tkn -> match.getPlayerByTokenColor(tkn))
+                .collect(Collectors.toList());
+        for(Player playerDamage : killers){
+            int pointsIndex = killers.indexOf(playerDamage);
+            if(pointsIndex < KILLSHOT_TRACK_POINTS.length)
+                playerDamage.addPoints(KILLSHOT_TRACK_POINTS[pointsIndex]);
+            else
+                playerDamage.addPoints(LOWEST_KILLSHOT_TRACK_POINTS);
+        }
     }
 
     /**
@@ -55,7 +69,7 @@ public class ScoreController {
      */
     private void assignPlayerBoardScore(Player player){
         // Assign the first blood points
-        if(!player.getDamageTaken().isEmpty())
+        if(!player.getDamageTaken().isEmpty() && !player.isBoardFlipped())
             match.getPlayerByTokenColor(player.getFirstBlood()).addPoints(FIRSTBLOOD_POINTS);
 
         // Assign damage points
@@ -96,6 +110,8 @@ public class ScoreController {
         // Add the kill to the Gameboard
         List<PlayerToken> killer = new ArrayList<>();
         killer.add(player.getLethalDamage());
+        if(player.getOverkill()!=null)
+            killer.add(player.getOverkill());
         match.getGameBoard().addKill(killer);
 
         // Finally, reset the damage, so that the player can play again
