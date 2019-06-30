@@ -50,8 +50,6 @@ public class RemotePlayer {
 
     private Consumer<RemotePlayer> disconnectionCallback;
 
-    private final Object disconnectionCallbackLock = new Object();
-
     /**
      * Constructs a RemotePlayer with no time left.
      * @param view
@@ -84,7 +82,7 @@ public class RemotePlayer {
      * Set the time left for requests.
      * @param timeLeft Time left in milliseconds.
      */
-    public synchronized void setTimeLeft(long timeLeft) {
+    public void setTimeLeft(long timeLeft) {
         this.timeLeft = timeLeft;
     }
 
@@ -125,7 +123,7 @@ public class RemotePlayer {
      * @return Result of task.
      * @throws RemoteException If there is a network error or a timeout is reached.
      */
-    private synchronized <T> T makeTimedRequest(Callable<T> task) throws RemoteException {
+    private <T> T makeTimedRequest(Callable<T> task) throws RemoteException {
         double initialTime = new Date().getTime();
         T res;
         try {
@@ -151,10 +149,8 @@ public class RemotePlayer {
                 }
             }).start();
 
-            synchronized (disconnectionCallbackLock) {
-                if (disconnectionCallback != null) {
-                    disconnectionCallback.accept(this);
-                }
+            if (disconnectionCallback != null) {
+                disconnectionCallback.accept(this);
             }
         }
     }
@@ -168,12 +164,12 @@ public class RemotePlayer {
      * @return List of chosen objects.
      * @throws RemoteException If there is an error while making the request.
      */
-    public synchronized List<String> selectObject(List<String> objUuid, int min, int max, Dialog dialog) throws RemoteException {
+    public List<String> selectObject(List<String> objUuid, int min, int max, Dialog dialog) throws RemoteException {
         ArrayList<String> array = new ArrayList<>(objUuid);
         return makeTimedRequest(() -> view.selectObject(array, min, max, dialog));
     }
 
-    public synchronized <T extends Identifiable> List<T> selectIdentifiable(List<T> objects, int min, int max, Dialog dialog) throws RemoteException {
+    public <T extends Identifiable> List<T> selectIdentifiable(List<T> objects, int min, int max, Dialog dialog) throws RemoteException {
         List<String> uuids = objects
                 .stream()
                 .map(Identifiable::getUuid)
@@ -195,7 +191,7 @@ public class RemotePlayer {
      * @param message Massage to be shown.
      * @throws RemoteException If there is an error while making the request.
      */
-    public synchronized void showMessage(String message) throws RemoteException {
+    public void showMessage(String message) throws RemoteException {
         makeTimedRequest(() -> {
             view.showMessage(message);
             return null;
@@ -208,7 +204,7 @@ public class RemotePlayer {
      * @param params List of params to be filled in the message
      * @throws RemoteException In case something goes wrong
      */
-    public synchronized void showMessage(Dialog dialogType, String...params) throws RemoteException{
+    public void showMessage(Dialog dialogType, String...params) throws RemoteException{
         showMessage(Dialogs.getDialog(dialogType, params));
     }
 
@@ -219,7 +215,7 @@ public class RemotePlayer {
      * @param timeout Timeout of the request.
      * @throws RemoteException If there is an error while making the request.
      */
-    public synchronized void showMessage(String message, long timeout) throws RemoteException {
+    public void showMessage(String message, long timeout) throws RemoteException {
         throwOnTimeout(() -> {
             view.showMessage(message);
             return null;
@@ -231,7 +227,7 @@ public class RemotePlayer {
      * @param model Model to be sent.
      * @throws RemoteException If there is an error while making the request.
      */
-    public synchronized void updateModel(MiniModel model) throws RemoteException {
+    public void updateModel(MiniModel model) throws RemoteException {
         makeTimedRequest(() -> {
             view.updateModel(model);
             return null;
@@ -245,7 +241,7 @@ public class RemotePlayer {
      * @param timeout Timeout of the request.
      * @throws RemoteException If there is a network error.
      */
-    public synchronized void updateModel(MiniModel model, long timeout) throws RemoteException {
+    public void updateModel(MiniModel model, long timeout) throws RemoteException {
         throwOnTimeout(() -> {
             view.updateModel(model);
             return null;
@@ -253,22 +249,33 @@ public class RemotePlayer {
     }
 
     /**
+     * Method to check if the connection is still up.
+     * @throws RemoteException If there is a network error.
+     */
+    public void ping() throws RemoteException {
+        makeTimedRequest(() -> {
+            view.ping();
+            return null;
+        });
+    }
+
+    /**
      * Disconnect the view
      * @throws RemoteException If there is an error while disconnecting the view.
      */
-    public synchronized void disconnect() throws RemoteException {
+    public void disconnect() throws RemoteException {
         stop();
     }
 
-    public synchronized boolean isConnected() {
+    public boolean isConnected() {
         return !executor.isShutdown();
     }
 
-    public synchronized String getNickname() {
+    public String getNickname() {
         return nickname;
     }
 
-    public synchronized void safeShowMessage(String message) {
+    public void safeShowMessage(String message) {
         final long showMessageTimeout = 5000;
         try {
             showMessage(message, showMessageTimeout);
@@ -277,17 +284,15 @@ public class RemotePlayer {
         }
     }
 
-    public synchronized void safeShowMessage(Dialog dialogType, String ...params){
+    public void safeShowMessage(Dialog dialogType, String ...params){
         safeShowMessage(Dialogs.getDialog(dialogType, params));
     }
 
     public void setDisconnectionCallback(Consumer<RemotePlayer> disconnectionCallback) {
-        synchronized (disconnectionCallbackLock) {
-            this.disconnectionCallback = disconnectionCallback;
-        }
+        this.disconnectionCallback = disconnectionCallback;
     }
 
-    public synchronized View getView(){
+    public View getView(){
         return view;
     }
 }
