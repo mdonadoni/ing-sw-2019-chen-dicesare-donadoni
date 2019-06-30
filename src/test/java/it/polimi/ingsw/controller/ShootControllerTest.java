@@ -188,9 +188,53 @@ class ShootControllerTest {
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(1, 1)));
         bruce.move(board.getSquare(new Coordinate(1, 2)));
-        charlie.move(board.getSquare(new Coordinate(1, 0)));
+        charlie.move(board.getSquare(new Coordinate(0, 1)));
         daniel.move(board.getSquare(new Coordinate(2, 2)));
 
+        // Inject selection
+        adaView.addSelectable(Arrays.asList(bruce.getUuid(), charlie.getUuid()));
 
+        controller.initShoot();
+        controller.applyTargets(ada, weapon.getAttacks().get(0));
+        Attack additionalA = weapon.getAttacks().get(0).getAdditionalAttacks().get(0); // Attack that adds one damage
+        Attack additionalB = weapon.getAttacks().get(0).getAdditionalAttacks().get(1); // Attack that adds one damage and shots a third target
+        PlayerTarget target = (PlayerTarget) additionalB.getBaseFire().get(1);
+        List<Player> hittableA = controller.getHittableEnemies(ada, (PlayerTarget) additionalA.getBaseFire().get(0));
+        List<Player> hittableB = controller.getHittableEnemies(ada, target);
+
+        assertTrue(hittableA.contains(bruce));
+        assertTrue(hittableA.contains(charlie));
+        assertFalse(hittableA.contains(daniel));
+
+        assertFalse(hittableB.contains(bruce));
+        assertFalse(hittableB.contains(charlie));
+        assertTrue(hittableB.contains(daniel));
+    }
+
+    @Test
+    void vortexTest() throws RemoteException{
+        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/vortexcannon.json"));
+        ada.grabWeapon(weapon);
+        ada.move(board.getSquare(new Coordinate(1, 2)));
+        bruce.move(board.getSquare(new Coordinate(1, 2)));
+        charlie.move(board.getSquare(new Coordinate(0, 1)));
+        daniel.move(board.getSquare(new Coordinate(2, 1)));
+
+        ada.addAmmo(AmmoColor.RED);
+
+        // Inject Selection
+        adaView.addSelectable(weapon.getAttacks().get(1).getUuid());
+        Square vortexSquare = board.getSquare(new Coordinate(1, 1));
+        adaView.addSelectable(vortexSquare.getUuid());
+        adaView.addSelectable(Arrays.asList(bruce.getUuid(), charlie.getUuid(), daniel.getUuid()));
+
+        controller.shoot(ada, weapon);
+
+        assertEquals(bruce.getSquare(), vortexSquare);
+        assertEquals(charlie.getSquare(), vortexSquare);
+        assertEquals(daniel.getSquare(), vortexSquare);
+        assertEquals(bruce.getDamageTaken().size(), 1);
+        assertEquals(charlie.getDamageTaken().size(), 1);
+        assertEquals(daniel.getDamageTaken().size(), 1);
     }
 }

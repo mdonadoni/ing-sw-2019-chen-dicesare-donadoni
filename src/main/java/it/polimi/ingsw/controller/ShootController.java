@@ -22,6 +22,7 @@ public class ShootController {
     private PaymentGateway paymentGateway;
     private List<Player> inheritedPlayerTargets;
     private List<Player> alreadyShotTargets;
+    private Square targetFixedSquare;
 
     public ShootController(Map<String, RemotePlayer> remoteUsers, Match match){
         this.remoteUsers = remoteUsers;
@@ -120,22 +121,25 @@ public class ShootController {
     public void manageMovement(Player source, Player target, MovementEffect movement) throws RemoteException{
         RemotePlayer remotePlayer = remoteUsers.get(source.getNickname());
         List<Square> possibleDestination;
+        Square destSquare;
 
-        // Filter possible destinations
-        if(movement.isLine())
-            possibleDestination = target.getSquare().getSquaresByDistanceAligned(movement.getValue());
-        else
-            possibleDestination = target.getSquare().getSquaresByDistance(movement.getValue());
+        if(movement.isFixed() && targetFixedSquare != null){
+            destSquare = targetFixedSquare;
+        } else{
+            // Filter possible destinations
+            if(movement.isLine())
+                possibleDestination = target.getSquare().getSquaresByDistanceAligned(movement.getValue());
+            else
+                possibleDestination = target.getSquare().getSquaresByDistance(movement.getValue());
 
-        if(movement.isVisibleDest().equals(Visibility.VISIBLE))
-            possibleDestination = possibleDestination.stream().filter(sq -> target.getSquare().isVisible(sq)).collect(Collectors.toList());
-        else if (movement.isVisibleDest().equals(Visibility.INVISIBLE))
-            possibleDestination = possibleDestination.stream().filter(sq -> !target.getSquare().isVisible(sq)).collect(Collectors.toList());
+            if(movement.isVisibleDest().equals(Visibility.VISIBLE))
+                possibleDestination = possibleDestination.stream().filter(sq -> target.getSquare().isVisible(sq)).collect(Collectors.toList());
+            else if (movement.isVisibleDest().equals(Visibility.INVISIBLE))
+                possibleDestination = possibleDestination.stream().filter(sq -> !target.getSquare().isVisible(sq)).collect(Collectors.toList());
 
-        // TODO: isFixed case
-
-        // Ask the user
-        Square destSquare = remotePlayer.selectIdentifiable(possibleDestination, 1, 1, Dialog.MOVE).get(0);
+            // Ask the user
+            destSquare = remotePlayer.selectIdentifiable(possibleDestination, 1, 1, Dialog.MOVE).get(0);
+        }
 
         // Actually move the target
         target.move(destSquare);
@@ -206,6 +210,10 @@ public class ShootController {
         // If it's a room target, I must select all the squares in that room
         if(!selectedSquares.isEmpty() && target.isRoom())
             selectedSquares = selectedSquares.get(0).getRoomSquares();
+
+        // If it's a vortex-target, make it fixed
+        if(target.isVortex())
+            targetFixedSquare = selectedSquares.get(0);
 
         List<Player> targetPlayers = new ArrayList<>();
         List<Player> possibleTargets;
