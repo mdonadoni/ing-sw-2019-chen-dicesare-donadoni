@@ -15,11 +15,11 @@ public class MovementEffect extends Effect {
      */
     @JsonCreator
     public MovementEffect(@JsonProperty("amount") int value){
-        setAmount(value);
+        setValue(value);
     }
 
     MovementEffect(JsonNode json){
-        setAmount(json.get("value").asInt());
+        setValue(json.get("value").asInt());
         setVisibleDest(Visibility.valueOf(json.get("visibleDest").asText().toUpperCase()));
         setLine(json.get("line").asBoolean());
         setFixed(json.get("fixed").asBoolean());

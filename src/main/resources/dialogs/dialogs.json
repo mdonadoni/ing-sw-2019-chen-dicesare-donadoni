@@ -12,6 +12,8 @@
   "select_powerup": "Scegli da {0} a {1} powerup",
   "action_select": "Scegli la mossa che vuoi fare",
   "target_player": "Scegli da {0} a {1} avversari come target",
+  "bonus_movement": "Scegli lo spostamento bonus da fare",
+  "target_square": "Scegli la casella target",
   "skip": "Hai scelto di saltare il tuo turno",
   "user_connected": "Utente {0} si è connesso",
   "invalid_selection": "Selezione non valida",

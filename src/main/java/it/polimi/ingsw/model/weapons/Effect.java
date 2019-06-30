@@ -1,33 +1,35 @@
 package it.polimi.ingsw.model.weapons;
 
-public class Effect {
-    private int amount;
+import it.polimi.ingsw.model.Identifiable;
+
+public class Effect extends Identifiable {
+    private int value;
 
     /**
-     * Standard constructor, sets amount to a standard value of 0
+     * Standard constructor, sets value to a standard value of 0
      */
     public Effect(){
-        amount = 0;
+        value = 0;
     }
 
     /**
-     * Constructor that sets 'amount'
-     * @param value sets amount attribute
+     * Constructor that sets 'value'
+     * @param value sets value attribute
      */
     public Effect(int value){
-        amount = value;
+        this.value = value;
     }
     /**
-     * @return The amount of the effect (obvious meaning for Damage, Mark, Movement)
+     * @return The value of the effect (obvious meaning for Damage, Mark, Movement)
      */
-    public int getAmount() {
-        return amount;
+    public int getValue() {
+        return value;
     }
 
     /**
-     * @param amount How much 'thing' I have to do (how much damage, how many marks, movement)
+     * @param value How much 'thing' I have to do (how much damage, how many marks, movement)
      */
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setValue(int value) {
+        this.value = value;
     }
 }
