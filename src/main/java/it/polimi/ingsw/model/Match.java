@@ -97,6 +97,8 @@ public class Match extends Identifiable{
         for(Player player : players){
             if(players.indexOf(player) > currentPlayerIndex)
                 player.setBeforeFistPlayerFF(true);
+            if(player.getDamageTaken().isEmpty())
+                player.flipBoard();
         }
 
         finalFrenzy = true;

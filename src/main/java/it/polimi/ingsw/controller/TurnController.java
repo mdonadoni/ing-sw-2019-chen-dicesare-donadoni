@@ -75,7 +75,7 @@ public class TurnController {
         if(selectedAction.expendsUse())
             movesLeft--;
         // Others dictate the end of your turn (reload), just like moving troops in Risiko
-        if(selectedAction.endsTurn())
+        if(selectedAction.getEndsTurn())
             movesLeft = 0;
     }
 }
