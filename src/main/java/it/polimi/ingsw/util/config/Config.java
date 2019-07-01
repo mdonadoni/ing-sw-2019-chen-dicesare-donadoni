@@ -14,7 +14,7 @@ public class Config {
     private static final String SKULLS = "skulls";
 
 
-    private static void init() {
+    private static synchronized void init() {
         if (config == null) {
             config = new Configurations();
             config.add(TURN_TIMEOUT, 60);
@@ -26,57 +26,57 @@ public class Config {
         }
     }
 
-    public static int getTurnTimeout() {
+    public static synchronized int getTurnTimeout() {
         init();
         return config.getInt(TURN_TIMEOUT);
     }
 
-    public static int getLobbyTimeout() {
+    public static synchronized int getLobbyTimeout() {
         init();
         return config.getInt(LOBBY_TIMEOUT);
     }
 
-    public static int getMinPlayers() {
+    public static synchronized int getMinPlayers() {
         init();
         return config.getInt(MIN_PLAYERS);
     }
 
-    public static int getMaxPlayers() {
+    public static synchronized int getMaxPlayers() {
         init();
         return config.getInt(MAX_PLAYERS);
     }
 
-    public static String getHostname() {
+    public static synchronized String getHostname() {
         init();
         return config.getString(HOSTNAME);
     }
 
-    public static int getSkulls() {
+    public static synchronized int getSkulls() {
         init();
         return config.getInt(SKULLS);
     }
 
-    public static void parseHostname(String hostname) {
+    public static synchronized void parseHostname(String hostname) {
         init();
         config.parseString(HOSTNAME, hostname);
     }
 
-    public static void parseLobbyTimeout(String timeout) {
+    public static synchronized void parseLobbyTimeout(String timeout) {
         init();
         config.parseString(LOBBY_TIMEOUT, timeout);
     }
 
-    public static void parseTurnTimeout(String timeout) {
+    public static synchronized void parseTurnTimeout(String timeout) {
         init();
         config.parseString(TURN_TIMEOUT, timeout);
     }
 
-    public static void parseSkulls(String skulls) {
+    public static synchronized void parseSkulls(String skulls) {
         init();
         config.parseString(SKULLS, skulls);
     }
 
-    public static void loadJson(InputStream stream) {
+    public static synchronized void loadJson(InputStream stream) {
         init();
         config.loadJson(stream);
     }
