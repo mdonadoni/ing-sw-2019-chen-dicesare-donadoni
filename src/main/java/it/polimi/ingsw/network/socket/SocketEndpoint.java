@@ -7,7 +7,6 @@ import it.polimi.ingsw.network.socket.messages.Message;
 
 import java.io.*;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -133,9 +132,10 @@ public class SocketEndpoint<RequestIn extends Message> implements Closeable, Run
      * @param outClass Class of incoming response.
      * @param <T> Type of incoming response
      * @return Response corresponding to given request.
-     * @throws RemoteException If something goes wrong.
+     * @throws IOException If something goes wrong.
+     * @throws InterruptedException if the request is interrupted.
      */
-    public <T extends Message> T sendAndWaitResponse(Message req, Class<T> outClass) throws RemoteException {
+    public <T extends Message> T sendAndWaitResponse(Message req, Class<T> outClass) throws IOException, InterruptedException {
         requestUUID.add(req.getUUID());
         try {
             send(req);
@@ -149,22 +149,14 @@ public class SocketEndpoint<RequestIn extends Message> implements Closeable, Run
                    res = outClass.cast(responses.get(req.getUUID()));
                 } else {
                     safeClose();
-                    throw new RemoteException("Couldn't get response");
+                    throw new IOException("Couldn't get response");
                 }
             }
 
             requestUUID.remove(req.getUUID());
             return res;
-        } catch (InterruptedException e) {
-            safeClose();
-            Thread.currentThread().interrupt();
-            throw new RemoteException("Request interrupted", e);
-        } catch (IOException e) {
-            safeClose();
-            throw new RemoteException("Couldn't send request", e);
         } catch (ClassCastException e) {
-            safeClose();
-            throw new RemoteException("Response is not " + outClass.getSimpleName(), e);
+            throw new IOException("Response is not " + outClass.getSimpleName(), e);
         }
     }
 

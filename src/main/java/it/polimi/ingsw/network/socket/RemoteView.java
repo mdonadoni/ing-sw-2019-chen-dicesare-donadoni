@@ -51,6 +51,25 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
     }
 
     /**
+     * Send a request and wait for a response. In case of error throw RemoteException.
+     * @param msg Message to be sent.
+     * @param clazz Class of response.
+     * @param <T> Type of response
+     * @return Response to request.
+     * @throws RemoteException If something goes wrong or the request is interrupted.
+     */
+    private <T extends Message> T sendAndWait(Message msg, Class<T> clazz) throws RemoteException {
+        try {
+            return endpoint.sendAndWaitResponse(msg, clazz);
+        } catch (IOException e) {
+            throw new RemoteException("Error while sendig and waiting request", e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RemoteException("Request interrupted", e);
+        }
+    }
+
+    /**
      * Request to chose squares on the view.
      * @param squares Coordinates of the squares.
      * @param min Minimum number of squares to be chosen.
@@ -61,7 +80,7 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
      */
     @Override
     public ArrayList<String> selectObject(ArrayList<String> squares, int min, int max, Dialog dialog) throws RemoteException {
-        SelectObjectResponse res = endpoint.sendAndWaitResponse(new SelectObjectRequest(squares, min, max, dialog), SelectObjectResponse.class);
+        SelectObjectResponse res = sendAndWait(new SelectObjectRequest(squares, min, max, dialog), SelectObjectResponse.class);
         return res.getResult();
     }
 
@@ -72,7 +91,7 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
      */
     @Override
     public void showMessage(String message) throws RemoteException {
-        endpoint.sendAndWaitResponse(new ShowMessageRequest(message), VoidResponse.class);
+        sendAndWait(new ShowMessageRequest(message), VoidResponse.class);
     }
 
     /**
@@ -82,7 +101,7 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
      */
     @Override
     public void updateModel(MiniModel model) throws RemoteException {
-        endpoint.sendAndWaitResponse(new UpdateModelRequest(model), VoidResponse.class);
+        sendAndWait(new UpdateModelRequest(model), VoidResponse.class);
     }
 
     /**
@@ -91,7 +110,7 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
      */
     @Override
     public void ping() throws RemoteException {
-        endpoint.sendAndWaitResponse(new PingRequest(), VoidResponse.class);
+        sendAndWait(new PingRequest(), VoidResponse.class);
     }
 
     /**

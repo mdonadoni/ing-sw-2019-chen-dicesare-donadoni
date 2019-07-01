@@ -51,6 +51,25 @@ public class RemoteServer implements Server, ViewMethodRequestHandler, Runnable,
     }
 
     /**
+     * Send a request and wait for a response. In case of error throw RemoteException.
+     * @param msg Message to be sent.
+     * @param clazz Class of response.
+     * @param <T> Type of response
+     * @return Response to request.
+     * @throws RemoteException If something goes wrong or the request is interrupted.
+     */
+    private <T extends Message> T sendAndWait(Message msg, Class<T> clazz) throws RemoteException {
+        try {
+            return endpoint.sendAndWaitResponse(msg, clazz);
+        } catch (IOException e) {
+            throw new RemoteException("Error while sendig and waiting request", e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RemoteException("Request interrupted", e);
+        }
+    }
+
+    /**
      * Request a login on the server.
      * @param nickname Nickname chosen by the player.
      * @param view View of the player.
@@ -58,8 +77,8 @@ public class RemoteServer implements Server, ViewMethodRequestHandler, Runnable,
      * @throws RemoteException If the method cannot be invoked.
      */
     @Override
-    public boolean login(String nickname, View view) throws RemoteException{
-            LoginResponse res = endpoint.sendAndWaitResponse(new LoginRequest(nickname), LoginResponse.class);
+    public boolean login(String nickname, View view) throws RemoteException {
+            LoginResponse res = sendAndWait(new LoginRequest(nickname), LoginResponse.class);
             return res.getResult();
     }
 

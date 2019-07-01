@@ -115,7 +115,7 @@ public class ViewCLI extends LocalView implements Runnable {
     }
 
     @Override
-    public void showMessage(String message) {
+    public synchronized void showMessage(String message) {
         println(message);
     }
 
@@ -156,13 +156,13 @@ public class ViewCLI extends LocalView implements Runnable {
         return integer;
     }
 
-    private void cls() {
+    private synchronized void cls() {
         for (int i = 0; i < 50; i++) {
             println();
         }
     }
 
-    private void printDialog(Dialog dialog, String ...params) {
+    private synchronized void printDialog(Dialog dialog, String ...params) {
         println(Dialogs.getDialog(dialog, params));
     }
 
@@ -172,5 +172,13 @@ public class ViewCLI extends LocalView implements Runnable {
 
     private void println() {
         println("");
+    }
+
+    @Override
+    public void disconnect() {
+        super.disconnect();
+        System.out.println("Disconnesso dal server");
+        // fix for RMI
+        System.exit(0);
     }
 }

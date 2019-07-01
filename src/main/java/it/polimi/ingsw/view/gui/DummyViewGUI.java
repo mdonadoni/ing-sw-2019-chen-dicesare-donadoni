@@ -22,7 +22,7 @@ public class DummyViewGUI extends LocalView {
     }
 
     @Override
-    public void showMessage(String message) {
+    public synchronized void showMessage(String message) {
         gui.showMessage(message);
     }
 
@@ -46,7 +46,7 @@ public class DummyViewGUI extends LocalView {
     }
 
     @Override
-    public synchronized void disconnect() {
+    public void disconnect() {
         // Call disconnect on LocalView to close the connections
         super.disconnect();
         // Call disconnect on the gui

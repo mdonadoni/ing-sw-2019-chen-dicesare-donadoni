@@ -165,6 +165,8 @@ public class ViewGUI extends Application {
 
     @Override
     public void stop() {
+        dummy.closeConnection();
+        // fix to close application
         System.exit(0);
     }
 
