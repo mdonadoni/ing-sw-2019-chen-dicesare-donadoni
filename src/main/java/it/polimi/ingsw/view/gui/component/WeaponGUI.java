@@ -1,26 +1,67 @@
 package it.polimi.ingsw.view.gui.component;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.polimi.ingsw.model.minified.MiniAttack;
+import it.polimi.ingsw.model.minified.MiniMovement;
 import it.polimi.ingsw.model.minified.MiniWeapon;
-import it.polimi.ingsw.view.gui.util.ImageManager;
-import it.polimi.ingsw.view.gui.util.ResizableImage;
-import it.polimi.ingsw.view.gui.util.Selectable;
-import it.polimi.ingsw.view.gui.util.SelectableComponent;
+import it.polimi.ingsw.util.Json;
+import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.util.ResourceManager;
+import it.polimi.ingsw.view.gui.util.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 
-public class WeaponGUI extends ResizableImage implements Selectable {
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class WeaponGUI extends ResizableImage implements Selectable, SelectableContainer {
     MiniWeapon weapon;
+    Composition overlay;
     SelectableComponent select;
+    Map<String, Selectable> attacksSelectable = new HashMap<>();
 
     public WeaponGUI(MiniWeapon weapon, boolean reduced) {
         this.weapon = weapon;
 
         String path = "/gui/weapons/" + weapon.getName().toLowerCase() + ".png";
         if (!reduced) {
+
+            // Powerup image
             setImage(path);
+
+            // Selection for attacks
+            overlay = new Composition();
+            overlay.setCompositionWidth(getImage().getImageWidth());
+            overlay.setCompositionHeight(getImage().getImageHeight());
+
+            try {
+                String pathJson = "/gui/weapons/" + weapon.getName().toLowerCase() + ".json";
+                ObjectMapper mapper = Json.getMapper();
+                JsonNode json = mapper.readTree(ResourceManager.get(pathJson));
+                JsonNode attacksJson = json.get("attacks");
+
+                for (MiniAttack atk : weapon.getAttacks()) {
+                    String id = atk.getId();
+                    SelectableArea attackPane = new SelectableArea(atk.getUuid());
+                    attacksSelectable.put(atk.getUuid(), attackPane);
+                    overlay.add(attackPane, Position.fromJson(attacksJson.get(id)));
+
+                    if (atk.hasBonusMovement()) {
+                        MiniMovement mov = atk.getBonusMovement();
+                        SelectableArea bonusPane = new SelectableArea(mov.getUuid());
+                        attacksSelectable.put(mov.getUuid(), bonusPane);
+                        overlay.add(bonusPane, Position.fromJson(attacksJson.get("movement")));
+                    }
+                }
+            } catch (IOException e) {
+                throw new ResourceException("Error while parsing weapon gui json " + weapon.getName().toLowerCase());
+            }
+            getChildren().add(overlay);
         } else {
             String keyReduced = path + ":reduced";
             if (!ImageManager.hasCustomImage(keyReduced)) {
@@ -50,12 +91,23 @@ public class WeaponGUI extends ResizableImage implements Selectable {
     }
 
     @Override
+    public Selectable findSelectable(String uuid) {
+        if (attacksSelectable.containsKey(uuid)) {
+            return attacksSelectable.get(uuid);
+        }
+        return null;
+    }
+
+    @Override
     public String getUuid() {
         return select.getUuid();
     }
 
     @Override
     public void enable(Runnable notifyChange) {
+        if (overlay != null) {
+            getChildren().remove(overlay);
+        }
         select.enable(notifyChange);
     }
 
@@ -66,6 +118,9 @@ public class WeaponGUI extends ResizableImage implements Selectable {
 
     @Override
     public void disable() {
+        if (overlay != null) {
+            getChildren().add(overlay);
+        }
         select.disable();
     }
 }

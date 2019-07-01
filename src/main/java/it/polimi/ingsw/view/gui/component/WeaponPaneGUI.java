@@ -34,6 +34,11 @@ public class WeaponPaneGUI extends GridPane implements SelectableContainer {
             if (w.getUuid().equals(uuid)) {
                 return w;
             }
+
+            Selectable attack = w.findSelectable(uuid);
+            if (attack != null) {
+                return attack;
+            }
         }
         return null;
     }

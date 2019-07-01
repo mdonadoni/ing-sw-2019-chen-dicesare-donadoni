@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.gui.util;
 import javafx.scene.image.Image;
 
 public class ResizableImage extends FitObject {
-    StretchImage stretchImage;
+    StretchImage stretchImage = null;
 
     public ResizableImage() {
 
@@ -18,11 +18,14 @@ public class ResizableImage extends FitObject {
     }
 
     public void setImage(Image img) {
+        if (stretchImage != null) {
+            getChildren().remove(stretchImage);
+        }
+
         stretchImage = new StretchImage(img);
         setContentWidth(stretchImage.getImageWidth());
         setContentHeight(stretchImage.getImageHeight());
-        getChildren().clear();
-        getChildren().add(stretchImage);
+        getChildren().add(0, stretchImage);
     }
 
     public void setImage(String path) {

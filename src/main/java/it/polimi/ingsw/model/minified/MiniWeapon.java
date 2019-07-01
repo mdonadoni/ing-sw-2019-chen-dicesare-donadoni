@@ -17,7 +17,7 @@ public class MiniWeapon extends Identifiable implements Serializable {
     private final boolean charged;
     private final ArrayList<AmmoColor> pickupColor;
     private final AmmoColor additionalRechargeColor;
-    private final List<MiniAttack> attacks;
+    private final ArrayList<MiniAttack> attacks;
 
     @JsonCreator
     private MiniWeapon() {
@@ -28,15 +28,23 @@ public class MiniWeapon extends Identifiable implements Serializable {
         attacks = null;
     }
 
-    MiniWeapon(Weapon weapon) {
+    public MiniWeapon(Weapon weapon) {
         super(weapon.getUuid());
         this.name = weapon.getName();
         this.charged = weapon.isCharged();
         this.pickupColor = new ArrayList<>(weapon.getPickupColor());
         this.additionalRechargeColor = weapon.getAdditionalRechargeColor();
-        attacks = new ArrayList<>();
-        for(Attack atk : weapon.getAttacks())
+        this.attacks = new ArrayList<>();
+        visitAttacks(weapon.getAttacks());
+    }
+
+    private void visitAttacks(List<Attack> atks) {
+        for (Attack atk : atks) {
             attacks.add(new MiniAttack(atk));
+            if (atk.hasAdditionalAttacks()) {
+                visitAttacks(atk.getAdditionalAttacks());
+            }
+        }
     }
 
     public String getName() {
@@ -47,11 +55,15 @@ public class MiniWeapon extends Identifiable implements Serializable {
         return charged;
     }
 
-    public ArrayList<AmmoColor> getPickupColor() {
+    public List<AmmoColor> getPickupColor() {
         return pickupColor;
     }
 
     public AmmoColor getAdditionalRechargeColor() {
         return additionalRechargeColor;
+    }
+
+    public List<MiniAttack> getAttacks() {
+        return attacks;
     }
 }

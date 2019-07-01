@@ -9,7 +9,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
@@ -21,7 +20,6 @@ public class ViewGUI extends Application {
     Stage primaryStage;
     DummyViewGUI dummy;
     UserViewGUI mainPane;
-    Button confirmSelection;
 
     @Override
     public void start(Stage primaryStage) {
@@ -144,23 +142,27 @@ public class ViewGUI extends Application {
         main.setCenter(userView);
         main.setBottom(confirmSelection);
 
-        primaryStage.setScene(new Scene(main, 600, 400));
+        Weapon w = new Weapon(WeaponType.ZX2);
+        MiniWeapon mw = new MiniWeapon(w);
+        WeaponGUI wgui = null;
+        try {
+            wgui = new WeaponGUI(mw, false);
+            for (MiniAttack atk : mw.getAttacks()) {
+                wgui.findSelectable(atk.getUuid()).enable(() -> {});
+                if (atk.hasBonusMovement()) {
+                    wgui.findSelectable(atk.getBonusMovement().getUuid()).enable(() -> {});
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        primaryStage.setScene(new Scene(wgui, 600, 400));
 
         primaryStage.show();
         primaryStage.setMinWidth(854);
-        primaryStage.setMinHeight(480);
-
-        new Thread(() -> {
-            try {
-                Thread.sleep(5000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            System.out.println(selectObject(
-                    Arrays.asList(miniModel.getMatch().getCurrentTurn().getAvaibleActions().get(0).getUuid(),
-                            miniModel.getMatch().getCurrentTurn().getAvaibleActions().get(1).getUuid()),
-                    1, 1));
-        }).start();*/
+        primaryStage.setMinHeight(480);*/
     }
 
     @Override
