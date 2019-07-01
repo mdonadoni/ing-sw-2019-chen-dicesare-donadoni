@@ -1,7 +1,7 @@
 {
   "name": "heatseeker",
   "charged": true,
-  "pickupColor": ["YELLOW"],
+  "pickupColor": ["RED","YELLOW"],
   "additionalRechargeColor": "RED",
   "attacks": [
     {

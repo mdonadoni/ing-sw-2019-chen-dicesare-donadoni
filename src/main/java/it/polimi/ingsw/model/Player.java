@@ -609,4 +609,14 @@ public class Player extends Identifiable{
             square = null;
         }
     }
+
+    public boolean hasTagback(){
+        return powerUps.stream()
+                .anyMatch(pwu -> pwu.getType().equals(PowerUpType.TAGBACK_GRANADE));
+    }
+
+    public boolean hasTargetingscope(){
+        return powerUps.stream()
+                .anyMatch(pwu -> pwu.getType().equals(PowerUpType.TARGETING_SCOPE));
+    }
 }

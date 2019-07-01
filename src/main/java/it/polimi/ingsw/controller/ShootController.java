@@ -1,14 +1,13 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.common.dialogs.Dialog;
-import it.polimi.ingsw.model.Match;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerToken;
-import it.polimi.ingsw.model.Square;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.weapons.*;
 
+import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -22,6 +21,7 @@ public class ShootController {
     private List<Player> alreadyShotTargets;
     private Square targetFixedSquare;
     private Updater updater;
+    private List<Player> mayUseTagback;
 
     public ShootController(Map<String, RemotePlayer> remoteUsers, Match match){
         this.remoteUsers = remoteUsers;
@@ -33,6 +33,7 @@ public class ShootController {
     public void initShoot(){
         inheritedPlayerTargets = new ArrayList<>();
         alreadyShotTargets = new ArrayList<>();
+        mayUseTagback = new ArrayList<>();
     }
 
     public void shoot(Player player, Weapon weapon) throws RemoteException{
@@ -46,6 +47,10 @@ public class ShootController {
         if(attack == null)
             return;
         doAttack(player, attack); // Do the thing
+
+        // Now people might wanna use their tagback
+        for(Player pl : mayUseTagback)
+            tagbackRevenge(pl, player);
     }
 
     public void doAttack(Player player, Attack attack) throws RemoteException{
@@ -363,14 +368,14 @@ public class ShootController {
                 compatible = true;
         }
 
+        for(Player victim : targets){
+            applyEffects(player, victim, target.getEffects());
+        }
+
         // Final handling for inherited targets
         if(target.isInherited()){
             for(Player victim : targets)
                 inheritedPlayerTargets.remove(victim);
-        }
-
-        for(Player victim : targets){
-            applyEffects(player, victim, target.getEffects());
         }
     }
 
@@ -404,10 +409,67 @@ public class ShootController {
             // Same, but with a different List, to handle inherited targets
             if(!inheritedPlayerTargets.contains(target))
                 inheritedPlayerTargets.add(target);
+
+            // Setup for tagback granade
+            if(target.hasTagback() && target.getSquare().isVisible(source.getSquare()) && !mayUseTagback.contains(target))
+                mayUseTagback.add(target);
+
+            if(source.hasTargetingscope())
+                useTargetingscope(source, target);
         }
         else {
             // Add the marks
             target.addMark(color, value);
         }
+    }
+
+    public void tagbackRevenge(Player tagbacker, Player currentPlayer){
+        RemotePlayer remoteTagbacker = remoteUsers.get(tagbacker.getNickname());
+        List<PowerUp> tagbackGrenades = tagbacker.getPowerUps().stream()
+                .filter(pwu -> pwu.getType().equals(PowerUpType.TAGBACK_GRANADE))
+                .collect(Collectors.toList());
+        try{
+            List<PowerUp> selected = remoteTagbacker.selectIdentifiable(tagbackGrenades, 0, 1, Dialog.SELECT_POWERUP);
+            if(!selected.isEmpty()){
+                tagbacker.removePowerUp(selected.get(0));
+                match.getGameBoard().getPowerUpDeck().discard(selected.get(0));
+                currentPlayer.addMark(tagbacker.getColor(), 1);
+            }
+            updater.updateModel(tagbacker.getNickname());
+        }catch(RemoteException e){
+            // E vbb.
+            LOG.log(Level.INFO,"Something happened when {0} tried to tagback, not a big deal...", tagbacker.getNickname());
+        }
+    }
+
+    public void useTargetingscope(Player player, Player victim){
+        List<PowerUp> scopes = player.getPowerUps().stream()
+                .filter(pwu -> pwu.getType().equals(PowerUpType.TARGETING_SCOPE))
+                .filter(pwu -> player.canPay(Arrays.asList(pwu.getAmmo())))
+                .collect(Collectors.toList());
+        RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
+        try{
+            if(!scopes.isEmpty()){
+                List<PowerUp> selected = remotePlayer.selectIdentifiable(scopes, 0, 1, Dialog.SELECT_POWERUP);
+                if(!selected.isEmpty()){
+                    player.removePowerUp(selected.get(0));
+                    player.addDrawnPowerUp(selected.get(0));
+                    // In case the player can pay the targeting scope using solely THAT targeting scope
+                    if(!player.canPay(Arrays.asList(selected.get(0).getAmmo()))){
+                        player.addPowerUp(selected.get(0));
+                        player.clearDrawnPowerUps();
+                        return;
+                    }
+                    paymentGateway.payCost(Arrays.asList(selected.get(0).getAmmo()), player, remotePlayer);
+                    victim.addDamageWithoutMarks(player.getColor(), 1);
+
+                    match.getGameBoard().getPowerUpDeck().discard(selected.get(0));
+                }
+            }
+        } catch(RemoteException e){
+            // Shit happens, don't worry, player will be disconnected next action
+            LOG.log(Level.INFO,"Player {0} disconnected while using targeting scope", player.getNickname());
+        }
+
     }
 }
