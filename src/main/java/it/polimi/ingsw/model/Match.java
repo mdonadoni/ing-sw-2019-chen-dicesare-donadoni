@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public class Match extends Identifiable{
     private static final int MIN_PLAYERS = Config.getMinPlayers();
     private static final int MAX_PLAYERS = Config.getMaxPlayers();
-    private static final int SKULLS = 8;
+    private static final int SKULLS = Config.getSkulls();
     /**
      * States whether the match in in final frenzy
      */

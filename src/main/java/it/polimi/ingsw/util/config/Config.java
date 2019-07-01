@@ -1,79 +1,86 @@
 package it.polimi.ingsw.util.config;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.util.Json;
-
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Config {
-    private static Map<String, ConfigEntry> entriesMap = new HashMap<>();
+    private static Configurations config = null;
 
-    private static final IntConfigEntry ROUND_TIMEOUT = register(new IntConfigEntry("roundTimeout", 60));
-    private static final IntConfigEntry LOBBY_TIMEOUT = register(new IntConfigEntry("lobbyTimeout", 30));
-    private static final IntConfigEntry MIN_PLAYERS = register(new IntConfigEntry("minPlayers", 3));
-    private static final IntConfigEntry MAX_PLAYERS = register(new IntConfigEntry("maxPlayers", 5));
-    private static final StringConfigEntry HOSTNAME = register(new StringConfigEntry("hostname", "localhost"));
+    private static final String TURN_TIMEOUT = "turnTimeout";
+    private static final String LOBBY_TIMEOUT = "lobbyTimeout";
+    private static final String MIN_PLAYERS = "minPlayers";
+    private static final String MAX_PLAYERS = "maxPlayers";
+    private static final String HOSTNAME = "hostname";
+    private static final String SKULLS = "skulls";
 
-    private static <T extends ConfigEntry> T register(T property) {
-        entriesMap.put(property.getName(), property);
-        return property;
+
+    private static void init() {
+        if (config == null) {
+            config = new Configurations();
+            config.add(TURN_TIMEOUT, 60);
+            config.add(LOBBY_TIMEOUT, 30);
+            config.add(MIN_PLAYERS, 3);
+            config.add(MAX_PLAYERS, 5);
+            config.add(HOSTNAME, "localhost");
+            config.add(SKULLS, 8);
+        }
     }
 
-    public static int getRoundTimeout() {
-        return ROUND_TIMEOUT.get();
+    public static int getTurnTimeout() {
+        init();
+        return config.getInt(TURN_TIMEOUT);
     }
 
     public static int getLobbyTimeout() {
-        return LOBBY_TIMEOUT.get();
+        init();
+        return config.getInt(LOBBY_TIMEOUT);
     }
 
     public static int getMinPlayers() {
-        return MIN_PLAYERS.get();
+        init();
+        return config.getInt(MIN_PLAYERS);
     }
 
     public static int getMaxPlayers() {
-        return MAX_PLAYERS.get();
+        init();
+        return config.getInt(MAX_PLAYERS);
     }
 
     public static String getHostname() {
-        return HOSTNAME.get();
+        init();
+        return config.getString(HOSTNAME);
     }
 
-    public static void setHostname(String hostname) {
-        HOSTNAME.setValue(hostname);
+    public static int getSkulls() {
+        init();
+        return config.getInt(SKULLS);
     }
 
-    public static void setLobbyTimeout(String timeout) {
-        LOBBY_TIMEOUT.setValue(timeout);
+    public static void parseHostname(String hostname) {
+        init();
+        config.parseString(HOSTNAME, hostname);
     }
 
-    public static void setRoundTimeout(String timeout) {
-        ROUND_TIMEOUT.setValue(timeout);
+    public static void parseLobbyTimeout(String timeout) {
+        init();
+        config.parseString(LOBBY_TIMEOUT, timeout);
     }
 
-    private static void setEntry(String name, String value) {
-        if(!entriesMap.containsKey(name)) {
-            throw new ConfigException("Key not valid: " + name);
-        }
-        entriesMap.get(name).setValue(value);
+    public static void parseTurnTimeout(String timeout) {
+        init();
+        config.parseString(TURN_TIMEOUT, timeout);
+    }
+
+    public static void parseSkulls(String skulls) {
+        init();
+        config.parseString(SKULLS, skulls);
     }
 
     public static void loadJson(InputStream stream) {
-        try {
-            ObjectMapper mapper = Json.getMapper();
-            JsonNode jsonConfig = mapper.readTree(stream);
-            jsonConfig.fields().forEachRemaining(entry -> {
-                setEntry(entry.getKey(), entry.getValue().asText());
-            });
-        } catch (ConfigException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new ConfigException("Error while loading json", e);
-        }
+        init();
+        config.loadJson(stream);
     }
+
+
 
 }

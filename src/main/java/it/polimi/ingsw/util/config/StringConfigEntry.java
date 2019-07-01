@@ -15,11 +15,27 @@ public class StringConfigEntry implements ConfigEntry {
     }
 
     @Override
-    public void setValue(String s) {
+    public void parseString(String s) {
         value = s;
     }
 
-    public String get() {
+    @Override
+    public void set(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public void set(int value) {
+        throw new ConfigException("Called integer setter on string entry " + name);
+    }
+
+    @Override
+    public String asString() {
         return value;
+    }
+
+    @Override
+    public int asInt() {
+        throw new ConfigException("Called asInt ont integer entry " + name);
     }
 }

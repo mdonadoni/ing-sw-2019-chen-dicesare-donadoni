@@ -2,5 +2,9 @@ package it.polimi.ingsw.util.config;
 
 public interface ConfigEntry {
     String getName();
-    void setValue(String value);
+    void parseString(String value);
+    void set(String value);
+    void set(int value);
+    String asString();
+    int asInt();
 }

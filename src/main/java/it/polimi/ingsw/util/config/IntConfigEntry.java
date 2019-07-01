@@ -4,12 +4,8 @@ public class IntConfigEntry implements ConfigEntry {
     private String name;
     private int value;
 
-    IntConfigEntry(String name) {
-        this.name = name;
-    }
-
     IntConfigEntry(String name, int value) {
-        this(name);
+        this.name = name;
         this.value = value;
     }
 
@@ -19,7 +15,7 @@ public class IntConfigEntry implements ConfigEntry {
     }
 
     @Override
-    public void setValue(String s) {
+    public void parseString(String s) {
         try {
             value = Integer.parseInt(s);
         } catch (Exception e) {
@@ -27,11 +23,23 @@ public class IntConfigEntry implements ConfigEntry {
         }
     }
 
+    @Override
+    public void set(String value) {
+        throw new ConfigException("Called string setter on integer config " + name);
+    }
+
+    @Override
     public void set(int value) {
         this.value = value;
     }
 
-    public int get() {
-        return  value;
+    @Override
+    public String asString() {
+        throw new ConfigException("Called asString on integer config " + name);
+    }
+
+    @Override
+    public int asInt() {
+        return value;
     }
 }
