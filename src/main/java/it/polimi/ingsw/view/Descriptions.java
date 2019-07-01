@@ -1,12 +1,25 @@
 package it.polimi.ingsw.view;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.BasicAction;
 import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.model.minified.*;
+import it.polimi.ingsw.util.Json;
+import it.polimi.ingsw.util.ResourceException;
+import it.polimi.ingsw.util.ResourceManager;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Descriptions {
+    private static Map<String, String> attackMap = null;
+
+    static {
+        loadAttacks();
+    }
+
     public static String find(MiniModel model, String uuid) {
         String res = null;
         for (PowerUp p : model.getMyPowerUps()) {
@@ -24,7 +37,7 @@ public class Descriptions {
         return res == null ? find(model.getMatch(), uuid) : res;
     }
 
-    private static String find(MiniMatch match, String uuid) {
+    static String find(MiniMatch match, String uuid) {
         String res = null;
         for (MiniAction action : match.getCurrentTurn().getAvaibleActions()) {
             if (res == null) {
@@ -41,11 +54,11 @@ public class Descriptions {
         return res == null ? find(match.getGameBoard(), uuid) : res;
     }
 
-    private static String find(MiniGameBoard gameBoard, String uuid) {
+    static String find(MiniGameBoard gameBoard, String uuid) {
         return find(gameBoard.getBoard(), uuid);
     }
 
-    private static String find(MiniBoard board, String uuid) {
+    static String find(MiniBoard board, String uuid) {
         String res = null;
         for (MiniStandardSquare sq : board.getStandardSquares()) {
             if (res == null) {
@@ -62,11 +75,11 @@ public class Descriptions {
         return res;
     }
 
-    private static String find(MiniStandardSquare sq, String uuid) {
+    static String find(MiniStandardSquare sq, String uuid) {
         return find((MiniSquare)sq, uuid);
     }
 
-    private static String find(MiniSpawnPoint sq, String uuid) {
+    static String find(MiniSpawnPoint sq, String uuid) {
         String res = null;
         for (MiniWeapon w : sq.getWeapons()) {
             if (res == null) {
@@ -77,7 +90,7 @@ public class Descriptions {
         return res == null ? find((MiniSquare)sq, uuid) : res;
     }
 
-    private static String find(MiniSquare sq, String uuid) {
+    static String find(MiniSquare sq, String uuid) {
         if (sq.getUuid().equals(uuid)) {
             return MessageFormat.format(
                     "Posizione ({0}, {1})",
@@ -87,14 +100,20 @@ public class Descriptions {
         return null;
     }
 
-    private static String find(MiniWeapon w, String uuid) {
+    static String find(MiniWeapon w, String uuid) {
         if (w.getUuid().equals(uuid)) {
             return w.getName();
         }
-        return null;
+        String res = null;
+        for (MiniAttack atk : w.getAttacks()) {
+            if (res == null) {
+                res = find(atk, uuid);
+            }
+        }
+        return res;
     }
 
-    private static String find(MiniPlayer p, String uuid) {
+    static String find(MiniPlayer p, String uuid) {
         if (p.getUuid().equals(uuid)) {
             return MessageFormat.format("Giocatore {0}", p.getNickname());
         }
@@ -109,7 +128,7 @@ public class Descriptions {
         return res;
     }
 
-    private static String find(MiniAction action, String uuid) {
+    static String find(MiniAction action, String uuid) {
         String res = null;
         if (action.getUuid().equals(uuid)) {
             StringBuilder sb = new StringBuilder();
@@ -141,7 +160,7 @@ public class Descriptions {
         return res;
     }
 
-    private static String find(PowerUp p, String uuid) {
+    static String find(PowerUp p, String uuid) {
         if (p.getUuid().equals(uuid)) {
             return MessageFormat.format("Powerup {0} {1}", p.getType(), p.getAmmo());
         }
@@ -149,4 +168,44 @@ public class Descriptions {
     }
 
 
+    static void loadAttacks() {
+        if (attackMap == null) {
+            attackMap = new HashMap<>();
+            String path = "/weapons/attacks.json";
+            ObjectMapper mapper = Json.getMapper();
+            try {
+                JsonNode json = mapper.readTree(ResourceManager.get(path));
+                for (JsonNode atk : json) {
+                    String id = atk.get("id").asText();
+                    String desc = atk.get("description").asText();
+                    attackMap.put(id, desc);
+                }
+            } catch (Exception e) {
+                throw new ResourceException("Cannot load weapon attacks descriptions");
+            }
+        }
+    }
+
+    static String getAttackById(String id) {
+        return attackMap.get(id);
+    }
+
+    static String find(MiniMovement mov, String uuid) {
+        if (mov.getUuid().equals(uuid)) {
+            return "Movimento";
+        }
+        return null;
+    }
+
+    static String find(MiniAttack atk, String uuid) {
+        if (atk.getUuid().equals(uuid)) {
+            return attackMap.get(atk.getId());
+        }
+
+        if (atk.hasBonusMovement()) {
+            return find(atk.getBonusMovement(), uuid);
+        } else {
+            return null;
+        }
+    }
 }
