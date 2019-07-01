@@ -132,7 +132,8 @@ public class Player extends Identifiable{
      * Flip the player's board
      */
     public void flipBoard() {
-        this.boardFlipped = !boardFlipped;
+        this.boardFlipped = true;
+        skulls = 0;
     }
 
     /**

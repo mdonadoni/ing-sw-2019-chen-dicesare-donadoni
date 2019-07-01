@@ -271,8 +271,9 @@ public class ActionController {
                 List<Player> selectableEnemies = enemies.stream()
                         .filter(en -> en.getSquare()!=null)
                         .collect(Collectors.toList());
-                Player targetPlayer = remotePlayer.selectIdentifiable(selectableEnemies, 0, 1, Dialog.TARGET_PLAYER).get(0);
-                powerUpController.activatePowerUp(selectedPowerup, playerName, targetPlayer);
+                List<Player> targetPlayers = remotePlayer.selectIdentifiable(selectableEnemies, 0, 1, Dialog.TARGET_PLAYER);
+                if(!targetPlayers.isEmpty())
+                    powerUpController.activatePowerUp(selectedPowerup, playerName, targetPlayers.get(0));
             }
 
             player.removePowerUp(selectedPowerup);

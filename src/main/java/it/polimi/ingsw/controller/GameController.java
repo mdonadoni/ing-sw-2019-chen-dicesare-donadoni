@@ -148,6 +148,29 @@ public class GameController implements Runnable{
                     handleDisconnection(remotePlayers.get(currentPlayer.getNickname()));
                 }
             }
+            if(match.gameEnded())
+                match.activateFinalFrenzy();
+            match.nextTurn();
+        }
+
+        // Now it's time for final frenzy, which has already been triggered
+        LOG.log(Level.INFO, "Final Frenzy has started");
+        for(Player pl : match.getActivePlayers()){
+            getRemotePlayer(pl.getNickname()).safeShowMessage("È iniziata la Frenesia Finale!");
+        }
+        int numberOfActivePlayers = (int) match.getPlayers().stream()
+                .filter(Player::isActive)
+                .count();
+        for(int i=0; i<numberOfActivePlayers && match.isActive(); i++){
+            Player currentPlayer = match.getCurrentTurn().getCurrentPlayer();
+            checkForPeopleToRespawn();
+            try{
+                turn.startTurn();
+            } catch(RemoteException e){
+                LOG.log(Level.WARNING, "Player {0} disconnected, setting him inactive...",
+                        currentPlayer.getNickname());
+                handleDisconnection(remotePlayers.get(currentPlayer.getNickname()));
+            }
             match.nextTurn();
         }
 

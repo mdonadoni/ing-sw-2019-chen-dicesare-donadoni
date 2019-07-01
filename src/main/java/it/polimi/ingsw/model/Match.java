@@ -190,4 +190,10 @@ public class Match extends Identifiable{
     public boolean gameEnded(){
         return gameBoard.getRemainingSkulls() == 0;
     }
+
+    public List<Player> getActivePlayers(){
+        return players.stream()
+                .filter(Player::isActive)
+                .collect(Collectors.toList());
+    }
 }

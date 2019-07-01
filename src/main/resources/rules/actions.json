@@ -46,7 +46,8 @@
     "required": 0,
     "overwrite": 99,
     "beforefirstplayer": false,
-    "alwaysavailable": true
+    "alwaysavailable": true,
+    "endsTurn": true
   },
   {
     "basics": ["movement", "reload", "shoot"],
@@ -78,7 +79,8 @@
     "boardnotflippedrequired": false,
     "required": 0,
     "overwrite": 99,
-    "beforefirstplayer": false
+    "beforefirstplayer": false,
+    "endsTurn": true
   },
   {
     "basics": ["movement", "movement", "movement", "grab"],

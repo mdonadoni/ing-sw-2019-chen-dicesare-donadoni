@@ -45,9 +45,13 @@ public class ActionSupplier {
                 action.setBoardNotFlippedRequired(node.get("boardnotflippedrequired").asBoolean());
                 action.setBeforeFirstPlayer(node.get("beforefirstplayer").asBoolean());
 
-                JsonNode always = node.get("always available");
+                JsonNode always = node.get("alwaysavailable");
                 if(always != null)
                     action.setAlwaysavailable(always.asBoolean());
+
+                JsonNode endsTurn = node.get("endsTurn");
+                if(endsTurn != null)
+                    action.setEndsTurn(endsTurn.asBoolean());
 
                 actions.add(action);
             }

@@ -36,6 +36,8 @@ public class Action extends Identifiable{
 
     private boolean alwaysavailable;
 
+    private boolean endsTurn;
+
     public Action(){
         finalFrenzyRequired = false;
         boardNotFlippedRequired = false;
@@ -43,6 +45,7 @@ public class Action extends Identifiable{
         damageRequired = 0;
         beforeFirstPlayer = false;
         alwaysavailable = false;
+        endsTurn = false;
     }
 
     public void addAction(BasicAction act){
@@ -159,8 +162,12 @@ public class Action extends Identifiable{
         return !(actions.size() == 1 && actions.get(0).equals(BasicAction.POWERUP));
     }
 
-    public boolean endsTurn(){
-        return (actions.size() == 1 && actions.get(0).equals(BasicAction.RELOAD));
+    public boolean getEndsTurn(){
+        return endsTurn;
+    }
+
+    public void setEndsTurn(boolean ends){
+        endsTurn = ends;
     }
 
     public boolean canOnlyMove(){

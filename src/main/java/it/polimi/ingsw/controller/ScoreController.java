@@ -12,6 +12,7 @@ public class ScoreController {
 
     private static final int FIRSTBLOOD_POINTS = 1;
     private static final Integer[] DAMAGE_POINTS = new Integer[] {8, 6, 4, 2, 1, 1};
+    private static final Integer[] BOARD_FLIPPED_POINTS = new Integer[] {2, 1, 1, 1};
     private static final Integer[] KILLSHOT_TRACK_POINTS = new Integer[] {8, 6, 4, 2, 1, 1};
     private static final int LOWEST_DAMAGE_POINTS = 1;
     private static final int LOWEST_KILLSHOT_TRACK_POINTS = 1;
@@ -80,7 +81,10 @@ public class ScoreController {
         // For each of these players, assign the correct amount of damage
         for(Player playerDamage : damagers){
             int pointsIndex = player.getSkulls() + damagers.indexOf(playerDamage);
-            if(pointsIndex < DAMAGE_POINTS.length)
+            if(match.getFinalFrenzy()){
+                playerDamage.addPoints(BOARD_FLIPPED_POINTS[pointsIndex]);
+            }
+            else if(pointsIndex < DAMAGE_POINTS.length)
                 playerDamage.addPoints(DAMAGE_POINTS[pointsIndex]);
             else
                 playerDamage.addPoints(LOWEST_DAMAGE_POINTS);
