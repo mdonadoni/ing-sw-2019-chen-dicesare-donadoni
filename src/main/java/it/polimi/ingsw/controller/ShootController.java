@@ -21,11 +21,13 @@ public class ShootController {
     private List<Player> inheritedPlayerTargets;
     private List<Player> alreadyShotTargets;
     private Square targetFixedSquare;
+    private Updater updater;
 
     public ShootController(Map<String, RemotePlayer> remoteUsers, Match match){
         this.remoteUsers = remoteUsers;
         this.match = match;
         paymentGateway = new PaymentGateway(match);
+        updater = new Updater(remoteUsers, match);
     }
 
     public void initShoot(){
@@ -37,12 +39,12 @@ public class ShootController {
         Attack attack;
 
         initShoot();
+        weapon.setCharged(false); // The weapon is no longer charged
+
         // Select the main attack
         attack = selectAttack(player, weapon);
         if(attack == null)
             return;
-
-        weapon.setCharged(false); // The weapon is no longer charged
         doAttack(player, attack); // Do the thing
     }
 
@@ -154,9 +156,10 @@ public class ShootController {
     public boolean bonusMovement(Player player, Attack attack, boolean bonusMovementExpended) throws RemoteException{
         RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
         boolean expends = false;
-        if(!bonusMovementExpended && attack.hasBonusMovement()){
+        if(!bonusMovementExpended && attack.hasBonusMovement() && player.canPay(attack.getBonusMovementCost())){
             List<MovementEffect> mov = new ArrayList<>(attack.getBonusMovement());
             if(!remotePlayer.selectIdentifiable(mov, 0, 1 , Dialog.BONUS_MOVEMENT).isEmpty()){
+                paymentGateway.payCost(attack.getBonusMovementCost(), player, remotePlayer);
                 manageMovement(player, player, mov.get(0));
                 expends = true;
             }
@@ -183,12 +186,48 @@ public class ShootController {
 
     }
 
+    public List<Square> squareSelection(Player player, SquareTarget target) throws RemoteException{
+        List<Square> selected = new ArrayList<>();
+        List<Square> validSquares;
+        List<Square> tempSelection;
+        RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
+
+        while(selected.size() < target.getNumberOfTargets()){
+            List<Square> toBeDeleted = new ArrayList<>();
+
+            // Prepare a list containing all the squares that are singularly valid for the target
+            validSquares = match.getGameBoard().getBoard().getAllSquares().stream()
+                    .filter(sq -> target.validateTargetSquare(player, sq))
+                    .collect(Collectors.toList());
+            for(Square sq : selected) // Remove from there the already selected squares
+                validSquares.remove(sq);
+
+            for(Square sq : validSquares){  // For each valid square, let's see if it's compatible with the already selected
+                tempSelection = new ArrayList<>(selected);
+                tempSelection.add(sq);
+                if(!target.compatibleTargetSquares(player, tempSelection))
+                    toBeDeleted.add(sq);
+            }
+
+            // Remove the not-compatible squares
+            for(Square sq : toBeDeleted)
+                validSquares.remove(sq);
+
+            // If there're valid squares left, ask the user to select one
+            if(!validSquares.isEmpty())
+                selected.add(remotePlayer.selectIdentifiable(validSquares, 1, 1, Dialog.TARGET_SQUARE).get(0));
+            else
+                break;
+        }
+
+        return selected;
+    }
+
     public void handleSquareTarget(Player player, SquareTarget target) throws RemoteException{
         RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
-        int maxSq = target.getNumberOfTargets();
         int maxPlayers = target.getNumberOfPlayers();
         boolean compatible = false;
-        List<Player> enemies = match.getOtherPlayers(player.getNickname());
+        List<Player> enemies = match.getOtherPlayersAlive(player.getNickname());
 
 
         // Build the list of available squares to select
@@ -211,7 +250,8 @@ public class ShootController {
 
         // Ask the user which squares he wants to target
         while (!compatible){
-            selectedSquares = remotePlayer.selectIdentifiable(targetSquares, 0, maxSq, Dialog.TARGET_SQUARE);
+            // Square selection
+            selectedSquares = squareSelection(player, target);
             if(target.compatibleTargetSquares(player, selectedSquares))
                 compatible = true;
             else{
@@ -225,10 +265,14 @@ public class ShootController {
 
         // If it's a vortex-target, make it fixed (in case of doubt, the nearest one)
         if(target.isVortex()){
-            targetFixedSquare = selectedSquares.stream()
+            List<Square> sortedSquares = selectedSquares.stream()
                     .sorted(Comparator.comparingInt(sq -> sq.getDistance(player.getSquare())))
-                    .collect(Collectors.toList())
-                    .get(0);
+                    .collect(Collectors.toList());
+            if(target.fixReverse()){
+                targetFixedSquare = sortedSquares.get(sortedSquares.size()-1);
+            }
+            else
+                targetFixedSquare = sortedSquares.get(0);
         }
 
         List<Player> targetPlayers = new ArrayList<>();
@@ -236,7 +280,7 @@ public class ShootController {
         int playerDist = target.getPlayerMaxDistance();
 
         possibleTargets = selectedSquares.stream()
-                .flatMap(sq -> enemies.stream().filter(en -> en.getSquare().getDistance(sq) <= playerDist))
+                .flatMap(sq -> enemies.stream().filter(en -> en.getSquare() != null).filter(en -> en.getSquare().getDistance(sq) <= playerDist))
                 .distinct()
                 .collect(Collectors.toList());
 
@@ -269,6 +313,7 @@ public class ShootController {
         List<Player> hittableEnemies = match.getOtherPlayers(player.getNickname());
 
         hittableEnemies = hittableEnemies.stream()
+                .filter(en -> en.getSquare()!=null)
                 .filter(en -> target.validateTargetPlayer(player, en))
                 .collect(Collectors.toList());
 
@@ -342,6 +387,8 @@ public class ShootController {
                     manageMovement(source, target, mov);
             }
         }
+
+        updater.updateModelToEveryone();
     }
 
     public void applyHarmful(Player source, Player target, HarmfulEffect effect){

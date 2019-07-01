@@ -82,6 +82,7 @@ public class ScoreController {
         for(Player playerDamage : damagers){
             int pointsIndex = player.getSkulls() + damagers.indexOf(playerDamage);
             if(match.getFinalFrenzy()){
+                pointsIndex = pointsIndex - player.getSkulls();
                 playerDamage.addPoints(BOARD_FLIPPED_POINTS[pointsIndex]);
             }
             else if(pointsIndex < DAMAGE_POINTS.length)

@@ -1,0 +1,63 @@
+{
+  "name": "shockwave",
+  "charged": true,
+  "pickupColor": [],
+  "additionalRechargeColor": "YELLOW",
+  "attacks": [
+    {
+      "id": "FGcrxjNVb",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "square",
+          "numberOfTargets": 3,
+          "visibility": "VISIBLE",
+          "minDistance": 1,
+          "maxDistance": 1,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "DAMAGE"
+            }
+          ],
+          "maxPlayerDistance": 0,
+          "numberOfPlayers": 1,
+          "vortex": false
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    },
+    {
+      "id": "LZrpYXUFr",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 5,
+          "visibility": "VISIBLE",
+          "minDistance": 1,
+          "maxDistance": 1,
+          "exclusive": false,
+          "inherited": false,
+          "special": ["AOE"],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "DAMAGE"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": ["YELLOW"]
+    }
+  ]
+}

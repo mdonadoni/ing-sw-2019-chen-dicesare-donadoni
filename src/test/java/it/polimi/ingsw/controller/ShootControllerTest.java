@@ -252,11 +252,44 @@ class ShootControllerTest {
 
         // Inject choices
         adaView.addSelectable(weapon.getAttacks().get(1).getUuid());
-        adaView.addSelectable(Arrays.asList(bruce.getSquare().getUuid(), charlie.getSquare().getUuid()));
+        adaView.addSelectable(bruce.getSquare().getUuid());
+        adaView.addSelectable(charlie.getSquare().getUuid());
 
         controller.shoot(ada, weapon);
 
         assertEquals(bruce.getDamageTaken().size(), 2);
         assertEquals(charlie.getDamageTaken().size(), 1);
+    }
+
+    @Test
+    void powergloveTest() throws RemoteException{
+        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/powerglove.json"));
+        ada.grabWeapon(weapon);
+        ada.move(board.getSquare(new Coordinate(2, 1)));
+        bruce.move(board.getSquare(new Coordinate(2, 2)));
+        charlie.move(board.getSquare(new Coordinate(2, 2)));
+        daniel.move(board.getSquare(new Coordinate(2, 3)));
+
+        ada.addAmmo(AmmoColor.BLUE);
+        Attack selectedAttack = weapon.getAttacks().get(1);
+        Square selectSquareA = board.getSquare(new Coordinate(2, 2));
+        Square selectSquareB = board.getSquare(new Coordinate(2, 3));
+
+        // Inject choices
+        adaView.addSelectable(selectedAttack.getUuid());
+        adaView.addSelectable(selectSquareA.getUuid());
+        adaView.addSelectable(selectSquareB.getUuid());
+        adaView.addSelectable(bruce.getUuid());
+        adaView.addSelectable(daniel.getUuid());
+
+        controller.shoot(ada, weapon);
+
+        assertEquals(ada.getSquare(), board.getSquare(new Coordinate(2, 3)));
+        assertEquals(bruce.getDamageTaken().size(), 2);
+        assertEquals(charlie.getDamageTaken().size(), 0);
+        assertEquals(daniel.getDamageTaken().size(), 2);
+        assertEquals(bruce.getSquare(), board.getSquare(new Coordinate(2, 2)));
+        assertEquals(charlie.getSquare(), board.getSquare(new Coordinate(2, 2)));
+        assertEquals(daniel.getSquare(), board.getSquare(new Coordinate(2, 3)));
     }
 }

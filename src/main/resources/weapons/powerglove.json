@@ -1,0 +1,87 @@
+{
+  "name": "powerglove",
+  "charged": true,
+  "pickupColor": ["BLUE"],
+  "additionalRechargeColor": "YELLOW",
+  "attacks": [
+    {
+      "id": "C2C8M1wLF",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "square",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": 1,
+          "maxDistance": 1,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects":[
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "DAMAGE"
+            },
+            {
+              "type": "harmful",
+              "value": 2,
+              "harm": "MARK"
+            },
+            {
+              "type": "movement",
+              "value": 1,
+              "visibleDest": "VISIBLE",
+              "line": false,
+              "fixed": true,
+              "self": true
+            }
+          ],
+          "maxPlayerDistance": 0,
+          "numberOfPlayers": 1,
+          "vortex": true
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    },
+    {
+      "id": "o1MO2VPpN",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "square",
+          "numberOfTargets": 2,
+          "visibility": "DC",
+          "minDistance": 1,
+          "maxDistance": 2,
+          "exclusive": false,
+          "inherited": false,
+          "special": ["LINE", "FIX_FARTHEST"],
+          "effects":[
+            {
+              "type": "harmful",
+              "value": 2,
+              "harm": "DAMAGE"
+            },
+            {
+              "type": "movement",
+              "value": 2,
+              "visibleDest": "DC",
+              "fixed": true,
+              "line": true,
+              "self": true
+            }
+          ],
+          "maxPlayerDistance": 0,
+          "numberOfPlayers": 1,
+          "vortex": true
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": ["BLUE"]
+    }
+  ]
+}

@@ -151,6 +151,9 @@ public class Target{
     public boolean isRoom(){
         return special.contains(SpecialArea.ROOM);
     }
+    public boolean fixReverse(){
+        return special.contains(SpecialArea.FIX_FARTHEST);
+    }
     public void addEffect(Effect effect){
         effects.add(effect);
     }
@@ -172,11 +175,14 @@ public class Target{
      * @return True if the visibility constraint is compatible with the visibility of the target square. False otherwise
      */
     boolean checkSquareVisibility(Square origin, Square target){
+        boolean result;
         switch(getVisibility()){
             case VISIBLE:
-                return origin.isVisible(target);
+                result = origin.isVisible(target);
+                return result;
             case INVISIBLE:
-                return !origin.isVisible(target);
+                result = !origin.isVisible(target);
+                return result;
             case DC:
                 return true;
             default:

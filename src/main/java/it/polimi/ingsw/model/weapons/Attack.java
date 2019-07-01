@@ -11,6 +11,7 @@ public class Attack extends Identifiable {
     private Boolean chainAttack;
     private List<Target> baseFire = new ArrayList<>();
     private List<MovementEffect> bonusMovement = new ArrayList<>();
+    private List<AmmoColor> bonusMovementCost = new ArrayList<>();
     private List<Attack> additionalAttacks = new ArrayList<>();
     private List<AmmoColor> cost = new ArrayList<>();
     private String descriptionId;
@@ -31,6 +32,11 @@ public class Attack extends Identifiable {
         }
         for(JsonNode bonusMov : json.get("bonusMovement")){
             addBonusMovement(new MovementEffect(bonusMov));
+        }
+        JsonNode bonusCost = json.get("bonusMovementCost");
+        if(bonusCost!=null){
+            for(JsonNode ammoCost : bonusCost)
+                bonusMovementCost.add(AmmoColor.valueOf(ammoCost.asText().toUpperCase()));
         }
         for(JsonNode ammoCost : json.get("cost")){
             addCost(AmmoColor.valueOf(ammoCost.asText().toUpperCase()));
@@ -71,6 +77,12 @@ public class Attack extends Identifiable {
     }
     public boolean hasAdditionalAttacks(){
         return !additionalAttacks.isEmpty();
+    }
+    public void addBonusMovementCost(AmmoColor singleCost){
+        bonusMovementCost.add(singleCost);
+    }
+    public List<AmmoColor> getBonusMovementCost(){
+        return new ArrayList<>(bonusMovementCost);
     }
     public String getDescriptionId(){
         return descriptionId;

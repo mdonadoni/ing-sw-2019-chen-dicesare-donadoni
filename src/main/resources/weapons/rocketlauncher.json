@@ -1,0 +1,117 @@
+{
+  "name": "rocketlauncher",
+  "charged": true,
+  "pickupColor": ["RED"],
+  "additionalRechargeColor": "RED",
+  "attacks": [
+    {
+      "id": "7hrfGuf6E",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": 1,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 2,
+              "harm": "DAMAGE"
+            },
+            {
+              "type": "movement",
+              "value": 1,
+              "fixed": false,
+              "line": false,
+              "self": false,
+              "visibleDest": "DC"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": false,
+      "bonusMovement": [
+        {
+          "value": 2,
+          "visibleDest": "DC",
+          "line": false,
+          "fixed": false,
+          "self": false
+        }
+      ],
+      "bonusMovementCost": ["BLUE"],
+      "cost": []
+    },
+    {
+      "id": "vv3QsjucW",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "square",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": 1,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": false,
+          "special": ["AOE"],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 1,
+              "harm": "DAMAGE"
+            }
+          ],
+          "maxPlayerDistance": 0,
+          "numberOfPlayers": 5,
+          "vortex": true
+        },
+        {
+          "type": "square",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": 1,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": true,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 2,
+              "harm": "DAMAGE"
+            },
+            {
+              "type": "movement",
+              "value": 1,
+              "fixed": false,
+              "line": false,
+              "self": false,
+              "visibleDest": "DC"
+            }
+          ],
+          "maxPlayerDistance": 0,
+          "numberOfPlayers": 1,
+          "vortex": false
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [
+        {
+          "value": 2,
+          "visibleDest": "DC",
+          "line": false,
+          "fixed": false,
+          "self": false
+        }
+      ],
+      "bonusMovementCost": ["BLUE"],
+      "cost": ["YELLOW"]
+    }
+  ]
+}

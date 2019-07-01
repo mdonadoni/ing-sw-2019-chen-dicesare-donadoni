@@ -24,6 +24,7 @@ public class ActionController {
     private PowerUpController powerUpController;
     private PaymentGateway paymentGateway;
     private Updater updater;
+    private ShootController shootController;
 
     /**
      * Standard constructor
@@ -36,6 +37,7 @@ public class ActionController {
         this.powerUpController = new PowerUpController(match, remoteUsers);
         this.paymentGateway = new PaymentGateway(match);
         this.updater = updater;
+        this.shootController = new ShootController(remoteUsers, match);
     }
 
     /**
@@ -198,17 +200,19 @@ public class ActionController {
     }
 
     /**
-     * Dummy method, will be implemented later
+     * Select the weapon to shoot with, then let the shoot controller do the rest
      */
     private void handleShoot(String playerName) throws RemoteException{
         Player player = match.getPlayerByNickname(playerName);
         RemotePlayer remotePlayer = remoteUsers.get(playerName);
-        List<Player> otherPlayers = match.getOtherPlayers(playerName);
 
-        Player victim = remotePlayer.selectIdentifiable(otherPlayers, 1, 1, Dialog.SHOOT_TARGET).get(0);
+        List<Weapon> usableWeapons = player.getWeapons().stream()
+                .filter(Weapon::isCharged)
+                .collect(Collectors.toList());
 
-        victim.takeDamage(player.getColor(), 2);
-        victim.addMark(player.getColor(), 1);
+        Weapon selectedWeapon = remotePlayer.selectIdentifiable(usableWeapons, 1, 1, Dialog.WEAPON_SHOOT).get(0);
+
+        shootController.shoot(player, selectedWeapon);
 
         updater.updateModel(playerName);
     }

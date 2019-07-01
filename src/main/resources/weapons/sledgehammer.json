@@ -1,0 +1,68 @@
+{
+  "name": "sledgehammer",
+  "charged": true,
+  "pickupColor": [],
+  "additionalRechargeColor": "YELLOW",
+  "attacks": [
+    {
+      "id": "CmkfxmwG9",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": -1,
+          "maxDistance": 0,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 2,
+              "harm": "DAMAGE"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    },
+    {
+      "id": "TAoQ0X6kF",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "VISIBLE",
+          "minDistance": -1,
+          "maxDistance": 0,
+          "exclusive": false,
+          "inherited": false,
+          "special": [],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 3,
+              "harm": "DAMAGE"
+            },
+            {
+              "type": "movement",
+              "value": 2,
+              "visibleDest": "DC",
+              "line": true,
+              "self": false,
+              "fixed": false
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": ["RED"]
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.weapons.Weapon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 /**
@@ -75,8 +76,13 @@ public class GameBoard {
 
     public void refillSpawnPoints() {
         for(SpawnPoint spw : board.getSpawnPoints()){
-            while(!spw.isFull())
-                spw.addWeapon(weaponDeck.draw());
+            try{
+                while(!spw.isFull())
+                    spw.addWeapon(weaponDeck.draw());
+            }
+            catch(NoSuchElementException e){
+                // TODO: E qui che si fa? Le armi non bastano
+            }
         }
     }
 

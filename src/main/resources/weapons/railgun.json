@@ -1,0 +1,60 @@
+{
+  "name": "railgun",
+  "charged": true,
+  "pickupColor": ["YELLOW", "BLUE"],
+  "additionalRechargeColor": "YELLOW",
+  "attacks": [
+    {
+      "id": "fllnmY5dk",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 1,
+          "visibility": "DC",
+          "minDistance": -1,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": false,
+          "special": ["LINE"],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 3,
+              "harm": "DAMAGE"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    },
+    {
+      "id": "1fmo7UaiS",
+      "chainAttack": false,
+      "baseFire": [
+        {
+          "type": "player",
+          "numberOfTargets": 2,
+          "visibility": "DC",
+          "minDistance": -1,
+          "maxDistance": -1,
+          "exclusive": false,
+          "inherited": false,
+          "special": ["LINE"],
+          "effects": [
+            {
+              "type": "harmful",
+              "value": 2,
+              "harm": "DAMAGE"
+            }
+          ]
+        }
+      ],
+      "additionalAttacks": [],
+      "bonusMovement": [],
+      "cost": []
+    }
+  ]
+}

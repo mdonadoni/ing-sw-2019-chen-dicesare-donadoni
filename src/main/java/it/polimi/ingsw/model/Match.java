@@ -140,6 +140,8 @@ public class Match extends Identifiable{
 
         // Refill the ammotile on the squares
         gameBoard.refillAmmoTile();
+        // And also the weapons
+        gameBoard.refillSpawnPoints();
     }
 
     /**
@@ -165,6 +167,13 @@ public class Match extends Identifiable{
     public List<Player> getOtherPlayers(String nickname){
         return players.stream()
                 .filter(e -> !e.getNickname().equals(nickname))
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> getOtherPlayersAlive(String nickname){
+        return players.stream()
+                .filter(e -> !e.getNickname().equals(nickname))
+                .filter(e -> e.getSquare() != null)
                 .collect(Collectors.toList());
     }
 
