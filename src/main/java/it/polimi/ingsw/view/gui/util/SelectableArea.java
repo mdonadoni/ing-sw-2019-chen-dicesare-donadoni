@@ -16,6 +16,7 @@ public class SelectableArea extends Pane implements Selectable {
 
     @Override
     public void enable(Runnable notifyChange) {
+        setVisible(true);
         setOnMouseClicked(e -> notifyChange.run());
         setSelected(false);
     }
@@ -33,6 +34,7 @@ public class SelectableArea extends Pane implements Selectable {
 
     @Override
     public void disable() {
+        setVisible(false);
         setBorder(null);
         setOnMouseClicked(null);
     }
