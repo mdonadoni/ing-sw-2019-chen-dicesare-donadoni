@@ -106,7 +106,7 @@ public class WeaponGUI extends ResizableImage implements Selectable, SelectableC
     @Override
     public void enable(Runnable notifyChange) {
         if (overlay != null) {
-            getChildren().remove(overlay);
+            overlay.setVisible(false);
         }
         select.enable(notifyChange);
     }
@@ -119,7 +119,7 @@ public class WeaponGUI extends ResizableImage implements Selectable, SelectableC
     @Override
     public void disable() {
         if (overlay != null) {
-            getChildren().add(overlay);
+            overlay.setVisible(true);
         }
         select.disable();
     }
