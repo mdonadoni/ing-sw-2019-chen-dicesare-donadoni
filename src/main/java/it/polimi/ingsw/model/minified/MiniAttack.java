@@ -13,11 +13,13 @@ public class MiniAttack extends Identifiable implements Serializable {
 
     private final String id;
     private final List<MiniAttack> additionals;
+    private final MiniMovement bonusMov;
 
     @JsonCreator
     public MiniAttack(){
         id = null;
         additionals = null;
+        bonusMov = null;
     }
 
     public MiniAttack(Attack atk){
@@ -29,6 +31,11 @@ public class MiniAttack extends Identifiable implements Serializable {
             for(Attack add : atk.getAdditionalAttacks())
                 additionals.add(new MiniAttack(add));
         }
+
+        if(atk.hasBonusMovement()){
+            bonusMov = new MiniMovement(atk.getBonusMovement().get(0));
+        }
+        else bonusMov = null;
     }
 
     public String getId(){
