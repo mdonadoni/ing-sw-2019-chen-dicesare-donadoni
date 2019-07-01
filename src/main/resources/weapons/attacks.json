@@ -1,0 +1,130 @@
+[
+  {
+    "id": "8fCWi5Jv8" ,
+    "description": "effetto base: Dai 2 danni e 1 marchio a 1 bersaglio che puoi vedere."
+  },
+  {
+    "id": "dYPYpDSyn",
+    "description": "secondo aggancio: Dai 1 marchio a un altro bersaglio che puoi vedere."
+  },
+  {
+    "id": "68knT4eZg",
+    "description": "effetto base: Dai 2 danni a 1 bersaglio nel quadrato in cui ti trovi."
+  },
+  {
+    "id": "6HdlgvJfE",
+    "description": "modalità sminuzzare: Dai 2 danni a un bersaglio differente nel quadrato in cui ti trovi. Il passo d'ombra può essere usato prima o dopo questo effetto."
+  },
+  {
+    "id": "XBy7uEx43",
+    "description": "modalità base: Dai 1 danno a ogni altro giocatore presente nel quadrato in cui ti trovi."
+  },
+  {
+    "id": "EGbgkfPeV",
+    "description": "modalità mietitore: Dai 2 danni a ogni altro giocatore presente nel quadrato in cui ti trovi."
+  },
+  {
+    "id": "PmfLXgGCh",
+    "description": "modalità base: Scegli un quadrato distante 1 movimento e possibilmente un secondo quadrato distante ancora 1 movimento nella stessa direzione. In ogni quadrato puoi scegliere 1 bersaglio e dargli 1 danno."
+  },
+  {
+    "id": "QYOqr7EtU",
+    "description": "modalità barbecue: Scegli 2 quadrati come prima. Dai 2 danni a chiunque sia nel primo quadrato e 1 danno a chiunque si trovi nel secondo quadrato."
+  },
+  {
+    "id": "84tj5EgvU",
+    "description": "modalità base: Scegli una stanza che puoi vedere, ma non la stanza in cui ti trovi. Dai 1 danno a ognuno in quella stanza."
+  },
+  {
+    "id": "64s2z6biX",
+    "description": "modalità fuoco confortevole: Scegli un quadrato distante esattamente 1 movimento. Dai 1 danno e 1 marchio a ognuno in quel quadrato."
+  },
+  {
+    "id": "CV1RWH32M",
+    "description": "effetto base: Dai 1 danno a 1 bersaglio che puoi vedere. Poi puoi muovere il bersaglio di 1 quadrato."
+  },
+  {
+    "id": "8BfTKWgRc",
+    "description": "granata extra: Dai 1 danno a ogni giocatore in quadrato che puoi vedere. Puoi usare questo effetto prima o dopo il movimento dell'effetto base."
+  },
+  {
+    "id": "J256M8GE3",
+    "description": "effetto: Scegli 1 bersaglio che non puoi vedere e dagli 3 danni."
+  },
+  {
+    "id": "Yys2x1IQb",
+    "description": "modalità base: Dai 1 danno a 1 bersaglio che puoi vedere e distante almeno 1 movimento. Poi dai un marchio a quel bersaglio e a chiunque altro in quel quadrato."
+  },
+  {
+    "id": "sWA37asb9",
+    "description": "modalità nano-traccianti: Dai 1 danno a 1 bersaglio che puoi vedere e distante almeno 1 movimento. Poi dai 2 marchi a quel bersaglio e a chiunque altro in quel quadrato."
+  },
+  {
+    "id": "aftZdt6SJ",
+    "description": "effetto base: Scegli 1 o 2 bersagli che puoi vedere e dai 1 danno a entrambi."
+  },
+  {
+    "id": "Ys371l8TZ",
+    "description": "colpo focalizzato: Dai 1 danno aggiuntivo a uno dei due bersagli."
+  },
+  {
+    "id": "k9q1nxCod",
+    "description": "tripode di supporto: Dai 1 danno aggiuntivo all'altro dei bersagli e/o dai 1 danno a un bersaglio differente che puoi vedere."
+  },
+  {
+    "id": "XwAAmIQLh",
+    "description": "effetto base: Dai 2 danni a 1 bersaglio che puoi vedere."
+  },
+  {
+    "id": "O9TFHEvh1",
+    "description": "colpo sovraccarico: Dai 1 danno aggiuntivo al tuo bersaglio."
+  },
+  {
+    "id": "GU1iHAO9n",
+    "description": "modalità base: Dai 3 danni a 1 bersaglio nel quadrato in cui ti trovi. Se vuoi puoi muovere quel bersaglio di 1 quadrato."
+  },
+  {
+    "id": "pxOcEfYqZ",
+    "description": "modalità canna lunga: Dai 2 danni a 1 bersaglio in un quadrato distante esattamente 1 movimento."
+  },
+  {
+    "id": "s5l3WKQeS",
+    "description": "effetto base: Dai 2 danni a 1 bersaglio che puoi vedere."
+  },
+  {
+    "id": "EUpDfAAF1",
+    "description": "reazione a catena: Dai 1 danno a un secondo bersaglio che il tuo primo bersaglio può vedere."
+  },
+  {
+    "id": "MAOw5iHzA",
+    "description": "alta tensione: Dai 2 danni a un terzo bersaglio che il tuo secondo bersaglio può vedere. Non puoi usare questo effetto se prima non hai usato reazione a catena."
+  },
+  {
+    "id": "SlFKldYEV",
+    "description": "modalità base: Muovi un bersaglio di 0, 1 o 2 quadrati fino a un quadrato che puoi vedere e dagli 1 danno."
+  },
+  {
+    "id": "MCwLh2KlR",
+    "description": "modalità punitore: Scegli un bersaglio 0, 1, o 2 movimenti da te. Muovi quel bersaglio nel quadrato in cui ti trovi edagli 3 danni."
+  },
+  {
+    "id": "5BJtNXRZw",
+    "description": "effetto base: Scegli un quadrato che puoi vedere ad almeno 1 movimento di distanza. Un vortice si apre in quel punto. Scegli un bersaglio nel quadrato in cui si trova il vortice o distante 1 movimento. Muovi il bersaglio nel quadrato in cui si trova il vortice e dagli 2 danni."
+  },
+  {
+    "id": "YXAFkHUXa",
+    "description": "buco nero: Scegli fino ad altri 2 bersagli nel quadrato in cui si trova il vortice o distanti 1 movimento. Muovili nel quadrato in cui si trova il vortice e dai loro 1 danno ciascuno."
+  },
+  {
+    "id": "HNohngbFQ",
+    "description": "effetto: Dai 3 danni e 1 marchio a 1 bersaglio che puoi vedere. Il bersaglio deve essere ad almeno 2 movimenti da te."
+  },
+  {
+    "id": "2mluHdh5L",
+    "description": "modalità base: Dai 1 danno e 2 marchi a 1 bersaglio che puoi vedere."
+  },
+  {
+    "id": "C8xh12Faa",
+    "description": "modalità scanner: Scegli fino a 3 bersagli che puoi vedere e dai 1 marchio a ciascuno."
+  }
+]
