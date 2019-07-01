@@ -35,7 +35,7 @@ public class ClientLauncher {
             parsed = parser.parse(options, args);
 
             if (parsed.hasOption(HOSTNAME)) {
-                Config.setHostname(parsed.getOptionValue(HOSTNAME));
+                Config.parseHostname(parsed.getOptionValue(HOSTNAME));
             }
         } catch (Exception e) {
             HelpPrinter.print(options);

@@ -15,7 +15,7 @@ public class Lobby {
     /**
      * Countdown before starting a match not full.
      */
-    private static final long COUNTDOWN = Config.getLobbyTimeout() * 1000;
+    private static final long COUNTDOWN = Config.getLobbyTimeout() * 1000L;
     private static final int MIN_PLAYERS = Config.getMinPlayers();
     private static final int MAX_PLAYERS = Config.getMaxPlayers();
 

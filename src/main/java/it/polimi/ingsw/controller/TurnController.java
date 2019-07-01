@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.util.config.Config;
 
 import java.rmi.RemoteException;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
 public class TurnController {
     private static final Logger LOG = Logger.getLogger(TurnController.class.getName());
     private static final int NUMBER_OF_MOVES = 2;
-    private static final int TURN_MAX_TIME = 180000;
+    private static final long TURN_MAX_TIME = Config.getTurnTimeout() * 1000L;
 
     private Match match;
     private int movesLeft;
