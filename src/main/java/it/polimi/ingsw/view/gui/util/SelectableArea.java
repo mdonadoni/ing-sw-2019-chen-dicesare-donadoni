@@ -7,6 +7,7 @@ public class SelectableArea extends Pane implements Selectable {
     String uuid;
     public SelectableArea(String uuid) {
         this.uuid = uuid;
+        setVisible(false);
     }
 
     @Override
