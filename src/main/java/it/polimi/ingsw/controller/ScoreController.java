@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerToken;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,10 +60,44 @@ public class ScoreController {
         for(Player playerDamage : killers){
             int pointsIndex = killers.indexOf(playerDamage);
             if(pointsIndex < KILLSHOT_TRACK_POINTS.length)
-                playerDamage.addPoints(KILLSHOT_TRACK_POINTS[pointsIndex]);
+                playerDamage.addKillShotTrackPoints(KILLSHOT_TRACK_POINTS[pointsIndex]);
             else
-                playerDamage.addPoints(LOWEST_KILLSHOT_TRACK_POINTS);
+                playerDamage.addKillShotTrackPoints(LOWEST_KILLSHOT_TRACK_POINTS);
         }
+    }
+
+    /**
+     * Generate the final standings.
+     * @return List of StandingsItem.
+     */
+    public List<StandingsItem> getFinalStandings() {
+        Comparator<Player> comparePoints = (p1, p2) -> {
+            if (p1.getTotalPoints() == p2.getTotalPoints()) {
+                return p2.getKillShotTrackPoints() - p1.getKillShotTrackPoints();
+            }
+            return p2.getTotalPoints() - p1.getTotalPoints();
+        };
+
+        List<Player> orderedPlayers = match.getPlayers().stream()
+                .sorted(comparePoints)
+                .collect(Collectors.toList());
+
+        List<StandingsItem> standings = new ArrayList<>();
+
+        int lastPosition = 0;
+        for (int i = 0; i < orderedPlayers.size(); i++) {
+            Player p = orderedPlayers.get(i);
+
+            int position = lastPosition;
+            if (i == 0 || comparePoints.compare(orderedPlayers.get(i-1), p) != 0) {
+                position = standings.size()+1;
+            }
+
+            lastPosition = position;
+            standings.add(new StandingsItem(position, p.getNickname(), p.getTotalPoints(), p.getColor()));
+        }
+
+        return standings;
     }
 
     /**

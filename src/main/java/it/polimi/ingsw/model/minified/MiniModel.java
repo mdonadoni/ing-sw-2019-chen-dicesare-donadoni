@@ -33,7 +33,7 @@ public class MiniModel implements Serializable {
         this.myNickname = player.getNickname();
         this.myPowerUps = new ArrayList<>(player.getPowerUps());
         this.myDrawnPowerUps = new ArrayList<>(player.getDrawnPowerUps());
-        this.myPoints = player.getPoints();
+        this.myPoints = player.getTotalPoints();
     }
 
     public MiniMatch getMatch() {

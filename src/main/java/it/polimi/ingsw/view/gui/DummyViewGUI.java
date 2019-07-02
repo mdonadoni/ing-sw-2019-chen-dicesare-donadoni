@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.LocalView;
@@ -29,6 +30,11 @@ public class DummyViewGUI extends LocalView {
     @Override
     public synchronized void updateModel(MiniModel model) {
         gui.updateModel(model);
+    }
+
+    @Override
+    public synchronized void notifyEndMatch(ArrayList<StandingsItem> standings) {
+        gui.notifyEndMatch(standings);
     }
 
     public synchronized void loginCallback(LoginInfo info, Consumer<LoginResult> callback) {

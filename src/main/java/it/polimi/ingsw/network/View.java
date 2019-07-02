@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 
@@ -35,6 +36,13 @@ public interface View extends Remote {
      * @throws RemoteException If there is a network error.
      */
     void updateModel(MiniModel model) throws RemoteException;
+
+    /**
+     * Notify the end of a game and send the standings.
+     * @param standings Final Standings of the game.
+     * @throws RemoteException If there is a network error.
+     */
+    void notifyEndMatch(ArrayList<StandingsItem> standings) throws RemoteException;
 
     /**
      * No-op method used to establish if connection is still up.

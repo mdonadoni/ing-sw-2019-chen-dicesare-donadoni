@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.common.dialogs.Dialogs;
 import it.polimi.ingsw.model.minified.MiniModel;
@@ -7,6 +8,7 @@ import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.LocalView;
 import it.polimi.ingsw.view.Descriptions;
 import it.polimi.ingsw.view.cli.component.ModelCLI;
+import it.polimi.ingsw.view.cli.util.ColorCLI;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -17,6 +19,7 @@ import java.util.logging.Logger;
 public class ViewCLI extends LocalView implements Runnable {
     private static final Logger LOG = Logger.getLogger(ViewCLI.class.getName());
 
+    private static final String STANDINGS_LINE = "{0}) {1} ({2} punti)";
 
     private Scanner scanner;
     private MiniModel model;
@@ -131,6 +134,20 @@ public class ViewCLI extends LocalView implements Runnable {
         List<String> view = modelCLI.viewModel();
         for (String s : view) {
             println(s);
+        }
+    }
+
+    @Override
+    public synchronized void notifyEndMatch(ArrayList<StandingsItem> standings) {
+        cls();
+        println(Dialogs.getDialog(Dialog.FINAL_STANDINGS));
+        for (StandingsItem s : standings) {
+            System.out.println(
+                    MessageFormat.format(
+                            STANDINGS_LINE,
+                            s.getPosition(),
+                            ColorCLI.getPlayerColor(s.getColor(), s.getNickname()),
+                            s.getPoints()));
         }
     }
 

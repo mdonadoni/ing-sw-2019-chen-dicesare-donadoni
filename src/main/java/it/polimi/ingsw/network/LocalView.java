@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 
@@ -99,6 +100,13 @@ public abstract class LocalView implements View {
      */
     @Override
     public abstract void updateModel(MiniModel model);
+
+    /**
+     * Notify the end of a match.
+     * @param standings Final Standings of the game.
+     */
+    @Override
+    public abstract void notifyEndMatch(ArrayList<StandingsItem> standings);
 
     /**
      * Method used to check if connection is up. Shouldn't do anything.

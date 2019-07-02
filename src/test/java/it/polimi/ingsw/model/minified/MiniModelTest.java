@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.minified;
 
+import it.polimi.ingsw.common.UtilSerialization;
 import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

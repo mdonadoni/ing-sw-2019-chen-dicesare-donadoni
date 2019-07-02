@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,11 +56,11 @@ class ScoreControllerTest {
         controller.lookForScoreUpdates();
 
         // Should have 8 + 1 points
-        assertEquals(adaPlayer.getPoints(), 9);
+        assertEquals(adaPlayer.getTotalPoints(), 9);
         // Second damage dealer: 6 points
-        assertEquals(cosoPlayer.getPoints(), 6);
+        assertEquals(cosoPlayer.getTotalPoints(), 6);
         // Last one, but should also have a token on the kill track
-        assertEquals(debianPlayer.getPoints(), 4);
+        assertEquals(debianPlayer.getTotalPoints(), 4);
         assertTrue(match.getGameBoard().getKillShotTrackOrder().contains(debianColor));
 
         assertFalse(bedaPlayer.isDead());
@@ -86,14 +87,14 @@ class ScoreControllerTest {
 
         // Only Ada is dead, so only her board should be cleaned
         // Beda must have achieved 6 + 1 points and a mark from Ada
-        assertEquals(bedaPlayer.getPoints(), 7);
+        assertEquals(bedaPlayer.getTotalPoints(), 7);
         assertEquals(bedaPlayer.getMarks().get(0), adaColor);
 
         // Then we have Debian with 4 points
-        assertEquals(debianPlayer.getPoints(), 4);
+        assertEquals(debianPlayer.getTotalPoints(), 4);
 
         // Finally Coso with 2 points
-        assertEquals(cosoPlayer.getPoints(), 2);
+        assertEquals(cosoPlayer.getTotalPoints(), 2);
     }
 
     @Test
@@ -108,10 +109,10 @@ class ScoreControllerTest {
         controller.lookForScoreUpdates();
 
         // Everyone 1 point except Debian who has also the first blood
-        assertEquals(debianPlayer.getPoints(), 2);
-        assertEquals(cosoPlayer.getPoints(), 1);
-        assertEquals(bedaPlayer.getPoints(), 1);
-        assertEquals(adaPlayer.getPoints(), 0);
+        assertEquals(debianPlayer.getTotalPoints(), 2);
+        assertEquals(cosoPlayer.getTotalPoints(), 1);
+        assertEquals(bedaPlayer.getTotalPoints(), 1);
+        assertEquals(adaPlayer.getTotalPoints(), 0);
     }
 
     @Test
@@ -122,6 +123,54 @@ class ScoreControllerTest {
         controller.lookForScoreUpdates();
 
         // Ada should have 8 + 1 + 8 + 1 + 1
-        assertEquals(adaPlayer.getPoints(), 19);
+        assertEquals(adaPlayer.getTotalPoints(), 19);
+    }
+
+    @Test
+    void finalStandings() {
+        adaPlayer.addPoints(5);
+        adaPlayer.addKillShotTrackPoints(2);
+
+        bedaPlayer.addPoints(1);
+        bedaPlayer.addKillShotTrackPoints(3);
+
+        debianPlayer.addPoints(1);
+        debianPlayer.addKillShotTrackPoints(3);
+
+        cosoPlayer.addPoints(2);
+        cosoPlayer.addKillShotTrackPoints(2);
+
+        // I expect ada first, beda and debian second, coso fourth
+        List<StandingsItem> standings = controller.getFinalStandings();
+        assertEquals(adaPlayer.getNickname(), standings.get(0).getNickname());
+        assertEquals(cosoPlayer.getNickname(), standings.get(3).getNickname());
+
+        assertEquals(1, standings.get(0).getPosition());
+        assertEquals(2, standings.get(1).getPosition());
+        assertEquals(2, standings.get(2).getPosition());
+        assertEquals(4, standings.get(3).getPosition());
+    }
+
+    @Test
+    void finalStandingsAllEqual() {
+        adaPlayer.addPoints(5);
+        adaPlayer.addKillShotTrackPoints(2);
+
+        bedaPlayer.addPoints(5);
+        bedaPlayer.addKillShotTrackPoints(2);
+
+        cosoPlayer.addPoints(5);
+        cosoPlayer.addKillShotTrackPoints(2);
+
+        debianPlayer.addPoints(5);
+        debianPlayer.addKillShotTrackPoints(2);
+
+        // I expect ada, beda, debian, coso first
+        List<StandingsItem> standings = controller.getFinalStandings();
+
+        assertEquals(1, standings.get(0).getPosition());
+        assertEquals(1, standings.get(1).getPosition());
+        assertEquals(1, standings.get(2).getPosition());
+        assertEquals(1, standings.get(3).getPosition());
     }
 }

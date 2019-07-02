@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 
@@ -31,6 +32,11 @@ public class TestView implements View {
     @Override
     public void updateModel(MiniModel model) throws RemoteException {
         // Mhh
+    }
+
+    @Override
+    public void notifyEndMatch(ArrayList<StandingsItem> standings) throws RemoteException {
+        // here we are again
     }
 
     @Override

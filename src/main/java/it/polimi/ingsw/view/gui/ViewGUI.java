@@ -1,10 +1,12 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.view.gui.component.UserViewGUI;
 import it.polimi.ingsw.view.gui.util.Notification;
 import it.polimi.ingsw.view.gui.util.Selectable;
+import it.polimi.ingsw.view.gui.util.StandingsPane;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -202,6 +204,10 @@ public class ViewGUI extends Application {
     public void updateModel(MiniModel model) {
         mainPane.setModel(model);
         Platform.runLater(() -> primaryStage.getScene().setRoot(mainPane));
+    }
+
+    public void notifyEndMatch(List<StandingsItem> standings) {
+        Platform.runLater(() -> primaryStage.getScene().setRoot(new StandingsPane(standings)));
     }
 
     public void disconnect() {

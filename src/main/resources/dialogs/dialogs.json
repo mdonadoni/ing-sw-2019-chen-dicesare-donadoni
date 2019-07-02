@@ -19,5 +19,6 @@
   "invalid_selection": "Selezione non valida",
   "new_selection": "Nuova selezione",
   "invalid_integer": "Inserisci un intero valido",
-  "confirm": "Conferma"
+  "confirm": "Conferma",
+  "final_standings": "Ecco la classifica finale!"
 }

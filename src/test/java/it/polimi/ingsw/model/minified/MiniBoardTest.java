@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.minified;
 
+import it.polimi.ingsw.common.UtilSerialization;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.BoardSample;
 import it.polimi.ingsw.model.Coordinate;

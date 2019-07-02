@@ -21,5 +21,6 @@ public enum Dialog {
     INVALID_SELECTION,
     NEW_SELECTION,
     INVALID_INTEGER,
-    CONFIRM
+    CONFIRM,
+    FINAL_STANDINGS
 }

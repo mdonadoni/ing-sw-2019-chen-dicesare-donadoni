@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.minified;
 
+import it.polimi.ingsw.common.UtilSerialization;
 import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.AmmoTile;
 import it.polimi.ingsw.model.Player;
