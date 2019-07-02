@@ -3,7 +3,8 @@ package it.polimi.ingsw.util.config;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ConfigurationsTest {
 
@@ -63,5 +64,12 @@ class ConfigurationsTest {
         config.loadJson(getClass().getResourceAsStream("/configtest.json"));
         assertEquals(config.getInt("prova1"), 25);
         assertEquals(config.getString("prova2"), "lollipop");
+    }
+
+    @Test
+    void builder() {
+        config.intBuilder("builder").withValue(2).withMinValue(2).withMaxValue(3).add();
+        assertEquals(2, config.getInt("builder"));
+        assertThrows(ConfigException.class, () -> config.set("builder", 1));
     }
 }

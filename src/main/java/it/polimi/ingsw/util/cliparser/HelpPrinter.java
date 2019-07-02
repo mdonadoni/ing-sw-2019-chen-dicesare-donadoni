@@ -60,4 +60,12 @@ public class HelpPrinter {
         }
         writer.flush();
     }
+
+    public static void printWithError(Options options, String error) {
+        print(options);
+        PrintStream writer = new PrintStream(System.err);
+        writer.println();
+        writer.println(error);
+        writer.flush();
+    }
 }

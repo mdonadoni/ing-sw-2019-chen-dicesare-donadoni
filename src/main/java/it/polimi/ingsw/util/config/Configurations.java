@@ -11,6 +11,36 @@ import java.util.Map;
 public class Configurations {
     private Map<String, ConfigEntry> entryMap = new HashMap<>();
 
+    public class IntBuilder {
+        private String name;
+        private int value;
+        private Integer minValue = null;
+        private Integer maxValue = null;
+
+        IntBuilder(String name) {
+            this.name = name;
+        }
+
+        public IntBuilder withValue(int value) {
+            this.value = value;
+            return this;
+        }
+
+        public IntBuilder withMinValue(int minValue) {
+            this.minValue = minValue;
+            return this;
+        }
+
+        public IntBuilder withMaxValue(int maxValue) {
+            this.maxValue = maxValue;
+            return this;
+        }
+
+        public void add() {
+            Configurations.this.add(name, value, minValue, maxValue);
+        }
+    }
+
     private void add(ConfigEntry entry) {
         if (entryMap.containsKey(entry.getName())) {
             throw new ConfigException("Key " + entry.getName() + " already inside");
@@ -27,6 +57,11 @@ public class Configurations {
     public void add(String name, int value) {
         add(new IntConfigEntry(name, value));
     }
+
+    public void add(String name, int value, Integer minValue, Integer maxValue) {
+        add(new IntConfigEntry(name, value, minValue, maxValue));
+    }
+
 
     public void add(String name, String value) {
         add(new StringConfigEntry(name, value));
@@ -55,6 +90,10 @@ public class Configurations {
     public void set(String name, int value) {
         throwIfNotFound(name);
         entryMap.get(name).set(value);
+    }
+
+    public IntBuilder intBuilder(String name) {
+        return new IntBuilder(name);
     }
 
     public void loadJson(InputStream stream) {

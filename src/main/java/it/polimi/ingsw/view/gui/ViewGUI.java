@@ -144,17 +144,21 @@ public class ViewGUI extends Application {
         main.setCenter(userView);
         main.setBottom(confirmSelection);
 
-        Weapon w = new Weapon(WeaponType.ZX2);
+        Weapon w = new Weapon(WeaponType.ROCKETLAUNCHER);
         MiniWeapon mw = new MiniWeapon(w);
         WeaponGUI wgui = null;
         try {
             wgui = new WeaponGUI(mw, false);
+            List<String> uuids = new ArrayList<>();
             for (MiniAttack atk : mw.getAttacks()) {
-                wgui.findSelectable(atk.getUuid()).enable(() -> {});
                 if (atk.hasBonusMovement()) {
-                    wgui.findSelectable(atk.getBonusMovement().getUuid()).enable(() -> {});
+                    uuids.add(atk.getBonusMovement().getUuid());
                 }
             }
+
+            wgui.findSelectable(uuids.get(0)).enable(() -> {
+                System.out.println("cliccato");
+            });
         }catch (Exception e) {
             e.printStackTrace();
         }
