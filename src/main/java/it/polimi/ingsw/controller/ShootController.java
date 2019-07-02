@@ -4,7 +4,6 @@ import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.weapons.*;
 
-import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.logging.Level;
@@ -22,6 +21,7 @@ public class ShootController {
     private Square targetFixedSquare;
     private Updater updater;
     private List<Player> mayUseTagback;
+    private List<Player> alreadyScoped;
 
     public ShootController(Map<String, RemotePlayer> remoteUsers, Match match){
         this.remoteUsers = remoteUsers;
@@ -34,6 +34,7 @@ public class ShootController {
         inheritedPlayerTargets = new ArrayList<>();
         alreadyShotTargets = new ArrayList<>();
         mayUseTagback = new ArrayList<>();
+        alreadyScoped = new ArrayList<>();
     }
 
     public void shoot(Player player, Weapon weapon) throws RemoteException{
@@ -417,7 +418,7 @@ public class ShootController {
             if(target.hasTagback() && target.getSquare().isVisible(source.getSquare()) && !mayUseTagback.contains(target))
                 mayUseTagback.add(target);
 
-            if(source.hasTargetingscope())
+            if(source.hasTargetingscope() && !alreadyScoped.contains(target))
                 useTargetingscope(source, target);
         }
         else {
@@ -467,6 +468,7 @@ public class ShootController {
                     victim.addDamageWithoutMarks(player.getColor(), 1);
                     player.clearDrawnPowerUps();
                     match.getGameBoard().getPowerUpDeck().discard(selected.get(0));
+                    alreadyScoped.add(victim);
                 }
             }
         } catch(RemoteException e){
