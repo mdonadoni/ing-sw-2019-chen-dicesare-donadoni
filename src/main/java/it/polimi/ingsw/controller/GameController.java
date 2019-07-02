@@ -18,11 +18,7 @@ public class GameController implements Runnable{
     private Updater updater;
     private AtomicBoolean finished = new AtomicBoolean(false);
     private ScoreController scoreController;
-    private Vector<RemotePlayer> waitingList;
-
-    public GameController(Match match){
-        this.match = match;
-    }
+    private final List<RemotePlayer> waitingList;
 
     public GameController(List<RemotePlayer> connectedPlayers, BoardType bdType) {
         List<String> nicknames = new ArrayList<>();
@@ -33,7 +29,7 @@ public class GameController implements Runnable{
         updater = new Updater(remotePlayers, match);
         turn = new TurnController(match, remotePlayers, updater);
         scoreController = new ScoreController(match);
-        waitingList = new Vector<>();
+        waitingList = new ArrayList<>();
     }
 
     public void spawnRoutine(Player player, int cardsToDraw) throws RemoteException {
@@ -223,11 +219,11 @@ public class GameController implements Runnable{
         return remotePlayers.get(nickname);
     }
 
-    public void addReconnectingPlayer(RemotePlayer reconnectingPlayer){
+    public synchronized void addReconnectingPlayer(RemotePlayer reconnectingPlayer){
         waitingList.add(reconnectingPlayer);
     }
 
-    private void addReconnectedPlayers(){
+    private synchronized void addReconnectedPlayers(){
         for(RemotePlayer remotePlayer : waitingList){
             remotePlayers.replace(remotePlayer.getNickname(), remotePlayer);
             match.getPlayerByNickname(remotePlayer.getNickname()).setActive(true);
