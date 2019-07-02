@@ -15,7 +15,6 @@ class WeaponTest {
         assertEquals(wp.getPickupColor().get(0), AmmoColor.BLUE);
         assertEquals(wp.getPickupColor().get(1), AmmoColor.RED);
         Attack att = wp.getAttacks().get(0);
-        assertFalse(att.getChainAttack());
         assertEquals(att.getCost().size(), 2);
         assertEquals(att.getCost().get(0), AmmoColor.YELLOW);
         PlayerTarget plTg = (PlayerTarget)att.getBaseFire().get(0);

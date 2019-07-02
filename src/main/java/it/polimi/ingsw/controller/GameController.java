@@ -153,10 +153,13 @@ public class GameController implements Runnable{
         }
 
         // Now it's time for final frenzy, which has already been triggered
-        LOG.log(Level.INFO, "Final Frenzy has started");
-        for(Player pl : match.getActivePlayers()){
-            getRemotePlayer(pl.getNickname()).safeShowMessage("È iniziata la Frenesia Finale!");
+        if(match.isActive()){
+            LOG.log(Level.INFO, "Final Frenzy has started");
+            for(Player pl : match.getActivePlayers()){
+                getRemotePlayer(pl.getNickname()).safeShowMessage("È iniziata la Frenesia Finale!");
+            }
         }
+
         int numberOfActivePlayers = (int) match.getPlayers().stream()
                 .filter(Player::isActive)
                 .count();

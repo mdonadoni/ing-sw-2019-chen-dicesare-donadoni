@@ -292,4 +292,33 @@ class ShootControllerTest {
         assertEquals(charlie.getSquare(), board.getSquare(new Coordinate(2, 2)));
         assertEquals(daniel.getSquare(), board.getSquare(new Coordinate(2, 3)));
     }
+
+    @Test
+    void thorTest() throws RemoteException{
+        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/thor.json"));
+        ada.grabWeapon(weapon);
+        ada.move(board.getSquare(new Coordinate(1, 3)));
+        bruce.move(board.getSquare(new Coordinate(1, 1)));
+        charlie.move(board.getSquare(new Coordinate(0, 1)));
+        daniel.move(board.getSquare(new Coordinate(1, 0)));
+
+        ada.addAmmo(AmmoColor.BLUE);
+        ada.addAmmo(AmmoColor.BLUE);
+
+        Attack firstAdditional = weapon.getAttacks().get(0).getAdditionalAttacks().get(0);
+        Attack secondAdditional = firstAdditional.getAdditionalAttacks().get(0);
+
+        // Inject choices
+        adaView.addSelectable(bruce.getUuid());
+        adaView.addSelectable(firstAdditional.getUuid());
+        adaView.addSelectable(charlie.getUuid());
+        adaView.addSelectable(secondAdditional.getUuid());
+        adaView.addSelectable(daniel.getUuid());
+
+        controller.shoot(ada, weapon);
+
+        assertEquals(bruce.getDamageTaken().size(), 2);
+        assertEquals(charlie.getDamageTaken().size(), 1);
+        assertEquals(daniel.getDamageTaken().size(), 2);
+    }
 }

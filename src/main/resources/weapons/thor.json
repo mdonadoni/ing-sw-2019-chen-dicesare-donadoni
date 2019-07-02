@@ -39,7 +39,7 @@
               "maxDistance": -1,
               "exclusive": true,
               "inherited": false,
-              "special": [],
+              "special": ["CHAIN"],
               "effects": [
                 {
                   "type": "harmful",
@@ -62,7 +62,7 @@
                   "maxDistance": -1,
                   "exclusive": true,
                   "inherited": false,
-                  "special": [],
+                  "special": ["CHAIN"],
                   "effects": [
                     {
                       "type": "harmful",

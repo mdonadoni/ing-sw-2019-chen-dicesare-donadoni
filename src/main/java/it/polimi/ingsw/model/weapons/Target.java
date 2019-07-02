@@ -154,6 +154,9 @@ public class Target{
     public boolean fixReverse(){
         return special.contains(SpecialArea.FIX_FARTHEST);
     }
+    public boolean isChain(){
+        return special.contains(SpecialArea.CHAIN);
+    }
     public void addEffect(Effect effect){
         effects.add(effect);
     }

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Attack extends Identifiable {
-    private Boolean chainAttack;
     private List<Target> baseFire = new ArrayList<>();
     private List<MovementEffect> bonusMovement = new ArrayList<>();
     private List<AmmoColor> bonusMovementCost = new ArrayList<>();
@@ -20,7 +19,6 @@ public class Attack extends Identifiable {
 
     Attack(JsonNode json){
         descriptionId = json.get("id").asText();
-        chainAttack = json.get("chainAttack").asBoolean();
         for(JsonNode target : json.get("baseFire")){
             if(target.get("type").asText().equals("player"))
                 addBaseFire(new PlayerTarget(target));
@@ -59,12 +57,6 @@ public class Attack extends Identifiable {
     }
     public List<Target> getBaseFire(){
         return baseFire;
-    }
-    public void setChainAttack(Boolean chainAttack) {
-        this.chainAttack = chainAttack;
-    }
-    public boolean getChainAttack(){
-        return chainAttack;
     }
     public void addCost(AmmoColor ammo){
         cost.add(ammo);

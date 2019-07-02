@@ -347,8 +347,9 @@ public class ShootController {
         RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
         int max = target.getNumberOfTargets();
         boolean compatible = false;
+        final Player originPlayer = target.isChain() ? alreadyShotTargets.get(alreadyShotTargets.size()-1) : player;
 
-        List<Player> enemies = getHittableEnemies(player, target);
+        List<Player> enemies = getHittableEnemies(originPlayer, target);
 
         List<Player> targets = new ArrayList<>();
 
@@ -365,7 +366,7 @@ public class ShootController {
         // Ask the player who he wants to attacks
         while(!compatible){
             targets = remotePlayer.selectIdentifiable(enemies, 0, max, Dialog.SHOOT_TARGET);
-            if(!target.compatibleTargetPlayers(player, targets)){
+            if(!target.compatibleTargetPlayers(originPlayer, targets)){
                 // TODO: showMessage() to notify the targets are not compatible
             }
             else

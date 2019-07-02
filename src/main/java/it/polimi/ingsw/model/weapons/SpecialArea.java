@@ -17,5 +17,9 @@ public enum SpecialArea {
      * If the attack fixes a target, in case of multiple target, the farthest one will be selected. Should always be
      * used with LINE
      */
-    FIX_FARTHEST
+    FIX_FARTHEST,
+    /**
+     * The visibility of the target must be evaluated using the last target hit
+     */
+    CHAIN
 }
