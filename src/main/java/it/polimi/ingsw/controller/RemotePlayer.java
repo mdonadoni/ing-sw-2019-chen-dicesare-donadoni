@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.common.dialogs.Dialogs;
 import it.polimi.ingsw.model.Identifiable;
@@ -244,6 +245,13 @@ public class RemotePlayer {
     public void updateModel(MiniModel model, long timeout) throws RemoteException {
         throwOnTimeout(() -> {
             view.updateModel(model);
+            return null;
+        }, timeout);
+    }
+
+    public void notifyEndMatch(List<StandingsItem> standings, long timeout) throws RemoteException {
+        throwOnTimeout(() -> {
+            view.notifyEndMatch(new ArrayList<>(standings));
             return null;
         }, timeout);
     }

@@ -40,7 +40,12 @@ public class Player extends Identifiable{
     /**
      * It keeps how many points the Player has.
      */
-    private int points;
+    private int totalPoints;
+    /**
+     * It keeps the number of points given from the killshot track. Useful for
+     * final standings calculation.
+     */
+    private int killShotTrackPoints;
     /**
      * It shows if the player board has been flipped.
      */
@@ -96,7 +101,8 @@ public class Player extends Identifiable{
         startingPlayer = false;
         skulls = 0;
         active=true;
-        points = 0;
+        totalPoints = 0;
+        killShotTrackPoints = 0;
         boardFlipped = false;
         marks = new ArrayList<>();
         damageTaken = new ArrayList<>();
@@ -361,7 +367,16 @@ public class Player extends Identifiable{
      * @param points gained points by the player.
      */
     public void addPoints(int points){
-        this.points += points;
+        this.totalPoints += points;
+    }
+
+    /**
+     * Add points from the killshot track to killShotTrackPoints and to totalPoints.
+     * @param points Number of points to be added.
+     */
+    public void addKillShotTrackPoints(int points) {
+        this.killShotTrackPoints += points;
+        addPoints(points);
     }
 
     /**
@@ -483,8 +498,16 @@ public class Player extends Identifiable{
      * Get player's points
      * @return player's points
      */
-    public int getPoints() {
-        return points;
+    public int getTotalPoints() {
+        return totalPoints;
+    }
+
+    /**
+     * Get player's killshot track points.
+     * @return Player's killshot track points.
+     */
+    public int getKillShotTrackPoints() {
+        return killShotTrackPoints;
     }
 
     /**

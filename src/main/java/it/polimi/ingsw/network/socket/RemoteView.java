@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.socket;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.LocalServer;
@@ -102,6 +103,16 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
     @Override
     public void updateModel(MiniModel model) throws RemoteException {
         sendAndWait(new UpdateModelRequest(model), VoidResponse.class);
+    }
+
+    /**
+     * Request to show the standings and signal the end of a match.
+     * @param standings Final Standings of the game.
+     * @throws RemoteException If there is an error while invoking the method.
+     */
+    @Override
+    public void notifyEndMatch(ArrayList<StandingsItem> standings) throws RemoteException {
+        sendAndWait(new NotifyEndMatchRequest(standings), VoidResponse.class);
     }
 
     /**

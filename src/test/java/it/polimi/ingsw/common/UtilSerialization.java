@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.minified;
+package it.polimi.ingsw.common;
 
 import it.polimi.ingsw.util.Json;
 

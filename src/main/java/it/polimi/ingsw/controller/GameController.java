@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.*;
 
@@ -176,9 +177,24 @@ public class GameController implements Runnable{
 
         // The match is finished
         LOG.log(Level.INFO, "Match {0} finished", match.getUuid());
+        finished.set(true);
         LOG.log(Level.INFO, "Calculating final scores");
         scoreController.endGamePoints();
-        finished.set(true);
+        notifyEndMatch();
+    }
+
+    private void notifyEndMatch() {
+        List<StandingsItem> standings = scoreController.getFinalStandings();
+        for (RemotePlayer p : remotePlayers.values()) {
+            try {
+                // TODO hardcoded value
+                p.notifyEndMatch(standings, 5000);
+                p.disconnect();
+            } catch (RemoteException e) {
+                LOG.warning(() -> "Couldn't send final standings to " + p.getNickname());
+            }
+        }
+
     }
 
     public boolean isFinished() {

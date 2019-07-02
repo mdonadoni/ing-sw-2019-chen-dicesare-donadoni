@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.minified;
 
+import it.polimi.ingsw.common.UtilSerialization;
 import it.polimi.ingsw.model.BoardType;
 import it.polimi.ingsw.model.GameBoard;
 import it.polimi.ingsw.model.JsonModelFactory;

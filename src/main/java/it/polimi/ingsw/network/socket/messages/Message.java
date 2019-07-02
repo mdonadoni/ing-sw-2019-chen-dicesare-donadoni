@@ -22,6 +22,7 @@ import java.util.UUID;
         @JsonSubTypes.Type(value = UpdateModelRequest.class, name = "UpdateModelRequest"),
         @JsonSubTypes.Type(value = PingRequest.class, name = "PingRequest"),
         @JsonSubTypes.Type(value = VoidResponse.class, name = "VoidResponse"),
+        @JsonSubTypes.Type(value = NotifyEndMatchRequest.class, name = "NotifyEndMatch"),
 })
 public class Message {
     /**

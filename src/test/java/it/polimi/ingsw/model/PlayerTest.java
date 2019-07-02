@@ -166,4 +166,13 @@ class PlayerTest {
         assertFalse(player.canPay(cost));
     }
 
+    @Test
+    void killShotTrackPoints() {
+        player.addKillShotTrackPoints(3);
+        player.addPoints(12);
+
+        assertEquals(15, player.getTotalPoints());
+        assertEquals(3, player.getKillShotTrackPoints());
+    }
+
 }

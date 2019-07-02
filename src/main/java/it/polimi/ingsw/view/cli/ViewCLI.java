@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.common.dialogs.Dialogs;
 import it.polimi.ingsw.model.minified.MiniModel;
@@ -132,6 +133,11 @@ public class ViewCLI extends LocalView implements Runnable {
         for (String s : view) {
             println(s);
         }
+    }
+
+    @Override
+    public void notifyEndMatch(ArrayList<StandingsItem> standings) {
+        // TODO
     }
 
     private synchronized String  readLine() {

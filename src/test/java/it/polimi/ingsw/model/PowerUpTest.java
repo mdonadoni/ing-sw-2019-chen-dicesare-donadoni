@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.minified.UtilSerialization;
+import it.polimi.ingsw.common.UtilSerialization;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

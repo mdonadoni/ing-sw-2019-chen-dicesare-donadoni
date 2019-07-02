@@ -1,14 +1,13 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.LocalView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-import java.util.UUID;
+import java.text.MessageFormat;
+import java.util.*;
 
 public class ViewBot extends LocalView implements Runnable {
 
@@ -58,6 +57,19 @@ public class ViewBot extends LocalView implements Runnable {
     public synchronized void updateModel(MiniModel model) {
         System.out.println("NEW MODEL");
         this.model = model;
+    }
+
+    @Override
+    public void notifyEndMatch(ArrayList<StandingsItem> standings) {
+        System.out.println("FINE MATCH");
+        for (StandingsItem s : standings) {
+            System.out.println(
+                    MessageFormat.format(
+                            "{0}) {1} ({2} punti)",
+                            s.getPosition(),
+                            s.getNickname(),
+                            s.getPoints()));
+        }
     }
 
     @Override
