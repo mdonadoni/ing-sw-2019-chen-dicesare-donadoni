@@ -19,14 +19,7 @@ public class OptionsParser {
 
         while (argsIter.hasNext()) {
             // Find option name
-            String optionName = argsIter.next();
-            if (optionName.startsWith("--")) {
-                optionName = optionName.substring(2);
-            } else if (optionName.startsWith("-")) {
-                optionName = optionName.substring(1);
-            } else {
-                throw new CLIParserException("Invalid option: " + optionName);
-            }
+            String optionName = getOptionName(argsIter.next());
 
             if (!options.hasOption(optionName)) {
                 throw new CLIParserException("Option not found: " + optionName);
@@ -38,7 +31,11 @@ public class OptionsParser {
                 if (!argsIter.hasNext()) {
                     throw new CLIParserException("Option has no argument: " + optionName);
                 }
-                parsed.addOption(option, argsIter.next());
+                String nextToken = argsIter.next();
+                if (isOption(nextToken)) {
+                    throw new CLIParserException("Option has no argument: " + optionName);
+                }
+                parsed.addOption(option, nextToken);
             } else {
                 parsed.addOption(option);
             }
@@ -58,5 +55,19 @@ public class OptionsParser {
         }
 
         return parsed;
+    }
+
+    private boolean isOption(String token) {
+        return token.startsWith("-") && !token.startsWith("---");
+    }
+
+    private String getOptionName(String token) {
+        if (!isOption(token)) {
+            throw new CLIParserException("Invalid option: " + token);
+        } else if (token.startsWith("--")) {
+            return token.substring(2);
+        } else {
+            return token.substring(1);
+        }
     }
 }

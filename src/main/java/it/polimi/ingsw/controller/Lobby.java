@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.util.config.Config;
+import it.polimi.ingsw.common.ServerConfig;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -15,9 +15,9 @@ public class Lobby {
     /**
      * Countdown before starting a match not full.
      */
-    private static final long COUNTDOWN = Config.getLobbyTimeout() * 1000L;
-    private static final int MIN_PLAYERS = Config.getMinPlayers();
-    private static final int MAX_PLAYERS = Config.getMaxPlayers();
+    private static final long COUNTDOWN = ServerConfig.getLobbyTimeout() * 1000L;
+    private static final int MIN_PLAYERS = ServerConfig.getMinPlayers();
+    private static final int MAX_PLAYERS = ServerConfig.getMaxPlayers();
 
     /**
      * Server.

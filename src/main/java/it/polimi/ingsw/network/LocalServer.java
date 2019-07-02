@@ -25,8 +25,7 @@ public abstract class LocalServer implements Server {
      * @throws RemoteException If there is a network error.
      */
     public void startRMI(int port) throws IOException {
-        LocateRegistry.createRegistry(port);
-        Registry registry = LocateRegistry.getRegistry();
+        Registry registry = LocateRegistry.createRegistry(port);
         LOG.info("RMI registry started");
 
         Server stub = (Server) UnicastRemoteObject.exportObject(this, 0);

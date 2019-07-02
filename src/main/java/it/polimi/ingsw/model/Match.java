@@ -1,14 +1,14 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.util.config.Config;
+import it.polimi.ingsw.common.ServerConfig;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Match extends Identifiable{
-    private static final int MIN_PLAYERS = Config.getMinPlayers();
-    private static final int MAX_PLAYERS = Config.getMaxPlayers();
-    private static final int SKULLS = Config.getSkulls();
+    private static final int MIN_PLAYERS = ServerConfig.getMinPlayers();
+    private static final int MAX_PLAYERS = ServerConfig.getMaxPlayers();
+    private static final int SKULLS = ServerConfig.getSkulls();
     /**
      * States whether the match in in final frenzy
      */
