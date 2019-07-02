@@ -5,10 +5,7 @@ import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.*;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +18,7 @@ public class GameController implements Runnable{
     private Updater updater;
     private AtomicBoolean finished = new AtomicBoolean(false);
     private ScoreController scoreController;
+    private Vector<RemotePlayer> waitingList;
 
     public GameController(Match match){
         this.match = match;
@@ -35,6 +33,7 @@ public class GameController implements Runnable{
         updater = new Updater(remotePlayers, match);
         turn = new TurnController(match, remotePlayers, updater);
         scoreController = new ScoreController(match);
+        waitingList = new Vector<>();
     }
 
     public void spawnRoutine(Player player, int cardsToDraw) throws RemoteException {
@@ -132,6 +131,8 @@ public class GameController implements Runnable{
             }
         }
 
+        addReconnectedPlayers();
+
         LOG.log(Level.INFO, "Main game cycle starting now...");
         // This is the main game cycle: runs until there are enough players. The game also ends when there have been
         // enough kills
@@ -151,6 +152,7 @@ public class GameController implements Runnable{
             }
             if(match.gameEnded())
                 match.activateFinalFrenzy();
+            addReconnectedPlayers();
             match.nextTurn();
         }
 
@@ -172,6 +174,7 @@ public class GameController implements Runnable{
                         currentPlayer.getNickname());
                 handleDisconnection(remotePlayers.get(currentPlayer.getNickname()));
             }
+            addReconnectedPlayers();
             match.nextTurn();
         }
 
@@ -218,5 +221,28 @@ public class GameController implements Runnable{
 
     RemotePlayer getRemotePlayer(String nickname){
         return remotePlayers.get(nickname);
+    }
+
+    public void addReconnectingPlayer(RemotePlayer reconnectingPlayer){
+        waitingList.add(reconnectingPlayer);
+    }
+
+    private void addReconnectedPlayers(){
+        for(RemotePlayer remotePlayer : waitingList){
+            remotePlayers.replace(remotePlayer.getNickname(), remotePlayer);
+            match.getPlayerByNickname(remotePlayer.getNickname()).setActive(true);
+            fixPlayerModel(remotePlayer.getNickname());
+            updater.updateModel(remotePlayer.getNickname());
+            // TODO: notify everyone a player has reconnected
+        }
+    }
+
+    private void fixPlayerModel(String nickname) {
+        Player player = match.getPlayerByNickname(nickname);
+
+        for(PowerUp pwu : player.getDrawnPowerUps())
+            match.getGameBoard().getPowerUpDeck().discard(pwu);
+
+        player.clearDrawnPowerUps();
     }
 }
