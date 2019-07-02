@@ -36,7 +36,7 @@ public class ServerController extends LocalServer {
         if (game == null || game.isFinished()) {
             lobby.addPlayer(player);
         } else {
-            //TODO handle reconnection to a match
+            game.addReconnectingPlayer(player);
         }
         return true;
     }

@@ -462,7 +462,7 @@ public class ShootController {
                     }
                     paymentGateway.payCost(Arrays.asList(selected.get(0).getAmmo()), player, remotePlayer);
                     victim.addDamageWithoutMarks(player.getColor(), 1);
-
+                    player.clearDrawnPowerUps();
                     match.getGameBoard().getPowerUpDeck().discard(selected.get(0));
                 }
             }
