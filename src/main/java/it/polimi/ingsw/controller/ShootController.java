@@ -240,6 +240,9 @@ public class ShootController {
                 .filter(sq -> target.validateTargetSquare(player, sq))
                 .collect(Collectors.toList());
 
+        if(targetSquares.isEmpty() && !target.isInherited())
+            return;
+
         List<Square> selectedSquares = new ArrayList<>();
 
         if(targetSquares.size() == 1){

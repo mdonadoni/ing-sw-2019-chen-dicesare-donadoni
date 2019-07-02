@@ -221,6 +221,10 @@ public class Target{
         boolean result = true;
         Square originSquare = attacker.getSquare();
 
+        // Can never select my own room
+        if(isRoom() && attacker.getSquare().isSameRoom(destSquare))
+            result = false;
+
         // Validate target based on the visibility
         if (!checkSquareVisibility(originSquare, destSquare))
             result = false;
