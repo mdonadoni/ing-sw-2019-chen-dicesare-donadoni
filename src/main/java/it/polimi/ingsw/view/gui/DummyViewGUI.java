@@ -33,8 +33,8 @@ public class DummyViewGUI extends LocalView {
     }
 
     @Override
-    public void notifyEndMatch(ArrayList<StandingsItem> standings) {
-        // TODO
+    public synchronized void notifyEndMatch(ArrayList<StandingsItem> standings) {
+        gui.notifyEndMatch(standings);
     }
 
     public synchronized void loginCallback(LoginInfo info, Consumer<LoginResult> callback) {

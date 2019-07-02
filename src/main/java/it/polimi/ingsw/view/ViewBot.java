@@ -49,7 +49,7 @@ public class ViewBot extends LocalView implements Runnable {
     }
 
     @Override
-    public void showMessage(String message) {
+    public synchronized void showMessage(String message) {
         System.out.println("MESSAGE: " + message);
     }
 
@@ -60,7 +60,7 @@ public class ViewBot extends LocalView implements Runnable {
     }
 
     @Override
-    public void notifyEndMatch(ArrayList<StandingsItem> standings) {
+    public synchronized void notifyEndMatch(ArrayList<StandingsItem> standings) {
         System.out.println("FINE MATCH");
         for (StandingsItem s : standings) {
             System.out.println(
