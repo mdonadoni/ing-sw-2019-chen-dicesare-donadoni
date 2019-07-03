@@ -19,6 +19,7 @@ public class GameController implements Runnable{
     private AtomicBoolean finished = new AtomicBoolean(false);
     private ScoreController scoreController;
     private final List<RemotePlayer> waitingList;
+    private Notifier notifier;
 
     public GameController(List<RemotePlayer> connectedPlayers, BoardType bdType) {
         List<String> nicknames = new ArrayList<>();
@@ -30,6 +31,7 @@ public class GameController implements Runnable{
         turn = new TurnController(match, remotePlayers, updater);
         scoreController = new ScoreController(match);
         waitingList = new ArrayList<>();
+        notifier = new Notifier(remotePlayers, match);
     }
 
     public void spawnRoutine(Player player, int cardsToDraw) throws RemoteException {
@@ -212,6 +214,7 @@ public class GameController implements Runnable{
     private void handleDisconnection(RemotePlayer player) {
         // TODO handle disconnection
         match.getPlayerByNickname(player.getNickname()).setActive(false);
+        notifier.notifyEveryone(Dialog.PLAYER_DISCONNECTED, player.getNickname());
     }
 
     Match getMatch(){
@@ -233,7 +236,7 @@ public class GameController implements Runnable{
             fixPlayerModel(remotePlayer.getNickname());
             updater.updateModel(remotePlayer.getNickname());
 
-            notifyEveryone(Dialog.PLAYER_RECONNECTED, remotePlayer.getNickname());
+            notifier.notifyEveryone(Dialog.PLAYER_RECONNECTED, remotePlayer.getNickname());
         }
 
         waitingList.clear();
@@ -246,11 +249,5 @@ public class GameController implements Runnable{
             match.getGameBoard().getPowerUpDeck().discard(pwu);
 
         player.clearDrawnPowerUps();
-    }
-
-    public void notifyEveryone(Dialog dialogType, String...params){
-        for(Player player : match.getActivePlayers()){
-            remotePlayers.get(player.getNickname()).safeShowMessage(dialogType, params);
-        }
     }
 }

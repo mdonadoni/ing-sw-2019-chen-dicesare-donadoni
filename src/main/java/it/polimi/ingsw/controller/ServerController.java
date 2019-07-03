@@ -67,7 +67,6 @@ public class ServerController extends LocalServer {
         if (lobby.hasPlayer(player)) {
             lobby.removePlayer(player);
         }
-        nicknameToGame.get(player.getNickname()).notifyEveryone(Dialog.PLAYER_DISCONNECTED, player.getNickname());
         //TODO remove from game
     }
 

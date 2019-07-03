@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.minified.MiniModel;
@@ -16,10 +17,12 @@ public class Updater {
 
     private Map<String, RemotePlayer> remotePlayers;
     Match match;
+    Notifier notifier;
 
     public Updater(Map<String, RemotePlayer> remotePlayers, Match match){
         this.remotePlayers = remotePlayers;
         this.match = match;
+        notifier = new Notifier(remotePlayers, match);
     }
 
     public void updateModelToEveryone(){
@@ -42,5 +45,6 @@ public class Updater {
     private void handleUpdateFailure(RemotePlayer player) {
         LOG.log(Level.WARNING, "Error while sending updates for player {0}", player.getNickname());
         match.getPlayerByNickname(player.getNickname()).setActive(false);
+        notifier.notifyEveryone(Dialog.PLAYER_DISCONNECTED, player.getNickname());
     }
 }
