@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.minified;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import it.polimi.ingsw.model.Match;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PowerUp;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,8 +14,8 @@ public class MiniModel implements Serializable {
 
     private final MiniMatch match;
     private final String myNickname;
-    private final ArrayList<PowerUp> myPowerUps;
-    private final ArrayList<PowerUp> myDrawnPowerUps;
+    private final ArrayList<MiniPowerUp> myPowerUps;
+    private final ArrayList<MiniPowerUp> myDrawnPowerUps;
     private final int myPoints;
 
     @JsonCreator
@@ -31,8 +30,10 @@ public class MiniModel implements Serializable {
     public MiniModel(Match match, Player player) {
         this.match = new MiniMatch(match);
         this.myNickname = player.getNickname();
-        this.myPowerUps = new ArrayList<>(player.getPowerUps());
-        this.myDrawnPowerUps = new ArrayList<>(player.getDrawnPowerUps());
+        this.myPowerUps = new ArrayList<>();
+        player.getPowerUps().forEach(p -> myPowerUps.add(new MiniPowerUp(p)));
+        this.myDrawnPowerUps = new ArrayList<>();
+        player.getDrawnPowerUps().forEach(p -> myDrawnPowerUps.add(new MiniPowerUp(p)));
         this.myPoints = player.getTotalPoints();
     }
 
@@ -40,11 +41,11 @@ public class MiniModel implements Serializable {
         return match;
     }
 
-    public List<PowerUp> getMyPowerUps() {
+    public List<MiniPowerUp> getMyPowerUps() {
         return new ArrayList<>(myPowerUps);
     }
 
-    public ArrayList<PowerUp> getMyDrawnPowerUps() {
+    public ArrayList<MiniPowerUp> getMyDrawnPowerUps() {
         return myDrawnPowerUps;
     }
 

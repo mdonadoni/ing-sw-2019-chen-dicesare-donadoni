@@ -1,9 +1,9 @@
 package it.polimi.ingsw.view.gui.component;
 
-import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.model.minified.MiniGameBoard;
 import it.polimi.ingsw.model.minified.MiniModel;
 import it.polimi.ingsw.model.minified.MiniPlayer;
+import it.polimi.ingsw.model.minified.MiniPowerUp;
 import it.polimi.ingsw.view.gui.util.GridUtils;
 import it.polimi.ingsw.view.gui.util.Selectable;
 import it.polimi.ingsw.view.gui.util.SelectableContainer;
@@ -34,7 +34,7 @@ public class ModelGUI extends GridPane implements SelectableContainer {
         List<MiniPlayer> others = miniModel.getMatch().getPlayers();
         others.remove(myMini);
 
-        List<PowerUp> visiblePowerUps = new ArrayList<>();
+        List<MiniPowerUp> visiblePowerUps = new ArrayList<>();
         visiblePowerUps.addAll(miniModel.getMyPowerUps());
         visiblePowerUps.addAll(miniModel.getMyDrawnPowerUps());
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.gui.component;
 
-import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.model.minified.MiniPlayer;
+import it.polimi.ingsw.model.minified.MiniPowerUp;
 import it.polimi.ingsw.view.gui.util.GridUtils;
 import it.polimi.ingsw.view.gui.util.Selectable;
 import it.polimi.ingsw.view.gui.util.SelectableContainer;
@@ -20,7 +20,7 @@ public class PlayerPaneGUI extends GridPane implements SelectableContainer {
 
 
 
-    public PlayerPaneGUI(MiniPlayer player, List<PowerUp> myPowerUps){
+    public PlayerPaneGUI(MiniPlayer player, List<MiniPowerUp> myPowerUps){
         GridUtils.setPercentColumns(this, 100);
 
         if (myPowerUps == null) {

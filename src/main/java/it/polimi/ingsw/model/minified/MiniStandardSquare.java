@@ -1,14 +1,13 @@
 package it.polimi.ingsw.model.minified;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import it.polimi.ingsw.model.AmmoTile;
 import it.polimi.ingsw.model.StandardSquare;
 
 public class MiniStandardSquare extends MiniSquare {
 
     private static final long serialVersionUID = 6711202246787843113L;
 
-    private AmmoTile ammoTile;
+    private MiniAmmoTile ammoTile;
 
     /**
      * Constructor for jackson.
@@ -20,14 +19,14 @@ public class MiniStandardSquare extends MiniSquare {
 
     MiniStandardSquare(StandardSquare square) {
         super(square);
-        ammoTile = square.hasAmmoTile() ? square.getAmmoTile() : null;
+        ammoTile = square.hasAmmoTile() ? new MiniAmmoTile(square.getAmmoTile()) : null;
     }
 
     public boolean hasAmmo() {
         return ammoTile != null;
     }
 
-    public AmmoTile getAmmoTile() {
+    public MiniAmmoTile getAmmoTile() {
         return ammoTile;
     }
 }

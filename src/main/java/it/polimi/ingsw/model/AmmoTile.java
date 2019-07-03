@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,8 +10,7 @@ import java.util.List;
 /**
  * This class represents a tile of ammo.
  */
-public class AmmoTile implements Serializable {
-    private static final long serialVersionUID = 5130130440250960678L;
+public class AmmoTile {
     private static final int MAX_AMMO = 3;
     private static final int MIN_AMMO = MAX_AMMO - 1;
     /**

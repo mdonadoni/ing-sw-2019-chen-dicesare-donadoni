@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.gui.component;
 
-import it.polimi.ingsw.model.PowerUp;
+import it.polimi.ingsw.model.minified.MiniPowerUp;
 import it.polimi.ingsw.view.gui.util.Selectable;
 import it.polimi.ingsw.view.gui.util.SelectableContainer;
 import javafx.scene.layout.ColumnConstraints;
@@ -16,7 +16,7 @@ public class PowerUpPaneGUI extends GridPane implements SelectableContainer {
 
     private List<PowerUpGUI> powerupsGUI = new ArrayList<>();
 
-    public PowerUpPaneGUI(List<PowerUp> powerups) {
+    public PowerUpPaneGUI(List<MiniPowerUp> powerups) {
         // There are MAX_POWERUP+1 pad columns
         ColumnConstraints padCol = new ColumnConstraints();
         padCol.setPercentWidth(PAD);

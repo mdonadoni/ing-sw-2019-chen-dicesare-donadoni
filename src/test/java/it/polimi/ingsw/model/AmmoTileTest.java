@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.common.UtilSerialization;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,14 +28,6 @@ class AmmoTileTest {
         assertEquals(3,ammoTile.getAmmo().size());
     }
 
-    @Test
-    void serialization() throws IOException, ClassNotFoundException {
-        UtilSerialization.javaSerializable(ammoTile, AmmoTile.class);
-    }
 
-    @Test
-    void jackson() throws IOException {
-        UtilSerialization.jackson(ammoTile, AmmoTile.class);
-    }
 
 }

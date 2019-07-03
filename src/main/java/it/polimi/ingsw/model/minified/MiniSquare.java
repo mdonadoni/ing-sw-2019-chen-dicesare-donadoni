@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiniSquare extends Identifiable implements Serializable {
+public class MiniSquare extends MiniIdentifiable implements Serializable {
     private static final long serialVersionUID = 2278398549083364767L;
 
     private final Coordinate coord;

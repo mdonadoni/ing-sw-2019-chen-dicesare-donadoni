@@ -3,7 +3,6 @@ package it.polimi.ingsw.view;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.polimi.ingsw.model.BasicAction;
-import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.model.minified.*;
 import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.util.ResourceException;
@@ -22,13 +21,13 @@ public class Descriptions {
 
     public static String find(MiniModel model, String uuid) {
         String res = null;
-        for (PowerUp p : model.getMyPowerUps()) {
+        for (MiniPowerUp p : model.getMyPowerUps()) {
             if (res == null) {
                 res = find(p, uuid);
             }
         }
 
-        for (PowerUp p : model.getMyDrawnPowerUps()) {
+        for (MiniPowerUp p : model.getMyDrawnPowerUps()) {
             if (res == null) {
                 res = find(p, uuid);
             }
@@ -160,7 +159,7 @@ public class Descriptions {
         return res;
     }
 
-    static String find(PowerUp p, String uuid) {
+    static String find(MiniPowerUp p, String uuid) {
         if (p.getUuid().equals(uuid)) {
             return MessageFormat.format("Powerup {0} {1}", p.getType(), p.getAmmo());
         }

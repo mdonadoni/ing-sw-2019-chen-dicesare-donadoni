@@ -1,14 +1,13 @@
 package it.polimi.ingsw.model.minified;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import it.polimi.ingsw.model.Identifiable;
 import it.polimi.ingsw.model.Match;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiniMatch extends Identifiable implements Serializable {
+public class MiniMatch extends MiniIdentifiable implements Serializable {
     private static final long serialVersionUID = 8601733222249808278L;
 
     private final ArrayList<MiniPlayer> players;

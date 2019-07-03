@@ -2,8 +2,8 @@ package it.polimi.ingsw.view.cli.component;
 
 import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.model.PlayerToken;
-import it.polimi.ingsw.model.PowerUp;
 import it.polimi.ingsw.model.minified.MiniPlayer;
+import it.polimi.ingsw.model.minified.MiniPowerUp;
 import it.polimi.ingsw.model.minified.MiniWeapon;
 import it.polimi.ingsw.view.cli.util.CharCli;
 import it.polimi.ingsw.view.cli.util.ColorCLI;
@@ -16,10 +16,10 @@ public class PlayerCLI {
     static final int LENGTH = 15 ;
 
     private MiniPlayer player;
-    private List<PowerUp> powerUp;
+    private List<MiniPowerUp> powerUp;
     private ArrayList<WeaponCLI> weaponCLI;
 
-    PlayerCLI(MiniPlayer miniPlayer, List<PowerUp> powerUp){
+    PlayerCLI(MiniPlayer miniPlayer, List<MiniPowerUp> powerUp){
         this.player = miniPlayer;
         this.powerUp = powerUp;
         weaponCLI = new ArrayList<>();
@@ -94,7 +94,7 @@ public class PlayerCLI {
         }
         //powerup
         if(powerUp!=null) {
-            for (PowerUp p : powerUp) {
+            for (MiniPowerUp p : powerUp) {
                 out = ColorCLI.getAmmoColor(p.getAmmo(), p.getType().toString());
                 outList.add(out);
             }

@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiniPlayer extends Identifiable implements Serializable {
+public class MiniPlayer extends MiniIdentifiable implements Serializable {
 
     private static final long serialVersionUID = -6231900211873610005L;
     private final String nickname;

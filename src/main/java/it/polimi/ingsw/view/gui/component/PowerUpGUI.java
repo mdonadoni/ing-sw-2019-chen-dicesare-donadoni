@@ -1,16 +1,16 @@
 package it.polimi.ingsw.view.gui.component;
 
-import it.polimi.ingsw.model.PowerUp;
+import it.polimi.ingsw.model.minified.MiniPowerUp;
 import it.polimi.ingsw.view.gui.util.ResizableImage;
 import it.polimi.ingsw.view.gui.util.Selectable;
 import it.polimi.ingsw.view.gui.util.SelectableComponent;
 import javafx.scene.effect.DropShadow;
 
 public class PowerUpGUI extends ResizableImage implements Selectable {
-    PowerUp powerup;
+    MiniPowerUp powerup;
     SelectableComponent select;
 
-    public PowerUpGUI(PowerUp powerup) {
+    public PowerUpGUI(MiniPowerUp powerup) {
         super("/gui/powerup/" +
                 powerup.getType().toString().toLowerCase() + "_" +
                 powerup.getAmmo().toString().toLowerCase() + ".png");

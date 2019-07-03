@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.gui.component;
 
-import it.polimi.ingsw.model.PowerUp;
+import it.polimi.ingsw.model.minified.MiniPowerUp;
 import it.polimi.ingsw.model.minified.MiniWeapon;
 import it.polimi.ingsw.view.gui.util.GridUtils;
 import it.polimi.ingsw.view.gui.util.Selectable;
@@ -16,7 +16,7 @@ public class PlayerCardsPaneGUI extends GridPane implements SelectableContainer 
     private WeaponPaneGUI weaponPane;
     private PowerUpPaneGUI powerupPane;
 
-    public PlayerCardsPaneGUI(List<MiniWeapon> weapons, List<PowerUp> powerUps){
+    public PlayerCardsPaneGUI(List<MiniWeapon> weapons, List<MiniPowerUp> powerUps){
         GridUtils.setPercentRows(this, 100);
         if (powerUps == null) {
             reduced = true;

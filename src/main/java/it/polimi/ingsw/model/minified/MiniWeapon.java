@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.minified;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import it.polimi.ingsw.model.AmmoColor;
-import it.polimi.ingsw.model.Identifiable;
 import it.polimi.ingsw.model.weapons.Attack;
 import it.polimi.ingsw.model.weapons.Weapon;
 
@@ -10,7 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiniWeapon extends Identifiable implements Serializable {
+public class MiniWeapon extends MiniIdentifiable implements Serializable {
 
     private static final long serialVersionUID = -5440998506651868180L;
     private final String name;
