@@ -110,23 +110,18 @@ public class GameController implements Runnable{
 
         LOG.log(Level.INFO, "First turn for everyone");
         // Beginning of the match: everyone should spawn ad get a turn
-        if(match.isActive()){
-            // While it's the first turn for the current player
-            while(match.getCurrentTurn().getType() == TurnType.FIRST_TURN){
-                Player currentPlayer = match.getCurrentTurn().getCurrentPlayer();
-                try{
-                    // Should check if the player is active
-                    if(currentPlayer.isActive()){
-                        spawnRoutine(currentPlayer, 2);
-                        turn.startTurn();
-                    }
-                    match.nextTurn();
-                } catch(RemoteException e){
-                    LOG.log(Level.WARNING, "Player {0} disconnected, setting him inactive...",
-                            match.getCurrentTurn().getCurrentPlayer().getNickname());
-                    handleDisconnection(remotePlayers.get(match.getCurrentTurn().getCurrentPlayer().getNickname()));
-                }
+        // While it's the first turn for the current player
+        while(match.isActive() && match.getCurrentTurn().getType() == TurnType.FIRST_TURN){
+            Player currentPlayer = match.getCurrentTurn().getCurrentPlayer();
+            try{
+                spawnRoutine(currentPlayer, 2);
+                turn.startTurn();
+            } catch(RemoteException e){
+                LOG.log(Level.WARNING, "Player {0} disconnected, setting him inactive...",
+                        match.getCurrentTurn().getCurrentPlayer().getNickname());
+                handleDisconnection(remotePlayers.get(match.getCurrentTurn().getCurrentPlayer().getNickname()));
             }
+            match.nextTurn();
         }
 
         addReconnectedPlayers();
@@ -157,9 +152,7 @@ public class GameController implements Runnable{
         // Now it's time for final frenzy, which has already been triggered
         if(match.isActive()){
             LOG.log(Level.INFO, "Final Frenzy has started");
-            for(Player pl : match.getActivePlayers()){
-                getRemotePlayer(pl.getNickname()).safeShowMessage("È iniziata la Frenesia Finale!");
-            }
+            notifier.notifyEveryone(Dialog.FINAL_FRENZY_STARTED);
         }
 
         int numberOfActivePlayers = (int) match.getPlayers().stream()
@@ -234,7 +227,7 @@ public class GameController implements Runnable{
             remotePlayers.replace(remotePlayer.getNickname(), remotePlayer);
             match.getPlayerByNickname(remotePlayer.getNickname()).setActive(true);
             fixPlayerModel(remotePlayer.getNickname());
-            updater.updateModel(remotePlayer.getNickname());
+            updater.updateModelToEveryone();
 
             notifier.notifyEveryone(Dialog.PLAYER_RECONNECTED, remotePlayer.getNickname());
         }

@@ -24,5 +24,6 @@
   "player_disconnected" : "Il giocatore {0} si è disconnesso",
   "player_reconnected" : "Il giocatore {0} si è riconnesso",
   "tagback_select": "Sei stato colpito! Scegli da {0} a {1} granate venom da usare",
-  "targeting_scope_select": "Scegli da {0} a {1} mirini da usare"
+  "targeting_scope_select": "Scegli da {0} a {1} mirini da usare",
+  "final_frenzy_started": "È iniziata la Frenesia Finale!"
 }
