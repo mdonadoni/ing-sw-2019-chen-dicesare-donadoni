@@ -25,34 +25,11 @@ public class Weapon extends Identifiable {
     private AmmoColor additionalRechargeColor;
     private ArrayList<Attack> attacks = new ArrayList<>();
 
+    public Weapon(){
+
+    }
     public Weapon(String name){
         this.name = name;
-    }
-    public Weapon(WeaponType name) {
-        this(ResourceManager.get("/weapons/"+name.toString().toLowerCase()+".json"));
-    }
-    public Weapon(InputStream stream) {
-        try {
-            ObjectMapper mapper = Json.getMapper();
-            JsonNode json = mapper.readTree(stream);
-
-            setName(json.get("name").asText());
-            setCharged(json.get("charged").asBoolean());
-
-            for(JsonNode color : json.get("pickupColor")){
-                addPickupColor(AmmoColor.valueOf(color.asText().toUpperCase()));
-            }
-
-            JsonNode additionalRecharge = json.get("additionalRechargeColor");
-            if(additionalRecharge != null)
-                setAdditionalRechargeColor(AmmoColor.valueOf(additionalRecharge.asText().toUpperCase()));
-
-            for(JsonNode attack : json.get("attacks")){
-                addAttack(new Attack(attack));
-            }
-        } catch (Exception e){
-            throw new ResourceException("Cannot load weapon resource", e);
-        }
     }
     public void setName(String name) {
         this.name = name;

@@ -18,9 +18,8 @@ public class HarmfulEffect extends Effect {
         this.type = type;
     }
 
-    HarmfulEffect(JsonNode json){
-        setValue(json.get("value").asInt());
-        setType(HarmType.valueOf(json.get("harm").asText().toUpperCase()));
+    public HarmfulEffect(){
+
     }
 
     /**

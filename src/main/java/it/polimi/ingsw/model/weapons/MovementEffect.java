@@ -18,12 +18,7 @@ public class MovementEffect extends Effect {
         setValue(value);
     }
 
-    MovementEffect(JsonNode json){
-        setValue(json.get("value").asInt());
-        setVisibleDest(Visibility.valueOf(json.get("visibleDest").asText().toUpperCase()));
-        setLine(json.get("line").asBoolean());
-        setFixed(json.get("fixed").asBoolean());
-        setSelf(json.get("self").asBoolean());
+    public MovementEffect(){
     }
 
     /**

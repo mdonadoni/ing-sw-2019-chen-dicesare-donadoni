@@ -42,11 +42,8 @@ public class SquareTarget extends Target {
         this.vortex = vortex;
     }
 
-    SquareTarget(JsonNode json){
-        super(json);
-        maxPlayerDistance = json.get("maxPlayerDistance").asInt();
-        numberOfPlayers = json.get("numberOfPlayers").asInt();
-        vortex = json.get("vortex").asBoolean();
+    public SquareTarget(Target target){
+        super(target);
     }
 
     public int getNumberOfPlayers() {

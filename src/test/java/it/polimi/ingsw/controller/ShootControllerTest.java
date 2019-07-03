@@ -3,8 +3,8 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.weapons.Attack;
 import it.polimi.ingsw.model.weapons.PlayerTarget;
-import it.polimi.ingsw.model.weapons.Target;
 import it.polimi.ingsw.model.weapons.Weapon;
+import it.polimi.ingsw.model.weapons.WeaponType;
 import it.polimi.ingsw.network.TestView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,9 +26,11 @@ class ShootControllerTest {
     private Player daniel;
     private ShootController controller;
     private Board board;
+    private JsonWeaponFactory weaponFactory;
 
     @BeforeEach
     void setup(){
+        weaponFactory = new JsonWeaponFactory();
         List<String> nicks = new ArrayList<String>(Arrays.asList("Ada", "Bruce", "Charlie", "Daniel"));
         match = new Match(nicks, new JsonModelFactory(BoardType.MEDIUM_1));
         users = new HashMap<>();
@@ -49,7 +51,7 @@ class ShootControllerTest {
 
     @Test
     void lockrifleTest() throws RemoteException {
-        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/lockrifle.json"));
+        weapon = weaponFactory.createWeapon(WeaponType.LOCKRIFLE);
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(1, 1)));
         bruce.move(board.getSquare(new Coordinate(1, 2)));
@@ -88,7 +90,7 @@ class ShootControllerTest {
 
     @Test
     void tractorbeamTestBase() throws RemoteException{
-        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/tractorbeam.json"));
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.TRACTORBEAM);
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(2, 2)));
         bruce.move(board.getSquare(new Coordinate(1, 2)));
@@ -110,7 +112,7 @@ class ShootControllerTest {
 
     @Test
     void tractorbeamTestCosty() throws RemoteException{
-        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/tractorbeam.json"));
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.TRACTORBEAM);
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(2, 2)));
         bruce.move(board.getSquare(new Coordinate(1, 2)));
@@ -138,7 +140,7 @@ class ShootControllerTest {
 
     @Test
     void electroscytheTest() throws RemoteException{
-        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/electroscythe.json"));
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.ELECTROSCYTHE);
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(2, 2)));
         bruce.move(board.getSquare(new Coordinate(1, 2)));
@@ -162,7 +164,7 @@ class ShootControllerTest {
 
     @Test
     void plasmagunTest() throws RemoteException{
-        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/plasmagun.json"));
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.PLASMAGUN);
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(0, 2)));
         bruce.move(board.getSquare(new Coordinate(1, 2)));
@@ -184,7 +186,7 @@ class ShootControllerTest {
 
     @Test
     void machinegunTest() throws RemoteException{
-        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/machinegun.json"));
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.MACHINEGUN);
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(1, 1)));
         bruce.move(board.getSquare(new Coordinate(1, 2)));
@@ -213,7 +215,7 @@ class ShootControllerTest {
 
     @Test
     void vortexTest() throws RemoteException{
-        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/vortexcannon.json"));
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.VORTEXCANNON);
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(1, 2)));
         bruce.move(board.getSquare(new Coordinate(1, 2)));
@@ -240,7 +242,7 @@ class ShootControllerTest {
 
     @Test
     void flamethrowerTest() throws RemoteException{
-        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/flamethrower.json"));
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.FLAMETHROWER);
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(2, 0)));
         bruce.move(board.getSquare(new Coordinate(1, 0)));
@@ -263,7 +265,7 @@ class ShootControllerTest {
 
     @Test
     void powergloveTest() throws RemoteException{
-        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/powerglove.json"));
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.POWERGLOVE);
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(2, 1)));
         bruce.move(board.getSquare(new Coordinate(2, 2)));
@@ -295,7 +297,7 @@ class ShootControllerTest {
 
     @Test
     void thorTest() throws RemoteException{
-        weapon = new Weapon(Weapon.class.getResourceAsStream("/weapons/thor.json"));
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.THOR);
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(1, 3)));
         bruce.move(board.getSquare(new Coordinate(1, 1)));

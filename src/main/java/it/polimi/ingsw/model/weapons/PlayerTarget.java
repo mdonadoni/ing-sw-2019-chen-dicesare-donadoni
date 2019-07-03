@@ -29,8 +29,12 @@ public class PlayerTarget extends Target {
                         @JsonProperty("inherited") boolean inh){
         super(numTargets, vis, minD, maxD, excl, inh);
     }
-    PlayerTarget (JsonNode json){
-        super(json);
+    public PlayerTarget(){
+
+    }
+
+    public PlayerTarget(Target target){
+        super(target);
     }
     /**
      * Checks whether a player can be targeted

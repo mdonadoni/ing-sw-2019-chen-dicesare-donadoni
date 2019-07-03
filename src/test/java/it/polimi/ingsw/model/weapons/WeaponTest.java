@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.weapons;
 
-import it.polimi.ingsw.model.AmmoColor;
+import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +9,7 @@ class WeaponTest {
 
     @Test
     public void fromResourceTest() {
-        Weapon wp = new Weapon(WeaponTest.class.getResourceAsStream("/weapons/testweapon.json"));
+        /*Weapon wp = new Weapon(WeaponTest.class.getResourceAsStream("/weapons/testweapon.json"));
         assertEquals(wp.getName(), "testweapon");
         assertEquals(wp.getAdditionalRechargeColor(), AmmoColor.BLUE);
         assertEquals(wp.getPickupColor().get(0), AmmoColor.BLUE);
@@ -32,31 +32,14 @@ class WeaponTest {
         assertEquals(eff2.getValue(), 3);
         assertTrue(eff2.isLine());
         assertEquals(att.getAdditionalAttacks().get(0).getCost().get(0), AmmoColor.RED);
+    */
     }
 
     @Test
     public void fromResource(){
-        Weapon wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/lockrifle.json"));
-        assertEquals(wp.getPickupColor().get(0), AmmoColor.BLUE);
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/electroscythe.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/machinegun.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/tractorbeam.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/thor.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/plasmagun.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/whisper.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/vortexcannon.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/furnace.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/heatseeker.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/hellion.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/flamethrower.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/grenadelauncher.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/zx2.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/shotgun.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/cyberblade.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/railgun.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/shockwave.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/sledgehammer.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/powerglove.json"));
-        wp = new Weapon(Weapon.class.getResourceAsStream("/weapons/rocketlauncher.json"));
+        JsonWeaponFactory weaponFactory = new JsonWeaponFactory();
+
+        Weapon wp = weaponFactory.createWeapon(WeaponType.ELECTROSCYTHE);
+
     }
 }

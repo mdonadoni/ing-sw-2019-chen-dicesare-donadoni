@@ -15,31 +15,7 @@ public class Attack extends Identifiable {
     private List<AmmoColor> cost = new ArrayList<>();
     private String descriptionId;
 
-    Attack(){ }
-
-    Attack(JsonNode json){
-        descriptionId = json.get("id").asText();
-        for(JsonNode target : json.get("baseFire")){
-            if(target.get("type").asText().equals("player"))
-                addBaseFire(new PlayerTarget(target));
-            else if(target.get("type").asText().equals("square"))
-                addBaseFire(new SquareTarget(target));
-        }
-        for(JsonNode addAtt : json.get("additionalAttacks")){
-            addAdditionalAttack(new Attack(addAtt));
-        }
-        for(JsonNode bonusMov : json.get("bonusMovement")){
-            addBonusMovement(new MovementEffect(bonusMov));
-        }
-        JsonNode bonusCost = json.get("bonusMovementCost");
-        if(bonusCost!=null){
-            for(JsonNode ammoCost : bonusCost)
-                bonusMovementCost.add(AmmoColor.valueOf(ammoCost.asText().toUpperCase()));
-        }
-        for(JsonNode ammoCost : json.get("cost")){
-            addCost(AmmoColor.valueOf(ammoCost.asText().toUpperCase()));
-        }
-    }
+    public Attack(){ }
     public void addBonusMovement(MovementEffect movement){
         bonusMovement.add(movement);
     }
@@ -75,6 +51,9 @@ public class Attack extends Identifiable {
     }
     public List<AmmoColor> getBonusMovementCost(){
         return new ArrayList<>(bonusMovementCost);
+    }
+    public void setDescriptionId(String id){
+        descriptionId = id;
     }
     public String getDescriptionId(){
         return descriptionId;

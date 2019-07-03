@@ -77,23 +77,19 @@ public class Target{
         exclusive = excl;
         inherited = inh;
     }
-    Target(JsonNode json){
-        setNumberOfTargets(json.get("numberOfTargets").asInt());
-        setVisibility(Visibility.valueOf(json.get("visibility").asText().toUpperCase()));
-        setMinDistance(json.get("minDistance").asInt());
-        setMaxDistance(json.get("maxDistance").asInt());
-        setExclusive(json.get("exclusive").asBoolean());
-        setInherited(json.get("inherited").asBoolean());
-        for(JsonNode special : json.get("special"))
-        {
-            addSpecial(SpecialArea.valueOf(special.asText()));
-        }
-        for(JsonNode effect : json.get("effects")){
-            if(effect.get("type").asText().equals("harmful"))
-                addEffect(new HarmfulEffect(effect));
-            else if(effect.get("type").asText().equals("movement"))
-                addEffect(new MovementEffect(effect));
-        }
+    public Target(){
+
+    }
+    public Target(Target target){
+        setNumberOfTargets(target.getNumberOfTargets());
+        setVisibility(target.getVisibility());
+        setMinDistance(target.getMinDistance());
+        setMaxDistance(target.getMaxDistance());
+        setExclusive(target.isExclusive());
+        setInherited(target.isInherited());
+        setSpecial(target.getSpecial());
+        setEffects(target.getEffects());
+
     }
     public int getNumberOfTargets() {
         return numberOfTargets;
@@ -130,6 +126,10 @@ public class Target{
     }
     public void setInherited(boolean inherited) {
         this.inherited = inherited;
+    }
+    public void setSpecial(List<SpecialArea> special){
+        this.special.clear();
+        this.special.addAll(special);
     }
     public List<SpecialArea> getSpecial(){
         return special;
@@ -168,6 +168,10 @@ public class Target{
     }
     public List<Effect> getEffects(){
         return effects;
+    }
+    public void setEffects(List<Effect> effects){
+        this.effects.clear();
+        this.effects.addAll(effects);
     }
 
     /**
