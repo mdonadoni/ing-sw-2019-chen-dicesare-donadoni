@@ -232,8 +232,11 @@ public class GameController implements Runnable{
             match.getPlayerByNickname(remotePlayer.getNickname()).setActive(true);
             fixPlayerModel(remotePlayer.getNickname());
             updater.updateModel(remotePlayer.getNickname());
-            // TODO: notify everyone a player has reconnected
+
+            notifyEveryone(Dialog.PLAYER_RECONNECTED, remotePlayer.getNickname());
         }
+
+        waitingList.clear();
     }
 
     private void fixPlayerModel(String nickname) {
@@ -243,5 +246,11 @@ public class GameController implements Runnable{
             match.getGameBoard().getPowerUpDeck().discard(pwu);
 
         player.clearDrawnPowerUps();
+    }
+
+    public void notifyEveryone(Dialog dialogType, String...params){
+        for(Player player : match.getActivePlayers()){
+            remotePlayers.get(player.getNickname()).safeShowMessage(dialogType, params);
+        }
     }
 }

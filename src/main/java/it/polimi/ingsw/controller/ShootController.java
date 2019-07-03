@@ -444,7 +444,7 @@ public class ShootController {
                 .filter(pwu -> pwu.getType().equals(PowerUpType.TAGBACK_GRANADE))
                 .collect(Collectors.toList());
         try{
-            List<PowerUp> selected = remoteTagbacker.selectIdentifiable(tagbackGrenades, 0, 1, Dialog.SELECT_POWERUP);
+            List<PowerUp> selected = remoteTagbacker.selectIdentifiable(tagbackGrenades, 0, 1, Dialog.TAGBACK_SELECT);
             if(!selected.isEmpty()){
                 tagbacker.removePowerUp(selected.get(0));
                 match.getGameBoard().getPowerUpDeck().discard(selected.get(0));
@@ -465,7 +465,7 @@ public class ShootController {
         RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
         try{
             if(!scopes.isEmpty()){
-                List<PowerUp> selected = remotePlayer.selectIdentifiable(scopes, 0, 1, Dialog.SELECT_POWERUP);
+                List<PowerUp> selected = remotePlayer.selectIdentifiable(scopes, 0, 1, Dialog.TARGETING_SCOPE_SELECT);
                 if(!selected.isEmpty()){
                     player.removePowerUp(selected.get(0));
                     player.addDrawnPowerUp(selected.get(0));

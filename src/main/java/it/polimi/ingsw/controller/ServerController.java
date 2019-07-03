@@ -1,12 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.ServerConfig;
+import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.BoardType;
 import it.polimi.ingsw.network.LocalServer;
 import it.polimi.ingsw.network.View;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -19,6 +19,7 @@ public class ServerController extends LocalServer {
     private Map<String, GameController> nicknameToGame = new HashMap<>();
     private Executor executor = Executors.newCachedThreadPool();
     private Lobby lobby = new Lobby(this);
+    private Random rand = new Random();
 
     @Override
     public synchronized boolean login(String nickname, View view) {
@@ -53,7 +54,7 @@ public class ServerController extends LocalServer {
     public synchronized void startNewMatch(List<RemotePlayer> players) {
         LOG.log(Level.INFO, "New match starting");
         //TODO select board
-        GameController game = new GameController(players, BoardType.SMALL);
+        GameController game = new GameController(players, selectBoard(players.size()));
         players.forEach(remotePlayer -> {
             nicknameToGame.put(remotePlayer.getNickname(), game);
         });
@@ -66,6 +67,18 @@ public class ServerController extends LocalServer {
         if (lobby.hasPlayer(player)) {
             lobby.removePlayer(player);
         }
+        nicknameToGame.get(player.getNickname()).notifyEveryone(Dialog.PLAYER_DISCONNECTED, player.getNickname());
         //TODO remove from game
+    }
+
+    private BoardType selectBoard(int numberOfPlayers){
+        if(numberOfPlayers == ServerConfig.getMinPlayers())
+            return BoardType.SMALL;
+        else if(numberOfPlayers == ServerConfig.getMaxPlayers())
+            return BoardType.BIG;
+        else{
+            List<BoardType> boards = Arrays.asList(BoardType.MEDIUM_1, BoardType.MEDIUM_2);
+            return boards.get(rand.nextInt(boards.size()));
+        }
     }
 }

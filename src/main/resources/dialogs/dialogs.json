@@ -1,12 +1,12 @@
 {
   "spawn": "Scegli il powerup da scartare per spawnare",
   "move": "Scegli la casella in cui muoverti",
-  "weapon_grab": "Scegli l'arma da raccogliere",
+  "weapon_grab": "Scegli l''arma da raccogliere",
   "pay_cost_powerup": "Scegli il powerup da usare per pagare",
-  "weapon_shoot": "Scegli l'arma con cui sparare",
-  "weapon_attack": "Scegli l'attacco da usare",
+  "weapon_shoot": "Scegli l''arma con cui sparare",
+  "weapon_attack": "Scegli l''attacco da usare",
   "reload": "Scegli da {0} a {1} armi da ricaricare",
-  "discard_weapon": "Scegli l'arma da scartare",
+  "discard_weapon": "Scegli l''arma da scartare",
   "discard_powerup": "Scegli il powerup da scartare",
   "shoot_target": "Scegli da {0} a {1} avversari a cui sparare",
   "select_powerup": "Scegli da {0} a {1} powerup",
@@ -20,5 +20,9 @@
   "new_selection": "Nuova selezione",
   "invalid_integer": "Inserisci un intero valido",
   "confirm": "Conferma",
-  "final_standings": "Ecco la classifica finale!"
+  "final_standings": "Ecco la classifica finale!",
+  "player_disconnected" : "Il giocatore {0} si è disconnesso",
+  "player_reconnected" : "Il giocatore {0} si è riconnesso",
+  "tagback_select": "Sei stato colpito! Scegli da {0} a {1} granate venom da usare",
+  "targeting_scope_select": "Scegli da {0} a {1} mirini da usare"
 }
