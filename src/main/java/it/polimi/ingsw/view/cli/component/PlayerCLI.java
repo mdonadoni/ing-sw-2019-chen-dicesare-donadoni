@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PlayerCLI {
 
-    static final int LENGTH = 15 ;
+    static final int LENGTH = 25;
 
     private MiniPlayer player;
     private List<MiniPowerUp> powerUp;
@@ -58,9 +58,9 @@ public class PlayerCLI {
         for( PlayerToken pt : player.getDamageTaken()){
             out = out.concat(ColorCLI.getPlayerColor(pt, CharCli.DAMAGE_TOKEN));
         }
-        space = 12 - player.getDamageTaken().size();
+        space = LENGTH - player.getDamageTaken().size();
         out = CharCli.addSpace(out, space);
-        out = out.concat("   "+ CharCli.VERTICAL_WALL);
+        out = out.concat(Character.toString(CharCli.VERTICAL_WALL));
         outList.add(out);
         //skulls
         out=""+CharCli.VERTICAL_WALL;

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardCLI {
-    public static final int LENGTH = 15;
+    public static final int LENGTH = 25;
 
     private MiniBoard miniBoard;
 
