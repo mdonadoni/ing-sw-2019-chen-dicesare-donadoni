@@ -13,6 +13,7 @@ public class JsonWeaponDeckFactory implements WeaponDeckFactory {
         for(WeaponType weaponName : WeaponType.values())
             deck.add(new Weapon(weaponName));
 
+        deck.shuffle();
         return deck;
     }
 }

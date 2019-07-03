@@ -168,6 +168,7 @@ public class ShootController {
                 paymentGateway.payCost(attack.getBonusMovementCost(), player, remotePlayer);
                 manageMovement(player, player, mov.get(0));
                 expends = true;
+                updater.updateModel(player.getNickname());
             }
         }
 
@@ -347,9 +348,18 @@ public class ShootController {
         RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
         int max = target.getNumberOfTargets();
         boolean compatible = false;
-        final Player originPlayer = target.isChain() ? alreadyShotTargets.get(alreadyShotTargets.size()-1) : player;
+        Player originPlayer;
+
+        if(target.isChain() && !alreadyShotTargets.isEmpty()){
+            originPlayer = alreadyShotTargets.get(alreadyShotTargets.size()-1);
+        }
+        else
+            originPlayer = player;
 
         List<Player> enemies = getHittableEnemies(originPlayer, target);
+        enemies = enemies.stream()
+                .filter(p -> !p.equals(player))
+                .collect(Collectors.toList());
 
         List<Player> targets = new ArrayList<>();
 
@@ -365,7 +375,7 @@ public class ShootController {
 
         // Ask the player who he wants to attacks
         while(!compatible){
-            targets = remotePlayer.selectIdentifiable(enemies, 0, max, Dialog.SHOOT_TARGET);
+            targets = remotePlayer.selectIdentifiable(enemies, 1, max, Dialog.SHOOT_TARGET);
             if(!target.compatibleTargetPlayers(originPlayer, targets)){
                 // TODO: showMessage() to notify the targets are not compatible
             }

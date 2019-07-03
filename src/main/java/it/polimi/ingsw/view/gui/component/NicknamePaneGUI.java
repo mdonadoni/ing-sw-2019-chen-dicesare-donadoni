@@ -33,7 +33,7 @@ public class NicknamePaneGUI extends GridPane {
         name.setMinSize(0,0);
         String readableColor = ColorTranslator.getReadableColor(color);
         this.heightProperty().addListener(event -> {
-            this.setStyle("-fx-font-size: " + this.getHeight()/1.7);
+            this.setStyle("-fx-font-size: " + this.getHeight()/1.9);
         });
         name.setStyle("-fx-text-fill: " + readableColor + ";"+
                 "-fx-font-weight: bold;" +

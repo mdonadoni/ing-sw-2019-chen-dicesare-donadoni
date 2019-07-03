@@ -27,6 +27,11 @@ public class ServerController extends LocalServer {
             return false;
         }
 
+        if(nickname.length() < 3 || nickname.length() > 9){
+            LOG.log(Level.INFO, "Nickname too long or too short: {0}", nickname);
+            return false;
+        }
+
         LOG.log(Level.INFO, "New user connected: {0}", nickname);
         RemotePlayer player = new RemotePlayer(nickname, view);
         player.setDisconnectionCallback(this::handleDisconnection);

@@ -68,7 +68,7 @@ public class GameBoard {
      */
     public void refillAmmoTile() {
         for(StandardSquare sq : board.getStandardSquares()){
-            if(!sq.hasAmmoTile()){
+            if(!sq.hasAmmoTile() && ammoTileDeck.canDraw()){
                 sq.setAmmoTile(ammoTileDeck.draw());
             }
         }
@@ -76,13 +76,8 @@ public class GameBoard {
 
     public void refillSpawnPoints() {
         for(SpawnPoint spw : board.getSpawnPoints()){
-            try{
-                while(!spw.isFull())
-                    spw.addWeapon(weaponDeck.draw());
-            }
-            catch(NoSuchElementException e){
-                // TODO: E qui che si fa? Le armi non bastano
-            }
+            while(!spw.isFull() && weaponDeck.canDraw())
+                spw.addWeapon(weaponDeck.draw());
         }
     }
 

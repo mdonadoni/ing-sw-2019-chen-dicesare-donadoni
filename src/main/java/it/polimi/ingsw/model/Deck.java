@@ -83,4 +83,8 @@ public class Deck<T> {
     public List<T> getAvaible(){
         return new LinkedList<>(availableCards);
     }
+
+    public boolean canDraw(){
+        return !(availableCards.isEmpty() && discardedCards.isEmpty());
+    }
 }
