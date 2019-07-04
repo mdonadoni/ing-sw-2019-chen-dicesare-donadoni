@@ -8,10 +8,7 @@ import it.polimi.ingsw.view.gui.util.Selectable;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
@@ -25,7 +22,9 @@ public class UserViewGUI extends BorderPane {
 
     private Button confirmButton;
     private ModelGUI modelGUI = null;
-    private Text text;
+    private Text textDialog;
+    private Text textPoints;
+
 
     public UserViewGUI() {
         // Set background
@@ -33,21 +32,37 @@ public class UserViewGUI extends BorderPane {
         BackgroundFill fill = new BackgroundFill(pattern, CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(fill);
         setBackground(background);
+
         // Confirm button
         confirmButton = new Button(CONFIRM);
         confirmButton.setDisable(true);
-        setBottom(confirmButton);
+
+        // Points
+        textPoints = new Text();
+        textPoints.setFill(Color.WHITE);
+        textPoints.setFont(new Font(FONT_SIZE));
+        setPoints(0);
+
+        // Bottom
+        HBox hbox = new HBox();
+        hbox.setSpacing(20);
+        hbox.getChildren().addAll(confirmButton, textPoints);
+        setBottom(hbox);
+
         // Dialog text
-        text = new Text();
-        text.setFill(Color.WHITE);
-        text.setFont(new Font(FONT_SIZE));
-        TextFlow flow = new TextFlow(text);
+        textDialog = new Text();
+        textDialog.setFill(Color.WHITE);
+        textDialog.setFont(new Font(FONT_SIZE));
+        TextFlow flow = new TextFlow(textDialog);
         setTop(flow);
     }
 
     public void setModel(MiniModel model) {
         modelGUI = new ModelGUI(model);
-        Platform.runLater(() -> setCenter(modelGUI));
+        Platform.runLater(() -> {
+            setCenter(modelGUI);
+            setPoints(model.getMyPoints());
+        });
     }
 
     public Selectable findSelectable(String uuid) {
@@ -61,11 +76,15 @@ public class UserViewGUI extends BorderPane {
     public void setDialog(Dialog dialog, String ...params) {
         String message = Dialogs.getDialog(dialog, params);
         Platform.runLater(() -> {
-            text.setText(message);
+            textDialog.setText(message);
         });
     }
 
+    private void setPoints(int points) {
+        textPoints.setText(Dialogs.getDialog(Dialog.POINTS, Integer.toString(points)));
+    }
+
     public void removeDialog() {
-        Platform.runLater(() -> text.setText(""));
+        Platform.runLater(() -> textDialog.setText(""));
     }
 }

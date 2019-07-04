@@ -26,5 +26,6 @@
   "tagback_select": "Sei stato colpito! Scegli da {0} a {1} granate venom da usare",
   "targeting_scope_select": "Scegli da {0} a {1} mirini da usare",
   "final_frenzy_started": "È iniziata la Frenesia Finale!",
-  "wait_match_start": "Attendi l'inizio della partita..."
+  "wait_match_start": "Attendi l'inizio della partita...",
+  "points": "Punti: {0}"
 }
