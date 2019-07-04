@@ -1,15 +1,11 @@
 package it.polimi.ingsw.view.gui.component;
 
 import it.polimi.ingsw.model.PlayerToken;
-import it.polimi.ingsw.util.ColorTranslator;
-import javafx.scene.control.Cell;
+import it.polimi.ingsw.view.gui.util.ColorTranslator;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.text.Text;
 
 public class NicknamePaneGUI extends GridPane {
 
@@ -32,9 +28,7 @@ public class NicknamePaneGUI extends GridPane {
         Label name = new Label(nickname);
         name.setMinSize(0,0);
         String readableColor = ColorTranslator.getReadableColor(color);
-        this.heightProperty().addListener(event -> {
-            this.setStyle("-fx-font-size: " + this.getHeight()/1.9);
-        });
+        this.heightProperty().addListener(event -> this.setStyle("-fx-font-size: " + this.getHeight()/1.9));
         name.setStyle("-fx-text-fill: " + readableColor + ";"+
                 "-fx-font-weight: bold;" +
                 "-fx-effect: dropshadow(gaussian, black, 4, 0.5, 0, 1);");

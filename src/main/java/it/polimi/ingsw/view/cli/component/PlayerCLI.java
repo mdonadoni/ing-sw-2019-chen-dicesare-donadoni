@@ -34,7 +34,6 @@ public class PlayerCLI {
         ArrayList<String> outList = new ArrayList<>();
         out = ColorCLI.getPlayerColor(player.getColor(), player.getNickname());
         space = LENGTH - player.getNickname().length() +2;
-        //out = String.format("%-15s", out);
         out = CharCli.addSpace(out,space);
         outList.add(out);
         //top
@@ -49,7 +48,6 @@ public class PlayerCLI {
             out = out.concat(ColorCLI.getPlayerColor(pt, CharCli.MARK_TOKEN));
         }
         space = LENGTH - player.getMarks().size();
-        //out = String.format("%-15s", out);
         out = CharCli.addSpace(out,space);
         out = out.concat(""+CharCli.VERTICAL_WALL);
         outList.add(out);
@@ -101,28 +99,4 @@ public class PlayerCLI {
         }
         return outList;
     }
-/*
-    public static void main(String[] args){
-        Player p = new Player("a", PlayerToken.PURPLE);
-        p.addMark(PlayerToken.YELLOW,2);
-        p.addDamageWithoutMarks(PlayerToken.GREY, 3);
-        p.addDamageWithoutMarks(PlayerToken.BLUE,1);
-
-        Weapon w1 =new Weapon("Vortex");
-        w1.setAdditionalRechargeColor(AmmoColor.RED);
-        w1.addPickupColor(AmmoColor.YELLOW);
-        w1.addPickupColor(AmmoColor.BLUE);
-        p.grabWeapon(w1);
-        p.grabWeapon(new Weapon("Flamethrower"));
-        p.grabWeapon(new Weapon("Laserblade"));
-        p.addPowerUp(new PowerUp(PowerUpType.TELEPORTER, AmmoColor.RED));
-        p.grabAmmo(new AmmoTile(AmmoColor.YELLOW, AmmoColor.YELLOW, AmmoColor.BLUE));
-        MiniPlayer mp = new MiniPlayer(p);
-
-        ArrayList<String> out = PlayerCLI.viewPlayer(mp, p.getPowerUps());
-        for (String s : out){
-            System.out.println(s);
-        }
-    }
-*/
 }

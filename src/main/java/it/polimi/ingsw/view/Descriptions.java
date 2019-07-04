@@ -15,6 +15,11 @@ import java.util.Map;
 public class Descriptions {
     private static Map<String, String> attackMap = null;
 
+    /**
+     * This class should not be constructed.
+     */
+    private Descriptions() {}
+
     static {
         loadAttacks();
     }

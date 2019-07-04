@@ -27,6 +27,11 @@ public class Notification {
 
     private static List<Stage> visibleNotifications = new ArrayList<>();
 
+    /**
+     * This class should not be constructed
+     */
+    private Notification() {}
+
     public static void newNotification(String message) {
         // Create new window
         Stage popup = new Stage(StageStyle.TRANSPARENT);
@@ -43,18 +48,14 @@ public class Notification {
 
         Scene scene = new Scene(grid, WIDTH, HEIGHT);
         scene.setFill(Color.TRANSPARENT);
-        scene.setOnMouseClicked(e -> {
-            closeNotification(popup);
-        });
+        scene.setOnMouseClicked(e -> closeNotification(popup));
         popup.setScene(scene);
 
         // Create animation
         PauseTransition delay = new PauseTransition(NOTIFICATION_DURATION);
         FadeTransition fadeOut = new FadeTransition(FADE_DURATION, scene.getRoot());
         fadeOut.setToValue(0.0);
-        fadeOut.setOnFinished(e -> {
-            closeNotification(popup);
-        });
+        fadeOut.setOnFinished(e -> closeNotification(popup));
         SequentialTransition sequence = new SequentialTransition(delay, fadeOut);
 
         // Add to visibile notifications

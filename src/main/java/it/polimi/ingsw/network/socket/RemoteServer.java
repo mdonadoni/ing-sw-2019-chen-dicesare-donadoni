@@ -47,7 +47,7 @@ public class RemoteServer implements Server, ViewMethodRequestHandler, Runnable,
         this.endpoint = new SocketEndpoint<>(
                 socket,
                 RequestViewMethod.class,
-                (req) -> req.visit(this));
+                req -> req.visit(this));
     }
 
     /**

@@ -12,6 +12,11 @@ public class ImageManager {
     private static Map<String, Image> imageMap = new HashMap<>();
     private static Map<String, Image> customImageMap = new HashMap<>();
 
+    /**
+     * This class should not be constructed.
+     */
+    private ImageManager() {}
+
     public static Image getResourceImage(String path) {
         if (!imageMap.containsKey(path)) {
             imageMap.put(path, new Image(ResourceManager.get(path)));

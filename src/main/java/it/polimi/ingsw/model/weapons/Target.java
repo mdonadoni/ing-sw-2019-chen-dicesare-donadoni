@@ -1,14 +1,15 @@
 package it.polimi.ingsw.model.weapons;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import it.polimi.ingsw.model.Cardinal;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.Square;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
-import it.polimi.ingsw.model.*;
 
 public class Target{
 

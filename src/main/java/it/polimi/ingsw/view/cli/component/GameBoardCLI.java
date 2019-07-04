@@ -24,7 +24,7 @@ public class GameBoardCLI {
         String out=" ";
         PlayerToken pt;
         //player kill shot track
-        ArrayList<ArrayList<PlayerToken>> killShotTrack = miniGameBoard.getKillShotTrack();
+        List<ArrayList<PlayerToken>> killShotTrack = miniGameBoard.getKillShotTrack();
         for(ArrayList<PlayerToken> kills : killShotTrack){
             if(miniGameBoard.getRemainingSkulls()>0){
                 pt = kills.get(0);

@@ -1,12 +1,15 @@
-package it.polimi.ingsw.util;
+package it.polimi.ingsw.view.gui.util;
 
 
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerToken;
 import javafx.scene.paint.Color;
 
 
 public class ColorTranslator {
+    /**
+     * This class should not be constructed.
+     */
+    private ColorTranslator() { }
 
     public static Color getCssColor(PlayerToken token){
         Color color = Color.BLACK;

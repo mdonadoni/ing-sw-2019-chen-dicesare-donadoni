@@ -75,9 +75,7 @@ public class UserViewGUI extends BorderPane {
 
     public void setDialog(Dialog dialog, String ...params) {
         String message = Dialogs.getDialog(dialog, params);
-        Platform.runLater(() -> {
-            textDialog.setText(message);
-        });
+        Platform.runLater(() -> textDialog.setText(message));
     }
 
     private void setPoints(int points) {

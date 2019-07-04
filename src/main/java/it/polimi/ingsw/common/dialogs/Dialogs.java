@@ -9,7 +9,7 @@ import it.polimi.ingsw.util.ResourceManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 /**
@@ -31,7 +31,7 @@ public class Dialogs {
      */
     private static void loadDialogs(){
         try{
-            dialogMap = new HashMap<>();
+            dialogMap = new EnumMap<>(Dialog.class);
             InputStream stream = ResourceManager.get("/dialogs/dialogs.json");
             ObjectMapper mapper = Json.getMapper();
             JsonNode json = mapper.readTree(stream);

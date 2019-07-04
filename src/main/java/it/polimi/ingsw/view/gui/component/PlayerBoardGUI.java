@@ -9,11 +9,10 @@ import java.util.Arrays;
 
 
 public class PlayerBoardGUI extends FitObject implements Selectable {
-    private static final double RED_MARK_PERCENTAGE_HEIGHT = 0.25;
-    StretchImage boardImage;
+    private StretchImage boardImage;
     private GridPane overlay;
-    MiniPlayer player;
-    SelectableComponent select;
+    private MiniPlayer player;
+    private SelectableComponent select;
     PlayerBoardGUI(MiniPlayer player){
         this.player = player;
         String path;
@@ -34,7 +33,6 @@ public class PlayerBoardGUI extends FitObject implements Selectable {
         overlay.add(new AmmoPaneGUI(player.getAmmo()), 2, 0, 1, 3);
 
         if (!player.isActive()) {
-            double sizeMark = boardImage.getImageHeight() * RED_MARK_PERCENTAGE_HEIGHT;
             overlay.add(new ResizableImage(ImageManager.getRedMark()), 0, 0);
         }
 

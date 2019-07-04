@@ -60,7 +60,7 @@ public class Match extends Identifiable{
         List<PlayerToken> tokens = Arrays.asList(PlayerToken.values());
         Collections.shuffle(tokens);
         Iterator<PlayerToken> token = tokens.iterator();
-        nicknames.forEach((nickname) -> players.add(new Player(nickname, token.next())));
+        nicknames.forEach(nickname -> players.add(new Player(nickname, token.next())));
 
         this.gameBoard = new GameBoard(SKULLS, factory);
         this.currentTurn = new Turn(players.get(0), TurnType.FIRST_TURN);

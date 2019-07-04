@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OtherPlayersPaneGUI extends GridPane implements SelectableContainer {
-    private static int MAX_OTHER_PLAYERS = 4;
     List<PlayerPaneGUI> playerPanes = new ArrayList<>();
 
     public OtherPlayersPaneGUI(List<MiniPlayer> players){
@@ -23,8 +22,8 @@ public class OtherPlayersPaneGUI extends GridPane implements SelectableContainer
         vgapProperty().bind(heightProperty().multiply(0.02));
 
         RowConstraints row = new RowConstraints();
-        row.setPercentHeight(100.0/MAX_OTHER_PLAYERS);
-        for(int i = 0; i < MAX_OTHER_PLAYERS; i++)
+        row.setPercentHeight(100.0/players.size());
+        for(int i = 0; i < players.size(); i++)
             getRowConstraints().add(row);
 
         for(int i=0; i<numberOfPlayers; i++) {

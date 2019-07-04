@@ -28,7 +28,13 @@ public class CharCli {
     public static final String DAMAGE_TOKEN = "\u25C6";
     public static final String MARK_TOKEN = "\u25CE";
 
-    public synchronized static void concatRow(List<String> list1, List<String> list2){
+
+    /**
+     * This class should not be constructed.
+     */
+    private CharCli() {}
+
+    public static synchronized void concatRow(List<String> list1, List<String> list2){
         String s;
         for( int i = 0 ; i< list1.size() && i< list2.size(); i++)
         {

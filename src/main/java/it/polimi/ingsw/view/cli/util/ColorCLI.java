@@ -13,8 +13,12 @@ public class ColorCLI {
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_GREY = "\u001B[90m";
-
     public static final String BOLD = "\u001B[1";
+
+    /**
+     * This class should not be constructed.
+     */
+    private ColorCLI() {}
 
     public static String turnBlack(String s){
         return ANSI_BLACK+s+ANSI_RESET;

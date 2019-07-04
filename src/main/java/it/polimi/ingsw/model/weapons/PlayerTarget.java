@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.weapons;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 

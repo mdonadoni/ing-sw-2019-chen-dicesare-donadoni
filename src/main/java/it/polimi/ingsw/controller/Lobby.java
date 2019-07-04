@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.common.ServerConfig;
+import it.polimi.ingsw.common.dialogs.Dialog;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -21,6 +22,7 @@ public class Lobby {
     private static final long COUNTDOWN = ServerConfig.getLobbyTimeout() * 1000L;
     private static final int MIN_PLAYERS = ServerConfig.getMinPlayers();
     private static final int MAX_PLAYERS = ServerConfig.getMaxPlayers();
+
 
     /**
      * Server.
@@ -57,7 +59,7 @@ public class Lobby {
         // Notify other players
         for (int i = 0; i < queue.size(); i++) {
             RemotePlayer other = queue.get(i);
-            other.safeShowMessage("Nuovo utente in lobby: " + player.getNickname());
+            other.safeShowMessage(Dialog.PLAYER_ADDED_LOBBY, player.getNickname());
         }
 
         queue.add(player);
@@ -89,11 +91,10 @@ public class Lobby {
     public synchronized void removePlayer(RemotePlayer player) {
         LOG.info(() -> "Removed player from lobby: " + player.getNickname());
         queue.remove(player);
-        //TODO fix showMessage
-        // Notify other players
+
         for (int i = 0; i < queue.size(); i++) {
             RemotePlayer other = queue.get(i);
-            other.safeShowMessage("Utente rimosso dalla lobby: " + player.getNickname());
+            other.safeShowMessage(Dialog.PLAYER_REMOVED_LOBBY, player.getNickname());
         }
 
         if (queue.size() < MIN_PLAYERS) {

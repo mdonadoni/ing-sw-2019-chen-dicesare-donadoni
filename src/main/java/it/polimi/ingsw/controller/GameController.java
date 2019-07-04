@@ -14,7 +14,14 @@ import java.util.logging.Logger;
  * Main controller class that manages the match.
  */
 public class GameController implements Runnable{
+    /**
+     * Logger to be used by this class.
+     */
     private static final Logger LOG = Logger.getLogger(GameController.class.getName());
+    /**
+     * Message used to log disconnections.
+     */
+    private static final String PLAYER_DISCONNECTED_LOG = "Player {0} disconnected, setting him inactive...";
     /**
      * The match that is going on
      */
@@ -159,7 +166,7 @@ public class GameController implements Runnable{
                 spawnRoutine(currentPlayer, 2);
                 turn.startTurn();
             } catch(RemoteException e){
-                LOG.log(Level.WARNING, "Player {0} disconnected, setting him inactive...",
+                LOG.log(Level.WARNING, PLAYER_DISCONNECTED_LOG,
                         match.getCurrentTurn().getCurrentPlayer().getNickname());
                 handleDisconnection(remotePlayers.get(match.getCurrentTurn().getCurrentPlayer().getNickname()));
             }
@@ -180,7 +187,7 @@ public class GameController implements Runnable{
                     // Finally start his turn
                     turn.startTurn();
                 }catch(RemoteException e){
-                    LOG.log(Level.WARNING, "Player {0} disconnected, setting him inactive...",
+                    LOG.log(Level.WARNING, PLAYER_DISCONNECTED_LOG,
                             currentPlayer.getNickname());
                     handleDisconnection(remotePlayers.get(currentPlayer.getNickname()));
                 }
@@ -206,7 +213,7 @@ public class GameController implements Runnable{
             try{
                 turn.startTurn();
             } catch(RemoteException e){
-                LOG.log(Level.WARNING, "Player {0} disconnected, setting him inactive...",
+                LOG.log(Level.WARNING, PLAYER_DISCONNECTED_LOG,
                         currentPlayer.getNickname());
                 handleDisconnection(remotePlayers.get(currentPlayer.getNickname()));
             }
@@ -253,7 +260,6 @@ public class GameController implements Runnable{
      * @param player The player who disconnected
      */
     private void handleDisconnection(RemotePlayer player) {
-        // TODO handle disconnection
         match.getPlayerByNickname(player.getNickname()).setActive(false);
         notifier.notifyEveryone(Dialog.PLAYER_DISCONNECTED, player.getNickname());
     }

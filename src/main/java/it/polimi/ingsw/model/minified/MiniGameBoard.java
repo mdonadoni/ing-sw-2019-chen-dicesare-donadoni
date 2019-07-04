@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.PlayerToken;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MiniGameBoard implements Serializable {
     private static final long serialVersionUID = -2599886836431833259L;
@@ -27,7 +28,7 @@ public class MiniGameBoard implements Serializable {
         this.initialSkullNumber = gameBoard.getInitialSkullNumber();
         this.remainingSkulls = gameBoard.getRemainingSkulls();
         this.killShotTrack = new ArrayList<>();
-        gameBoard.getKillShotTrack().forEach((l) -> killShotTrack.add(new ArrayList<>(l)));
+        gameBoard.getKillShotTrack().forEach(l -> killShotTrack.add(new ArrayList<>(l)));
         this.board = new MiniBoard(gameBoard.getBoard());
     }
 
@@ -39,7 +40,7 @@ public class MiniGameBoard implements Serializable {
         return remainingSkulls;
     }
 
-    public ArrayList<ArrayList<PlayerToken>> getKillShotTrack() {
+    public List<ArrayList<PlayerToken>> getKillShotTrack() {
         return killShotTrack;
     }
 

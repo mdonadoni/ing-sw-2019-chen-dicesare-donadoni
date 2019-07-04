@@ -46,6 +46,6 @@ public class FitObject extends Region {
         double realHeight = getHeight() - top- bottom;
         double layoutWidth = Math.min(realWidth, realHeight/ contentHeight * contentWidth);
         double layoutHeight = Math.min(realHeight, realWidth/ contentWidth * contentHeight);
-        getChildren().forEach((child) -> layoutInArea(child, left + (realWidth - layoutWidth)/2, top + (realHeight -layoutHeight)/2, layoutWidth, layoutHeight, 0, HPos.LEFT, VPos.TOP));
+        getChildren().forEach(child -> layoutInArea(child, left + (realWidth - layoutWidth)/2, top + (realHeight -layoutHeight)/2, layoutWidth, layoutHeight, 0, HPos.LEFT, VPos.TOP));
     }
 }

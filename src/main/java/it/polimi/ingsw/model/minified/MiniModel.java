@@ -45,7 +45,7 @@ public class MiniModel implements Serializable {
         return new ArrayList<>(myPowerUps);
     }
 
-    public ArrayList<MiniPowerUp> getMyDrawnPowerUps() {
+    public List<MiniPowerUp> getMyDrawnPowerUps() {
         return myDrawnPowerUps;
     }
 

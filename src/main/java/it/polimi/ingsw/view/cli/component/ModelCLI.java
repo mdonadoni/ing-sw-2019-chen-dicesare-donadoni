@@ -28,35 +28,4 @@ public class ModelCLI {
         outList.add(out);
         return outList;
     }
-/*
-    public static void main (String[] args){
-        Match match = new Match(
-                Arrays.asList("Sim", "Mar", "Fed", "D", "E"),
-                new JsonModelFactory(BoardType.SMALL)
-        );
-        Player pA = match.getPlayerByNickname("Sim");
-        Player pB = match.getPlayerByNickname("Mar");
-        Player pC = match.getPlayerByNickname("Fed");
-        Player pD = match.getPlayerByNickname("D");
-        Player pE = match.getPlayerByNickname("E");
-        pA.addMark(PlayerToken.BLUE, 2);
-        pA.addDamageWithoutMarks(PlayerToken.YELLOW, 5);
-        pA.addPowerUp(new PowerUp(PowerUpType.NEWTON, AmmoColor.RED));
-        Weapon w1 =new Weapon("Vortex");
-        w1.setAdditionalRechargeColor(AmmoColor.RED);
-        w1.addPickupColor(AmmoColor.YELLOW);
-        w1.addPickupColor(AmmoColor.BLUE);
-        pA.grabWeapon(w1);
-
-        MiniModel miniModel = new MiniModel(match,match.getPlayerByNickname("Sim"));
-
-        ModelCLI modelCLI = new ModelCLI(miniModel);
-
-        ArrayList<String> s = (ArrayList<String>) modelCLI.viewModel();
-        for( String sa : s){
-            System.out.println(sa);
-        }
-    }
-*/
-
 }

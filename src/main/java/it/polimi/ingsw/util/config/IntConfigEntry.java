@@ -80,7 +80,8 @@ public class IntConfigEntry implements ConfigEntry {
     public void set(int value) {
         if (minValue != null && value < minValue) {
             throw new ConfigException("Cannot set " + name + " to less than " + minValue);
-        }if (maxValue != null && value > maxValue) {
+        }
+        if (maxValue != null && value > maxValue) {
             throw new ConfigException("Cannot set " + name + " to more than " + maxValue);
         }
         this.value = value;

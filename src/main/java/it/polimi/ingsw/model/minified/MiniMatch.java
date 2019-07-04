@@ -24,7 +24,7 @@ public class MiniMatch extends MiniIdentifiable implements Serializable {
     public MiniMatch(Match match) {
         super(match.getUuid());
         this.players = new ArrayList<>();
-        match.getPlayers().forEach((p) -> players.add(new MiniPlayer(p)));
+        match.getPlayers().forEach(p -> players.add(new MiniPlayer(p)));
         this.gameBoard = new MiniGameBoard(match.getGameBoard());
         this.currentTurn = new MiniTurn(match.getCurrentTurn().getCurrentPlayer(), match.getFinalFrenzy());
     }

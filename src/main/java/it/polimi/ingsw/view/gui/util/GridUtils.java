@@ -8,6 +8,11 @@ import javafx.scene.layout.RowConstraints;
 import java.util.List;
 
 public class GridUtils {
+    /**
+     * This class should not be constructed.
+     */
+    private GridUtils() {}
+
     public static GridPane newGridPane(List<Double> columns, List<Double> rows) {
         GridPane pane = new GridPane();
         for (double column : columns) {

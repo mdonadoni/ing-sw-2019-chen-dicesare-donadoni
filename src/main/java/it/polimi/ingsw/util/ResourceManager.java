@@ -7,6 +7,10 @@ import java.io.InputStream;
  */
 public class ResourceManager {
     /**
+     * This class should not be constructed.
+     */
+    private ResourceManager() { }
+    /**
      * Return the InputStream of a file.
      * @param path The path of a file.
      * @return The InputStream of the file.

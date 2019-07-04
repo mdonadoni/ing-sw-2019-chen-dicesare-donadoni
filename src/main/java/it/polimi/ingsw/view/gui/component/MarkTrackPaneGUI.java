@@ -10,8 +10,6 @@ public class MarkTrackPaneGUI extends GridPane {
 
     MarkTrackPaneGUI(List<PlayerToken> marks){
         RowConstraints markRow = new RowConstraints();
-        //RowConstraints bottomRow = new RowConstraints();
-        //bottomRow.setPercentHeight(20);
         markRow.setPercentHeight(100);
         ColumnConstraints markCol = new ColumnConstraints();
         ColumnConstraints padCol = new ColumnConstraints();

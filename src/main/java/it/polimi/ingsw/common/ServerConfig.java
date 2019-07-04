@@ -23,6 +23,12 @@ public class ServerConfig {
     static {
         init();
     }
+
+    /**
+     * This class should not be constructed.
+     */
+    private ServerConfig() { }
+
     /**
      * Initializer method:
      * -timeout of the turn as 60 and minimum 1

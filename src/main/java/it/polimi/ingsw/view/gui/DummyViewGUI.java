@@ -7,10 +7,8 @@ import it.polimi.ingsw.network.LocalView;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
-import java.util.logging.Logger;
 
 public class DummyViewGUI extends LocalView {
-    private static final Logger LOG = Logger.getLogger(LocalView.class.getName());
     ViewGUI gui;
 
     public DummyViewGUI(ViewGUI gui) {

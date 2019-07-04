@@ -38,7 +38,9 @@ public class Attack extends Identifiable {
     /**
      * Constructor of the class
      */
-    public Attack(){ }
+    public Attack(){
+        // construct empty attack
+    }
 
     /**
      * Add a bonus movement effest.

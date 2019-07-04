@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class that represents a set of options.
+ * Class that represents a set of optionsMap.
  */
 public class Options {
     /**
      * Map between option's name and actual Option object.
      */
-    private Map<String, Option> options = new HashMap<>();
+    private Map<String, Option> optionsMap = new HashMap<>();
     /**
-     * List of groups of options mutually exclusive.
+     * List of groups of optionsMap mutually exclusive.
      */
     private List<Option[]> exclusiveGroups = new ArrayList<>();
 
@@ -24,7 +24,7 @@ public class Options {
      * @return True if it can be added, false otherwise.
      */
     private boolean canAdd(Option opt) {
-        return !options.containsKey(opt.getName());
+        return !optionsMap.containsKey(opt.getName());
     }
 
     /**
@@ -33,9 +33,9 @@ public class Options {
      */
     public void addOption(Option option) {
         if (!canAdd(option)) {
-            throw new CLIParserException("Cannot have two options with same name");
+            throw new CLIParserException("Cannot have two optionsMap with same name");
         }
-        options.put(option.getName(), option);
+        optionsMap.put(option.getName(), option);
     }
 
     /**
@@ -49,7 +49,7 @@ public class Options {
     }
 
     /**
-     * Add options that need to be mutually exclusive.
+     * Add optionsMap that need to be mutually exclusive.
      * @param options Options mutually exclusive.
      */
     public void addMutuallyExclusiveOptions(Option ...options) {
@@ -71,7 +71,7 @@ public class Options {
      * @return True if the option with the given name is present, false otherwise.
      */
     boolean hasOption(String name) {
-        return options.containsKey(name);
+        return optionsMap.containsKey(name);
     }
 
     /**
@@ -80,20 +80,20 @@ public class Options {
      * @return Option with given name.
      */
     Option getOption(String name) {
-        return options.get(name);
+        return optionsMap.get(name);
     }
 
     /**
-     * Get all the options.
-     * @return List with all the options.
+     * Get all the optionsMap.
+     * @return List with all the optionsMap.
      */
     List<Option> getOptions() {
-        return new ArrayList<>(options.values());
+        return new ArrayList<>(optionsMap.values());
     }
 
     /**
-     * Get list of groups of options mutually exclusive.
-     * @return List of group of mutually exclusive options.
+     * Get list of groups of optionsMap mutually exclusive.
+     * @return List of group of mutually exclusive optionsMap.
      */
     List<Option[]> getExclusiveGroups() {
         return exclusiveGroups;

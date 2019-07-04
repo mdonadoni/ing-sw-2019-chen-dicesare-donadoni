@@ -21,7 +21,7 @@ public class BoardCLI {
         MiniSquare ms;
         List<String> outList = new ArrayList<>();
         List<String> tempList1 = new ArrayList<>();
-        List<String> tempList2 = new ArrayList<>();
+        List<String> tempList2;
         int r = 0;
         int c = 0;
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.common.ServerConfig;
-import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.BoardType;
 import it.polimi.ingsw.network.LocalServer;
 import it.polimi.ingsw.network.View;
@@ -79,9 +78,7 @@ public class ServerController extends LocalServer {
         LOG.log(Level.INFO, "New match starting");
         //TODO select board
         GameController game = new GameController(players, selectBoard(players.size()));
-        players.forEach(remotePlayer -> {
-            nicknameToGame.put(remotePlayer.getNickname(), game);
-        });
+        players.forEach(remotePlayer -> nicknameToGame.put(remotePlayer.getNickname(), game));
         executor.execute(game);
     }
 

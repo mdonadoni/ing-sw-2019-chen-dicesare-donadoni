@@ -33,14 +33,14 @@ public class BoardGUI extends GridPane implements SelectableContainer {
         }
 
         // Add standard squares
-        board.getStandardSquares().forEach((sq) -> {
+        board.getStandardSquares().forEach(sq -> {
             SquareGUI squareGUI = new SquareGUI(sq);
             squaresGUI.add(squareGUI);
             add(GridUtils.newPaddingPane(squareGUI, 10), sq.getCoordinates().getColumn(), sq.getCoordinates().getRow());
         });
 
         // Add spawnpoints
-        board.getSpawnPoints().forEach((spawn) -> {
+        board.getSpawnPoints().forEach(spawn -> {
             SquareGUI spawnGUI = new SquareGUI(spawn);
             squaresGUI.add(spawnGUI);
             add(GridUtils.newPaddingPane(spawnGUI, 10), spawn.getCoordinates().getColumn(), spawn.getCoordinates().getRow());

@@ -12,11 +12,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class SelectionManager {
-    List<Selectable> selectables;
-    int min, max;
-    Button button;
-    Set<String> selected = new HashSet<>();
-    CompletableFuture<List<String>> finalSelection = new CompletableFuture<>();
+    private List<Selectable> selectables;
+    private int min;
+    private int max;
+    private Button button;
+    private Set<String> selected = new HashSet<>();
+    private CompletableFuture<List<String>> finalSelection = new CompletableFuture<>();
 
     public SelectionManager(List<Selectable> selectables, Button confirmButton, int min, int max) {
         this.selectables = new ArrayList<>(selectables);

@@ -17,7 +17,7 @@ public class ActionSupplier {
     /**
      * The instance of the class.
      */
-    private static ActionSupplier INSTANCE;
+    private static ActionSupplier actionSupplierInstance;
     /**
      * The list of actions.
      */
@@ -36,11 +36,11 @@ public class ActionSupplier {
      * @return The instance of the class.
      */
     public static ActionSupplier getInstance(){
-        if(INSTANCE == null){
-            INSTANCE = new ActionSupplier();
+        if(actionSupplierInstance == null){
+            actionSupplierInstance = new ActionSupplier();
         }
 
-        return INSTANCE;
+        return actionSupplierInstance;
     }
 
     /**

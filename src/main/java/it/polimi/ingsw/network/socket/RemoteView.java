@@ -48,7 +48,7 @@ public class RemoteView implements View, ServerMethodRequestHandler, Runnable {
         this.endpoint = new SocketEndpoint<>(
                 socket,
                 RequestServerMethod.class,
-                (req) -> req.visit(this));
+                req -> req.visit(this));
     }
 
     /**

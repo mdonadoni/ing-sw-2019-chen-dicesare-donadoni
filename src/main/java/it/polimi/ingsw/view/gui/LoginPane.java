@@ -18,8 +18,8 @@ import java.util.function.Consumer;
 
 public class LoginPane extends GridPane {
 
-    private static String SOCKET = "Socket";
-    private static String RMI = "RMI";
+    private static final String SOCKET = "Socket";
+    private static final String RMI = "RMI";
 
     @FXML
     private TextField serverField;
@@ -75,7 +75,7 @@ public class LoginPane extends GridPane {
                 nicknameField.getText()
         );
 
-        new Thread(() -> {
+        new Thread(() ->
             loginCallback.accept(info, r ->
                 Platform.runLater(() -> {
                     switch (r) {
@@ -92,8 +92,8 @@ public class LoginPane extends GridPane {
                             break;
                     }
                 })
-            );
-        }).start();
+            )
+        ).start();
     }
 
     public ReadOnlyBooleanProperty connectedProperty() {

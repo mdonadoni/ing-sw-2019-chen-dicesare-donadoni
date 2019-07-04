@@ -153,9 +153,7 @@ public class Configurations {
         try {
             ObjectMapper mapper = Json.getMapper();
             JsonNode jsonConfig = mapper.readTree(stream);
-            jsonConfig.fields().forEachRemaining(entry -> {
-                parseString(entry.getKey(), entry.getValue().asText());
-            });
+            jsonConfig.fields().forEachRemaining(entry -> parseString(entry.getKey(), entry.getValue().asText()));
         } catch (ConfigException e) {
             throw e;
         } catch (Exception e) {
