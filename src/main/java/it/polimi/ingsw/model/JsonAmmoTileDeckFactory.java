@@ -9,7 +9,14 @@ import it.polimi.ingsw.util.ResourceManager;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+/**
+ * This class represent the implementation of the AmmoTIleDeckFactory.
+ */
 public class JsonAmmoTileDeckFactory implements AmmoTileDeckFactory {
+    /**
+     * Create a deck of ammo tile, loading from a file that contains the different types of ammo tile then shuffle it.
+     * @return The deck of ammo tile.
+     */
     @Override
     public Deck<AmmoTile> createAmmoTileDeck() {
         Deck<AmmoTile> deck = new Deck<>();

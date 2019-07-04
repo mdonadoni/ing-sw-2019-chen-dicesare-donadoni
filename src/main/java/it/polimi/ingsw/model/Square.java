@@ -211,6 +211,11 @@ public class Square extends Identifiable{
         return getAlignedSquares(direction).contains(other);
     }
 
+    /**
+     * Check if other square is aligned to this square.
+     * @param other Other square to be checked.
+     * @return True if other square is aligned, otherwise false.
+     */
     public boolean isAligned(Square other){
         boolean res = false;
         for(Cardinal direction : Cardinal.values()){
@@ -221,10 +226,19 @@ public class Square extends Identifiable{
         return res;
     }
 
+    /**
+     * Get the links of the square.
+     * @return The list of the links of the squares.
+     */
     public List<Link> getLinks() {
         return new ArrayList<>(links);
     }
 
+    /**
+     * Get the list of squares far from this for a certain distance.
+     * @param distance The maximum distance from the other squares.
+     * @return The list of squares.
+     */
     public List<Square> getSquaresByDistance(int distance){
         Map<Square, Integer> otherSquares = bfs(((Link l) -> !l.isWall()));
 
@@ -235,6 +249,11 @@ public class Square extends Identifiable{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Get the list of aligned squares far from this for a certain distance.
+     * @param distance The maximum distance from the other squares.
+     * @return The list of aligned squares.
+     */
     public List<Square> getSquaresByDistanceAligned(int distance){
         List<Square> compatibleSquares = getSquaresByDistance(distance);
         return compatibleSquares.stream().filter(this::isAligned).collect(Collectors.toList());

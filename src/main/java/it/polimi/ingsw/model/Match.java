@@ -5,31 +5,48 @@ import it.polimi.ingsw.common.ServerConfig;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This class represent a match of the game
+ */
 public class Match extends Identifiable{
+    /**
+     * The minimum amount of player per match.
+     */
     private static final int MIN_PLAYERS = ServerConfig.getMinPlayers();
+    /**
+     * The maximum amount of player per match.
+     */
     private static final int MAX_PLAYERS = ServerConfig.getMaxPlayers();
+    /**
+     * The amount of skulls.
+     */
     private static final int SKULLS = ServerConfig.getSkulls();
     /**
-     * States whether the match in in final frenzy
+     * States whether the match is in final frenzy.
      */
     private boolean finalFrenzy;
     /**
-     * List containing all the players participating in this match
+     * List containing all the players participating in this match.
      */
     private List<Player> players = new ArrayList<>();
     /**
-     * The GameBoard associated with this match
+     * The GameBoard associated with this match.
      */
     private GameBoard gameBoard;
     /**
-     * Contains all the information needed for the current turn
+     * Contains all the information needed for the current turn.
      */
     private Turn currentTurn;
     /**
-     * Counts the number of turns
+     * Counts the number of turns.
      */
     private int turnsElapsed;
 
+    /**
+     * Constructor of the class, it generates the list of players and generates the model.
+     * @param nicknames The nicknames of the players to generate.
+     * @param factory The factory that generates the model(board and decks).
+     */
     public Match(List<String> nicknames, ModelFactory factory) {
         if (nicknames.size() < MIN_PLAYERS) {
             throw new InvalidOperationException("Not enough players");
@@ -52,7 +69,7 @@ public class Match extends Identifiable{
     }
 
     /**
-     * Standard constructor, generates his id
+     * Standard constructor.
      */
     Match() {
         finalFrenzy = false;
@@ -60,8 +77,8 @@ public class Match extends Identifiable{
     }
 
     /**
-     * Adds a player to the match
-     * @param player the player to be added
+     * Adds a player to the match.
+     * @param player the player to be added.
      */
     public void addPlayer(Player player){
             if(players.size() < MAX_PLAYERS)
@@ -78,6 +95,11 @@ public class Match extends Identifiable{
         return new ArrayList<>(players);
     }
 
+    /**
+     * Get the player by its nickname.
+     * @param nickname The nickname of the player to look for.
+     * @return The player requested.
+     */
     public Player getPlayerByNickname(String nickname) {
         for (Player p : players) {
             if (nickname.equals(p.getNickname())) {
@@ -89,7 +111,7 @@ public class Match extends Identifiable{
 
     /**
      * Sets final frenzy mode to true and evaluates which players will do their Final Frenzy turn before the first player
-     * WARNING: This method MUST be called before calling nextTurn()
+     * WARNING: This method MUST be called before calling nextTurn().
      */
     public void activateFinalFrenzy(){
         int currentPlayerIndex = players.indexOf(getCurrentTurn().getCurrentPlayer());
@@ -105,23 +127,23 @@ public class Match extends Identifiable{
     }
 
     /**
-     * Gives you the gameboard associated with this match
-     * @return the gameboard fo the match
+     * Gives you the gameboard associated with this match.
+     * @return the game board fo the match.
      */
     public GameBoard getGameBoard(){
         return gameBoard;
     }
 
     /**
-     * Gives you all the information about this particular turn
-     * @return The current turn
+     * Gives you all the information about this particular turn.
+     * @return The current turn.
      */
     public Turn getCurrentTurn(){
         return currentTurn;
     }
 
     /**
-     * Goes to the next turn
+     * Goes to the next turn.
      */
     public void nextTurn(){
         turnsElapsed++;
@@ -170,6 +192,11 @@ public class Match extends Identifiable{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Get the other alive players.
+     * @param nickname The player that is not included in the list.
+     * @return The list of other alive players.
+     */
     public List<Player> getOtherPlayersAlive(String nickname){
         return players.stream()
                 .filter(e -> !e.getNickname().equals(nickname))
@@ -177,14 +204,18 @@ public class Match extends Identifiable{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Get if the match is in the final frenzy stage.
+     * @return True if the match is in finale frenzy, false otherwise.
+     */
     public boolean getFinalFrenzy(){
         return finalFrenzy;
     }
 
     /**
-     * Get the player who is using the tokens with a certain color
-     * @param color The color of the player I want to be returned
-     * @return The player with the given color associated
+     * Get the player who is using the tokens with a certain color.
+     * @param color The color of the player I want to be returned.
+     * @return The player with the given color associated.
      */
     public Player getPlayerByTokenColor(PlayerToken color){
         Player resPlayer = null;
@@ -196,10 +227,18 @@ public class Match extends Identifiable{
         return resPlayer;
     }
 
+    /**
+     * Return if the game has ended or not(skulls==0).
+     * @return True the game has ended, false otherwise.
+     */
     public boolean gameEnded(){
         return gameBoard.getRemainingSkulls() == 0;
     }
 
+    /**
+     * Get the active players.
+     * @return The list of active players.
+     */
     public List<Player> getActivePlayers(){
         return players.stream()
                 .filter(Player::isActive)

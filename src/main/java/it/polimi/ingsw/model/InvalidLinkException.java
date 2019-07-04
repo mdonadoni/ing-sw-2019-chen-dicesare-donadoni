@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model;
 
 /**
- * Exception that signals an invalid Link
+ * Exception that signals an invalid Link.
  */
 public class InvalidLinkException extends RuntimeException {
     /**
-     * Constructor of InvalidLinkException
+     * Constructor of InvalidLinkException.
      */
     public InvalidLinkException() {
         super();

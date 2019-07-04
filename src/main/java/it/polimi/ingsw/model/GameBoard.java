@@ -8,31 +8,31 @@ import java.util.NoSuchElementException;
 
 
 /**
- * Class representing the GameBoard
+ * Class representing the GameBoard.
  */
 public class GameBoard {
     /**
-     * Number of initial skulls for this gameboard
+     * Number of initial skulls for this gameboard.
      */
     private int initialSkullNumber;
     /**
-     * Number of skulls left on the gameboard
+     * Number of skulls left on the gameboard.
      */
     private int remainingSkulls;
     /**
-     * Keeps track of the kills scored by the players, every kill might be a multiple one, so we need a list of lists
+     * Keeps track of the kills scored by the players, every kill might be a multiple one, so we need a list of lists.
      */
     private List<List<PlayerToken>> killShotTrack;
     /**
-     * A deck containing the weapon cards
+     * A deck containing the weapon cards.
      */
     Deck<Weapon> weaponDeck;
     /**
-     * A deck containing the powerup cards
+     * A deck containing the powerup cards.
      */
     Deck<PowerUp> powerUpDeck;
     /**
-     * A deck containing thr ammo tiles
+     * A deck containing thr ammo tiles.
      */
     Deck<AmmoTile> ammoTileDeck;
 
@@ -42,7 +42,7 @@ public class GameBoard {
     Board board;
 
     /**
-     * Standard constructor
+     * Standard constructor.
      */
     GameBoard() {
     }
@@ -64,7 +64,7 @@ public class GameBoard {
     }
 
     /**
-     * Goes through all the StandardSquares and if the ammoTile is missing, adds one
+     * Goes through all the StandardSquares and if the ammoTile is missing, adds one.
      */
     public void refillAmmoTile() {
         for(StandardSquare sq : board.getStandardSquares()){
@@ -74,6 +74,9 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Goes through all the SpawnPoints and if it's not full of weapon, adds until full.
+     */
     public void refillSpawnPoints() {
         for(SpawnPoint spw : board.getSpawnPoints()){
             while(!spw.isFull() && weaponDeck.canDraw())
@@ -84,7 +87,7 @@ public class GameBoard {
     /**
      * Add a kill to the killShotTrack, this method also decreases the number of skulls left. According to the rules, if
      * there are no skulls left, all the kills are appended to the last kill scored.
-     * @param tokens the tokens of the player who scored the kill
+     * @param tokens The tokens of the player who scored the kill.
      */
     public void addKill(List<PlayerToken> tokens){
         if(remainingSkulls > 0){
@@ -100,10 +103,18 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Return the amount of remaining skulls.
+     * @return The amount of remaining skulls.
+     */
     public int getRemainingSkulls(){
         return remainingSkulls;
     }
 
+    /**
+     * Return the kill shot track.
+     * @return The kill shot track.
+     */
     public List<List<PlayerToken>> getKillShotTrack(){
         return killShotTrack;
     }
@@ -141,22 +152,42 @@ public class GameBoard {
         return Util.uniqueStableSortByCount(scoreHistory);
     }
 
+    /**
+     * Return the deck of weapon.
+     * @return The deck of weapon.
+     */
     public Deck<Weapon> getWeaponDeck(){
         return weaponDeck;
     }
 
+    /**
+     * Return the deck of power-up.
+     * @return The deck of power-up.
+     */
     public Deck<PowerUp> getPowerUpDeck(){
         return powerUpDeck;
     }
 
+    /**
+     * Return the deck of ammo tile.
+     * @return The deck of ammo tile.
+     */
     public Deck<AmmoTile> getAmmoTileDeck(){
         return ammoTileDeck;
     }
 
+    /**
+     * Return the Board.
+     * @return The Board.
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Return the number of initial skulls.
+     * @return The number of initial skulls.
+     */
     public int getInitialSkullNumber() {
         return initialSkullNumber;
     }

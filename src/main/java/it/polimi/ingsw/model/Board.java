@@ -187,18 +187,34 @@ public class Board {
         return type;
     }
 
+    /**
+     * Get the spawn points on the board.
+     * @return The list of pawn points.
+     */
     public List<SpawnPoint> getSpawnPoints() {
         return new ArrayList<>(coordToSpawnPoint.values());
     }
 
+    /**
+     * Get the standard squares on the board.
+     * @return The list of the standard squares.
+     */
     public List<StandardSquare> getStandardSquares() {
         return new ArrayList<>(coordToStandardSquare.values());
     }
 
+    /**
+     * Get all the squares on the board.
+     * @return The squares on the board.
+     */
     public List<Square> getAllSquares(){
         return new ArrayList<>(coordToSquare.values());
     }
 
+    /**
+     * Set the type of the board.
+     * @param type The type of board to set.
+     */
     void setType(BoardType type) {
         this.type = type;
     }

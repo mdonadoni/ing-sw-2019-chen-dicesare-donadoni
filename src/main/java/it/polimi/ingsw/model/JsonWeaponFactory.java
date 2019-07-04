@@ -8,8 +8,15 @@ import it.polimi.ingsw.util.ResourceException;
 import it.polimi.ingsw.util.ResourceManager;
 
 import java.io.InputStream;
-
+/**
+ * This class represent the implementation of the WeaponFactory.
+ */
 public class JsonWeaponFactory implements WeaponFactory {
+    /**
+     * Create a weapon based on its type. This method load the weapon from the file where it is contained.
+     * @param type The type of weapon.
+     * @return The weapon created.
+     */
     public Weapon createWeapon(WeaponType type){
         Weapon weapon = new Weapon();
 
@@ -40,6 +47,11 @@ public class JsonWeaponFactory implements WeaponFactory {
         return weapon;
     }
 
+    /**
+     * Create an attack of the weapon from the file of the weapon.
+     * @param json The JsonNode of the weapon, that maps its file.
+     * @return The attack created.
+     */
     private Attack createAttack(JsonNode json){
         Attack attack = new Attack();
 
@@ -67,7 +79,11 @@ public class JsonWeaponFactory implements WeaponFactory {
 
         return attack;
     }
-
+    /**
+     * Create an target of the attack.
+     * @param json The JsonNode of the attack, that maps its field.
+     * @return The target created.
+     */
     private Target createTarget(JsonNode json){
         Target target = new Target();
 
@@ -91,10 +107,20 @@ public class JsonWeaponFactory implements WeaponFactory {
         return target;
     }
 
+    /**
+     * Create a target player.
+     * @param json The JsonNode of the target player.
+     * @return The target player created.
+     */
     private PlayerTarget createPlayerTarget(JsonNode json){
         return new PlayerTarget(createTarget(json));
     }
 
+    /**
+     * Create a target square.
+     * @param json he JsonNode of the target square.
+     * @return The target square created.
+     */
     private SquareTarget createSquareTarget(JsonNode json){
         SquareTarget squareTarget = new SquareTarget(createTarget(json));
 
@@ -105,6 +131,11 @@ public class JsonWeaponFactory implements WeaponFactory {
         return squareTarget;
     }
 
+    /**
+     * Create an harmful effect.
+     * @param json The JsonNode of the harmful effect.
+     * @return The hermful effect created.
+     */
     private HarmfulEffect createHarmfulEffect(JsonNode json){
         HarmfulEffect harmfulEffect = new HarmfulEffect();
 
@@ -114,6 +145,11 @@ public class JsonWeaponFactory implements WeaponFactory {
         return harmfulEffect;
     }
 
+    /**
+     * Create a movement effect.
+     * @param json The JsonNode of the movement effect.
+     * @return The movement effect.
+     */
     private MovementEffect createMovementEffect(JsonNode json){
         MovementEffect movementEffect = new MovementEffect();
 

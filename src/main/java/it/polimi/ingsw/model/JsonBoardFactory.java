@@ -9,14 +9,27 @@ import it.polimi.ingsw.util.ResourceManager;
 import java.io.InputStream;
 import java.util.function.Function;
 
+/**
+ * This class represent the implementation of the BoardFactory.
+ */
 public class JsonBoardFactory implements BoardFactory {
-
+    /**
+     * The type of board to create.
+     */
     private BoardType type;
 
+    /**
+     * Constructor of the class.
+     * @param type The type of board to generate.
+     */
     public JsonBoardFactory(BoardType type) {
         this.type = type;
     }
 
+    /**
+     * Create a board loading it setup from a file.
+     * @return The board created.
+     */
     @Override
     public Board createBoard() {
         Board board = new Board();

@@ -7,9 +7,14 @@ import it.polimi.ingsw.util.ResourceException;
 import it.polimi.ingsw.util.ResourceManager;
 
 import java.io.InputStream;
-
+/**
+ * This class represent the implementation of the PowerUpDeckFactory.
+ */
 public class JsonPowerUpDeckFactory implements PowerUpDeckFactory {
-
+    /**
+     * Create a deck of power-up, loading from a file that contains the different types of power-up then shuffle it.
+     * @return The deck of power-up.
+     */
     @Override
     public Deck<PowerUp> createPowerUpDeck() {
         Deck<PowerUp> deck = new Deck<>();

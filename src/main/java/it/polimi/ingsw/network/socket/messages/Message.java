@@ -53,7 +53,10 @@ public class Message {
         return uuid;
     }
 
-
+    /**
+     * Return the string of this message.
+     * @return The UUID plus its class name.
+     */
     @Override
     public String toString() {
         return "[" + getUUID() + "] " + this.getClass().getSimpleName();

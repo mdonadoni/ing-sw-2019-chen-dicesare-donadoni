@@ -15,6 +15,9 @@ public class PowerUp extends Identifiable {
      */
     private AmmoColor ammo;
 
+    /**
+     * Standard constructor
+     */
     @JsonCreator
     private PowerUp() {
 

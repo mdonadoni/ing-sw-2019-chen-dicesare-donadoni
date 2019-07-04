@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model;
 
 /**
- * Exception that signals an invalid Square
+ * Exception that signals an invalid Square.
  */
 public class InvalidSquareException extends RuntimeException {
     /**
-     * Constructor of InvalidSquareException
+     * Constructor of InvalidSquareException.
      */
     public InvalidSquareException() {
         super();

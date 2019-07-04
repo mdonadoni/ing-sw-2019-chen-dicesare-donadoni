@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model;
 
 /**
- * Exception that signals an invalid operation
+ * Exception that signals an invalid operation.
  */
 public class InvalidOperationException extends RuntimeException {
     /**
-     * Constructor of InvalidOperationException
+     * Constructor of InvalidOperationException.
      */
     public InvalidOperationException() {
         super();

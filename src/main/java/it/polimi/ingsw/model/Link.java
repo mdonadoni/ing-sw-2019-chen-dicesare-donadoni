@@ -63,6 +63,10 @@ public class Link {
         return type == LinkType.SAME_ROOM;
     }
 
+    /**
+     * Get the type of the link.
+     * @return The type of the link.
+     */
     public LinkType getType() {
         return type;
     }

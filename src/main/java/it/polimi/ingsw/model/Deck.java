@@ -76,14 +76,26 @@ public class Deck<T> {
         availableCards.add(card);
     }
 
+    /**
+     * Get the discarded cards.
+     * @return List of discarded cards.
+     */
     public List<T> getDiscarded(){
         return new LinkedList<>(discardedCards);
     }
 
+    /**
+     * Get available cards.
+     * @return The available cards.
+     */
     public List<T> getAvaible(){
         return new LinkedList<>(availableCards);
     }
 
+    /**
+     * Return if the deck is drawable.
+     * @return True if it's possible to draw, false otherwise.
+     */
     public boolean canDraw(){
         return !(availableCards.isEmpty() && discardedCards.isEmpty());
     }
