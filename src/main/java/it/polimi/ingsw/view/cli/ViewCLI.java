@@ -69,6 +69,7 @@ public class ViewCLI extends LocalView implements Runnable {
                 connected = false;
             }
         }
+        println(Dialogs.getDialog(Dialog.WAIT_MATCH_START));
     }
 
     @Override

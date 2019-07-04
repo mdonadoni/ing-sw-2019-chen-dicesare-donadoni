@@ -10,7 +10,7 @@ import java.util.List;
 
 public class WeaponCLI {
     private MiniWeapon miniWeapon;
-    private static final int LENGTH = 15 ;
+    private static final int LENGTH = 25 ;
 
     public WeaponCLI(MiniWeapon miniWeapon) {
         this.miniWeapon = miniWeapon;

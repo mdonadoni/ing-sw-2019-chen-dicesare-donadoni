@@ -7,6 +7,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
+/**
+ * The Lobby of a match, game starts and lobby is cleared upon countdown ending or maximum number of player reached
+ */
 public class Lobby {
     /**
      * Logger

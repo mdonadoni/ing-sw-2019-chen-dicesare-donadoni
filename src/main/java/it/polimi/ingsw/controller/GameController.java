@@ -10,17 +10,49 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Main controller class that manages the match.
+ */
 public class GameController implements Runnable{
     private static final Logger LOG = Logger.getLogger(GameController.class.getName());
+    /**
+     * The match that is going on
+     */
     private Match match;
+    /**
+     * Controller that handles a single turn
+     */
     private TurnController turn;
+    /**
+     * A map that matches a remotePlayer with the player nickname
+     */
     private Map<String, RemotePlayer> remotePlayers;
+    /**
+     * Contains method used to send updates to the players
+     */
     private Updater updater;
+    /**
+     * Boolean value that states whether the match has finished
+     */
     private AtomicBoolean finished = new AtomicBoolean(false);
+    /**
+     * Controller that calculates the score and handles players' death
+     */
     private ScoreController scoreController;
+    /**
+     * When someone reconnects to the game, it is added in this waiting list
+     */
     private final List<RemotePlayer> waitingList;
+    /**
+     * Contains method used to send all the players some messages
+     */
     private Notifier notifier;
 
+    /**
+     * Constructor of the GameController, initialises everything is needed
+     * @param connectedPlayers The map with all the remotePlayers
+     * @param bdType The type of the board used in this match
+     */
     public GameController(List<RemotePlayer> connectedPlayers, BoardType bdType) {
         List<String> nicknames = new ArrayList<>();
         connectedPlayers.forEach(remotePlayer -> nicknames.add(remotePlayer.getNickname()));
@@ -34,6 +66,12 @@ public class GameController implements Runnable{
         notifier = new Notifier(remotePlayers, match);
     }
 
+    /**
+     * This method allows a player to spawn on the board correctly, according to the rules of the game
+     * @param player The player that needs to spawn
+     * @param cardsToDraw How many powerups he can draw to spawn
+     * @throws RemoteException In case something goes wrong
+     */
     public void spawnRoutine(Player player, int cardsToDraw) throws RemoteException {
         // Dummy PwU, will be removed when the correct message will be implemented
         PowerUp chosenPwu;
@@ -78,6 +116,9 @@ public class GameController implements Runnable{
         }
     }
 
+    /**
+     * Checks whether someone needs to resapawn and eventually start the spawn routine
+     */
     private void checkForPeopleToRespawn(){
         LOG.log(Level.INFO, "Checking if someone has to respawn");
         for(Player player : match.getPlayers()){
@@ -93,7 +134,8 @@ public class GameController implements Runnable{
 
     /**
      * This method is what in Toscana they call "Troiaio", has a bunch of try/catch so that all the RemoteExceptions
-     * thrown are handled correctly
+     * thrown are handled correctly. Also runs the match, initialising it at the beginning, running standard turns
+     * and then triggers the Final Frenzy.
      */
     public void run() {
         LOG.log(Level.INFO, "Starting match {0}", match.getUuid());
@@ -180,6 +222,9 @@ public class GameController implements Runnable{
         notifyEndMatch();
     }
 
+    /**
+     * This method is for notifying everyone that the match is over and then sends the final standings
+     */
     private void notifyEndMatch() {
         List<StandingsItem> standings = scoreController.getFinalStandings();
         for (RemotePlayer p : remotePlayers.values()) {
@@ -194,6 +239,9 @@ public class GameController implements Runnable{
 
     }
 
+    /**
+     * @return Whether the match has finished
+     */
     public boolean isFinished() {
         return finished.get();
     }
@@ -210,18 +258,32 @@ public class GameController implements Runnable{
         notifier.notifyEveryone(Dialog.PLAYER_DISCONNECTED, player.getNickname());
     }
 
+    /**
+     * @return The match going on
+     */
     Match getMatch(){
         return match;
     }
 
+    /**
+     * @param nickname The nickname of the player
+     * @return A RemoteView of the prompted player
+     */
     RemotePlayer getRemotePlayer(String nickname){
         return remotePlayers.get(nickname);
     }
 
+    /**
+     * Adds a Player to the waiting list
+     * @param reconnectingPlayer The player you want to add
+     */
     public synchronized void addReconnectingPlayer(RemotePlayer reconnectingPlayer){
         waitingList.add(reconnectingPlayer);
     }
 
+    /**
+     * Puts back in the game all the disconnected players that are now waiting to be reconnected
+     */
     private synchronized void addReconnectedPlayers(){
         for(RemotePlayer remotePlayer : waitingList){
             remotePlayers.replace(remotePlayer.getNickname(), remotePlayer);
@@ -235,6 +297,10 @@ public class GameController implements Runnable{
         waitingList.clear();
     }
 
+    /**
+     * When someone disconnects it may have something wrong with his model, this method fixes everything upon his reconnection
+     * @param nickname The Player who is reconnecting
+     */
     private void fixPlayerModel(String nickname) {
         Player player = match.getPlayerByNickname(nickname);
 

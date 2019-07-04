@@ -12,18 +12,51 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Controller that handles a single turn
+ */
 public class TurnController {
     private static final Logger LOG = Logger.getLogger(TurnController.class.getName());
+    /**
+     * The maximum number of moves that can be performed in a single turn
+     */
     private static final int NUMBER_OF_MOVES = 2;
+    /**
+     * Maximum time available to perform the turn
+     */
     private static final long TURN_MAX_TIME = ServerConfig.getTurnTimeout() * 1000L;
 
+    /**
+     * The match going on
+     */
     private Match match;
+    /**
+     * How many moves has the player left
+     */
     private int movesLeft;
+    /**
+     * The current turn's player
+     */
     private Player currentPlayer;
+    /**
+     * Map that matches RemotePlayers with their nickname
+     */
     private Map<String, RemotePlayer> remoteUsers;
+    /**
+     * Controller of the actions
+     */
     private ActionController actionController;
+    /**
+     * The current remote player
+     */
     private RemotePlayer remotePlayer;
+    /**
+     * To update people
+     */
     private Updater updater;
+    /**
+     * The controller of the scores
+     */
     private ScoreController scoreController;
 
     /**
@@ -39,6 +72,9 @@ public class TurnController {
         this.scoreController = new ScoreController(match);
     }
 
+    /**
+     * Initialises the controller for a new turn
+     */
     private void initTurn(){
         movesLeft = NUMBER_OF_MOVES;
         currentPlayer = match.getCurrentTurn().getCurrentPlayer();
@@ -46,6 +82,10 @@ public class TurnController {
         remotePlayer.setTimeLeft(TURN_MAX_TIME);
     }
 
+    /**
+     * Handles all the operations needed to perform a turn
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     public void startTurn() throws RemoteException {
         initTurn();
         // Sending latest model to the current player
@@ -65,6 +105,10 @@ public class TurnController {
         scoreController.lookForScoreUpdates();
     }
 
+    /**
+     * Makes the user choose the action he wants to do
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     private void selectWhatToDo() throws RemoteException{
         List<Action> availableActions = currentPlayer.supplyActions(match.getFinalFrenzy());
 

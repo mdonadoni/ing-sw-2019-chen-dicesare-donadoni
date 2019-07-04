@@ -19,11 +19,29 @@ import java.util.stream.Collectors;
 public class ActionController {
     private static final Logger LOG = Logger.getLogger(ActionController.class.getName());
 
+    /**
+     * The Match currently going on
+     */
     private Match match;
+    /**
+     * Map matching the remotePlayer views with their nicknames
+     */
     private Map<String, RemotePlayer> remoteUsers;
+    /**
+     * The controller that handles the powerups
+     */
     private PowerUpController powerUpController;
+    /**
+     * The controller that handles the payment of ammo costs
+     */
     private PaymentGateway paymentGateway;
+    /**
+     * Contains method to send updates to the players
+     */
     private Updater updater;
+    /**
+     * Controller that handles the shooting process
+     */
     private ShootController shootController;
 
     /**

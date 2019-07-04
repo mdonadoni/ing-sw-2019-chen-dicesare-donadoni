@@ -10,20 +10,57 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controller that calculates the score and handles players' death
+ */
 public class ScoreController {
 
+    /**
+     * Points given to whom gets the firstblood
+     */
     private static final int FIRSTBLOOD_POINTS = 1;
+    /**
+     * Standard array of scores for the damage dealt to a dead player
+     */
     private static final Integer[] DAMAGE_POINTS = new Integer[] {8, 6, 4, 2, 1, 1};
+    /**
+     * Points given for the damage dealt to a dead player with the board flipped
+     */
     private static final Integer[] BOARD_FLIPPED_POINTS = new Integer[] {2, 1, 1, 1};
+    /**
+     * Array of points given based on the number of kills on the KillShotTrack
+     */
     private static final Integer[] KILLSHOT_TRACK_POINTS = new Integer[] {8, 6, 4, 2, 1, 1};
+    /**
+     * Lowest possible points given for the damage dealt to a dead player
+     */
     private static final int LOWEST_DAMAGE_POINTS = 1;
+    /**
+     * Lowest possible points given to players for the kills on the KillShotTrack
+     */
     private static final int LOWEST_KILLSHOT_TRACK_POINTS = 1;
+    /**
+     * Number of marks taken for an overkill
+     */
     private static final int OVERKILL_MARKS = 1;
+    /**
+     * Number of points given for a multikill
+     */
     private static final int MULTIKILL_POINTS = 1;
 
+    /**
+     * The match going on
+     */
     private Match match;
+    /**
+     * List containing the players that killed someone during this turn
+     */
     private List<PlayerToken> killedSomeone;
 
+    /**
+     * Constructor
+     * @param match The match going on
+     */
     public ScoreController(Match match){
         this.match = match;
     }
@@ -128,6 +165,10 @@ public class ScoreController {
         }
     }
 
+    /**
+     * Verifies if someone has scored a multikill and gives him the correct amount of points
+     * @param player
+     */
     private void verifyMultikills(Player player){
         if(killedSomeone.contains(player.getLethalDamage()))
             match.getPlayerByTokenColor(player.getLethalDamage()).addPoints(MULTIKILL_POINTS);

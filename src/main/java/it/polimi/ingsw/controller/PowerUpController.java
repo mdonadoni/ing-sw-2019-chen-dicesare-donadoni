@@ -8,17 +8,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller that handles the usage of the powerups
+ */
 public class PowerUpController {
+    /**
+     * The match currently going on
+     */
     private Match match;
+    /**
+     * Map that matches RemotePlayers with their nicknames
+     */
     private Map<String, RemotePlayer> remoteUsers;
+    /**
+     * The Board of the game
+     */
     private Board board;
 
+    /**
+     * Constructor
+     * @param match The match going on
+     * @param remoteUsers The Map of the RemotePlayers
+     */
     public PowerUpController(Match match, Map<String, RemotePlayer> remoteUsers){
         this.match = match;
         this.remoteUsers = remoteUsers;
         this.board = match.getGameBoard().getBoard();
     }
 
+    /**
+     * Activates a PowerUp that doesn't need a target
+     * @param pwu The PowerUp
+     * @param sourcePlayer The player who is using the PowerUp
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     public void activatePowerUp(PowerUp pwu, String sourcePlayer) throws RemoteException{
         RemotePlayer sourceRemotePlayer = remoteUsers.get(sourcePlayer);
         switch(pwu.getType()){
@@ -31,6 +54,13 @@ public class PowerUpController {
         }
     }
 
+    /**
+     * Activates a powerup that needs a target
+     * @param pwu The powerup used
+     * @param sourcePlayer The player who is using the powerup
+     * @param targetPlayer The player targeted by the powerup
+     * @throws RemoteException
+     */
     public void activatePowerUp(PowerUp pwu, String sourcePlayer, Player targetPlayer) throws RemoteException{
         RemotePlayer sourceRemotePlayer = remoteUsers.get(sourcePlayer);
         PlayerToken damageColor = match.getPlayerByNickname(sourcePlayer).getColor();
@@ -97,6 +127,5 @@ public class PowerUpController {
      */
     private void targeting(Player targetPlayer, PlayerToken damageColor){
         targetPlayer.addDamageWithoutMarks(damageColor, 1);
-        // TODO: Handle payment
     }
 }

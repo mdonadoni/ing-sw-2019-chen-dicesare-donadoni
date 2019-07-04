@@ -10,26 +10,69 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+/**
+ * Controller that handles the shooting operations
+ */
 public class ShootController {
     private static final Logger LOG = Logger.getLogger(ShootController.class.getName());
 
+    /**
+     * Map that matches the remotePlayers with their nicknames
+     */
     private Map<String, RemotePlayer> remoteUsers;
+    /**
+     * The match going on
+     */
     private Match match;
+    /**
+     * Controller for paying the costs
+     */
     private PaymentGateway paymentGateway;
+    /**
+     * List containing the players that might be inherited as targets for following effects
+     */
     private List<Player> inheritedPlayerTargets;
+    /**
+     * Player that already took damage this turn
+     */
     private List<Player> alreadyShotTargets;
+    /**
+     * In case a square has been fixed for following effects, it is saved here
+     */
     private Square targetFixedSquare;
+    /**
+     * Update people
+     */
     private Updater updater;
+    /**
+     * List of players that might want to use their tagback grenades
+     */
     private List<Player> mayUseTagback;
+    /**
+     * List of players that has already been targeted by a targeting scope this turn
+     */
     private List<Player> alreadyScoped;
+    /**
+     * Controller of the powerups
+     */
+    private PowerUpController powerUpController;
 
+    /**
+     * Constructor
+     * @param remoteUsers Map with the RemotePlayers and their nicknames
+     * @param match The match going on
+     */
     public ShootController(Map<String, RemotePlayer> remoteUsers, Match match){
         this.remoteUsers = remoteUsers;
         this.match = match;
         paymentGateway = new PaymentGateway(match);
         updater = new Updater(remoteUsers, match);
+        powerUpController = new PowerUpController(match, remoteUsers);
     }
 
+    /**
+     * Initialises the controller for a new shoot
+     */
     public void initShoot(){
         inheritedPlayerTargets = new ArrayList<>();
         alreadyShotTargets = new ArrayList<>();
@@ -37,6 +80,12 @@ public class ShootController {
         alreadyScoped = new ArrayList<>();
     }
 
+    /**
+     * Main method of the class, calls all the method needed to shoot people
+     * @param player The player who wants to shoot
+     * @param weapon The weapon the player is using
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     public void shoot(Player player, Weapon weapon) throws RemoteException{
         Attack attack;
 
@@ -54,6 +103,13 @@ public class ShootController {
             tagbackRevenge(pl, player);
     }
 
+    /**
+     * When an attack has been selected, this method performs the attack and also checks for additional attacks that
+     * might be used
+     * @param player The player shooting
+     * @param attack The attack selected
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     public void doAttack(Player player, Attack attack) throws RemoteException{
         RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
         List<Boolean> additionalAttacksPerformed = new ArrayList<>();
@@ -114,7 +170,7 @@ public class ShootController {
      * @param player The player acting
      * @param weapon The weapon he is using
      * @return The selected attack if there are some, null if no attacks can be done
-     * @throws RemoteException in case something goes wrong
+     * @throws RemoteException In case something goes wrong with the connection
      */
     public Attack selectAttack(Player player, Weapon weapon) throws RemoteException {
         RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
@@ -132,6 +188,13 @@ public class ShootController {
         return remotePlayer.selectIdentifiable(usableAttacks, 1, 1, Dialog.WEAPON_ATTACK).get(0);
     }
 
+    /**
+     * Handles the movement of a player based on the properties of the MovementEffect
+     * @param source The player that activates the effect
+     * @param target The target of the effect
+     * @param movement The MovementEffect object
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     public void manageMovement(Player source, Player target, MovementEffect movement) throws RemoteException{
         RemotePlayer remotePlayer = remoteUsers.get(source.getNickname());
         List<Square> possibleDestination;
@@ -159,6 +222,14 @@ public class ShootController {
         target.move(destSquare);
     }
 
+    /**
+     * Performs what is needed to do a BonusMovement
+     * @param player The player who is playing now
+     * @param attack The attack selected
+     * @param bonusMovementExpended Whether the BonusMovement has already been used
+     * @return The new value of bonusMovementExpended
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     public boolean bonusMovement(Player player, Attack attack, boolean bonusMovementExpended) throws RemoteException{
         RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
         boolean expends = false;
@@ -175,10 +246,14 @@ public class ShootController {
         return expends || bonusMovementExpended;
     }
 
+    /**
+     * Calls the right methods to handle the targets
+     * @param player The player shooting
+     * @param attack The attack selected
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     public void applyTargets(Player player, Attack attack) throws RemoteException{
         List<Target> baseFire = attack.getBaseFire();
-
-        // TODO: chainAttack case
 
         for(Target targ : baseFire){
             // Player target
@@ -193,6 +268,13 @@ public class ShootController {
 
     }
 
+    /**
+     * Method used to select the square of a SquareTarget
+     * @param player The player shooting
+     * @param target The SquareTarget object
+     * @return The list of squares selected
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     public List<Square> squareSelection(Player player, SquareTarget target) throws RemoteException{
         List<Square> selected = new ArrayList<>();
         List<Square> validSquares;
@@ -230,6 +312,12 @@ public class ShootController {
         return selected;
     }
 
+    /**
+     * Method that handles a SquareTarget and calls the methods needed to apply the effects
+     * @param player The player shooting
+     * @param target The SquareTarget object
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     public void handleSquareTarget(Player player, SquareTarget target) throws RemoteException{
         RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
         int maxPlayers = target.getNumberOfPlayers();
@@ -319,6 +407,11 @@ public class ShootController {
         }
     }
 
+    /**
+     * @param player The player source of the attack
+     * @param target The PlayerTarget object
+     * @return A list containing all the players that can be hit by that target of the attack
+     */
     public List<Player> getHittableEnemies(Player player, PlayerTarget target){
         List<Player> hittableEnemies = match.getOtherPlayers(player.getNickname());
 
@@ -344,6 +437,12 @@ public class ShootController {
         return hittableEnemies;
     }
 
+    /**
+     * Method that handles a PlayerTarget and calls the methods needed to apply the effects
+     * @param player The player shooting
+     * @param target The PlayerTarget object
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     public void handlePlayerTarget(Player player, PlayerTarget target) throws RemoteException {
         RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
         int max = target.getNumberOfTargets();
@@ -394,6 +493,13 @@ public class ShootController {
         }
     }
 
+    /**
+     * Calls the methods to apply the affects on a target
+     * @param source The player shooting
+     * @param target The target of the player
+     * @param effects The list of effects that should be applied
+     * @throws RemoteException In case something goes wrong with the connection
+     */
     public void applyEffects(Player source, Player target, List<Effect> effects) throws RemoteException{
         for(Effect effect : effects){
             if(effect.getClass().isAssignableFrom(HarmfulEffect.class)){ // If it's a harmful effect
@@ -411,6 +517,12 @@ public class ShootController {
         updater.updateModelToEveryone();
     }
 
+    /**
+     * Applies a harmful effect on target player
+     * @param source The player shooting
+     * @param target The target of the attack
+     * @param effect The HarmfulEffect object
+     */
     public void applyHarmful(Player source, Player target, HarmfulEffect effect){
         int value = effect.getValue();
         PlayerToken color = source.getColor();
@@ -438,6 +550,11 @@ public class ShootController {
         }
     }
 
+    /**
+     * Handles the selection and usage of a tagback grenade
+     * @param tagbacker The player that might wanna use the tagback grenade
+     * @param currentPlayer The player acting in this turn
+     */
     public void tagbackRevenge(Player tagbacker, Player currentPlayer){
         RemotePlayer remoteTagbacker = remoteUsers.get(tagbacker.getNickname());
         List<PowerUp> tagbackGrenades = tagbacker.getPowerUps().stream()
@@ -457,6 +574,11 @@ public class ShootController {
         }
     }
 
+    /**
+     * Handles the selection and usage of a targeting scope
+     * @param player The player shooting
+     * @param victim The target of the player
+     */
     public void useTargetingscope(Player player, Player victim){
         List<PowerUp> scopes = player.getPowerUps().stream()
                 .filter(pwu -> pwu.getType().equals(PowerUpType.TARGETING_SCOPE))
@@ -476,7 +598,7 @@ public class ShootController {
                         return;
                     }
                     paymentGateway.payCost(Arrays.asList(selected.get(0).getAmmo()), player, remotePlayer);
-                    victim.addDamageWithoutMarks(player.getColor(), 1);
+                    powerUpController.activatePowerUp(selected.get(0), player.getNickname(), victim);
                     player.clearDrawnPowerUps();
                     match.getGameBoard().getPowerUpDeck().discard(selected.get(0));
                     alreadyScoped.add(victim);

@@ -28,6 +28,11 @@ public class RemotePlayer {
      * Maximum waiting time for a ping response.
      */
     private static final long PING_TIMEOUT = 8000;
+
+    /**
+     * Maximum waiting time for a ShowMessage request
+     */
+    private static final long SHOWMESSAGE_TIMEOUT = 5000;
     /**
      * Reference to view to be decorated.
      */
@@ -138,6 +143,9 @@ public class RemotePlayer {
         return res;
     }
 
+    /**
+     * Shuts down the timer, the executor and then asynchronously tells the view to disconnect
+     */
     private void stop() {
         if (isConnected()) {
             pingTimer.cancel();
@@ -170,6 +178,16 @@ public class RemotePlayer {
         return makeTimedRequest(() -> view.selectObject(array, min, max, dialog));
     }
 
+    /**
+     * Select between a list of identifiable
+     * @param objects The List of the identifiable
+     * @param min Minimum number of identifiable to be chosen
+     * @param max Maximum number of identifiable to be chosen
+     * @param dialog The dialog type to be shown
+     * @param <T> The subtype of the Identifiable
+     * @return A list with the view's answer
+     * @throws RemoteException
+     */
     public <T extends Identifiable> List<T> selectIdentifiable(List<T> objects, int min, int max, Dialog dialog) throws RemoteException {
         List<String> uuids = objects
                 .stream()
@@ -252,22 +270,17 @@ public class RemotePlayer {
         }, timeout);
     }
 
+    /**
+     * Sends the player the final standings
+     * @param standings The final standings
+     * @param timeout Timeout of the request
+     * @throws RemoteException
+     */
     public void notifyEndMatch(List<StandingsItem> standings, long timeout) throws RemoteException {
         throwOnTimeout(() -> {
             view.notifyEndMatch(new ArrayList<>(standings));
             return null;
         }, timeout);
-    }
-
-    /**
-     * Method to check if the connection is still up.
-     * @throws RemoteException If there is a network error.
-     */
-    public void ping() throws RemoteException {
-        makeTimedRequest(() -> {
-            view.ping();
-            return null;
-        });
     }
 
     /**
@@ -278,31 +291,52 @@ public class RemotePlayer {
         stop();
     }
 
+    /**
+     * @return Whether the player is still connected
+     */
     public boolean isConnected() {
         return !executor.isShutdown();
     }
 
+    /**
+     * @return The IGN of the player
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * Sends a message to the player, and it's safe
+     * @param message The message
+     */
     public void safeShowMessage(String message) {
-        final long showMessageTimeout = 5000;
         try {
-            showMessage(message, showMessageTimeout);
+            showMessage(message, SHOWMESSAGE_TIMEOUT);
         } catch (RemoteException e) {
             LOG.log(Level.WARNING, () -> "Couldn't send message to " + nickname);
         }
     }
 
+    /**
+     * Sends a message to the player, and it's safe
+     * @param dialogType The type of the message
+     * @param params Parameters to be inserted into the message
+     */
     public void safeShowMessage(Dialog dialogType, String ...params){
         safeShowMessage(Dialogs.getDialog(dialogType, params));
     }
 
+    /**
+     * Setter for the disconnection callback
+     * @param disconnectionCallback The callback
+     */
     public void setDisconnectionCallback(Consumer<RemotePlayer> disconnectionCallback) {
         this.disconnectionCallback = disconnectionCallback;
     }
 
+    /**
+     * @return The view of this remote player
+     */
     public View getView(){
         return view;
     }

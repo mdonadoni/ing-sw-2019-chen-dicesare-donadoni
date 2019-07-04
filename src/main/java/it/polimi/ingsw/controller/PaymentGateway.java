@@ -7,17 +7,27 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controller that manages all the payments in ammo
+ */
 public class PaymentGateway {
 
+    /**
+     * The match going on
+     */
     private Match match;
 
+    /**
+     * Constructor
+     * @param match The match going on
+     */
     public PaymentGateway(Match match){
         this.match = match;
     }
 
     /**
      * Pay a certain cost, you MUST verify that the player can pay che cost using the canPay method, otherwise this won't
-     * work.
+     * work. Firstly pays with the available ammo, then uses the powerups, if needed
      * @param cost The cost to be payed
      * @param player The player that has to pay
      * @param remotePlayer The RemotePlayer object that refers to the player
