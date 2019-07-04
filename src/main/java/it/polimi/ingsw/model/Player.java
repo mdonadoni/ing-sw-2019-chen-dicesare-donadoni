@@ -12,13 +12,33 @@ import java.util.stream.Collectors;
  * This class represent a Player of the game.
  */
 public class Player extends Identifiable{
-
+    /**
+     * It indicates the maximum amount of power-ups that any player can hold.
+     */
     private static final int MAX_POWERUP_HAND = 3;
+    /**
+     * It indicates the maximum amount of weapon that any player can hold.
+     */
     private static final int MAX_WEAPON_HAND = 3;
+    /**
+     * It indicates the maximum amount of damage that any player can take.
+     */
     private static final int MAX_DAMAGE = 12;
+    /**
+     * It indicates the index of the lethal damage.
+     */
     private static final int LETHAL_DAMAGE_INDEX = MAX_DAMAGE-2;
+    /**
+     * It indicates the index of the overkill damage.
+     */
     private static final int OVERKILL_DAMAGE_INDEX = MAX_DAMAGE-1;
+    /**
+     * It indicates the index of the first blood damage.
+     */
     private static final int FIRST_BLOOD_INDEX = 0;
+    /**
+     * It indicates the maximum amount of marks per player on any player
+     */
     private static final int MAX_MARKS_PER_PLAYER = 3;
 
     /**
@@ -72,7 +92,7 @@ public class Player extends Identifiable{
     private List<PowerUp> powerUps;
 
     /**
-     * Keeps the power-ups drawn by a player
+     * Keeps the power-ups drawn by a player.
      */
     private List<PowerUp> drawnPowerUps;
 
@@ -87,12 +107,12 @@ public class Player extends Identifiable{
 
     /**
      * When Final Frenzy starts, some actions can be performed only by players who play their FF turn before the
-     * first player of the match
+     * first player of the match.
      */
     private boolean beforeFistPlayerFF;
 
     /**
-     * Constructor of Player
+     * Constructor of Player.
      * @param nickname nickname of the player.
      */
     public Player(String nickname, PlayerToken color){
@@ -128,14 +148,14 @@ public class Player extends Identifiable{
 
     /**
      * Change player starting player status.
-     * @param startingPlayer True if the player starts the match, false otherwise
+     * @param startingPlayer True if the player starts the match, false otherwise.
      */
     public void setStartingPlayer(boolean startingPlayer) {
         this.startingPlayer = startingPlayer;
     }
 
     /**
-     * Flip the player's board
+     * Flip the player's board.
      */
     public void flipBoard() {
         this.boardFlipped = true;
@@ -168,7 +188,7 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Get the first player token taken by the player
+     * Get the first player token taken by the player.
      * @return the first PlayerToken on this player.
      */
     public PlayerToken getFirstBlood(){
@@ -179,6 +199,10 @@ public class Player extends Identifiable{
         }
     }
 
+    /**
+     * Return the damage that killed the player.
+     * @return The PlayerToken that killed the player.
+     */
     public PlayerToken getLethalDamage(){
         if (LETHAL_DAMAGE_INDEX < damageTaken.size()) {
             return damageTaken.get(LETHAL_DAMAGE_INDEX);
@@ -216,9 +240,9 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Damage the player
-     * @param token the PlayerToken that inflict the damage
-     * @param n the number of damage inflicted
+     * Damage the player with a certain amount of
+     * @param token The PlayerToken that inflict the damage
+     * @param n The amount of damage inflicted
      */
     public void takeDamage(PlayerToken token, int n){
         n += countMarks(token);
@@ -237,9 +261,9 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Add PlayerToken as mark
-     * @param token the PlayerToken that marked
-     * @param n the number of marks
+     * Add PlayerToken as mark.
+     * @param token The PlayerToken that marks the player
+     * @param n The amount of marks.
      */
     public void addMark(PlayerToken token, int n){
         n = Math.min(n, MAX_MARKS_PER_PLAYER - countMarks(token));
@@ -250,17 +274,17 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Count how many PlayerToken of the same type the player has
-     * @param token the type of PlayerToken to count
-     * @return the number of same PlayerToken
+     * Count how many PlayerToken of the same type the player has.
+     * @param token The type of PlayerToken to count.
+     * @return The amount of same PlayerToken.
      */
     public int countMarks(PlayerToken token){
         return Collections.frequency(marks, token);
     }
 
     /**
-     * Add an AmmoTile's ammo to the player's reserve
-     * @param ammoTile the AmmoTile grabbed by the player
+     * Add an AmmoTile's ammo to the player's reserve.
+     * @param ammoTile The AmmoTile grabbed by the player.
      */
     public void grabAmmo(AmmoTile ammoTile){
         for (AmmoColor c : ammoTile.getAmmo()) {
@@ -269,9 +293,9 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Count the ammo with the same color
-     * @param ammoColor the ammo color to count
-     * @return the number of ammo
+     * Count the ammo with the same color.
+     * @param ammoColor The ammo color to count.
+     * @return The number of ammo.
      */
     public int countAmmo(AmmoColor ammoColor){
         return Collections.frequency(ammo, ammoColor);
@@ -279,7 +303,7 @@ public class Player extends Identifiable{
 
     /**
      * Grab a weapon from the spawn point where the player is.
-     * @param weapon the weapon to grab.
+     * @param weapon The weapon to grab.
      */
     public void grabWeapon(Weapon weapon) {
         if (canGrabWeapon()) {
@@ -288,8 +312,8 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Adds the weapon to the player and removes the weapon from the square
-     * @param weapon
+     * Adds the weapon to the player and removes the weapon from the square.
+     * @param weapon The weapon to grab from a spawn point.
      */
     public void grabWeaponFromGround(Weapon weapon){
         try{
@@ -307,6 +331,10 @@ public class Player extends Identifiable{
         }
     }
 
+    /**
+     * This method return if the player can grab a weapon.
+     * @return True if the player holds less than MAX_WEAPON_HAND weapon, false otherwise.
+     */
     public boolean canGrabWeapon(){
         return weapons.size() < MAX_WEAPON_HAND;
     }
@@ -319,12 +347,16 @@ public class Player extends Identifiable{
         return new ArrayList<>(weapons);
     }
 
+    /**
+     * Remove a weapon from the player.
+     * @param weapon The weapon to remove from the player.
+     */
     public void removeWeapon(Weapon weapon){
         this.weapons.remove(weapon);
     }
 
     /**
-     * Increment the number of skull
+     * Increment the number of skull.
      */
     public void addSkull(){
         skulls++;
@@ -339,8 +371,8 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Get the number of skulls
-     * @return number of skulls
+     * Get the number of skulls.
+     * @return number of skulls.
      */
     public int getSkulls(){
         return skulls;
@@ -355,8 +387,8 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Gets the player's status
-     * @return the player's status
+     * Gets the player's status.
+     * @return True if the player is active, false otherwise.
      */
     public boolean isActive(){
         return active;
@@ -404,7 +436,7 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Remove a certain amount of ammo from the player
+     * Remove a certain amount of ammo from the player.
      * @param ammoColor the color of the ammo to remove.
      * @param n the amount of ammo to remove.
      *
@@ -435,6 +467,10 @@ public class Player extends Identifiable{
             throw new InvalidOperationException("Player "+ nickname + " already has"+ MAX_POWERUP_HAND +"Power-Ups!");
     }
 
+    /**
+     * This method return if the player can hold more power-up
+     * @return True if the player has less than MAX_POWERUP_HAND
+     */
     public boolean canAddPowerUp(){
         return powerUps.size() < MAX_POWERUP_HAND;
     }
@@ -479,8 +515,8 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Removes a Power-Up from the drawnPowerUps list
-     * @param pwu
+     * Removes a PowerUp from the drawnPowerUps list.
+     * @param pwu The power-up to remove from the player.
      */
     public void removeDrawnPowerUp(PowerUp pwu){
         drawnPowerUps.remove(pwu);
@@ -511,8 +547,8 @@ public class Player extends Identifiable{
     }
 
     /**
-     * Moves the player to another Square
-     * @param destinationSquare The Square where the player should be moved
+     * Moves the player to an another Square.
+     * @param destinationSquare The Square where the player is moved to.
      */
     public void move(Square destinationSquare){
         if (square != null)
@@ -523,8 +559,8 @@ public class Player extends Identifiable{
 
     /**
      * Adds a single instance of damage, useful for when you don't want to trigger marks due to
-     * weird ruling
-     * @param damageColor the color of the damage
+     * weird ruling.
+     * @param damageColor The color of the damage.
      */
     public void addDamageWithoutMarks(PlayerToken damageColor, int numberOfDamage){
         for(int i = 0; i < numberOfDamage && damageTaken.size() < MAX_DAMAGE; i++) {
@@ -541,10 +577,18 @@ public class Player extends Identifiable{
             this.ammo.add(ammo);
     }
 
+    /**
+     *  Set the possibility of the player to perform final frenzy moves
+     * @param val boolean parameter
+     */
     public void setBeforeFistPlayerFF(Boolean val){
         beforeFistPlayerFF = val;
     }
 
+    /**
+     *  Return if the player comes before the first player
+     * @return True if the player turn is before the first player, false otherwise
+     */
     public Boolean getBeforeFirstPlayerFF(){
         return beforeFistPlayerFF;
     }
@@ -578,6 +622,10 @@ public class Player extends Identifiable{
         return availableActions;
     }
 
+    /**
+     * Return if the player can shoot
+     * @return True if the player can shoot, false otherwise
+     */
     private boolean canShoot(){
         boolean result = false;
 
@@ -613,6 +661,10 @@ public class Player extends Identifiable{
         return ammoCost.isEmpty();
     }
 
+    /**
+     * Remove a power-up from the player
+     * @param pwu The power-up to remove
+     */
     public void removePowerUp(PowerUp pwu){
         powerUps.remove(pwu);
     }
@@ -626,6 +678,9 @@ public class Player extends Identifiable{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Remove the player from the board
+     */
     public void removeFromBoard(){
         if(square != null){
             square.removePlayer(this);
@@ -633,11 +688,19 @@ public class Player extends Identifiable{
         }
     }
 
+    /**
+     * Return if the player has a tag back
+     * @return True if the player has a tag back, false otherwise
+     */
     public boolean hasTagback(){
         return powerUps.stream()
                 .anyMatch(pwu -> pwu.getType().equals(PowerUpType.TAGBACK_GRANADE));
     }
 
+    /**
+     * Return if the player has a targeting scope
+     * @return True if the player has a targeting scope, false otherwise
+     */
     public boolean hasTargetingscope(){
         return powerUps.stream()
                 .anyMatch(pwu -> pwu.getType().equals(PowerUpType.TARGETING_SCOPE));

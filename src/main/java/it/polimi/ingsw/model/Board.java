@@ -25,7 +25,9 @@ public class Board {
      * Maps color to corresponding SpawnPoint.
      */
     private EnumMap<AmmoColor, SpawnPoint> colorToSpawnPoint;
-
+    /**
+     * Board type. It changes the dimension of the board and the position of the squares in it.
+     */
     private BoardType type;
 
     /**
@@ -177,6 +179,10 @@ public class Board {
         return colorToSpawnPoint.get(color);
     }
 
+    /**
+     * Return the type of the board.
+     * @return The board type.
+     */
     public BoardType getType() {
         return type;
     }

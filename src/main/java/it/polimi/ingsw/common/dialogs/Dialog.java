@@ -1,5 +1,8 @@
 package it.polimi.ingsw.common.dialogs;
 
+/**
+ * Enumeration of types of dialog used to communicate with the user.
+ */
 public enum Dialog {
     SPAWN,
     MOVE,

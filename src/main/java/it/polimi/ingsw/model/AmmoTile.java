@@ -63,7 +63,11 @@ public class AmmoTile {
     public boolean hasPowerUp(){
         return ammo.size() == MIN_AMMO;
     }
-
+    /**
+     * This method count the number of ammo by a color for the client side
+     * @param color The color of ammo to count
+     * @return The number of ammo by color
+     */
     public int countAmmo(AmmoColor color){
         int res = 0;
         for(AmmoColor ammoCol : ammo){

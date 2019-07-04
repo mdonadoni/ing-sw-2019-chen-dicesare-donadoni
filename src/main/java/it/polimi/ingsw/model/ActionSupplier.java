@@ -10,16 +10,31 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represent an instance of action supplier with a list of actions.
+ */
 public class ActionSupplier {
-
+    /**
+     * The instance of the class.
+     */
     private static ActionSupplier INSTANCE;
+    /**
+     * The list of actions.
+     */
     private List<Action> actions;
 
+    /**
+     * Constructor of the class, it load the action in the list.
+     */
     private ActionSupplier(){
         actions = new ArrayList<>();
         loadActions();
     }
 
+    /**
+     * Return the instance of the class, if it doesn't exist then instantiate it anc return it.
+     * @return The instance of the class.
+     */
     public static ActionSupplier getInstance(){
         if(INSTANCE == null){
             INSTANCE = new ActionSupplier();
@@ -28,6 +43,9 @@ public class ActionSupplier {
         return INSTANCE;
     }
 
+    /**
+     * This method load the type of action from the file.
+     */
     private void loadActions() {
         try{
             InputStream stream = Action.class.getResourceAsStream("/rules/actions.json");
@@ -60,6 +78,10 @@ public class ActionSupplier {
         }
     }
 
+    /**
+     * Return the list of actions.
+     * @return The list of actions to return.
+     */
     public List<Action> getActions(){
         return new ArrayList<>(actions);
     }

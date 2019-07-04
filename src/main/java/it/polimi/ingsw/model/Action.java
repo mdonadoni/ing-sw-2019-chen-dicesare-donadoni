@@ -3,11 +3,18 @@ package it.polimi.ingsw.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represent an action that a player can perform.
+ */
 public class Action extends Identifiable{
+    /**
+     * The list of basic action that compose the action.
+     * @see BasicAction
+     */
     private List<BasicAction> actions = new ArrayList<>();
 
     /**
-     * Some Actions can be done in Final Frenzy, others can be done while Final Frenzy isn't active
+     * Some Actions can be done in Final Frenzy, others can be done while Final Frenzy isn't active.
      */
     private boolean finalFrenzyRequired;
 
@@ -19,18 +26,18 @@ public class Action extends Identifiable{
     private boolean boardNotFlippedRequired;
 
     /**
-     * Some actions require a certain amount of damage taken in order to be performed
+     * Some actions require a certain amount of damage taken in order to be performed.
      */
     private int damageRequired;
 
     /**
      * Some actions can be overwritten by other, better, actions. This happens when the player reaches this
-     * amount of damage taken
+     * amount of damage taken.
      */
     private int damageOverwrite;
 
     /**
-     * Some frenzy actions can be done only if you are before/after the first player
+     * Some frenzy actions can be done only if you are before/after the first player.
      */
     private boolean beforeFirstPlayer;
 
