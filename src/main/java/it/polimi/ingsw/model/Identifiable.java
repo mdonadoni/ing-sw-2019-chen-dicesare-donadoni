@@ -20,7 +20,7 @@ public class Identifiable {
 
     /**
      * Constructor of the class, assign a given UUID to the instance.
-     * @param uuid
+     * @param uuid the UUID of the instance
      */
     protected Identifiable(String uuid) {
         this.uuid = uuid;

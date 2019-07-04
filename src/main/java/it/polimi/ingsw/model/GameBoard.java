@@ -50,6 +50,7 @@ public class GameBoard {
     /**
      * Constructor that allows to specify the number of skulls
      * @param skulls number of skulls to be placed on the gameboard
+     * @param factory the factory of the model
      */
     public GameBoard(int skulls, ModelFactory factory){
         remainingSkulls = skulls;

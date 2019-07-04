@@ -5,6 +5,9 @@ import it.polimi.ingsw.util.config.Configurations;
 
 import java.io.InputStream;
 
+/**
+ * This class is used to configure the client.
+ */
 public class ClientConfig {
     private static Configurations config = null;
 
@@ -15,7 +18,12 @@ public class ClientConfig {
     static {
         init();
     }
-
+    /**
+     * Initializer method:
+     * -configure the hostname as localhost
+     * -configure the RMI port as 1099 and the minimum as 1024
+     * -configure the socket port as 9999 and the minimum as 1024
+     */
     private static synchronized void init() {
         if (config == null) {
             config = new Configurations();

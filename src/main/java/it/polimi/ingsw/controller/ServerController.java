@@ -43,7 +43,7 @@ public class ServerController extends LocalServer {
      * Makes a player login in the server
      * @param nickname Nickname chosen by the player.
      * @param view     View of the player.
-     * @return
+     * @return result of the login.
      */
     @Override
     public synchronized boolean login(String nickname, View view) {

@@ -31,6 +31,7 @@ public class PaymentGateway {
      * @param cost The cost to be payed
      * @param player The player that has to pay
      * @param remotePlayer The RemotePlayer object that refers to the player
+     * @throws RemoteException thrown when the player can't pay the cost
      */
     public void payCost(List<AmmoColor> cost, Player player, RemotePlayer remotePlayer) throws RemoteException {
         String nickname = player.getNickname();

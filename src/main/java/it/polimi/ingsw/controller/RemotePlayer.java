@@ -58,7 +58,8 @@ public class RemotePlayer {
 
     /**
      * Constructs a RemotePlayer with no time left.
-     * @param view
+     * @param nickname nickname of the player.
+     * @param view the view to be decorated.
      */
     public RemotePlayer(String nickname, View view) {
         this.nickname = nickname;
@@ -186,7 +187,7 @@ public class RemotePlayer {
      * @param dialog The dialog type to be shown
      * @param <T> The subtype of the Identifiable
      * @return A list with the view's answer
-     * @throws RemoteException
+     * @throws RemoteException thrown when there's something wrong with the selection
      */
     public <T extends Identifiable> List<T> selectIdentifiable(List<T> objects, int min, int max, Dialog dialog) throws RemoteException {
         List<String> uuids = objects
@@ -274,7 +275,7 @@ public class RemotePlayer {
      * Sends the player the final standings
      * @param standings The final standings
      * @param timeout Timeout of the request
-     * @throws RemoteException
+     * @throws RemoteException thrown if there's an error or the request has been interrupted
      */
     public void notifyEndMatch(List<StandingsItem> standings, long timeout) throws RemoteException {
         throwOnTimeout(() -> {

@@ -84,7 +84,7 @@ public class Lobby {
 
     /**
      * Remove player from Lobby.
-     * @param player
+     * @param player The player to remove.
      */
     public synchronized void removePlayer(RemotePlayer player) {
         LOG.info(() -> "Removed player from lobby: " + player.getNickname());

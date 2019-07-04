@@ -63,6 +63,7 @@ public class TurnController {
      * Standard TurnController constructor, initialises everything it needs
      * @param match the current match
      * @param remoteUsers a map containing all the RemotePlayer objects
+     * @param updater contains method to send updates to the players
      */
     public TurnController(Match match, Map<String, RemotePlayer> remoteUsers, Updater updater){
         this.match = match;

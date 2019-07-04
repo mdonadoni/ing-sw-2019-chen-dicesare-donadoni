@@ -59,7 +59,7 @@ public class PowerUpController {
      * @param pwu The powerup used
      * @param sourcePlayer The player who is using the powerup
      * @param targetPlayer The player targeted by the powerup
-     * @throws RemoteException
+     * @throws RemoteException thrown when the parameters are invalid
      */
     public void activatePowerUp(PowerUp pwu, String sourcePlayer, Player targetPlayer) throws RemoteException{
         RemotePlayer sourceRemotePlayer = remoteUsers.get(sourcePlayer);

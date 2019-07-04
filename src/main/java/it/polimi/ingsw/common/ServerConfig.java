@@ -5,6 +5,9 @@ import it.polimi.ingsw.util.config.Configurations;
 
 import java.io.InputStream;
 
+/**
+ * This class is used to configure the server.
+ */
 public class ServerConfig {
     private static Configurations config = null;
 
@@ -20,7 +23,16 @@ public class ServerConfig {
     static {
         init();
     }
-
+    /**
+     * Initializer method:
+     * -timeout of the turn as 60 and minimum 1
+     * -timeout of the lobby as 30 and minimum 1
+     * -minimum players as 3
+     * -maximum players as 5
+     * -hostname as localhost
+     * -RMI port as 1099 and the minimum as 1024
+     * -socket port as 9999 and the minimum as 1024
+     */
     private static synchronized void init() {
         if (config == null) {
             config = new Configurations();

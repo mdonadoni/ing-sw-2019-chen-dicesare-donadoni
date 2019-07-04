@@ -48,6 +48,7 @@ public class ActionController {
      * Standard constructor
      * @param match the match currently going on
      * @param remoteUsers a map containing all the RemotePlayer references
+     * @param updater contains method to send updates to the players
      */
     public ActionController(Match match, Map<String, RemotePlayer> remoteUsers, Updater updater){
         this.match = match;

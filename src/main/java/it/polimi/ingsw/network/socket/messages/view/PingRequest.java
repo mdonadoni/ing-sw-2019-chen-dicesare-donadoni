@@ -10,7 +10,7 @@ public class PingRequest extends RequestViewMethod {
     /**
      * Command pattern. Invoke the ping on given view.
      * @param view Method is invoked on this view
-     * @return
+     * @return message for the ping request
      */
     @Override
     public Message invokeOn(LocalView view) {

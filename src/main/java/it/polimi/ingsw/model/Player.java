@@ -114,6 +114,7 @@ public class Player extends Identifiable{
     /**
      * Constructor of Player.
      * @param nickname nickname of the player.
+     * @param color the color of the player.
      */
     public Player(String nickname, PlayerToken color){
         this.nickname = nickname;
@@ -561,6 +562,7 @@ public class Player extends Identifiable{
      * Adds a single instance of damage, useful for when you don't want to trigger marks due to
      * weird ruling.
      * @param damageColor The color of the damage.
+     * @param numberOfDamage The amount of damage.
      */
     public void addDamageWithoutMarks(PlayerToken damageColor, int numberOfDamage){
         for(int i = 0; i < numberOfDamage && damageTaken.size() < MAX_DAMAGE; i++) {

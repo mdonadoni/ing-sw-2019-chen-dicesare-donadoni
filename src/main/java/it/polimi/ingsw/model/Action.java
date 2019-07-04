@@ -127,6 +127,7 @@ public class Action extends Identifiable{
     }
     /**
      * Get if the action need the final frenzy to be executed.
+     * @return True if final frenzy is required, false otherwise
      */
     public boolean getFinalFrenzyRequired(){
         return finalFrenzyRequired;
@@ -203,6 +204,7 @@ public class Action extends Identifiable{
     /**
      * This method tells whether given player can perform this action
      * @param player the player to analyze
+     * @param finalFrenzyActive if the final frenzy is active
      * @return True if the Action can be done, False otherwise
      */
     public boolean canPerform(Player player, Boolean finalFrenzyActive){
