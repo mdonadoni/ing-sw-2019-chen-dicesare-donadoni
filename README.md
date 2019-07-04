@@ -52,7 +52,7 @@ Example of server running on a pc with IP address 10.0.0.1, RMI port 12345, sock
 #### Launching the client
 Regarding JavaFX, the JavaFX external dependency (version 12.0.1) should be placed inside the current working directory.
 
-Regarding the CLI, a terminal with support for Unicode characters and ANSI color strings is needed. In Linux there shouldn't be any problem, on Windows we used _Cygwin_ (a terminal emulator).
+Regarding the CLI, a terminal with support for Unicode characters and ANSI color strings is needed. In Linux there shouldn't be any problem, on Windows we used _Cygwin_ (a terminal emulator, before running the jar please run `alias javac='javac -encoding UTF-8'` and `alias java='java -Dfile.encoding=UTF-8'`) .
 
 To run the CLI version: `java -jar AM26-client.jar --hostname CLIENT_HOSTNAME --cli`
 
