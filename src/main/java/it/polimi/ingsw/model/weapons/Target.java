@@ -49,12 +49,12 @@ public class Target{
 
     /**
      * Classic auto-init constructor. Sets most of the parameters
-     * @param numTargets => numberOfTargets
-     * @param vis => visibility
-     * @param minD => minDistance
-     * @param maxD => maxDistance
-     * @param excl => exclusive
-     * @param inh => inherited
+     * @param numTargets =&gt; numberOfTargets
+     * @param vis =&gt; visibility
+     * @param minD =&gt; minDistance
+     * @param maxD =&gt; maxDistance
+     * @param excl =&gt; exclusive
+     * @param inh =&gt; inherited
      */
     @JsonCreator
     public Target(@JsonProperty("numberOfTargets") int numTargets,
@@ -80,6 +80,11 @@ public class Target{
     public Target(){
 
     }
+
+    /**
+     * Constructor of the class
+     * @param target The target to get the setup from.
+     */
     public Target(Target target){
         setNumberOfTargets(target.getNumberOfTargets());
         setVisibility(target.getVisibility());

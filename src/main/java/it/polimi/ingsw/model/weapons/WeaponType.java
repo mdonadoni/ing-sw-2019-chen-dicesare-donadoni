@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.weapons;
 
+/**
+ * Enumeration of the types of weapon.
+ */
 public enum WeaponType {
     CYBERBLADE,
     ELECTROSCYTHE,

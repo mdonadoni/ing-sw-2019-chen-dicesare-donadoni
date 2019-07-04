@@ -2,13 +2,15 @@ package it.polimi.ingsw.model.weapons;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Square;
 
 import java.security.InvalidParameterException;
 import java.util.List;
 
+/**
+ * This class represent the
+ */
 public class SquareTarget extends Target {
     private int numberOfPlayers;
     private int maxPlayerDistance;
@@ -16,12 +18,15 @@ public class SquareTarget extends Target {
 
     /**
      * Classic auto-init constructor. Sets most of the parameters
-     * @param numTargets => numberOfTargets
-     * @param vis => visibility
-     * @param minD => minDistance
-     * @param maxD => maxDistance
-     * @param excl => exclusive
-     * @param inh => inherited
+     * @param numTargets =&gt; numberOfTargets
+     * @param vis =&gt; visibility
+     * @param minD =&gt; minDistance
+     * @param maxD =&gt; maxDistance
+     * @param excl =&gt; exclusive
+     * @param inh =&gt; inherited
+     * @param maxPlayerD =&gt; maxPlayerDistance
+     * @param numberOfPlayers =&gt; numberOfPlayers
+     * @param vortex =&gt; vortex
      */
     @JsonCreator
     public SquareTarget(@JsonProperty("numberOfTargets") int numTargets,

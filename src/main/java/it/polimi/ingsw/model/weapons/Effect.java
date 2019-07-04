@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.weapons;
 
 import it.polimi.ingsw.model.Identifiable;
 
+/**
+ * This class represent the effect of an attack
+ */
 public class Effect extends Identifiable {
     private int value;
 
@@ -20,6 +23,7 @@ public class Effect extends Identifiable {
         this.value = value;
     }
     /**
+     * Get the value of the effect.
      * @return The value of the effect (obvious meaning for Damage, Mark, Movement)
      */
     public int getValue() {
@@ -27,6 +31,7 @@ public class Effect extends Identifiable {
     }
 
     /**
+     * Set the value of the effect, how much it is effective.
      * @param value How much 'thing' I have to do (how much damage, how many marks, movement)
      */
     public void setValue(int value) {

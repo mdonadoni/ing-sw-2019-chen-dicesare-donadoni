@@ -61,6 +61,11 @@ public class OptionsParser {
         return token.startsWith("-") && !token.startsWith("---");
     }
 
+    /**
+     * Return the option name.
+     * @param token The token to look for.
+     * @return The option name.
+     */
     private String getOptionName(String token) {
         if (!isOption(token)) {
             throw new CLIParserException("Invalid option: " + token);

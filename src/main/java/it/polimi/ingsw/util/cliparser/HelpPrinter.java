@@ -26,7 +26,7 @@ public class HelpPrinter {
 
     /**
      * Prints an usage message for the given options.
-     * @param options
+     * @param options The given options.
      */
     public static void print(Options options) {
         PrintStream writer = new PrintStream(System.err);
@@ -61,6 +61,11 @@ public class HelpPrinter {
         writer.flush();
     }
 
+    /**
+     * Prints an error message for the given options.
+     * @param options The given options.
+     * @param error The error message to print.
+     */
     public static void printWithError(Options options, String error) {
         print(options);
         PrintStream writer = new PrintStream(System.err);

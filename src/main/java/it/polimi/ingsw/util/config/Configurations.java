@@ -8,39 +8,84 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is used for the configuration
+ */
 public class Configurations {
+    /**
+     * Map of entry
+     */
     private Map<String, ConfigEntry> entryMap = new HashMap<>();
 
+    /**
+     * Class int builder
+     */
     public class IntBuilder {
+        /**
+         * Name of the value.
+         */
         private String name;
+        /**
+         * The value.
+         */
         private int value;
+        /**
+         * Minimum of the value.
+         */
         private Integer minValue = null;
+        /**
+         * Maximum of the value.
+         */
         private Integer maxValue = null;
 
+        /**
+         * Constructor of the class.
+         * @param name The name of the value.
+         */
         IntBuilder(String name) {
             this.name = name;
         }
 
+        /**
+         * Get the int builder with value.
+         * @param value The value to set.
+         * @return The int builder.
+         */
         public IntBuilder withValue(int value) {
             this.value = value;
             return this;
         }
-
+        /**
+         * Get the int builder with minimum value.
+         * @param minValue The minimum value to set.
+         * @return The int builder.
+         */
         public IntBuilder withMinValue(int minValue) {
             this.minValue = minValue;
             return this;
         }
-
+        /**
+         * Get the int builder with maximum value.
+         * @param maxValue The maximum value to set.
+         * @return The int builder.
+         */
         public IntBuilder withMaxValue(int maxValue) {
             this.maxValue = maxValue;
             return this;
         }
 
+        /**
+         * Add an IntConfigEntry.
+         */
         public void add() {
             Configurations.this.add(name, value, minValue, maxValue);
         }
     }
 
+    /**
+     * Add a ConfigEntry.
+     * @param entry The ConfigEntru to add.
+     */
     private void add(ConfigEntry entry) {
         if (entryMap.containsKey(entry.getName())) {
             throw new ConfigException("Key " + entry.getName() + " already inside");
@@ -48,6 +93,10 @@ public class Configurations {
         entryMap.put(entry.getName(), entry);
     }
 
+    /**
+     * Throw if it doesn't find an entry.
+     * @param name The entry name to find.
+     */
     private void throwIfNotFound(String name) {
         if (!entryMap.containsKey(name)) {
             throw new ConfigException("Entry not found: " + name);
@@ -96,6 +145,10 @@ public class Configurations {
         return new IntBuilder(name);
     }
 
+    /**
+     * Load from json.
+     * @param stream The stream of input.
+     */
     public void loadJson(InputStream stream) {
         try {
             ObjectMapper mapper = Json.getMapper();

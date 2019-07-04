@@ -13,6 +13,9 @@ public class Options {
      * Map between option's name and actual Option object.
      */
     private Map<String, Option> options = new HashMap<>();
+    /**
+     * List of groups of options mutually exclusive.
+     */
     private List<Option[]> exclusiveGroups = new ArrayList<>();
 
     /**

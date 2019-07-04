@@ -13,12 +13,12 @@ public class PlayerTarget extends Target {
 
     /**
      * Classic auto-init constructor. Sets most of the parameters
-     * @param numTargets => numberOfTargets
-     * @param vis => visibility
-     * @param minD => minDistance
-     * @param maxD => maxDistance
-     * @param excl => exclusive
-     * @param inh => inherited
+     * @param numTargets =&gt; numberOfTargets
+     * @param vis =&gt; visibility
+     * @param minD =&gt; minDistance
+     * @param maxD =&gt; maxDistance
+     * @param excl =&gt; exclusive
+     * @param inh =&gt; inherited
      */
     @JsonCreator
     public PlayerTarget(@JsonProperty("numberOfTargets") int numTargets,
@@ -33,6 +33,10 @@ public class PlayerTarget extends Target {
 
     }
 
+    /**
+     * Constructor of the class
+     * @param target The target to instantiate
+     */
     public PlayerTarget(Target target){
         super(target);
     }
