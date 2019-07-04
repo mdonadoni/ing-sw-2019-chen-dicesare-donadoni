@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class that represents a set of optionsMap.
+ * Class that represents a set of options.
  */
 public class Options {
     /**
@@ -14,7 +14,7 @@ public class Options {
      */
     private Map<String, Option> optionsMap = new HashMap<>();
     /**
-     * List of groups of optionsMap mutually exclusive.
+     * List of groups of options mutually exclusive.
      */
     private List<Option[]> exclusiveGroups = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class Options {
      */
     public void addOption(Option option) {
         if (!canAdd(option)) {
-            throw new CLIParserException("Cannot have two optionsMap with same name");
+            throw new CLIParserException("Cannot have two options with same name");
         }
         optionsMap.put(option.getName(), option);
     }
@@ -49,7 +49,7 @@ public class Options {
     }
 
     /**
-     * Add optionsMap that need to be mutually exclusive.
+     * Add options that need to be mutually exclusive.
      * @param options Options mutually exclusive.
      */
     public void addMutuallyExclusiveOptions(Option ...options) {
@@ -84,16 +84,16 @@ public class Options {
     }
 
     /**
-     * Get all the optionsMap.
-     * @return List with all the optionsMap.
+     * Get all the options.
+     * @return List with all the options.
      */
     List<Option> getOptions() {
         return new ArrayList<>(optionsMap.values());
     }
 
     /**
-     * Get list of groups of optionsMap mutually exclusive.
-     * @return List of group of mutually exclusive optionsMap.
+     * Get list of groups of options mutually exclusive.
+     * @return List of group of mutually exclusive options.
      */
     List<Option[]> getExclusiveGroups() {
         return exclusiveGroups;

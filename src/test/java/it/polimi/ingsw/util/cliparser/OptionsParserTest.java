@@ -33,4 +33,21 @@ class OptionsParserTest {
         ParsedOptions parsed = parser.parse(options, new String[]{"--opt1", "lol"});
         assertEquals("lol", parsed.getOptionValue("opt1"));
     }
+
+    @Test
+    void exclusiveOptions() {
+        Option opt1 = new Option("o1", false, "genk");
+        Option opt2 = new Option("o2", false, "lal");
+        options.addMutuallyExclusiveOptions(opt1, opt2);
+        ParsedOptions parsed = parser.parse(options, new String[]{"--o1"});
+        assertTrue(parsed.hasOption("o1"));
+    }
+
+    @Test
+    void exclusiveOptionsThrows() {
+        Option opt1 = new Option("o1", false, "genk");
+        Option opt2 = new Option("o2", false, "lal");
+        options.addMutuallyExclusiveOptions(opt1, opt2);
+        assertThrows(CLIParserException.class, () -> parser.parse(options, new String[]{"--o1", "--o2"}));
+    }
 }
