@@ -165,7 +165,7 @@ public class RemotePlayer {
      * @return List of chosen objects.
      * @throws RemoteException If there is an error while making the request.
      */
-    public List<String> selectObject(List<String> objUuid, int min, int max, Dialog dialog) throws RemoteException {
+    private List<String> selectObject(List<String> objUuid, int min, int max, Dialog dialog) throws RemoteException {
         ArrayList<String> array = new ArrayList<>(objUuid);
         return makeTimedRequest(() -> view.selectObject(array, min, max, dialog));
     }
@@ -175,6 +175,9 @@ public class RemotePlayer {
                 .stream()
                 .map(Identifiable::getUuid)
                 .collect(Collectors.toList());
+        // fix upper bound
+        max = Math.min(max, objects.size());
+
         List<String> selected = selectObject(uuids, min, max, dialog);
         List<T> result = objects
                 .stream()

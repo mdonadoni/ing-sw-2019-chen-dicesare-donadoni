@@ -39,9 +39,10 @@ public class ViewBot extends LocalView implements Runnable {
         ArrayList<String> shuffled = new ArrayList<>(objUuid);
         Collections.shuffle(shuffled, RAND);
 
-        // TODO remove these lines whene everything is fixed
-        max = Math.min(max, shuffled.size());
-        min = Math.min(min, max);
+        if (min > max || min < 0 || max > objUuid.size()) {
+            System.out.println("ERROR wrong min or max");
+            System.exit(2);
+        }
 
         ArrayList<String> res = new ArrayList<>(shuffled.subList(0, randInt(min, max)));
         System.out.println("SELEZIONATO: " + res);
