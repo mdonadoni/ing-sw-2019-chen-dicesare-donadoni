@@ -14,6 +14,15 @@ public class ViewBot extends LocalView implements Runnable {
     private static final Random RAND = new Random();
 
     private MiniModel model;
+    private ConnectionType connection;
+    private String server;
+    private int port;
+
+    public ViewBot(String server, int port, ConnectionType connection) {
+        this.connection = connection;
+        this.server = server;
+        this.port = port;
+    }
 
     private static int randInt(int a, int b) {
         int delta = b-a+1;
@@ -76,12 +85,13 @@ public class ViewBot extends LocalView implements Runnable {
     @Override
     public void run() {
         try {
-            connectServer("localhost", 1099, ConnectionType.RMI);
+            connectServer(server, port, connection);
             String name = UUID.randomUUID().toString().substring(0, 5);
             System.out.println("IO SONO " + name);
             getServer().login(name, this);
         } catch (Exception e) {
             e.printStackTrace();
+            closeConnection();
         }
     }
 }

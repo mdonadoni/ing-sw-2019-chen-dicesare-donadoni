@@ -69,12 +69,12 @@ public class ServerConfig {
 
             config.intBuilder(RMI_PORT)
                     .withValue(1099)
-                    .withMinValue(1024)
+                    .withMinValue(1)
                     .add();
 
             config.intBuilder(SOCKET_PORT)
                     .withValue(9999)
-                    .withMinValue(1024)
+                    .withMinValue(1)
                     .add();
         }
     }
