@@ -353,7 +353,7 @@ public class ShootController {
             if(target.compatibleTargetSquares(player, selectedSquares))
                 compatible = true;
             else{
-                // TODO: showMessage() to notify the targets are not compatible
+                remotePlayer.safeShowMessage(Dialog.TARGETS_NOT_COMPATIBLE);
             }
         }
 
@@ -476,7 +476,7 @@ public class ShootController {
         while(!compatible){
             targets = remotePlayer.selectIdentifiable(enemies, 1, max, Dialog.SHOOT_TARGET);
             if(!target.compatibleTargetPlayers(originPlayer, targets)){
-                // TODO: showMessage() to notify the targets are not compatible
+                remotePlayer.safeShowMessage(Dialog.TARGETS_NOT_COMPATIBLE);
             }
             else
                 compatible = true;

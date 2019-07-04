@@ -29,5 +29,6 @@
   "wait_match_start": "Attendi l''inizio della partita...",
   "points": "Punti: {0}",
   "player_added_lobby":  "Nuovo utente in lobby: {0}",
-  "player_removed_lobby": "Utente rimosso dalla lobby: {0}"
+  "player_removed_lobby": "Utente rimosso dalla lobby: {0}",
+  "targets_not_compatible": "I bersagli scelti non sono compatibili, riprova!"
 }
