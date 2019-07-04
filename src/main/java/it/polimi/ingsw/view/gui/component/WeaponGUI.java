@@ -9,11 +9,15 @@ import it.polimi.ingsw.util.Json;
 import it.polimi.ingsw.util.ResourceException;
 import it.polimi.ingsw.util.ResourceManager;
 import it.polimi.ingsw.view.gui.util.*;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -31,7 +35,7 @@ public class WeaponGUI extends ResizableImage implements Selectable, SelectableC
         String path = "/gui/weapons/" + weapon.getName().toLowerCase() + ".png";
         if (!reduced) {
 
-            // Powerup image
+            // Weapon image
             setImage(path);
 
             // Selection for attacks
@@ -80,9 +84,13 @@ public class WeaponGUI extends ResizableImage implements Selectable, SelectableC
         DropShadow shadow = new DropShadow();
 
         if (!weapon.isCharged()) {
-            ColorAdjust colorAdjust = new ColorAdjust();
-            colorAdjust.setSaturation(-1);
-            shadow.setInput(colorAdjust);
+            BorderStroke stroke = new BorderStroke(
+                    Color.RED,
+                    BorderStrokeStyle.DASHED,
+                    CornerRadii.EMPTY,
+                    BorderStroke.MEDIUM);
+            Border border = new Border(stroke);
+            getImage().setBorder(border);
         }
 
         getImage().setEffect(shadow);

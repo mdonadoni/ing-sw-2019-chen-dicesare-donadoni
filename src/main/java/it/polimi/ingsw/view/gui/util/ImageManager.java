@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ImageManager {
+    private static final String PATH_RED_MARK = "/gui/red_mark.png";
+
     private static Map<String, Image> imageMap = new HashMap<>();
     private static Map<String, Image> customImageMap = new HashMap<>();
 
@@ -27,5 +29,9 @@ public class ImageManager {
 
     public static boolean hasCustomImage(String key) {
         return customImageMap.containsKey(key);
+    }
+
+    public static Image getRedMark() {
+        return getResourceImage(PATH_RED_MARK);
     }
 }

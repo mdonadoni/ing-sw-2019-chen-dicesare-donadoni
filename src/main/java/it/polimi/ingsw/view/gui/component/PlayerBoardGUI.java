@@ -2,18 +2,14 @@ package it.polimi.ingsw.view.gui.component;
 
 
 import it.polimi.ingsw.model.minified.MiniPlayer;
-import it.polimi.ingsw.view.gui.util.Selectable;
-import it.polimi.ingsw.view.gui.util.FitObject;
-import it.polimi.ingsw.view.gui.util.GridUtils;
-import it.polimi.ingsw.view.gui.util.SelectableComponent;
-import it.polimi.ingsw.view.gui.util.StretchImage;
-import javafx.scene.effect.ColorAdjust;
+import it.polimi.ingsw.view.gui.util.*;
 import javafx.scene.layout.GridPane;
 
 import java.util.Arrays;
 
 
 public class PlayerBoardGUI extends FitObject implements Selectable {
+    private static final double RED_MARK_PERCENTAGE_HEIGHT = 0.25;
     StretchImage boardImage;
     private GridPane overlay;
     MiniPlayer player;
@@ -32,13 +28,12 @@ public class PlayerBoardGUI extends FitObject implements Selectable {
         overlay.add(new TopPlayerPaneGUI(player.getNickname(), player.getColor() ,player.getMarks()), 1, 0);
         overlay.add(new AmmoPaneGUI(player.getAmmo()), 2, 0, 1, 3);
 
-        getChildren().addAll(boardImage, overlay);
-
         if (!player.isActive()) {
-            ColorAdjust grayscale = new ColorAdjust();
-            grayscale.setSaturation(-1);
-            setEffect(grayscale);
+            double sizeMark = boardImage.getImageHeight() * RED_MARK_PERCENTAGE_HEIGHT;
+            overlay.add(new ResizableImage(ImageManager.getRedMark()), 0, 0);
         }
+
+        getChildren().addAll(boardImage, overlay);
 
         select = new SelectableComponent(this, player.getUuid());
     }
