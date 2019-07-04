@@ -16,7 +16,12 @@ public class PlayerBoardGUI extends FitObject implements Selectable {
     SelectableComponent select;
     PlayerBoardGUI(MiniPlayer player){
         this.player = player;
-        String path = "/gui/players/" + player.getColor().toString().toLowerCase() + ".png";
+        String path;
+        if (!player.isBoardFlipped()) {
+            path = "/gui/players/" + player.getColor().toString().toLowerCase() + ".png";
+        } else {
+            path = "/gui/players/" + player.getColor().toString().toLowerCase() + "_flipped.png";
+        }
         boardImage = new StretchImage(path);
         setContentHeight(boardImage.getImageHeight());
         setContentWidth(boardImage.getImageWidth());
