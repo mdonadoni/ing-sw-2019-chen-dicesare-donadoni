@@ -13,7 +13,7 @@ class DialogsTest {
 
     @Test
     void testFormatWithMoreParameters() {
-        assertEquals("Scegli la casella in cui muoverti", Dialogs.getDialog(Dialog.MOVE, "1", "1"));
+        assertEquals("Scegli la casella in cui muovere", Dialogs.getDialog(Dialog.MOVE, "1", "1"));
     }
 
 }
