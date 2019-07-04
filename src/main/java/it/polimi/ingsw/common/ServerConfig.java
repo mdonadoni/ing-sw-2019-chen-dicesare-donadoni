@@ -30,8 +30,8 @@ public class ServerConfig {
      * -minimum players as 3
      * -maximum players as 5
      * -hostname as localhost
-     * -RMI port as 1099 and the minimum as 1024
-     * -socket port as 9999 and the minimum as 1024
+     * -RMI port as 1099 and the minimum as 1
+     * -socket port as 9999 and the minimum as 1
      */
     private static synchronized void init() {
         if (config == null) {
