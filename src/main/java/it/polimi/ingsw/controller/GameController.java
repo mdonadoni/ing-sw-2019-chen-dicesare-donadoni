@@ -236,8 +236,7 @@ public class GameController implements Runnable{
         List<StandingsItem> standings = scoreController.getFinalStandings();
         for (RemotePlayer p : remotePlayers.values()) {
             try {
-                // TODO hardcoded value
-                p.notifyEndMatch(standings, 5000);
+                p.safeNotifyEndMatch(standings);
                 p.disconnect();
             } catch (RemoteException e) {
                 LOG.warning(() -> "Couldn't send final standings to " + p.getNickname());

@@ -14,11 +14,11 @@ import java.util.ArrayList;
 public interface View extends Remote {
     /**
      * Select a square from a list of squares.
-     * @param objUuid Coordinates of the squares.
-     * @param min Minimum number of squares to be chosen.
-     * @param max Maximum number of squares to be chosen.
+     * @param objUuid List of the UUID of the objects.
+     * @param min Minimum number of objects to be chosen.
+     * @param max Maximum number of objects to be chosen.
      * @param dialog The dialog to be shown
-     * @return List of selected squares' coordinates.
+     * @return List of selected objects.
      * @throws RemoteException If there is a network error.
      */
     ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, Dialog dialog) throws RemoteException;

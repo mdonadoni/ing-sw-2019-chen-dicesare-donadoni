@@ -30,9 +30,10 @@ public class RemotePlayer {
     private static final long PING_TIMEOUT = 8000;
 
     /**
-     * Maximum waiting time for a ShowMessage request
+     * Maximum waiting time for safe requests. Safe requests are "fast" requests
+     * that will not throw exceptions when failing.
      */
-    private static final long SHOWMESSAGE_TIMEOUT = 5000;
+    private static final long SAFE_TIMEOUT = 5000;
     /**
      * Reference to view to be decorated.
      */
@@ -53,7 +54,9 @@ public class RemotePlayer {
      * Timer for ping messages.
      */
     private Timer pingTimer;
-
+    /**
+     * Used to check the disconnection
+     */
     private Consumer<RemotePlayer> disconnectionCallback;
 
     /**
@@ -167,9 +170,9 @@ public class RemotePlayer {
 
     /**
      * Select between list of objects.
-     * @param objUuid Coordinates of the squares.
-     * @param min Minimum number of squares to be chosen.
-     * @param max Maximum number of squares to be chosen.
+     * @param objUuid List of the UUID of the objects.
+     * @param min Minimum number of objects to be chosen.
+     * @param max Maximum number of objects to be chosen.
      * @param dialog The dialog type
      * @return List of chosen objects.
      * @throws RemoteException If there is an error while making the request.
@@ -210,28 +213,6 @@ public class RemotePlayer {
     }
 
     /**
-     * Show message.
-     * @param message Massage to be shown.
-     * @throws RemoteException If there is an error while making the request.
-     */
-    public void showMessage(String message) throws RemoteException {
-        makeTimedRequest(() -> {
-            view.showMessage(message);
-            return null;
-        });
-    }
-
-    /**
-     * Show message.
-     * @param dialogType Enum that describes the type of the dialog to be shown
-     * @param params List of params to be filled in the message
-     * @throws RemoteException In case something goes wrong
-     */
-    public void showMessage(Dialog dialogType, String...params) throws RemoteException{
-        showMessage(Dialogs.getDialog(dialogType, params));
-    }
-
-    /**
      * Show message with timeout. The time elapsed is not counted towards the
      * global time limit.
      * @param message Message to be sent.
@@ -243,18 +224,6 @@ public class RemotePlayer {
             view.showMessage(message);
             return null;
         }, timeout);
-    }
-
-    /**
-     * Update model on the view.
-     * @param model Model to be sent.
-     * @throws RemoteException If there is an error while making the request.
-     */
-    public void updateModel(MiniModel model) throws RemoteException {
-        makeTimedRequest(() -> {
-            view.updateModel(model);
-            return null;
-        });
     }
 
     /**
@@ -293,6 +262,7 @@ public class RemotePlayer {
     }
 
     /**
+     * Return if the player is still connected
      * @return Whether the player is still connected
      */
     public boolean isConnected() {
@@ -300,6 +270,7 @@ public class RemotePlayer {
     }
 
     /**
+     * Return the IGN of the player
      * @return The IGN of the player
      */
     public String getNickname() {
@@ -312,7 +283,7 @@ public class RemotePlayer {
      */
     public void safeShowMessage(String message) {
         try {
-            showMessage(message, SHOWMESSAGE_TIMEOUT);
+            showMessage(message, SAFE_TIMEOUT);
         } catch (RemoteException e) {
             LOG.log(Level.WARNING, () -> "Couldn't send message to " + nickname);
         }
@@ -328,6 +299,18 @@ public class RemotePlayer {
     }
 
     /**
+     * Notify the end of a match, and it's safe
+     * @param standings Final standings
+     */
+    public void safeNotifyEndMatch(List<StandingsItem> standings) {
+        try {
+            notifyEndMatch(standings, SAFE_TIMEOUT);
+        } catch (RemoteException e) {
+            LOG.log(Level.WARNING, () -> "Couldn't notify end match to " + nickname);
+        }
+    }
+
+    /**
      * Setter for the disconnection callback
      * @param disconnectionCallback The callback
      */
@@ -336,6 +319,7 @@ public class RemotePlayer {
     }
 
     /**
+     * Get the view of this remote player
      * @return The view of this remote player
      */
     public View getView(){

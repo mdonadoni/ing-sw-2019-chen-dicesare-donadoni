@@ -10,10 +10,16 @@ import javafx.application.Application;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Client launcher
+ */
 public class ClientLauncher {
 
 
-
+    /**
+     * The main of the client
+     * @param args Parameter on the command line
+     */
     public static void main(String[] args) {
         final Option hostname = new Option("hostname", true, "hostname or ip of the client");
         final Option gui = new Option("gui", false, "use graphical user interface");

@@ -76,7 +76,6 @@ public class ServerController extends LocalServer {
      */
     public synchronized void startNewMatch(List<RemotePlayer> players) {
         LOG.log(Level.INFO, "New match starting");
-        //TODO select board
         GameController game = new GameController(players, selectBoard(players.size()));
         players.forEach(remotePlayer -> nicknameToGame.put(remotePlayer.getNickname(), game));
         executor.execute(game);
@@ -92,7 +91,6 @@ public class ServerController extends LocalServer {
         if (lobby.hasPlayer(player)) {
             lobby.removePlayer(player);
         }
-        //TODO remove from game
     }
 
     /**
