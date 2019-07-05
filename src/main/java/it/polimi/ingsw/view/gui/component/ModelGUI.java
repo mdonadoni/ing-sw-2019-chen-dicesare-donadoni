@@ -42,7 +42,7 @@ public class ModelGUI extends GridPane implements SelectableContainer {
 
     /**
      * Constructor generate the model for the player
-     * @param miniModel
+     * @param miniModel model to generate
      */
     public ModelGUI(MiniModel miniModel){
         GridUtils.setPercentColumns(this, BOARDSPACE, 100.0 - BOARDSPACE);

@@ -214,6 +214,12 @@ public class CharCli {
         return c;
     }
 
+    /**
+     * Return the type of character needed between two squares
+     * @param ms the square
+     * @param cardinal the direction of the other square
+     * @return the needed character
+     */
     public static char getLinkChar(MiniSquare ms, Cardinal cardinal){
         char c = ' ';
         if( cardinal == Cardinal.NORTH || cardinal == Cardinal.SOUTH){

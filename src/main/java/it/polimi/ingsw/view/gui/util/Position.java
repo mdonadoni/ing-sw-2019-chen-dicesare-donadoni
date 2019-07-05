@@ -85,42 +85,76 @@ public class Position {
         return p;
     }
 
+    /**
+     * Set the width
+     * @param width the width to set
+     */
     public void setWidth(double width) {
         this.width = width;
     }
 
+    /**
+     * set the height
+     * @param height the height to set
+     */
     public void setHeight(double height) {
         this.height = height;
     }
 
+    /**
+     * set the rotation
+     * @param rotation the rotation to set
+     */
     public void setRotation(double rotation) {
         this.rotation = rotation;
     }
-
+    /**
+     * set the coordinate x
+     * @param x the coordinate x to set
+     */
     public void setX(double x) {
         this.x = x;
     }
-
+    /**
+     * set the coordinate x
+     * @param y the coordinate x to set
+     */
     public void setY(double y) {
         this.y = y;
     }
 
+    /**
+     * get the width
+     * @return the width
+     */
     public double getWidth() {
         return width;
     }
-
+    /**
+     * get the height
+     * @return the height
+     */
     public double getHeight() {
         return height;
     }
-
+    /**
+     * get the rotation
+     * @return the rotation
+     */
     public double getRotation() {
         return rotation;
     }
-
+    /**
+     * get the coordinate x
+     * @return the coordinate x
+     */
     public double getX() {
         return x;
     }
-
+    /**
+     * get the coordinate y
+     * @return the coordinate y
+     */
     public double getY() {
         return y;
     }

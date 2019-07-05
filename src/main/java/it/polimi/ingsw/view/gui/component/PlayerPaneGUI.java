@@ -38,8 +38,8 @@ public class PlayerPaneGUI extends GridPane implements SelectableContainer {
 
     /**
      * Constructor, generate the player pane and the cards pane
-     * @param player
-     * @param myPowerUps
+     * @param player player
+     * @param myPowerUps player's power-ups
      */
     public PlayerPaneGUI(MiniPlayer player, List<MiniPowerUp> myPowerUps){
         GridUtils.setPercentColumns(this, 100);
@@ -61,7 +61,7 @@ public class PlayerPaneGUI extends GridPane implements SelectableContainer {
 
     /**
      * The player with no power-ups
-     * @param player
+     * @param player the player
      */
     public PlayerPaneGUI(MiniPlayer player){
         this(player, null);

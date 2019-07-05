@@ -48,11 +48,19 @@ public class FitObject extends Region {
         return contentHeight;
     }
 
+    /**
+     * Set the width
+     * @param width the width to set
+     */
     public void setContentWidth(double width) {
         this.contentWidth = width;
         requestParentLayout();
     }
 
+    /**
+     * Set the height
+     * @param height the height to set
+     */
     public void setContentHeight(double height) {
         this.contentHeight = height;
         requestParentLayout();

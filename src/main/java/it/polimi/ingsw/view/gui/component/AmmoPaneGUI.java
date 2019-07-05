@@ -16,6 +16,10 @@ public class AmmoPaneGUI extends GridPane {
      */
     private static final int NCOL = 3;
 
+    /**
+     * Constructor, generate the ammo GUI
+     * @param ammo the list of ammo to generate
+     */
     public AmmoPaneGUI(List<AmmoColor> ammo){
         ColumnConstraints col = new ColumnConstraints();
         RowConstraints row = new RowConstraints();

@@ -53,16 +53,26 @@ public class Composition extends Region {
         node.getTransforms().add(new Rotate(bounds.getRotation()));
     }
 
+    /**
+     * Set preserve ratio
+     * @param preserveRatio if the ratio needs to be preserved or not
+     */
     public void setPreserveRatio(boolean preserveRatio) {
         this.preserveRatio = preserveRatio;
         requestLayout();
     }
-
+    /**
+     * Set the height
+     * @param compositionHeight the height
+     */
     public void setCompositionHeight(double compositionHeight) {
         this.compositionHeight = compositionHeight;
         requestLayout();
     }
-
+    /**
+     * Set the width
+     * @param compositionWidth compositionWidth the width
+     */
     public void setCompositionWidth(double compositionWidth) {
         this.compositionWidth = compositionWidth;
         requestLayout();

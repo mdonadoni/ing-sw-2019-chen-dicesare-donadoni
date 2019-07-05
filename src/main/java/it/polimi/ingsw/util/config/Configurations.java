@@ -154,8 +154,8 @@ public class Configurations {
 
     /**
      * Parse value of a config entry from a string. Useful to parse CLI arguments.
-     * @param name
-     * @param value
+     * @param name name to parse
+     * @param value value
      */
     public void parseString(String name, String value) {
         throwIfNotFound(name);

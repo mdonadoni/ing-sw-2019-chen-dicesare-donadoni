@@ -25,7 +25,9 @@ public class StretchImage extends Pane {
      */
     double imageHeight = 0;
 
-
+    /**
+     * Standarc Constructor
+     */
     public StretchImage() {
     }
 
@@ -65,10 +67,17 @@ public class StretchImage extends Pane {
         );
     }
 
+    /**
+     * get the width
+     * @return the width
+     */
     public double getImageWidth() {
         return imageWidth;
     }
-
+    /**
+     * get the height
+     * @return the height
+     */
     public double getImageHeight() {
         return imageHeight;
     }
