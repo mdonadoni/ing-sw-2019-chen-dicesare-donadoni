@@ -90,7 +90,7 @@ public class TurnController {
     public void startTurn() throws RemoteException {
         initTurn();
         // Sending latest model to the current player
-        updater.updateModel(currentPlayer.getNickname());
+        updater.updateModelToEveryone();
         LOG.log(Level.INFO, "A turn has started for {0}", currentPlayer.getNickname());
 
         // Do maximum NUMBER_OF_MOVES actions and use powerups

@@ -8,6 +8,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
 public class NicknamePaneGUI extends GridPane {
+    private static final double SMALL_FONT_RATIO = 2.5;
+    private static final double MEDIUM_FONT_RATIO = 1.8;
+    private static final double BIG_FONT_RATIO = 1.6;
+    private static final int MAX_MEDIUM_NICK_LENGTH = 7;
+    private static final int MAX_SHORT_NICK_LENGTH = 4;
 
     NicknamePaneGUI(String nickname, PlayerToken color){
         ColumnConstraints nameCol = new ColumnConstraints();
@@ -28,7 +33,19 @@ public class NicknamePaneGUI extends GridPane {
         Label name = new Label(nickname);
         name.setMinSize(0,0);
         String readableColor = ColorTranslator.getReadableColor(color);
-        this.heightProperty().addListener(event -> this.setStyle("-fx-font-size: " + this.getHeight()/1.9));
+
+        double ratio = SMALL_FONT_RATIO;
+
+        if(nickname.length() <= MAX_MEDIUM_NICK_LENGTH){
+            if(nickname.length() <= MAX_SHORT_NICK_LENGTH)
+                ratio = BIG_FONT_RATIO;
+            else
+                ratio = MEDIUM_FONT_RATIO;
+        }
+
+        final double finalRatio = ratio;
+
+        this.heightProperty().addListener(event -> this.setStyle("-fx-font-size: " + this.getHeight()/finalRatio));
         name.setStyle("-fx-text-fill: " + readableColor + ";"+
                 "-fx-font-weight: bold;" +
                 "-fx-effect: dropshadow(gaussian, black, 4, 0.5, 0, 1);");

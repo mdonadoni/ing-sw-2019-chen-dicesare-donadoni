@@ -16,6 +16,14 @@ import java.util.logging.Logger;
  */
 public class ServerController extends LocalServer {
     private static final Logger LOG = Logger.getLogger(ServerController.class.getName());
+    /**
+     * Maximum lenght of the player's nickname
+     */
+    private static final int MAX_NICKNAME_LENGTH = 10;
+    /**
+     * Minimum lenght of the player's nickname
+     */
+    private static final int MIN_NICKNAME_LENGTH = 3;
 
     /**
      * Map that matches the RemotePlayers to their nicknames
@@ -51,7 +59,7 @@ public class ServerController extends LocalServer {
             return false;
         }
 
-        if(nickname.length() < 3 || nickname.length() > 9){
+        if(nickname.length() < MIN_NICKNAME_LENGTH || nickname.length() > MAX_NICKNAME_LENGTH){
             LOG.log(Level.INFO, "Nickname too long or too short: {0}", nickname);
             return false;
         }
