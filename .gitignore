@@ -4,6 +4,7 @@
 !pom.xml
 !resources/
 !src/
+!deriverables/
 
 .idea/
 *.iml
