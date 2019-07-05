@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.component;
 
 import it.polimi.ingsw.model.minified.MiniAction;
+import it.polimi.ingsw.view.Descriptions;
 import it.polimi.ingsw.view.gui.util.Selectable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Border;
@@ -13,9 +14,7 @@ public class ActionGUI extends Button implements Selectable {
     private MiniAction action;
     public ActionGUI(MiniAction action) {
         this.action = action;
-        StringBuilder text = new StringBuilder();
-        action.getActions().forEach(basic -> text.append(basic.toString()));
-        setText(text.toString());
+        setText(Descriptions.describe(action));
         setDisable(true);
     }
 
