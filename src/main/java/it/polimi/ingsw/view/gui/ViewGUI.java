@@ -115,11 +115,19 @@ public class ViewGUI extends Application {
         Platform.runLater(() -> Notification.newNotification(message));
     }
 
+    /**
+     * Update the model
+     * @param model the new model
+     */
     public void updateModel(MiniModel model) {
         mainPane.setModel(model);
         Platform.runLater(() -> primaryStage.getScene().setRoot(mainPane));
     }
 
+    /**
+     * Notify the end match
+     * @param standings List of standings item
+     */
     public void notifyEndMatch(List<StandingsItem> standings) {
         Platform.runLater(() -> primaryStage.getScene().setRoot(new StandingsPane(standings)));
     }

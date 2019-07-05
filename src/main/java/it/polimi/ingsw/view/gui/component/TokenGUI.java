@@ -5,9 +5,15 @@ import it.polimi.ingsw.view.gui.util.GridUtils;
 import it.polimi.ingsw.view.gui.util.StretchImage;
 import javafx.scene.layout.GridPane;
 
-
+/**
+ * Represent the token of the player in the GUI
+ */
 public class TokenGUI extends GridPane {
-
+    /**
+     * Constructor, load the token from file
+     * @param token Player's token to load
+     * @param quantity quantity of token
+     */
     TokenGUI(PlayerToken token, int quantity){
         GridUtils.setPercentColumns(this, 10, 80, 10);
         GridUtils.setPercentRows(this, 10, 80, 10);

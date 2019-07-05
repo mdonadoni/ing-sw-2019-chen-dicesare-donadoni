@@ -4,8 +4,14 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
+/**
+ * Represent the skull track pane
+ */
 public class SkullTrackPaneGUI extends GridPane {
-
+    /**
+     * Constructor, generate for each skull its graphic
+     * @param numberOfSKulls the number of skulls
+     */
     SkullTrackPaneGUI(int numberOfSKulls){
         RowConstraints row = new RowConstraints();
         row.setPercentHeight(100);

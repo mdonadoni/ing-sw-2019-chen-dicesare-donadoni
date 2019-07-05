@@ -9,10 +9,24 @@ import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent the weapon pane
+ */
 public class WeaponPaneGUI extends GridPane implements SelectableContainer {
+    /**
+     * Maximum amount of weapons
+     */
     private static final double MAXWEAPONS = 3;
+    /**
+     * List of weapons GUI
+     */
     List<WeaponGUI> weaponsGUI = new ArrayList<>();
 
+    /**
+     * Constructor of the class
+     * @param weapons List of weapon
+     * @param reduced if it's reduced
+     */
     public WeaponPaneGUI(List<MiniWeapon> weapons, boolean reduced){
         GridUtils.setPercentColumns(this, 100.0/3, 100.0/3, 100.0/3);
         GridUtils.setPercentRows(this, 100.0);
@@ -28,6 +42,11 @@ public class WeaponPaneGUI extends GridPane implements SelectableContainer {
         }
     }
 
+    /**
+     * Find selectable (weapon or attack)
+     * @param uuid UUID of the selectable
+     * @return the selectable (weapon or attack)
+     */
     @Override
     public Selectable findSelectable(String uuid) {
         for (WeaponGUI w : weaponsGUI) {

@@ -8,18 +8,49 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+/**
+ * Represent the square in the GUI
+ */
 public class SquareGUI extends GridPane implements Selectable {
+    /**
+     * Number of columns
+     */
     private static final int NUM_COL = 3;
+    /**
+     * Number of rows
+     */
     private static final int NUM_ROW = 3;
+    /**
+     * Number of columns for ammo tile
+     */
     private static final int NUM_COL_AMMO = 2;
+    /**
+     * Number of rows for ammo tile
+     */
     private static final int NUM_ROW_AMMO = 2;
+    /**
+     * Row for the players tokens
+     */
     private static final Integer[] ROW_TOKEN = new Integer[]{0, 1, 2, 2, 2};
+    /**
+     * Columns for the players tokens
+     */
     private static final Integer[] COL_TOKEN = new Integer[]{2, 2, 2, 1, 0};
 
-
+    /**
+     * Square to represent
+     */
     MiniSquare square;
+    /**
+     * Selectable component
+     */
     SelectableComponent select;
 
+    /**
+     * Constructor, set the square as selectable add the players token if there are player
+     * on the square
+     * @param square The square to represent
+     */
     public SquareGUI(MiniSquare square) {
         this.square = square;
 
@@ -44,6 +75,10 @@ public class SquareGUI extends GridPane implements Selectable {
         }
     }
 
+    /**
+     * Constructor for std square, like for the square but add the ammo tile
+     * @param stdSquare standard square to represent
+     */
     public SquareGUI(MiniStandardSquare stdSquare) {
         this((MiniSquare) stdSquare);
         if (stdSquare.hasAmmo()) {
@@ -52,22 +87,37 @@ public class SquareGUI extends GridPane implements Selectable {
         }
     }
 
+    /**
+     * Get UUID
+     * @return the UUID
+     */
     @Override
     public String getUuid() {
         return select.getUuid();
     }
 
+    /**
+     * Enable the square
+     * @param notifyChange the change notifier
+     */
     @Override
     public void enable(Runnable notifyChange) {
         setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.MEDIUM)));
         select.enable(notifyChange);
     }
 
+    /**
+     * Set as selected
+     * @param selected true as selected or false as not selected
+     */
     @Override
     public void setSelected(boolean selected) {
         select.setSelected(selected);
     }
 
+    /**
+     * Disable the square
+     */
     @Override
     public void disable() {
         setBorder(null);

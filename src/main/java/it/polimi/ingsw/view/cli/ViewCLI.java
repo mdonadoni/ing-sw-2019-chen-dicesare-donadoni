@@ -16,18 +16,37 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The CLI view
+ */
 public class ViewCLI extends LocalView implements Runnable {
+    /**
+     * Logger
+     */
     private static final Logger LOG = Logger.getLogger(ViewCLI.class.getName());
-
+    /**
+     * Standings line
+     */
     private static final String STANDINGS_LINE = "{0}) {1} ({2} punti)";
-
+    /**
+     * Scanner
+     */
     private Scanner scanner;
+    /**
+     * Model
+     */
     private MiniModel model;
 
+    /**
+     * Constructor
+     */
     public ViewCLI() {
         scanner = new Scanner(System.in);
     }
 
+    /**
+     * Run the CLI
+     */
     @Override
     public synchronized void run() {
         String connection;
@@ -72,6 +91,14 @@ public class ViewCLI extends LocalView implements Runnable {
         println(Dialogs.getDialog(Dialog.WAIT_MATCH_START));
     }
 
+    /**
+     * Select object
+     * @param objUuid List of the UUID of the objects.
+     * @param min Minimum objects.
+     * @param max Maximum of objects.
+     * @param dialog The dialog type
+     * @return List of selected objects
+     */
     @Override
     public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, Dialog dialog) {
         // Print options
@@ -118,11 +145,19 @@ public class ViewCLI extends LocalView implements Runnable {
         return new ArrayList<>(selectedUuid);
     }
 
+    /**
+     * Show message
+     * @param message Massage to be shown.
+     */
     @Override
     public synchronized void showMessage(String message) {
         println(message);
     }
 
+    /**
+     * Update the model
+     * @param model Updated model.
+     */
     @Override
     public synchronized void updateModel(MiniModel model) {
         // Save new model
@@ -138,6 +173,10 @@ public class ViewCLI extends LocalView implements Runnable {
         }
     }
 
+    /**
+     * Notify the end of the match
+     * @param standings Final Standings of the game.
+     */
     @Override
     public synchronized void notifyEndMatch(ArrayList<StandingsItem> standings) {
         cls();
@@ -152,10 +191,18 @@ public class ViewCLI extends LocalView implements Runnable {
         }
     }
 
+    /**
+     * Read a line
+     * @return The next line to read
+     */
     private synchronized String  readLine() {
         return scanner.nextLine();
     }
 
+    /**
+     * Read int
+     * @return read an integer value
+     */
     private synchronized int readInt() {
         int integer = 0;
         boolean valid = false;
@@ -174,22 +221,40 @@ public class ViewCLI extends LocalView implements Runnable {
         return integer;
     }
 
+    /**
+     * Clear the screen
+     */
     private synchronized void cls() {
         println(ColorCLI.ANSI_CLS);
     }
 
+    /**
+     * Print dialog
+     * @param dialog The dialog
+     * @param params The parameter to fill the dialog
+     */
     private synchronized void printDialog(Dialog dialog, String ...params) {
         println(Dialogs.getDialog(dialog, params));
     }
 
+    /**
+     * Print a string and go to the next line
+     * @param s the string to print
+     */
     private synchronized void println(String s) {
         System.out.println(s);
     }
 
+    /**
+     * Print no string and go to the next line
+     */
     private void println() {
         println("");
     }
 
+    /**
+     * Disconnect
+     */
     @Override
     public void disconnect() {
         super.disconnect();

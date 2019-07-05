@@ -7,11 +7,27 @@ import it.polimi.ingsw.view.cli.util.CharCli;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent the Match in the CLI
+ */
 public class MatchCLI {
+    /**
+     * The game board CLI
+     */
     private GameBoardCLI gameBoardCLI;
+    /**
+     * List of players
+     */
     private ArrayList<PlayerCLI> playerCLI;
+    /**
+     * Match to represent
+     */
     private MiniMatch miniMatch;
 
+    /**
+     * Constructor
+     * @param miniMatch match to represent
+     */
     public MatchCLI(MiniMatch miniMatch) {
         this.miniMatch = miniMatch;
         this.gameBoardCLI = new GameBoardCLI(miniMatch.getGameBoard());
@@ -21,6 +37,10 @@ public class MatchCLI {
         }
     }
 
+    /**
+     * Generate the list of strings that represent the match
+     * @return list of strings that represent the match
+     */
     public List<String> viewMatch(){
         List<String> outList = new ArrayList<>();
         List<String> squareList = new ArrayList<>();

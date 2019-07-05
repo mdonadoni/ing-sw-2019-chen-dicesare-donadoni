@@ -23,12 +23,33 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represent the weapon in the GUI
+ */
 public class WeaponGUI extends ResizableImage implements Selectable, SelectableContainer {
+    /**
+     * The weapon to represent
+     */
     MiniWeapon weapon;
+    /**
+     * The overlay
+     */
     Composition overlay;
+    /**
+     * Selectable component
+     */
     SelectableComponent select;
+    /**
+     * Map of UUID and selectable
+     */
     Map<String, Selectable> attacksSelectable = new HashMap<>();
 
+    /**
+     * Constructor, loads the weapon image, overlay the attacks, check if the weapon
+     * is charged or not for graphic effects
+     * @param weapon the weapon
+     * @param reduced if it's reduced
+     */
     public WeaponGUI(MiniWeapon weapon, boolean reduced) {
         this.weapon = weapon;
 
@@ -98,6 +119,11 @@ public class WeaponGUI extends ResizableImage implements Selectable, SelectableC
         select = new SelectableComponent(getImage(), weapon.getUuid());
     }
 
+    /**
+     * Find selectable attack
+     * @param uuid UUID of the selectable
+     * @return the selectable attack
+     */
     @Override
     public Selectable findSelectable(String uuid) {
         if (attacksSelectable.containsKey(uuid)) {
@@ -106,11 +132,19 @@ public class WeaponGUI extends ResizableImage implements Selectable, SelectableC
         return null;
     }
 
+    /**
+     * Get UUID
+     * @return the UUID
+     */
     @Override
     public String getUuid() {
         return select.getUuid();
     }
 
+    /**
+     * Enable the overlay
+     * @param notifyChange the change notifier
+     */
     @Override
     public void enable(Runnable notifyChange) {
         if (overlay != null) {
@@ -119,11 +153,18 @@ public class WeaponGUI extends ResizableImage implements Selectable, SelectableC
         select.enable(notifyChange);
     }
 
+    /**
+     * Set as selected
+     * @param selected true as selected or false as not selected
+     */
     @Override
     public void setSelected(boolean selected) {
         select.setSelected(selected);
     }
 
+    /**
+     * Disable the overlay
+     */
     @Override
     public void disable() {
         if (overlay != null) {

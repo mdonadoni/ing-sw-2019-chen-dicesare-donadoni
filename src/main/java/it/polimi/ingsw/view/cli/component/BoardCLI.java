@@ -8,15 +8,31 @@ import it.polimi.ingsw.view.cli.util.ColorCLI;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent the board in the CLI
+ */
 public class BoardCLI {
+    /**
+     * Length of the square
+     */
     public static final int LENGTH = 25;
-
+    /**
+     * Board to represent
+     */
     private MiniBoard miniBoard;
 
+    /**
+     * Constructor
+     * @param miniBoard Board to represent
+     */
     public BoardCLI(MiniBoard miniBoard){
         this.miniBoard=miniBoard;
     }
 
+    /**
+     * Generate a List of string to represent the board whit character
+     * @return the list of string
+     */
     public List<String> viewBoard() {
         MiniSquare ms;
         List<String> outList = new ArrayList<>();
@@ -63,6 +79,11 @@ public class BoardCLI {
         return outList;
     }
 
+    /**
+     * Generate the square
+     * @param ms the square to generate
+     * @return the list of string that represents the square
+     */
     public List<String> viewSquare(MiniSquare ms) {
         ArrayList<String> outList = new ArrayList<>();
         String out ;
@@ -155,6 +176,12 @@ public class BoardCLI {
         return outList;
     }
 
+    /**
+     * Search a square knowing its coordinate
+     * @param list List of squares to search in
+     * @param coordinate Coordinate of the square to search
+     * @return the square to find
+     */
     private  MiniSquare searchSquare(List<MiniSquare> list, Coordinate coordinate) {
         for (MiniSquare ms : list) {
             if (coordinate.equals(ms.getCoordinates()))

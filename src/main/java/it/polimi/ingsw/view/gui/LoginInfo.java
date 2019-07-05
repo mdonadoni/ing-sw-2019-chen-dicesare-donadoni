@@ -37,18 +37,34 @@ public class LoginInfo {
         this.nickname = nickname;
     }
 
+    /**
+     * Get the connection type
+     * @return the connection type
+     */
     public ConnectionType getType() {
         return type;
     }
 
+    /**
+     * Get the address
+     * @return the address
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * Get the port
+     * @return the port
+     */
     public int getPort() {
         return port;
     }
 
+    /**
+     * Get the nickname
+     * @return the nickname
+     */
     public String getNickname() {
         return nickname;
     }

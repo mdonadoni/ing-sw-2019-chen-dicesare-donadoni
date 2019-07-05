@@ -11,14 +11,32 @@ import it.polimi.ingsw.view.cli.util.ColorCLI;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent the player in the CLI
+ */
 public class PlayerCLI {
-
+    /**
+     * Length of the container
+     */
     static final int LENGTH = 25;
-
+    /**
+     * Player to represent
+     */
     private MiniPlayer player;
+    /**
+     * List of player's power-ups
+     */
     private List<MiniPowerUp> powerUp;
+    /**
+     * Weapon CLI
+     */
     private ArrayList<WeaponCLI> weaponCLI;
 
+    /**
+     * Constructor
+     * @param miniPlayer the player to represent
+     * @param powerUp the list of player's power-ups
+     */
     PlayerCLI(MiniPlayer miniPlayer, List<MiniPowerUp> powerUp){
         this.player = miniPlayer;
         this.powerUp = powerUp;
@@ -28,6 +46,10 @@ public class PlayerCLI {
         }
     }
 
+    /**
+     * Generate the list of strings that represent the player
+     * @return list of strings that represent the player
+     */
     public synchronized List<String> viewPlayer(){
         int space;
         String out;

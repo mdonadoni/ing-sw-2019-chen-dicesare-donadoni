@@ -9,16 +9,32 @@ import it.polimi.ingsw.view.cli.util.ColorCLI;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent the game board in the CLI
+ */
 public class GameBoardCLI {
-
+    /**
+     * The board CLI
+     */
     private BoardCLI boardCLI;
+    /**
+     * The game board to represent
+     */
     private MiniGameBoard miniGameBoard;
 
+    /**
+     * Constructor
+     * @param miniGameBoard the game board to represent
+     */
     public GameBoardCLI(MiniGameBoard miniGameBoard){
         this.miniGameBoard = miniGameBoard;
         this.boardCLI = new BoardCLI(miniGameBoard.getBoard());
     }
 
+    /**
+     * Generate the list of strings that represent the game board
+     * @return list of strings that represent the game board
+     */
     public List<String> viewGameBoard(){
         ArrayList<String> outLIst = new ArrayList<>();
         String out=" ";
