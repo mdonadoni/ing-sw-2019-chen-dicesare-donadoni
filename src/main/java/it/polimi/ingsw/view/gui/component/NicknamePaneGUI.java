@@ -7,13 +7,36 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
+/**
+ * Represent the nickname pane
+ */
 public class NicknamePaneGUI extends GridPane {
+    /**
+     * Small font ratio
+     */
     private static final double SMALL_FONT_RATIO = 2.5;
+    /**
+     * Medium font ratio
+     */
     private static final double MEDIUM_FONT_RATIO = 1.8;
+    /**
+     * Big font ratio
+     */
     private static final double BIG_FONT_RATIO = 1.6;
+    /**
+     * Maximum length of a  nickname
+     */
     private static final int MAX_MEDIUM_NICK_LENGTH = 7;
+    /**
+     * Minimum length of a nickname
+     */
     private static final int MAX_SHORT_NICK_LENGTH = 4;
 
+    /**
+     * Constructor
+     * @param nickname the nickname to show
+     * @param color the color of the player
+     */
     NicknamePaneGUI(String nickname, PlayerToken color){
         ColumnConstraints nameCol = new ColumnConstraints();
         ColumnConstraints rightCol = new ColumnConstraints();

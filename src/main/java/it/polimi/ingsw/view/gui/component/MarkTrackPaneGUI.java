@@ -6,8 +6,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import java.util.List;
 
+/**
+ * Represent the mark track pane on the player in the GUI
+ */
 public class MarkTrackPaneGUI extends GridPane {
-
+    /**
+     * Constructor of the class, generate the mark token on the mark track pane
+     * @param marks The list of marks
+     */
     MarkTrackPaneGUI(List<PlayerToken> marks){
         RowConstraints markRow = new RowConstraints();
         markRow.setPercentHeight(100);

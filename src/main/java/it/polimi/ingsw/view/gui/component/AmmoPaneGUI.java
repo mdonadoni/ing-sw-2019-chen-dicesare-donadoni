@@ -7,8 +7,13 @@ import javafx.scene.layout.RowConstraints;
 
 import java.util.List;
 
+/**
+ * Represent the Pane for the ammo
+ */
 public class AmmoPaneGUI extends GridPane {
-
+    /**
+     * Number of the columns
+     */
     private static final int NCOL = 3;
 
     public AmmoPaneGUI(List<AmmoColor> ammo){

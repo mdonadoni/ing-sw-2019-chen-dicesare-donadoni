@@ -8,8 +8,14 @@ import javafx.scene.layout.RowConstraints;
 
 import java.util.List;
 
+/**
+ * Represent the damage track pane on the player in the GUI
+ */
 public class DamageTrackPaneGUI extends GridPane {
-
+    /**
+     * Constructor, generates the damage token on the track pane
+     * @param damage the list of damages
+     */
     DamageTrackPaneGUI(List<PlayerToken> damage){
         ColumnConstraints col = new ColumnConstraints();
         col.setPercentWidth(8);

@@ -15,11 +15,28 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent the game board in the GUI
+ */
 public class GameBoardGUI extends FitObject implements SelectableContainer {
+    /**
+     * Image of the board
+     */
     StretchImage boardImage;
+    /**
+     * The board GUI
+     */
     BoardGUI boardGUI;
+    /**
+     * List of weapon GUI
+     */
     List<WeaponGUI> weaponsGUI = new ArrayList<>();
 
+    /**
+     * Constructor of the class, it loads the board image and add weapons,
+     * kill shot track with skulls
+     * @param gameBoard The game board to represent
+     */
     public GameBoardGUI(MiniGameBoard gameBoard) {
         String path = "/gui/boards/" +
                 gameBoard.getBoard().getType().toString().toLowerCase() + ".png";
@@ -117,6 +134,11 @@ public class GameBoardGUI extends FitObject implements SelectableContainer {
         }
     }
 
+    /**
+     * Find selectable weapon
+     * @param uuid UUID of the selectable
+     * @return The selectable weapon
+     */
     @Override
     public Selectable findSelectable(String uuid) {
         for (WeaponGUI w : weaponsGUI) {

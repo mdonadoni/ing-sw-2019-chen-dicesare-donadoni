@@ -15,16 +15,35 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Represent the model in the GUI
+ */
 public class ModelGUI extends GridPane implements SelectableContainer {
-
+    /**
+     * Space for the board
+     */
     private static final double BOARDSPACE = 65;
-
+    /**
+     * The pane with the other players
+     */
     private OtherPlayersPaneGUI otherPlayers;
+    /**
+     * The game board GUI
+     */
     private GameBoardGUI gameBoard;
+    /**
+     * The player pane
+     */
     private PlayerPaneGUI player;
+    /**
+     * The action pane
+     */
     private ActionsPaneGUI actions;
 
+    /**
+     * Constructor generate the model for the player
+     * @param miniModel
+     */
     public ModelGUI(MiniModel miniModel){
         GridUtils.setPercentColumns(this, BOARDSPACE, 100.0 - BOARDSPACE);
         GridUtils.setPercentRows(this, 66.6, 33.3);
@@ -57,6 +76,11 @@ public class ModelGUI extends GridPane implements SelectableContainer {
         add(scroll, 1, 0, 1, 2);
     }
 
+    /**
+     * Find selectable object (game board, action, player, other players)
+     * @param uuid UUID of the selectable
+     * @return the selectable object (game board, action, player, other players)
+     */
     @Override
     public Selectable findSelectable(String uuid) {
         Selectable res = gameBoard.findSelectable(uuid);

@@ -10,12 +10,27 @@ import javafx.scene.layout.RowConstraints;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent the power-up pane in the GUI
+ */
 public class PowerUpPaneGUI extends GridPane implements SelectableContainer {
+    /**
+     * THe pad
+     */
     private static final double PAD = 3;
+    /**
+     * Maximum amount of power-up
+     */
     private static final int MAX_POWERUP = 4;
-
+    /**
+     * List of power-up GUI
+     */
     private List<PowerUpGUI> powerupsGUI = new ArrayList<>();
 
+    /**
+     * Constructor
+     * @param powerups the list of power-ups
+     */
     public PowerUpPaneGUI(List<MiniPowerUp> powerups) {
         // There are MAX_POWERUP+1 pad columns
         ColumnConstraints padCol = new ColumnConstraints();
@@ -40,6 +55,11 @@ public class PowerUpPaneGUI extends GridPane implements SelectableContainer {
         }
     }
 
+    /**
+     * Find selectable power-up
+     * @param uuid UUID of the selectable
+     * @return the selectable power-up GUI
+     */
     @Override
     public Selectable findSelectable(String uuid) {
         for (PowerUpGUI p : powerupsGUI) {
