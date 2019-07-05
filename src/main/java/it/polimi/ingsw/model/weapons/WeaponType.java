@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.weapons;
 
 /**
- * Enumeration of the types of weapon.
+ * Enumeration of the types of weapon available in the deck.
  */
 public enum WeaponType {
     CYBERBLADE,

@@ -33,6 +33,9 @@ public class MovementEffect extends Effect {
         setValue(value);
     }
 
+    /**
+     * Standard constructor
+     */
     public MovementEffect(){
     }
 

@@ -28,6 +28,10 @@ public class PlayerTarget extends Target {
                         @JsonProperty("inherited") boolean inh){
         super(numTargets, vis, minD, maxD, excl, inh);
     }
+
+    /**
+     * Standard constructor
+     */
     public PlayerTarget(){
 
     }

@@ -54,6 +54,9 @@ public class Deck<T> {
         return availableCards.pop();
     }
 
+    /**
+     * @return The card on top of the deck, but doesn't remove it from the deck
+     */
     public T peek(){
         return availableCards.get(0);
     }

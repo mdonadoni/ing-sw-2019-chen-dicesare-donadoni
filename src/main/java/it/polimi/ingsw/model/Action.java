@@ -181,22 +181,39 @@ public class Action extends Identifiable{
         return boardNotFlippedRequired;
     }
 
+    /**
+     * Sets whether the action can be done by a player that makes his Final Frenzy turn before the first player
+     * @param val true or false
+     */
     public void setBeforeFirstPlayer(boolean val){
         beforeFirstPlayer = val;
     }
 
+    /**
+     * @return Whether the the action can be done by a player that makes his Final Frenzy turn before the first player
+     */
     public boolean getBeforeFirstPlayer(){
         return  beforeFirstPlayer;
     }
 
+    /**
+     * Sets whether the action can be done always, in any case
+     * @param val true or false
+     */
     public void setAlwaysavailable(boolean val){
         alwaysavailable = val;
     }
 
+    /**
+     * @return Gets whether the action can be done always, in any case
+     */
     public boolean getAlwaysavailable(){
         return alwaysavailable;
     }
 
+    /**
+     * @return The list of BasicAction in this Action object
+     */
     public List<BasicAction> getActions(){
         return actions;
     }

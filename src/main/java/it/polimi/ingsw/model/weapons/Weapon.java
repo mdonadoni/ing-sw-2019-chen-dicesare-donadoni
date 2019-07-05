@@ -28,6 +28,9 @@ public class Weapon extends Identifiable {
      */
     private ArrayList<Attack> attacks = new ArrayList<>();
 
+    /**
+     * Standard constructor
+     */
     public Weapon(){
 
     }
@@ -40,42 +43,82 @@ public class Weapon extends Identifiable {
         this.name = name;
     }
 
+    /**
+     * Setter for the name of the weapon
+     * @param name The name of the weapon
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Getter for the name of the weapon
+     * @return The name of the weapon
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Getter for the charged property
+     * @return Whether the weapon is charged
+     */
     public Boolean isCharged() {
         return charged;
     }
 
+    /**
+     * Setter for the charged property
+     * @param charged Whether the weapon is charged
+     */
     public void setCharged(Boolean charged) {
         this.charged = charged;
     }
 
+    /**
+     * Getter for the pickup cost, in ammo
+     * @return The pickup cost
+     */
     public List<AmmoColor> getPickupColor() {
         return pickupColor;
     }
 
+    /**
+     * Adds a single ammo to the pickup cost of the weapon
+     * @param ammo The ammo to be added to the cost
+     */
     public void addPickupColor(AmmoColor ammo) {
         pickupColor.add(ammo);
     }
 
+    /**
+     * Getter for the additional recharge cost
+     * @return The color of the additional ammo requested to recharge this weapon
+     */
     public AmmoColor getAdditionalRechargeColor() {
         return additionalRechargeColor;
     }
 
+    /**
+     * Setter for the additional recharge cost
+     * @param additionalRechargeColor The ammo color to be set
+     */
     public void setAdditionalRechargeColor(AmmoColor additionalRechargeColor) {
         this.additionalRechargeColor = additionalRechargeColor;
     }
 
+    /**
+     * Getter for the attacks list
+     * @return The list of the attacks
+     */
     public List<Attack> getAttacks(){
         return attacks;
     }
 
+    /**
+     * Adds an attack to the list
+     * @param attack The attack to be added
+     */
     public void addAttack(Attack attack){
         attacks.add(attack);
     }

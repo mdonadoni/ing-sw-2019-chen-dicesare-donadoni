@@ -12,8 +12,19 @@ import java.util.List;
  * This class represent the
  */
 public class SquareTarget extends Target {
+    /**
+     * Number of player per Square this Target object can hit
+     */
     private int numberOfPlayers;
+    /**
+     * Maximum player distance from any of the squares selected as target
+     */
     private int maxPlayerDistance;
+    /**
+     * The name might be inaccurate, but states whether one of the target squares is fixed for a later effect/attack.
+     * When 2 or more squares are selected as target, the nearest one from the attacker is set as fixed, in the
+     * FIX_FARTHEST property is set in the Special field, the farthest one is selected to be fixed
+     */
     private boolean vortex;
 
     /**
@@ -47,30 +58,58 @@ public class SquareTarget extends Target {
         this.vortex = vortex;
     }
 
+    /**
+     * Copying constructor
+     * @param target The target to copy
+     */
     public SquareTarget(Target target){
         super(target);
     }
 
+    /**
+     * Getter for the number of player per Square this Target object can hit
+     * @return The number of player per Square this Target object can hit
+     */
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
+    /**
+     * Setter for the number of player per Square this Target object can hit
+     * @param numberOfPlayers he number of player per Square this Target object can hit
+     */
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
 
+    /**
+     * Getter for the maximum player distance from any of the squares selected as target
+     * @return The maximum player distance from any of the squares selected as target
+     */
     public int getPlayerMaxDistance() {
         return maxPlayerDistance;
     }
 
+    /**
+     * Setter for the maximum player distance from any of the squares selected as target
+     * @param maxDistance The maximum player distance from any of the squares selected as target
+     */
     public void setMaxPlayerDistance(int maxDistance) {
         this.maxPlayerDistance = maxDistance;
     }
 
+    /**
+     * Getter for the vortex property
+     * @return Whether this target fixes a square
+     */
     public boolean isVortex() {
         return vortex;
     }
 
+    /**
+     * Setter for the vortex property
+     * @param vortex Whether this target fixes a square
+     */
     public void setVortex(boolean vortex) {
         this.vortex = vortex;
     }

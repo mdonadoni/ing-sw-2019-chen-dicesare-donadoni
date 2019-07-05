@@ -17,7 +17,7 @@ public class Board {
     private Map<Coordinate, SpawnPoint> coordToSpawnPoint;
 
     /**
-     * Maps coordinate do corresponding StandardSquare.
+     * Maps coordinate to corresponding StandardSquare.
      */
     private Map<Coordinate, StandardSquare> coordToStandardSquare;
 

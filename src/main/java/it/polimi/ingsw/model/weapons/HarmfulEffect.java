@@ -25,6 +25,9 @@ public class HarmfulEffect extends Effect {
         this.type = type;
     }
 
+    /**
+     * Default constructor
+     */
     public HarmfulEffect(){
 
     }
