@@ -21,28 +21,50 @@ import javafx.scene.paint.ImagePattern;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-
+/**
+ * Pane for the login
+ */
 public class LoginPane extends GridPane {
 
     private static final String SOCKET = "Socket";
     private static final String RMI = "RMI";
     private static final String BACKGROUND_PATH = "/gui/loginBackground.jpg";
-
+    /**
+     * text field for the address server
+     */
     @FXML
     private TextField serverField;
+    /**
+     * choice box for the type of protocol
+     */
     @FXML
     private ChoiceBox<String> protocolBox;
+    /**
+     * text field for the port
+     */
     @FXML
     private TextField portField;
+    /**
+     * text field for the nickname
+     */
     @FXML
     private TextField nicknameField;
+    /**
+     * Login button
+     */
     @FXML
     private Button loginButton;
-
+    /**
+     * Login call back
+     */
     private BiConsumer<LoginInfo, Consumer<LoginResult>> loginCallback;
-
+    /**
+     * Connected property
+     */
     private BooleanProperty connected;
-
+    /**
+     * Constructor, load the pane from file
+     */
     public LoginPane() {
         Loader.load("/gui/fxml/LoginPane.fxml", this);
 
@@ -54,13 +76,17 @@ public class LoginPane extends GridPane {
         Background background = new Background(backgroundFill);
         setBackground(background);
     }
-
+    /**
+     * Initialize the pane
+     */
     @FXML
     private void initialize() {
         protocolBox.getItems().addAll(SOCKET, RMI);
         protocolBox.setValue(SOCKET);
     }
-
+    /**
+     * Handle the login button
+     */
     @FXML
     private void handleLoginClick() {
         // Disable login button
@@ -108,11 +134,17 @@ public class LoginPane extends GridPane {
             )
         ).start();
     }
-
+    /**
+     * Get the connection property
+     * @return the boolean property of the connection
+     */
     public ReadOnlyBooleanProperty connectedProperty() {
         return connected;
     }
-
+    /**
+     * Set the login callback
+     * @param loginCallback the login callback to set
+     */
     public void setLoginCallback(BiConsumer<LoginInfo, Consumer<LoginResult>> loginCallback) {
         this.loginCallback = loginCallback;
     }

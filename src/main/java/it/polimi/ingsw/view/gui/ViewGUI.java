@@ -18,11 +18,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The GUI view
+ */
 public class ViewGUI extends Application {
+    /**
+     * Main stage
+     */
     Stage primaryStage;
+    /**
+     *
+     */
     DummyViewGUI dummy;
+    /**
+     * Main Pane
+     */
     UserViewGUI mainPane;
 
+    /**
+     * Start the GUI view
+     * @param primaryStage the primary stage of the GUI
+     */
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -50,6 +66,9 @@ public class ViewGUI extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Stop the GUI view, close the connection
+     */
     @Override
     public void stop() {
         dummy.closeConnection();
@@ -57,6 +76,14 @@ public class ViewGUI extends Application {
         System.exit(0);
     }
 
+    /**
+     * Select on the GUI
+     * @param objUuid List of objects
+     * @param min the minimum object
+     * @param max the maximum object
+     * @param dialog the dialog to set on the main pane
+     * @return Selected object
+     */
     public List<String> selectObject(List<String> objUuid, int min, int max, Dialog dialog) {
         // find selectables
         List<Selectable> selectables = new ArrayList<>();
@@ -80,6 +107,10 @@ public class ViewGUI extends Application {
         return selected;
     }
 
+    /**
+     * Show a message
+     * @param message the message to show
+     */
     public void showMessage(String message) {
         Platform.runLater(() -> Notification.newNotification(message));
     }
@@ -93,6 +124,9 @@ public class ViewGUI extends Application {
         Platform.runLater(() -> primaryStage.getScene().setRoot(new StandingsPane(standings)));
     }
 
+    /**
+     * Handle the disconnection of the client
+     */
     public void disconnect() {
         Platform.runLater(() -> {
             Alert dialog = new Alert(Alert.AlertType.CONFIRMATION);
@@ -107,6 +141,10 @@ public class ViewGUI extends Application {
         });
     }
 
+    /**
+     * Main of the class
+     * @param args parameter from the command line
+     */
     public static void main(String[] args) {
         launch(args);
     }

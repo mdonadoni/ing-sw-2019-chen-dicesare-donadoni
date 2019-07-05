@@ -76,7 +76,7 @@ public abstract class LocalView implements View {
     }
 
     /**
-     * Select between list of objects.
+     * Select a between list of objects.
      * @param objUuid List of the UUID of the objects.
      * @param min Minimum objects.
      * @param max Maximum of objects.

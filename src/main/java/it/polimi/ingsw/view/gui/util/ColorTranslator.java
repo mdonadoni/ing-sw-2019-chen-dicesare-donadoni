@@ -4,7 +4,9 @@ package it.polimi.ingsw.view.gui.util;
 import it.polimi.ingsw.model.PlayerToken;
 import javafx.scene.paint.Color;
 
-
+/**
+ * Translate the color
+ */
 public class ColorTranslator {
     /**
      * This class should not be constructed.
