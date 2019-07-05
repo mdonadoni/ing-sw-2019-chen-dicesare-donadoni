@@ -33,6 +33,9 @@ public class PlayerCLI {
         String out;
         ArrayList<String> outList = new ArrayList<>();
         out = ColorCLI.getPlayerColor(player.getColor(), player.getNickname());
+        if (!player.isActive()) {
+            out = ColorCLI.turnStrikethrough(out);
+        }
         space = LENGTH - player.getNickname().length() +2;
         out = CharCli.addSpace(out,space);
         outList.add(out);
