@@ -11,7 +11,13 @@ import java.util.List;
  * This class represents a tile of ammo.
  */
 public class AmmoTile {
+    /**
+     * Maximum amount of ammo.
+     */
     private static final int MAX_AMMO = 3;
+    /**
+     * Minimum amount of ammo.
+     */
     private static final int MIN_AMMO = MAX_AMMO - 1;
     /**
      * List of ammo on the tile.

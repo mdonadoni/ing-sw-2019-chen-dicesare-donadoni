@@ -12,14 +12,14 @@ import java.util.List;
  */
 public class SelectObjectResponse extends Message {
     /**
-     * List of squares' coordinates chosen.
+     * List of Object chosen.
      */
     private ArrayList<String> res;
 
     /**
      * Constructor of SelectObjectResponse.
      * @param uuid UUID of corresponding request.
-     * @param res Result of selectSquares.
+     * @param res Result of selectObjects.
      */
     @JsonCreator
     private SelectObjectResponse(@JsonProperty("uuid") String uuid,
@@ -38,8 +38,8 @@ public class SelectObjectResponse extends Message {
     }
 
     /**
-     * Get selectSquares result.
-     * @return List of squares' coordinates chosen.
+     * Get selectOjbect result.
+     * @return List of ojbect.
      */
     public ArrayList<String> getResult() {
         return res;

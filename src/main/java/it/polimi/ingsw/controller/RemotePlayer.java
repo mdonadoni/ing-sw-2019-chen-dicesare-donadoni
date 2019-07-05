@@ -54,7 +54,9 @@ public class RemotePlayer {
      * Timer for ping messages.
      */
     private Timer pingTimer;
-
+    /**
+     * Used to check the disconnection
+     */
     private Consumer<RemotePlayer> disconnectionCallback;
 
     /**
@@ -168,9 +170,9 @@ public class RemotePlayer {
 
     /**
      * Select between list of objects.
-     * @param objUuid Coordinates of the squares.
-     * @param min Minimum number of squares to be chosen.
-     * @param max Maximum number of squares to be chosen.
+     * @param objUuid List of the UUID of the objects.
+     * @param min Minimum number of objects to be chosen.
+     * @param max Maximum number of objects to be chosen.
      * @param dialog The dialog type
      * @return List of chosen objects.
      * @throws RemoteException If there is an error while making the request.
@@ -260,6 +262,7 @@ public class RemotePlayer {
     }
 
     /**
+     * Return if the player is still connected
      * @return Whether the player is still connected
      */
     public boolean isConnected() {
@@ -267,6 +270,7 @@ public class RemotePlayer {
     }
 
     /**
+     * Return the IGN of the player
      * @return The IGN of the player
      */
     public String getNickname() {
@@ -315,6 +319,7 @@ public class RemotePlayer {
     }
 
     /**
+     * Get the view of this remote player
      * @return The view of this remote player
      */
     public View getView(){
