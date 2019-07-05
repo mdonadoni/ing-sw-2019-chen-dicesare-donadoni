@@ -17,14 +17,37 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Notification for the gui
+ */
 public class Notification {
+    /**
+     * the dimension of the gap
+     */
     private static final long GAP = 20;
+    /**
+     * dimension of the pad
+     */
     private static final long PAD = 10;
+    /**
+     * dimension of the width
+     */
     private static final long WIDTH = 200;
+    /**
+     * dimension of the height
+     */
     private static final long HEIGHT = 80;
+    /**
+     * Duration of the notification
+     */
     private static final Duration NOTIFICATION_DURATION = Duration.seconds(5);
+    /**
+     * Duration of the fade
+     */
     private static final Duration FADE_DURATION = Duration.seconds(0.5);
-
+    /**
+     * List of visible notification
+     */
     private static List<Stage> visibleNotifications = new ArrayList<>();
 
     /**
@@ -32,6 +55,10 @@ public class Notification {
      */
     private Notification() {}
 
+    /**
+     * Create a new notification
+     * @param message the message of the notification
+     */
     public static void newNotification(String message) {
         // Create new window
         Stage popup = new Stage(StageStyle.TRANSPARENT);
@@ -67,12 +94,19 @@ public class Notification {
         popup.show();
     }
 
+    /**
+     * Close the notification
+     * @param popup the popup to close
+     */
     private static void closeNotification(Stage popup) {
         popup.close();
         visibleNotifications.remove(popup);
         fixPositions();
     }
 
+    /**
+     * Fix position on the screen of the notification
+     */
     private static void fixPositions() {
         double screenX = Screen.getPrimary().getBounds().getMinX();
         double screenY = Screen.getPrimary().getBounds().getMinY();

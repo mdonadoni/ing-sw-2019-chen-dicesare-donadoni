@@ -14,10 +14,27 @@ import javafx.scene.text.TextFlow;
 import java.text.MessageFormat;
 import java.util.List;
 
+/**
+ * Represents the standings pane
+ */
 public class StandingsPane extends BorderPane {
+    /**
+     * Dialog message of the final standings
+     */
     private static final String FINAL_STANDINGS = Dialogs.getDialog(Dialog.FINAL_STANDINGS);
+    /**
+     * The format of the standings
+     */
     private static final String STANDINGS_LINE = "{0})  {1}  ({2} punti)";
+    /**
+     * Dimension of the font
+     */
     private static final int FONT_SIZE = 25;
+
+    /**
+     * Constructor of the class
+     * @param standings The list of Standings items
+     */
     public StandingsPane(List<StandingsItem> standings) {
         VBox vbox = new VBox();
         BorderPane.setAlignment(vbox, Pos.CENTER);

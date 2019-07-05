@@ -6,10 +6,21 @@ import javafx.scene.image.Image;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Manager of the image
+ */
 public class ImageManager {
+    /**
+     * Mark for when a player disconnect during a match
+     */
     private static final String PATH_RED_MARK = "/gui/red_mark.png";
-
+    /**
+     * Map the image
+     */
     private static Map<String, Image> imageMap = new HashMap<>();
+    /**
+     * Map the custom image
+     */
     private static Map<String, Image> customImageMap = new HashMap<>();
 
     /**
