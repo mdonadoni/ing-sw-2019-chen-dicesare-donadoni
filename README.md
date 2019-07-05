@@ -25,6 +25,7 @@
 -->
 
 ### Usage
+<span style="color: red;">DISCLAIMER</span>: to maintain the repository clean and lightweight the JARs were published in the _Releases_ section (you can find them [here](https://github.com/mark03/ing-sw-2019-chen-dicesare-donadoni/releases/tag/v1.0))
 - To run the tests: `mvn clean test`
 - To build the application: `mvn clean package`
 
