@@ -5,10 +5,21 @@ import it.polimi.ingsw.model.weapons.Attack;
 
 import java.io.Serializable;
 
+/**
+ * Attack for the client side.
+ */
 public class MiniAttack extends MiniIdentifiable implements Serializable {
+    /**
+     * Serializable UID
+     */
     private static final long serialVersionUID = -5252351186695996350L;
-
+    /**
+     * The id of the attack.
+     */
     private final String id;
+    /**
+     * The bonus movement effect of the attack
+     */
     private final MiniMovement bonusMov;
 
     @JsonCreator
@@ -17,6 +28,10 @@ public class MiniAttack extends MiniIdentifiable implements Serializable {
         bonusMov = null;
     }
 
+    /**
+     * Constructor of the class
+     * @param atk The Attack to convert
+     */
     public MiniAttack(Attack atk){
         super(atk.getUuid());
         this.id = atk.getDescriptionId();

@@ -76,12 +76,12 @@ public abstract class LocalView implements View {
     }
 
     /**
-     * Select a square from a list of squares.
-     * @param objUuid Coordinates of the squares.
-     * @param min Minimum number of squares to be chosen.
-     * @param max Maximum number of squares to be chosen.
+     * Select between list of objects.
+     * @param objUuid List of the UUID of the objects.
+     * @param min Minimum objects.
+     * @param max Maximum of objects.
      * @param dialog The dialog type
-     * @return List of selected squares' coordinates.
+     * @return List of selected object.
      */
     @Override
     public abstract ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, Dialog dialog);

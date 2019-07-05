@@ -9,12 +9,20 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Server launcher
+ */
 public class ServerLauncher {
+    /**
+     * Logger of the class
+     */
     private static final Logger LOG = Logger.getLogger(ServerLauncher.class.getName());
 
 
-
-
+    /**
+     * The main of the server
+     * @param args Parameter on the command line
+     */
     public static void main(String[] args) {
         final Option hostname = new Option("hostname", true, "hostname or ip of the server");
         final Option lobbyTimeout = new Option("lobbyTimeout", true, "timeout before starting lobby in seconds");

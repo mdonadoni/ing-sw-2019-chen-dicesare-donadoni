@@ -10,11 +10,25 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Board for the client side.
+ */
 public class MiniBoard implements Serializable {
+    /**
+     * Serializable UID
+     */
     private static final long serialVersionUID = 6047170014618238453L;
-
+    /**
+     * List of spawn points
+     */
     private ArrayList<MiniSpawnPoint> spawnPoints;
+    /**
+     * List of standard squares
+     */
     private ArrayList<MiniStandardSquare> standardSquares;
+    /**
+     * Type of board
+     */
     private BoardType type;
 
     @JsonCreator
@@ -24,6 +38,10 @@ public class MiniBoard implements Serializable {
         type = null;
     }
 
+    /**
+     * Constructor of the class
+     * @param board The Board to convert
+     */
     MiniBoard(Board board) {
         type = board.getType();
 

@@ -8,12 +8,29 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GameBoard for the client side
+ */
 public class MiniGameBoard implements Serializable {
+    /**
+     * Serializable UID
+     */
     private static final long serialVersionUID = -2599886836431833259L;
-
+    /**
+     * Initial number of skull
+     */
     private final int initialSkullNumber;
+    /**
+     * The remaining amount of skulls
+     */
     private final int remainingSkulls;
+    /**
+     * The kill shot track
+     */
     private final ArrayList<ArrayList<PlayerToken>> killShotTrack;
+    /**
+     * The board with spawn points and std squares
+     */
     private final MiniBoard board;
 
     @JsonCreator
@@ -24,6 +41,10 @@ public class MiniGameBoard implements Serializable {
         this.board = null;
     }
 
+    /**
+     * Constructor of the class
+     * @param gameBoard The GameBoard to convert
+     */
     MiniGameBoard(GameBoard gameBoard) {
         this.initialSkullNumber = gameBoard.getInitialSkullNumber();
         this.remainingSkulls = gameBoard.getRemainingSkulls();
