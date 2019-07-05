@@ -85,6 +85,9 @@ public class GameController implements Runnable{
         List<PowerUp> tempPowerUps = new ArrayList<>();
         RemotePlayer remotePlayer = remotePlayers.get(player.getNickname());
 
+        updater.updateModelToEveryone();
+
+        // TODO: fix
         remotePlayer.setTimeLeft(60000);
 
         LOG.log(Level.INFO, "Starting a spawn routine for {0}", player.getNickname());

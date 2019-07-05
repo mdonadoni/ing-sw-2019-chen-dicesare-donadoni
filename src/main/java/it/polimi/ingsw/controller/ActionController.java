@@ -163,11 +163,12 @@ public class ActionController {
                     paymentGateway.payCost(currentWeapon.getTotalRechargeCost(), player, remotePlayer);
                     // Set the recharge flag
                     currentWeapon.setCharged(true);
+                    updater.updateModel(playerName);
                 }
             }
         }
 
-        updater.updateModel(playerName);
+        updater.updateModelToEveryone();
     }
 
     /**

@@ -147,6 +147,7 @@ public class ShootController {
                     selected = selectableAdditional;
                 }
                 else{ // Standard path, go on with the attack selection
+                    bonusMovementExpended = bonusMovement(player, attack, bonusMovementExpended);
                     selected = remotePlayer.selectIdentifiable(selectableAdditional, 0, 1, Dialog.WEAPON_ATTACK);
                 }
 
