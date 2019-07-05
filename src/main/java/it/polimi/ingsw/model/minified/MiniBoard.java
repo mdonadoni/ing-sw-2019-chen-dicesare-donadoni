@@ -56,14 +56,26 @@ public class MiniBoard implements Serializable {
         }
     }
 
+    /**
+     * Get list of spawnpoints.
+     * @return List of spawnpoints.
+     */
     public List<MiniSpawnPoint> getSpawnPoints() {
         return new ArrayList<>(spawnPoints);
     }
 
+    /**
+     * Get list of standard squares.
+     * @return List of standard squares.
+     */
     public List<MiniStandardSquare> getStandardSquares() {
         return new ArrayList<>(standardSquares);
     }
 
+    /**
+     * Get type of board.
+     * @return type of board.
+     */
     public BoardType getType() {
         return type;
     }

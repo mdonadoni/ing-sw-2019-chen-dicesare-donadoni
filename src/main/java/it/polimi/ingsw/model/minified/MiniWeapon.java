@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Weapon for the clent side.
+ */
 public class MiniWeapon extends MiniIdentifiable implements Serializable {
-
     private static final long serialVersionUID = -5440998506651868180L;
     private final String name;
     private final boolean charged;
@@ -27,6 +29,10 @@ public class MiniWeapon extends MiniIdentifiable implements Serializable {
         attacks = null;
     }
 
+    /**
+     * Construct a MiniWeapon from a full Weapon.
+     * @param weapon Weapon to be copied.
+     */
     public MiniWeapon(Weapon weapon) {
         super(weapon.getUuid());
         this.name = weapon.getName();
@@ -46,22 +52,42 @@ public class MiniWeapon extends MiniIdentifiable implements Serializable {
         }
     }
 
+    /**
+     * Get name of weapon.
+     * @return Name of weapon.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Get whether the weapon is charged.
+     * @return True if charged, false otherwise.
+     */
     public boolean isCharged() {
         return charged;
     }
 
+    /**
+     * Get pickup cost of the weapon.
+     * @return List of ammo colors.
+     */
     public List<AmmoColor> getPickupColor() {
         return pickupColor;
     }
 
+    /**
+     * Get additional cost for recharging.
+     * @return Color of the additional ammo.
+     */
     public AmmoColor getAdditionalRechargeColor() {
         return additionalRechargeColor;
     }
 
+    /**
+     * Get list of attacks of this weapon.
+     * @return List of attacks.
+     */
     public List<MiniAttack> getAttacks() {
         return attacks;
     }

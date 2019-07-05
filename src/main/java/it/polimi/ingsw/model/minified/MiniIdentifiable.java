@@ -33,6 +33,10 @@ public class MiniIdentifiable implements Serializable {
 
     }
 
+    /**
+     * Get uuid of the identifiable.
+     * @return UUID of the identifiable.
+     */
     public String getUuid() {
         return uuid;
     }

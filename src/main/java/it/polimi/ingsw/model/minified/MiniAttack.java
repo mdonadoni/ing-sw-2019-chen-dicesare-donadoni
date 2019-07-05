@@ -23,7 +23,7 @@ public class MiniAttack extends MiniIdentifiable implements Serializable {
     private final MiniMovement bonusMov;
 
     @JsonCreator
-    public MiniAttack(){
+    private MiniAttack(){
         id = null;
         bonusMov = null;
     }
@@ -43,14 +43,26 @@ public class MiniAttack extends MiniIdentifiable implements Serializable {
         }
     }
 
+    /**
+     * Get identifier of this attack.
+     * @return Identifier of this attack.
+     */
     public String getId(){
         return id;
     }
 
+    /**
+     * Returns whether this attack has a bonus movement.
+     * @return True if this attack has a bonus movement, false otherwise.
+     */
     public boolean hasBonusMovement() {
         return bonusMov != null;
     }
 
+    /**
+     * Returns the bonus movement.
+     * @return The bonus movement.
+     */
     public MiniMovement getBonusMovement() {
         return bonusMov;
     }

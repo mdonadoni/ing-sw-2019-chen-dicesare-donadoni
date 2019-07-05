@@ -53,18 +53,34 @@ public class MiniGameBoard implements Serializable {
         this.board = new MiniBoard(gameBoard.getBoard());
     }
 
+    /**
+     * Get initial number of skulls inside the killshot track.
+     * @return Initial number of skulls.
+     */
     public int getInitialSkullNumber() {
         return initialSkullNumber;
     }
 
+    /**
+     * Get the remaining number of skulls inside the killshot track.
+     * @return Remaining number of skulls.
+     */
     public int getRemainingSkulls() {
         return remainingSkulls;
     }
 
+    /**
+     * Get killshot track.
+     * @return Kilshot track.
+     */
     public List<ArrayList<PlayerToken>> getKillShotTrack() {
         return killShotTrack;
     }
 
+    /**
+     * Get board.
+     * @return Board.
+     */
     public MiniBoard getBoard() {
         return board;
     }
