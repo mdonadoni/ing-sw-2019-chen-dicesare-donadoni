@@ -25,6 +25,9 @@ public class MiniIdentifiable implements Serializable {
         this.uuid = uuid;
     }
 
+    /**
+     * Constructor of the class
+     */
     @JsonCreator
     MiniIdentifiable() {
 

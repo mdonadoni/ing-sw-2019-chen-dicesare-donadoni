@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.GridPane?>
-
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 <fx:root xmlns="http://javafx.com/javafx/11.0.1"
          xmlns:fx="http://javafx.com/fxml/1"
          type="GridPane"
@@ -14,31 +12,56 @@
          vgap="10.0">
 
     <!-- Server -->
-    <Label text="Server"/>
+    <Label text="Server" textFill="WHITE" style="-fx-font-weight: bold;">
+        <effect>
+            <DropShadow color="BLACK"/>
+        </effect>
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Label>
     <TextField fx:id="serverField"
                text="localhost"
                prefWidth="200.0"
                GridPane.columnIndex="1"/>
 
     <!-- Protocol -->
-    <Label text="Protocollo"
-           GridPane.rowIndex="1"/>
+    <Label text="Protocollo" GridPane.rowIndex="1" textFill="WHITE" style="-fx-font-weight: bold;">
+        <effect>
+            <DropShadow color="BLACK"/>
+        </effect>
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Label>
     <ChoiceBox fx:id="protocolBox"
                prefWidth="200.0"
                GridPane.rowIndex="1"
                GridPane.columnIndex="1"/>
 
     <!-- Port -->
-    <Label text="Porta"
-           GridPane.rowIndex="2"/>
+    <Label text="Porta" GridPane.rowIndex="2" textFill="WHITE" style="-fx-font-weight: bold;">
+        <effect>
+            <DropShadow color="BLACK"/>
+        </effect>
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Label>
     <TextField fx:id="portField"
                text="9999"
                GridPane.rowIndex="2"
                GridPane.columnIndex="1"/>
 
     <!-- Nickname -->
-    <Label text="Nickname"
-           GridPane.rowIndex="3"/>
+    <Label text="Nickname" GridPane.rowIndex="3" textFill="WHITE" style="-fx-font-weight: bold;">
+        <effect>
+            <DropShadow color="BLACK"/>
+        </effect>
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Label>
     <TextField fx:id="nicknameField"
                GridPane.rowIndex="3"
                GridPane.columnIndex="1"/>
