@@ -8,6 +8,9 @@ import it.polimi.ingsw.model.Square;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents a Target that hits players
+ */
 public class PlayerTarget extends Target {
 
     /**
