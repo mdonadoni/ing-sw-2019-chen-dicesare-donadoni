@@ -24,6 +24,7 @@ public class UserViewGUI extends BorderPane {
     private ModelGUI modelGUI = null;
     private Text textDialog;
     private Text textPoints;
+    private Text textCurrentPlayer;
 
 
     public UserViewGUI() {
@@ -37,22 +38,28 @@ public class UserViewGUI extends BorderPane {
         confirmButton = new Button(CONFIRM);
         confirmButton.setDisable(true);
 
+        Font font  = new Font(FONT_SIZE);
         // Points
         textPoints = new Text();
         textPoints.setFill(Color.WHITE);
-        textPoints.setFont(new Font(FONT_SIZE));
+        textPoints.setFont(font);
         setPoints(0);
+
+        // Current Player
+        textCurrentPlayer = new Text();
+        textCurrentPlayer.setFill(Color.WHITE);
+        textCurrentPlayer.setFont(font);
 
         // Bottom
         HBox hbox = new HBox();
         hbox.setSpacing(20);
-        hbox.getChildren().addAll(confirmButton, textPoints);
+        hbox.getChildren().addAll(confirmButton, textPoints, textCurrentPlayer);
         setBottom(hbox);
 
         // Dialog text
         textDialog = new Text();
         textDialog.setFill(Color.WHITE);
-        textDialog.setFont(new Font(FONT_SIZE));
+        textDialog.setFont(font);
         TextFlow flow = new TextFlow(textDialog);
         setTop(flow);
     }
@@ -62,6 +69,7 @@ public class UserViewGUI extends BorderPane {
         Platform.runLater(() -> {
             setCenter(modelGUI);
             setPoints(model.getMyPoints());
+            setCurrentPlayer(model.getMatch().getCurrentTurn().getCurrentPlayer());
         });
     }
 
@@ -80,6 +88,10 @@ public class UserViewGUI extends BorderPane {
 
     private void setPoints(int points) {
         textPoints.setText(Dialogs.getDialog(Dialog.POINTS, Integer.toString(points)));
+    }
+
+    private void setCurrentPlayer(String player) {
+        textCurrentPlayer.setText(Dialogs.getDialog(Dialog.CURRENT_PLAYER, player));
     }
 
     public void removeDialog() {
