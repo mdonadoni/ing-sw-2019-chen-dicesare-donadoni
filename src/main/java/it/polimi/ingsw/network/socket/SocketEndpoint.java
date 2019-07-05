@@ -243,11 +243,11 @@ public class SocketEndpoint<RequestIn extends Message> implements Closeable, Run
                 }
             } catch (IOException e) {
                 if (connected.get()) {
-                    LOG.log(Level.WARNING, "IO error while reading socket", e);
+                    LOG.log(Level.WARNING, "IO error while reading socket");
                 }
                 safeClose();
             } catch (ClassCastException e) {
-                LOG.log(Level.WARNING, "Invalid request from socket, disconnecting", e);
+                LOG.log(Level.WARNING, "Invalid request from socket, disconnecting");
                 safeClose();
             }
         }

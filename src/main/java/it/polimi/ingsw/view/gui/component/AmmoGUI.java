@@ -4,9 +4,19 @@ import it.polimi.ingsw.model.AmmoColor;
 import it.polimi.ingsw.view.gui.util.ResizableImage;
 import javafx.scene.layout.*;
 
+/**
+ * Represent the ammo in the GUI
+ */
 public class AmmoGUI extends GridPane {
+    /**
+     * Dimension of the padding
+     */
     public static final double PAD = 25;
 
+    /**
+     * Constructor of the class
+     * @param color ammo to show
+     */
     public AmmoGUI(AmmoColor color){
         ColumnConstraints padCol = new ColumnConstraints();
         ColumnConstraints ammoCol = new ColumnConstraints();

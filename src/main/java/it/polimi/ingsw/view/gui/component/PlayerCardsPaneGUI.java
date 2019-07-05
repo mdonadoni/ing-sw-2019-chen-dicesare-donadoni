@@ -9,13 +9,32 @@ import javafx.scene.layout.GridPane;
 
 import java.util.List;
 
+/**
+ * Represent the player's card pane
+ */
 public class PlayerCardsPaneGUI extends GridPane implements SelectableContainer {
+    /**
+     * Space for the weapon
+     */
     private static final double WEAPONSPACE = 50;
-
+    /**
+     * Set if the weapon is reduced
+     */
     boolean reduced;
+    /**
+     * The weapon pane
+     */
     private WeaponPaneGUI weaponPane;
+    /**
+     * The power-up pane
+     */
     private PowerUpPaneGUI powerupPane;
 
+    /**
+     * Constructor of the class, show on the gui the player's weapons and power-ups
+     * @param weapons List of player's weapon
+     * @param powerUps List of player's power-up
+     */
     public PlayerCardsPaneGUI(List<MiniWeapon> weapons, List<MiniPowerUp> powerUps){
         GridUtils.setPercentRows(this, 100);
         if (powerUps == null) {
@@ -35,10 +54,19 @@ public class PlayerCardsPaneGUI extends GridPane implements SelectableContainer 
         }
     }
 
+    /**
+     * Constructor with no power-up
+     * @param weapons the list of weapons
+     */
     public PlayerCardsPaneGUI(List<MiniWeapon> weapons){
         this(weapons, null);
     }
 
+    /**
+     * Find selectable object (weapon or power-up)
+     * @param uuid UUID of the selectable
+     * @return the selectable
+     */
     @Override
     public Selectable findSelectable(String uuid) {
         Selectable res = weaponPane.findSelectable(uuid);

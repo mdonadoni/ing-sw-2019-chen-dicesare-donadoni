@@ -6,7 +6,14 @@ import it.polimi.ingsw.view.gui.util.ResizableImage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent the ammo tile in the GUI
+ */
 public class AmmoTileGUI extends ResizableImage {
+    /**
+     * Constructor of the class, load the assets for the tile
+     * @param tile The tile to represent
+     */
     public AmmoTileGUI(MiniAmmoTile tile) {
         // Every asset has the initials of the colors as the name
         // If there is a powerup the name starts with "p"

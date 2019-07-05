@@ -11,9 +11,19 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent the pane with the other players in the match
+ */
 public class OtherPlayersPaneGUI extends GridPane implements SelectableContainer {
+    /**
+     * List of the other players
+     */
     List<PlayerPaneGUI> playerPanes = new ArrayList<>();
 
+    /**
+     * Constructor generate the graphics of the other players
+     * @param players the other players
+     */
     public OtherPlayersPaneGUI(List<MiniPlayer> players){
         int numberOfPlayers = players.size();
 
@@ -35,6 +45,11 @@ public class OtherPlayersPaneGUI extends GridPane implements SelectableContainer
         setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
+    /**
+     * Find selectable player
+     * @param uuid UUID of the selectable player
+     * @return selectable player
+     */
     @Override
     public Selectable findSelectable(String uuid) {
         for (PlayerPaneGUI p : playerPanes) {

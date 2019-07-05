@@ -11,9 +11,21 @@ import javafx.scene.layout.RowConstraints;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represent the board in the GUI
+ */
 public class BoardGUI extends GridPane implements SelectableContainer {
+    /**
+     * List of squares
+     */
     List<SquareGUI> squaresGUI = new ArrayList<>();
 
+    /**
+     * Constructor of the class, generate the board with its squares
+     * @param board The board to represent
+     * @param numCols number of columns
+     * @param numRows number of rows
+     */
     public BoardGUI(MiniBoard board, int numCols, int numRows) {
         double colWidth = 100.0 / numCols;
         double rowHeight = 100.0 / numRows;
@@ -47,6 +59,11 @@ public class BoardGUI extends GridPane implements SelectableContainer {
         });
     }
 
+    /**
+     * Find selectable square
+     * @param uuid UUID of the selectable
+     * @return the selectable square
+     */
     @Override
     public Selectable findSelectable(String uuid) {
         for (SquareGUI sq : squaresGUI) {

@@ -39,6 +39,7 @@ Some server settings can be customized by command line parameters.
 In particular:
 - `--turnTimeout <value>` sets the timeout for a single turn of the game in seconds.
 - `--lobbyTimeout <value>` sets the timeout in seconds before the start of a new match when at least 3 players are inside the lobby. If at some moment in time the lobby is full (5 players), the match starts immediately.
+- `--singleActionTimeout <value>` sets the timeout for single actions that are done outside the turn (in particular respawn and the use of the tagback granade, since both of them are actions made outside of the turn of a player).
 - `--skulls <value>` sets the number of skulls in a game (min: 1, max: 8).
 - `--hostname <value>` sets the hostname or IP address of the server. This should always be used and should have the IP address/hostname of the server as value. This is needed to make RMI work on LAN.
 - `--rmiPort <value>` sets the port where the RMI registry will be created.
