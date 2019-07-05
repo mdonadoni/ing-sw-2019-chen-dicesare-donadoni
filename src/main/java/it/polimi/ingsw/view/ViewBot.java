@@ -68,29 +68,29 @@ public class ViewBot extends LocalView implements Runnable {
      */
     @Override
     public synchronized ArrayList<String> selectObject(ArrayList<String> objUuid, int min, int max, Dialog dialog) {
-        System.out.println("SELECT: " + objUuid + " min " + min + " max " +  max);
+        println("SELECT: " + objUuid + " min " + min + " max " +  max);
 
         // Check if MiniModel actually has what we need to search for
         for (String uuid : objUuid) {
             String desc = Descriptions.find(model, uuid);
             if (desc == null) {
-                System.out.println("ERROR " + uuid);
+                println("ERROR " + uuid);
                 System.exit(1);
             }
 
-            System.out.println(uuid + " " + desc);
+            println(uuid + " " + desc);
         }
 
         ArrayList<String> shuffled = new ArrayList<>(objUuid);
         Collections.shuffle(shuffled, RAND);
 
         if (min > max || min < 0 || max > objUuid.size()) {
-            System.out.println("ERROR wrong min or max");
+            println("ERROR wrong min or max");
             System.exit(2);
         }
 
         ArrayList<String> res = new ArrayList<>(shuffled.subList(0, randInt(min, max)));
-        System.out.println("SELEZIONATO: " + res);
+        println("SELEZIONATO: " + res);
         return res;
     }
 
@@ -100,7 +100,7 @@ public class ViewBot extends LocalView implements Runnable {
      */
     @Override
     public synchronized void showMessage(String message) {
-        System.out.println("MESSAGE: " + message);
+        println("MESSAGE: " + message);
     }
 
     /**
@@ -109,7 +109,7 @@ public class ViewBot extends LocalView implements Runnable {
      */
     @Override
     public synchronized void updateModel(MiniModel model) {
-        System.out.println("NEW MODEL");
+        println("NEW MODEL");
         this.model = model;
     }
 
@@ -119,9 +119,9 @@ public class ViewBot extends LocalView implements Runnable {
      */
     @Override
     public synchronized void notifyEndMatch(ArrayList<StandingsItem> standings) {
-        System.out.println("FINE MATCH");
+        println("FINE MATCH");
         for (StandingsItem s : standings) {
-            System.out.println(
+            println(
                     MessageFormat.format(
                             "{0}) {1} ({2} punti)",
                             s.getPosition(),
@@ -130,18 +130,22 @@ public class ViewBot extends LocalView implements Runnable {
         }
     }
 
+    private synchronized void println(String s) {
+        System.out.println(s);
+    }
+
     /**
      * Run the bot.
      */
     @Override
-    public void run() {
+    public synchronized void run() {
         try {
             connectServer(server, port, connection);
             String name = UUID.randomUUID().toString().substring(0, 5);
-            System.out.println("IO SONO " + name);
+            println("IO SONO " + name);
             getServer().login(name, this);
         } catch (Exception e) {
-            e.printStackTrace();
+            println(e.getMessage());
             closeConnection();
         }
     }
