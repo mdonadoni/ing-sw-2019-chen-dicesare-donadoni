@@ -29,7 +29,6 @@ class ActionControllerTest {
     private PowerUp teleporter;
     private PowerUp newton;
     private PowerUp targeting;
-    private Updater updater;
 
     @BeforeEach
     void setUp(){

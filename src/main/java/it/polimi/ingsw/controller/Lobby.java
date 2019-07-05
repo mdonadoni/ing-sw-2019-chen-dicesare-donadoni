@@ -114,6 +114,11 @@ public class Lobby {
         server.startNewMatch(players);
     }
 
+    /**
+     * States whether a given player is in this lobby
+     * @param player The player wanted
+     * @return Whether the given player is in this lobby
+     */
     public synchronized boolean hasPlayer(RemotePlayer player) {
         return queue.contains(player);
     }

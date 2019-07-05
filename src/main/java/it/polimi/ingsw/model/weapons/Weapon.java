@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.Identifiable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents a Weapon of the game
+ */
 public class Weapon extends Identifiable {
     /**
      * The name of the weapon.

@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * This class represents a Target, which contains all the pieces of information needed to define a class of hittable
+ * squares or players
+ */
 public class Target{
 
     /**

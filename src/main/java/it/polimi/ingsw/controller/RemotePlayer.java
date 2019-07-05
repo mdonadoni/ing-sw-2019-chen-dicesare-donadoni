@@ -15,6 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+/**
+ * This class is a wrapper for the View class and adds functionalities to handle timeouts and disconnections based
+ * on ping
+ */
 public class RemotePlayer {
     /**
      * Logger

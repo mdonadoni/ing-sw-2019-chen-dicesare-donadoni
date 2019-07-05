@@ -2,6 +2,9 @@ package it.polimi.ingsw.model;
 
 import java.util.*;
 
+/**
+ * Class that exposes some generics methods that are useful in various cases
+ */
 public class Util {
     /**
      * This class should not be constructed.
