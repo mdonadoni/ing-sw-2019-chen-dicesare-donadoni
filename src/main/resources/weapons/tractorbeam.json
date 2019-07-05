@@ -43,11 +43,11 @@
       "chainAttack": false,
       "baseFire": [
         {
-          "type": "player",
+          "type": "square",
           "numberOfTargets": 1,
           "visibility": "VISIBLE",
           "minDistance": -1,
-          "maxDistance": -1,
+          "maxDistance": 0,
           "exclusive": false,
           "inherited": false,
           "special": [],
@@ -57,7 +57,7 @@
               "visibleDest": "VISIBLE",
               "value": 2,
               "line": false,
-              "fixed": false,
+              "fixed": true,
               "self": false
             },
             {
@@ -65,7 +65,10 @@
               "value": 3,
               "harm": "DAMAGE"
             }
-          ]
+          ],
+          "maxPlayerDistance": 2,
+          "numberOfPlayers": 1,
+          "vortex": true
         }
       ],
       "additionalAttacks": [],

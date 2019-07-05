@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.minified.MiniModel;
 
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,8 +51,12 @@ public class Updater {
      */
     public void updateModelToEveryone(){
         for(Player player : match.getPlayers()){
-            if(player.isActive())
-                updateModel(player.getNickname());
+            if(!remotePlayers.get(player.getNickname()).isConnected() && player.isActive())
+                handleUpdateFailure(remotePlayers.get(player.getNickname()));
+        }
+
+        for(Player player : match.getActivePlayers()){
+            updateModel(player.getNickname());
         }
     }
 

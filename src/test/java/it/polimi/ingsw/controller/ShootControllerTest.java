@@ -126,16 +126,41 @@ class ShootControllerTest {
         // Inject choices
         adaView.addSelectable(weapon.getAttacks().get(1).getUuid());
         adaView.addSelectable(daniel.getUuid());
-        adaView.addSelectable(board.getSquare(new Coordinate(2, 1)).getUuid());
 
         controller.shoot(ada, weapon);
 
-        assertEquals(daniel.getSquare(), board.getSquare(new Coordinate(2, 1)));
+        assertEquals(daniel.getSquare(), ada.getSquare());
         assertEquals(daniel.getMarks().size(), 0);
         assertEquals(daniel.getDamageTaken().size(), 3);
         assertEquals(daniel.getDamageTaken().get(0), ada.getColor());
         assertFalse(weapon.isCharged());
         assertEquals(ada.getAmmo().size(), 1);
+    }
+
+    @Test
+    void tractorBeamCostyNotVisible() throws RemoteException{
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.TRACTORBEAM);
+        ada.grabWeapon(weapon);
+        ada.move(board.getSquare(new Coordinate(0, 0)));
+        bruce.move(board.getSquare(new Coordinate(1, 2)));
+        charlie.move(board.getSquare(new Coordinate(1, 1)));
+        daniel.move(board.getSquare(new Coordinate(2, 3)));
+
+        ada.addAmmo(AmmoColor.RED);
+        ada.addAmmo(AmmoColor.YELLOW);
+        ada.addAmmo(AmmoColor.BLUE);
+
+        // Shoot at Charlie using the costy Tractor Beam attack
+        adaView.addSelectable(weapon.getAttacks().get(1).getUuid());
+        adaView.addSelectable(charlie.getUuid());
+
+        controller.shoot(ada, weapon);
+
+        assertEquals(ada.getSquare(), charlie.getSquare());
+        assertEquals(charlie.getDamageTaken().size(), 3);
+        assertEquals(bruce.getSquare(), board.getSquare(new Coordinate(1, 2)));
+        assertEquals(ada.getSquare(), board.getSquare(new Coordinate(0,0)));
+        assertEquals(daniel.getSquare(), board.getSquare(new Coordinate(2, 3)));
     }
 
     @Test
