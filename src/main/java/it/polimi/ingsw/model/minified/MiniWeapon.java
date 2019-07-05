@@ -43,6 +43,11 @@ public class MiniWeapon extends MiniIdentifiable implements Serializable {
         visitAttacks(weapon.getAttacks());
     }
 
+    /**
+     * Flatten the list of attacks, since the client doesn't need to know
+     * the relation between attacks since it only needs it to show them.
+     * @param atks List of attack to flatten.
+     */
     private void visitAttacks(List<Attack> atks) {
         for (Attack atk : atks) {
             attacks.add(new MiniAttack(atk));
