@@ -24,7 +24,7 @@ public abstract class LocalView implements View {
     /**
      * Period of the listening of pings from server.
      */
-    private static final long PING_LISTEN_PERIOD = 15000;
+    private static final long PING_LISTEN_PERIOD = 20000;
 
     /**
      * Connection to the server.

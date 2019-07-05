@@ -27,6 +27,7 @@ public class ServerLauncher {
         final Option hostname = new Option("hostname", true, "hostname or ip of the server");
         final Option lobbyTimeout = new Option("lobbyTimeout", true, "timeout before starting lobby in seconds");
         final Option turnTimeout = new Option("turnTimeout", true, "timeout for a single turn of the game in seconds");
+        final Option singleActionTimeout = new Option("singleActionTimeout", true, "timeout for single actions outside of the turn (respawn and tagback granade)");
         final Option skulls = new Option("skulls", true, "number of skulls in a game");
         final Option help = new Option("help", false, "print this helper");
         final Option rmiPort = new Option("rmiPort", true, "rmi port");
@@ -37,6 +38,7 @@ public class ServerLauncher {
         options.addOption(hostname);
         options.addOption(lobbyTimeout);
         options.addOption(turnTimeout);
+        options.addOption(singleActionTimeout);
         options.addOption(skulls);
         options.addOption(help);
         options.addOption(rmiPort);
@@ -64,6 +66,10 @@ public class ServerLauncher {
 
             if (parsed.hasOption(turnTimeout)) {
                 ServerConfig.parseTurnTimeout(parsed.getOptionValue(turnTimeout));
+            }
+
+            if (parsed.hasOption(singleActionTimeout)) {
+                ServerConfig.parseSingleActionTimeout(parsed.getOptionValue(singleActionTimeout));
             }
 
             if (parsed.hasOption(skulls)) {

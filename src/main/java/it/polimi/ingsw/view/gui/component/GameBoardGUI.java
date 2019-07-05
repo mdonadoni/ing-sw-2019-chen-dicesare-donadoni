@@ -99,7 +99,7 @@ public class GameBoardGUI extends FitObject implements SelectableContainer {
             }
 
             // skulls of final frenzy
-            if (gameBoard.getKillShotTrack().size() == initialSkulls+1) {
+            if (gameBoard.getKillShotTrack().size() >= initialSkulls+1) {
                 List<PlayerToken> tokens = gameBoard.getKillShotTrack().get(initialSkulls);
                 for (int t = 0; t < tokens.size(); t++) {
                     Position token = new Position();

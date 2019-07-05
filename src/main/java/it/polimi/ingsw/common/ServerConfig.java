@@ -13,6 +13,7 @@ public class ServerConfig {
 
     private static final String TURN_TIMEOUT = "turnTimeout";
     private static final String LOBBY_TIMEOUT = "lobbyTimeout";
+    private static final String SINGLE_ACTION_TIMEOUT = "singleActionTimeout";
     private static final String MIN_PLAYERS = "minPlayers";
     private static final String MAX_PLAYERS = "maxPlayers";
     private static final String HOSTNAME = "hostname";
@@ -50,6 +51,11 @@ public class ServerConfig {
 
             config.intBuilder(LOBBY_TIMEOUT)
                     .withValue(30)
+                    .withMinValue(1)
+                    .add();
+
+            config.intBuilder(SINGLE_ACTION_TIMEOUT)
+                    .withValue(60)
                     .withMinValue(1)
                     .add();
 
@@ -93,6 +99,10 @@ public class ServerConfig {
         return config.getInt(LOBBY_TIMEOUT);
     }
 
+    public static synchronized int getSingleActionTimeout() {
+        return config.getInt(SINGLE_ACTION_TIMEOUT);
+    }
+
     public static synchronized int getMinPlayers() {
         return config.getInt(MIN_PLAYERS);
     }
@@ -127,6 +137,10 @@ public class ServerConfig {
 
     public static synchronized void parseTurnTimeout(String timeout) {
         config.parseString(TURN_TIMEOUT, timeout);
+    }
+
+    public static synchronized void parseSingleActionTimeout(String timeout) {
+        config.parseString(SINGLE_ACTION_TIMEOUT, timeout);
     }
 
     public static synchronized void parseSkulls(String skulls) {

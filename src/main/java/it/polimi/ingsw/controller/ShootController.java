@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.ServerConfig;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.weapons.*;
@@ -568,6 +569,7 @@ public class ShootController {
         List<PowerUp> tagbackGrenades = tagbacker.getPowerUps().stream()
                 .filter(pwu -> pwu.getType().equals(PowerUpType.TAGBACK_GRANADE))
                 .collect(Collectors.toList());
+        remoteTagbacker.setTimeLeft(ServerConfig.getSingleActionTimeout() * 1000L);
         try{
             List<PowerUp> selected = remoteTagbacker.selectIdentifiable(tagbackGrenades, 0, 1, Dialog.TAGBACK_SELECT);
             if(!selected.isEmpty()){

@@ -33,7 +33,7 @@ public class RemotePlayer {
      * Maximum waiting time for safe requests. Safe requests are "fast" requests
      * that will not throw exceptions when failing.
      */
-    private static final long SAFE_TIMEOUT = 5000;
+    private static final long SAFE_TIMEOUT = 6000;
     /**
      * Reference to view to be decorated.
      */

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.common.ServerConfig;
 import it.polimi.ingsw.common.StandingsItem;
 import it.polimi.ingsw.common.dialogs.Dialog;
 import it.polimi.ingsw.model.*;
@@ -87,8 +88,7 @@ public class GameController implements Runnable{
 
         updater.updateModelToEveryone();
 
-        // TODO: fix
-        remotePlayer.setTimeLeft(60000);
+        remotePlayer.setTimeLeft(ServerConfig.getSingleActionTimeout() * 1000L);
 
         LOG.log(Level.INFO, "Starting a spawn routine for {0}", player.getNickname());
 
@@ -210,7 +210,7 @@ public class GameController implements Runnable{
         int numberOfActivePlayers = (int) match.getPlayers().stream()
                 .filter(Player::isActive)
                 .count();
-        for(int i=0; i<numberOfActivePlayers && match.isActive(); i++){
+        for(int i=0; i<numberOfActivePlayers && match.isActive(); i++) {
             Player currentPlayer = match.getCurrentTurn().getCurrentPlayer();
             checkForPeopleToRespawn();
             try{
