@@ -590,7 +590,7 @@ public class ShootController {
     public void useTargetingscope(Player player, Player victim){
         List<PowerUp> scopes = player.getPowerUps().stream()
                 .filter(pwu -> pwu.getType().equals(PowerUpType.TARGETING_SCOPE))
-                .filter(pwu -> player.canPay(Arrays.asList(pwu.getAmmo())))
+                .filter(pwu -> player.canPay(Collections.singletonList(pwu.getAmmo())))
                 .collect(Collectors.toList());
         RemotePlayer remotePlayer = remoteUsers.get(player.getNickname());
         try{
@@ -600,12 +600,12 @@ public class ShootController {
                     player.removePowerUp(selected.get(0));
                     player.addDrawnPowerUp(selected.get(0));
                     // In case the player can pay the targeting scope using solely THAT targeting scope
-                    if(!player.canPay(Arrays.asList(selected.get(0).getAmmo()))){
+                    if(!player.canPay(Collections.singletonList(selected.get(0).getAmmo()))){
                         player.addPowerUp(selected.get(0));
                         player.clearDrawnPowerUps();
                         return;
                     }
-                    paymentGateway.payCost(Arrays.asList(selected.get(0).getAmmo()), player, remotePlayer);
+                    paymentGateway.payCost(Collections.singletonList(selected.get(0).getAmmo()), player, remotePlayer);
                     powerUpController.activatePowerUp(selected.get(0), player.getNickname(), victim);
                     player.clearDrawnPowerUps();
                     match.getGameBoard().getPowerUpDeck().discard(selected.get(0));

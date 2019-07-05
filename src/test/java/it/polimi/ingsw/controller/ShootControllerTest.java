@@ -350,4 +350,75 @@ class ShootControllerTest {
         assertEquals(charlie.getDamageTaken().size(), 1);
         assertEquals(daniel.getDamageTaken().size(), 2);
     }
+
+    @Test
+    void hellionTest() throws RemoteException{
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.HELLION);
+        ada.grabWeapon(weapon);
+        ada.move(board.getSquare(new Coordinate(1, 3)));
+        bruce.move(board.getSquare(new Coordinate(1, 2)));
+        charlie.move(board.getSquare(new Coordinate(1, 2)));
+        daniel.move(board.getSquare(new Coordinate(1, 1)));
+
+        ada.addAmmo(AmmoColor.RED);
+
+        Attack attack = weapon.getAttacks().get(1);
+        Square targetSquare = board.getSquare(new Coordinate(1, 2));
+
+        // Choices
+        adaView.addSelectable(attack.getUuid());
+        adaView.addSelectable(targetSquare.getUuid());
+        adaView.addSelectable(bruce.getUuid());
+
+        controller.shoot(ada, weapon);
+
+        assertEquals(bruce.getDamageTaken().size(), 1);
+        assertEquals(charlie.getDamageTaken().size(), 0);
+        assertEquals(bruce.getMarks().size(), 2);
+        assertEquals(charlie.getMarks().size(), 2);
+        assertEquals(daniel.getDamageTaken().size(), 0);
+        assertEquals(daniel.getMarks().size(), 0);
+    }
+
+    @Test
+    void furnaceTest() throws RemoteException{
+        weapon = weapon = weaponFactory.createWeapon(WeaponType.FURNACE);
+        ada.grabWeapon(weapon);
+        ada.move(board.getSquare(new Coordinate(0, 1)));
+        bruce.move(board.getSquare(new Coordinate(0, 2)));
+        charlie.move(board.getSquare(new Coordinate(1, 1)));
+        daniel.move(board.getSquare(new Coordinate(1, 2)));
+
+        Attack attack = weapon.getAttacks().get(0);
+        Square validSquare = board.getSquare(new Coordinate(1, 2));
+        Square invalidSquare = board.getSquare(new Coordinate(0, 2));
+
+        // Inject bad choices
+        adaView.addSelectable(attack.getUuid());
+        adaView.addSelectable(invalidSquare.getUuid());
+
+        assertThrows(RemoteException.class, () -> controller.shoot(ada, weapon));
+
+        // Ada comes back from the ashes
+        adaView = new TestView();
+        users.replace("Ada", new RemotePlayer("Ada", adaView));
+        users.get("Ada").setTimeLeft(2000);
+
+        // Good choices
+        adaView.addSelectable(attack.getUuid());
+        adaView.addSelectable(validSquare.getUuid());
+
+        controller.shoot(ada, weapon);
+
+        assertEquals(charlie.getDamageTaken().size(), 1);
+        assertEquals(charlie.getDamageTaken().get(0), ada.getColor());
+        assertEquals(charlie.getMarks().size(), 0);
+        assertEquals(daniel.getDamageTaken().size(), 1);
+        assertEquals(daniel.getDamageTaken().get(0), ada.getColor());
+        assertEquals(daniel.getMarks().size(), 0);
+
+
+
+
+    }
 }
