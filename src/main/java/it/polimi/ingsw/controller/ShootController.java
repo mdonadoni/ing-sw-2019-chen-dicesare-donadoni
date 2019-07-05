@@ -383,13 +383,6 @@ public class ShootController {
                 .distinct()
                 .collect(Collectors.toList());
 
-        if(target.isExclusive())
-        {
-            possibleTargets = possibleTargets.stream()
-                    .filter(pl -> !alreadyShotTargets.contains(pl))
-                    .collect(Collectors.toList());
-        }
-
         if(possibleTargets.isEmpty())
             return;
 
@@ -404,8 +397,15 @@ public class ShootController {
                     if(!targetPlayers.contains(en) && en.getSquare().getDistance(sq) <= playerDist)
                         possibleTargets.add(en); // Add him to the list of possible victims
                 }
+                if(target.isExclusive())
+                {
+                    possibleTargets = possibleTargets.stream()
+                            .filter(pl -> !alreadyShotTargets.contains(pl))
+                            .collect(Collectors.toList());
+                }
                 // Ask the user for a target
-                targetPlayers.addAll(remotePlayer.selectIdentifiable(possibleTargets, 0, maxPlayers, Dialog.SHOOT_TARGET));
+                if(!possibleTargets.isEmpty())
+                    targetPlayers.addAll(remotePlayer.selectIdentifiable(possibleTargets, 0, maxPlayers, Dialog.SHOOT_TARGET));
             }
         }
 
