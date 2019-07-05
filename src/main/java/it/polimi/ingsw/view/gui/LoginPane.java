@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.network.ConnectionType;
+import it.polimi.ingsw.view.gui.util.ImageManager;
 import it.polimi.ingsw.view.gui.util.Loader;
 import it.polimi.ingsw.view.gui.util.Notification;
 import javafx.application.Platform;
@@ -8,10 +9,15 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.ImagePattern;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -20,6 +26,7 @@ public class LoginPane extends GridPane {
 
     private static final String SOCKET = "Socket";
     private static final String RMI = "RMI";
+    private static final String BACKGROUND_PATH = "/gui/loginBackground.jpg";
 
     @FXML
     private TextField serverField;
@@ -40,6 +47,12 @@ public class LoginPane extends GridPane {
         Loader.load("/gui/fxml/LoginPane.fxml", this);
 
         connected = new SimpleBooleanProperty(false);
+
+        // Set the background
+        ImagePattern imagePattern = new ImagePattern(ImageManager.getResourceImage(BACKGROUND_PATH));
+        BackgroundFill backgroundFill = new BackgroundFill(imagePattern, CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        setBackground(background);
     }
 
     @FXML
