@@ -68,13 +68,13 @@ public class GameBoardGUI extends FitObject implements SelectableContainer {
             });
 
             // Add killshots
-            Position killshot = Position.fromJson(json.get("killshot"));
-            // TODO remove fixed value
+            Position killshot = Position.fromJson(json.get("killshot").get("position"));
             int initialSkulls = gameBoard.getInitialSkullNumber();
-            int emptySkulls = 8 - initialSkulls;
-            double tokenWidth = killshot.getWidth()/8;
+            int maxSkulls = json.get("killshot").get("maxSkulls").asInt();
+            int emptySkulls = maxSkulls - initialSkulls;
+            double tokenWidth = killshot.getWidth()/maxSkulls;
             double tokenHeight = killshot.getHeight();
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < maxSkulls; i++) {
                 if (i >= emptySkulls) {
                     if (i - emptySkulls < gameBoard.getKillShotTrack().size()) {
                         List<PlayerToken> tokens = gameBoard.getKillShotTrack().get(i - emptySkulls);
