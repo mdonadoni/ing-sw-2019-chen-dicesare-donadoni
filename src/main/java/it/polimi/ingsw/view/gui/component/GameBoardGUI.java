@@ -98,6 +98,19 @@ public class GameBoardGUI extends FitObject implements SelectableContainer {
                 }
             }
 
+            // skulls of final frenzy
+            if (gameBoard.getKillShotTrack().size() == initialSkulls+1) {
+                List<PlayerToken> tokens = gameBoard.getKillShotTrack().get(initialSkulls);
+                for (int t = 0; t < tokens.size(); t++) {
+                    Position token = new Position();
+                    token.setX(killshot.getX() + killshot.getWidth() + t * tokenWidth / 4);
+                    token.setY(killshot.getY());
+                    token.setWidth(tokenWidth);
+                    token.setHeight(tokenHeight);
+                    overlay.add(new TokenGUI(tokens.get(t), 1), token);
+                }
+            }
+
             getChildren().add(overlay);
         } catch (Exception e) {
             throw new ResourceException("Error while parsing GUI board json", e);
