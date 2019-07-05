@@ -383,6 +383,13 @@ public class ShootController {
                 .distinct()
                 .collect(Collectors.toList());
 
+        if(target.isExclusive())
+        {
+            possibleTargets = possibleTargets.stream()
+                    .filter(pl -> !alreadyShotTargets.contains(pl))
+                    .collect(Collectors.toList());
+        }
+
         if(possibleTargets.isEmpty())
             return;
 

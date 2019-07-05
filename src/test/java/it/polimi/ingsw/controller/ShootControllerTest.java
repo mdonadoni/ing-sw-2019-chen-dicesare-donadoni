@@ -240,7 +240,7 @@ class ShootControllerTest {
 
     @Test
     void vortexTest() throws RemoteException{
-        weapon = weapon = weaponFactory.createWeapon(WeaponType.VORTEXCANNON);
+        weapon = weaponFactory.createWeapon(WeaponType.VORTEXCANNON);
         ada.grabWeapon(weapon);
         ada.move(board.getSquare(new Coordinate(1, 2)));
         bruce.move(board.getSquare(new Coordinate(1, 2)));
@@ -250,17 +250,19 @@ class ShootControllerTest {
         ada.addAmmo(AmmoColor.RED);
 
         // Inject Selection
-        adaView.addSelectable(weapon.getAttacks().get(1).getUuid());
         Square vortexSquare = board.getSquare(new Coordinate(1, 1));
         adaView.addSelectable(vortexSquare.getUuid());
-        adaView.addSelectable(Arrays.asList(bruce.getUuid(), charlie.getUuid(), daniel.getUuid()));
+        adaView.addSelectable(bruce.getUuid());
+        Attack additional = weapon.getAttacks().get(0).getAdditionalAttacks().get(0);
+        adaView.addSelectable(additional.getUuid());
+        adaView.addSelectable(Arrays.asList(charlie.getUuid(), daniel.getUuid()));
 
         controller.shoot(ada, weapon);
 
         assertEquals(bruce.getSquare(), vortexSquare);
         assertEquals(charlie.getSquare(), vortexSquare);
         assertEquals(daniel.getSquare(), vortexSquare);
-        assertEquals(bruce.getDamageTaken().size(), 1);
+        assertEquals(bruce.getDamageTaken().size(), 2);
         assertEquals(charlie.getDamageTaken().size(), 1);
         assertEquals(daniel.getDamageTaken().size(), 1);
     }

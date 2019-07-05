@@ -37,46 +37,47 @@
           "vortex": true
         }
       ],
-      "additionalAttacks": [],
-      "bonusMovement": [],
-      "cost": []
-    },
-    {
-      "id": "YXAFkHUXa",
-      "chainAttack": false,
-      "baseFire": [
+      "additionalAttacks": [
         {
-          "type": "square",
-          "numberOfTargets": 1,
-          "visibility": "VISIBLE",
-          "minDistance": 1,
-          "maxDistance": -1,
-          "exclusive": false,
-          "inherited": false,
-          "special": [],
-          "effects": [
+          "id": "YXAFkHUXa",
+          "chainAttack": false,
+          "baseFire": [
             {
-              "type": "harmful",
-              "value": 1,
-              "harm": "DAMAGE"
-            },
-            {
-              "type": "movement",
-              "value": 1,
-              "line": false,
-              "fixed": true,
-              "self": false,
-              "visibleDest": "VISIBLE"
+              "type": "square",
+              "numberOfTargets": 1,
+              "visibility": "VISIBLE",
+              "minDistance": 1,
+              "maxDistance": -1,
+              "exclusive": true,
+              "inherited": true,
+              "special": [],
+              "effects": [
+                {
+                  "type": "harmful",
+                  "value": 1,
+                  "harm": "DAMAGE"
+                },
+                {
+                  "type": "movement",
+                  "value": 1,
+                  "line": false,
+                  "fixed": true,
+                  "self": false,
+                  "visibleDest": "VISIBLE"
+                }
+              ],
+              "maxPlayerDistance": 1,
+              "numberOfPlayers": 2,
+              "vortex": false
             }
           ],
-          "maxPlayerDistance": 1,
-          "numberOfPlayers": 3,
-          "vortex": true
+          "additionalAttacks": [],
+          "bonusMovement": [],
+          "cost": ["RED"]
         }
       ],
-      "additionalAttacks": [],
       "bonusMovement": [],
-      "cost": ["RED"]
+      "cost": []
     }
   ]
 }
