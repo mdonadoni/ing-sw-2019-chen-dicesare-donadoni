@@ -66,7 +66,7 @@ There is also the possibility to run bots that will play randomly:
 
 Of course substitute `SERVER_HOSTNAME` with the hostname/IP address of the server, `CLIENT_HOSTNAME` with the hostname/IP address of the client, `RMI_PORT` with the port where the RMI Registry has been created by the server, `SOCKET_PORT` with the port on which the server is listening.
 
-####UML
+#### UML
 The UML can be find [here](deliverables/uml).
-It shows all the classes without the fields, methods and dependencies, for these information in the directory are 
+An UML class shows all the classes without the fields, methods and dependencies, for these information in the directory are 
 available the class diagram of the single main packages of the project.
