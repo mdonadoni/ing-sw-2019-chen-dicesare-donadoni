@@ -143,9 +143,12 @@ public class GameController implements Runnable{
     }
 
     /**
-     * This method is what in Toscana they call "Troiaio", has a bunch of try/catch so that all the RemoteExceptions
-     * thrown are handled correctly. Also runs the match, initialising it at the beginning, running standard turns
-     * and then triggers the Final Frenzy.
+     * This is the main Game Controller method and the biggest of the game. Basically sets up the match by giving everyone
+     * the initial ammo needed and gives everyone a first turn making them spawn. Then the main game cycle starts and
+     * it keeps track of the turns by calling correctly the Turn Controller. Every turn checks whether there are some
+     * users that want to reconnect and whether the game has finished or is no longer active.
+     * According to the board game rules, when the last skull is taken from the KillShot Track, it triggers the Final
+     * Frenzy and gives everyone one last turn. Finally sends the final standings and disconnects all the players
      */
     public void run() {
         LOG.log(Level.INFO, "Starting match {0}", match.getUuid());
