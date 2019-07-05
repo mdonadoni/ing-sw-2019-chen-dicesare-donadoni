@@ -3,6 +3,7 @@ package it.polimi.ingsw.common.dialogs;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DialogsTest {
 
@@ -14,6 +15,13 @@ class DialogsTest {
     @Test
     void testFormatWithMoreParameters() {
         assertEquals("Scegli la casella in cui muovere", Dialogs.getDialog(Dialog.MOVE, "1", "1"));
+    }
+
+    @Test
+    void checkLoadAllDialogs() {
+        for (Dialog d : Dialog.values()) {
+            assertTrue(Dialogs.getDialog(d).length() > 0);
+        }
     }
 
 }

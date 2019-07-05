@@ -20,8 +20,11 @@ public class WeaponCLI {
         String out;
         int space;
         List<String> outList = new ArrayList<>();
-        out=miniWeapon.getName();
-        space = out.length();
+        out = miniWeapon.getName();
+        space = miniWeapon.getName().length();
+        if (!miniWeapon.isCharged()) {
+            out = ColorCLI.turnStrikethrough(out);
+        }
         out = out.concat("("+ ColorCLI.getAmmoColor(miniWeapon.getAdditionalRechargeColor(), CharCli.AMMO)+")");
         space += 3;
         for ( AmmoColor ac : miniWeapon.getPickupColor()){

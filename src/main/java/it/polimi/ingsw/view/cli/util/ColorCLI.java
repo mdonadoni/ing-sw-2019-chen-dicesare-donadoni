@@ -14,6 +14,7 @@ public class ColorCLI {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_GREY = "\u001B[90m";
     public static final String BOLD = "\u001B[1";
+    public static final String ANSI_STRIKETHROUGH = "\u001B[9m";
 
     /**
      * This class should not be constructed.
@@ -51,6 +52,11 @@ public class ColorCLI {
     public static String turnGrey(String s){
         return ANSI_GREY+s+ANSI_RESET;
     }
+
+    public static String turnStrikethrough(String s){
+        return ANSI_STRIKETHROUGH+s+ANSI_RESET;
+    }
+
 
     public static String getPlayerColor(PlayerToken pt, String s){
         String out;
