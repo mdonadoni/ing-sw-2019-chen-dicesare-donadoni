@@ -15,6 +15,8 @@ public class ColorCLI {
     public static final String ANSI_GREY = "\u001B[90m";
     public static final String BOLD = "\u001B[1";
     public static final String ANSI_STRIKETHROUGH = "\u001B[9m";
+    public static final String ANSI_CLS = "\u001B[2J";
+
 
     /**
      * This class should not be constructed.

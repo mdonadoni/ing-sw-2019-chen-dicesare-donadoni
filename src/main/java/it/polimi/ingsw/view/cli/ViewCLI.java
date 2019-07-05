@@ -175,9 +175,7 @@ public class ViewCLI extends LocalView implements Runnable {
     }
 
     private synchronized void cls() {
-        for (int i = 0; i < 50; i++) {
-            println();
-        }
+        println(ColorCLI.ANSI_CLS);
     }
 
     private synchronized void printDialog(Dialog dialog, String ...params) {

@@ -2,13 +2,34 @@ package it.polimi.ingsw.view.gui.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * Represent the position ef the components
+ */
 public class Position {
+    /**
+     * Coordinate x
+     */
     private double x;
+    /**
+     * Coordinate y
+     */
     private double y;
+    /**
+     * Width of the node
+     */
     private double width;
+    /**
+     * Height of the node
+     */
     private double height;
+    /**
+     * The rotation of the node
+     */
     private double rotation;
 
+    /**
+     * Standard constructor of the class
+     */
     public Position() {
         x = 0;
         y = 0;
@@ -17,6 +38,14 @@ public class Position {
         rotation = 0;
     }
 
+    /**
+     * Constructor of the class
+     * @param x coordinate x
+     * @param y coordinate y
+     * @param width width dimension
+     * @param height height dimension
+     * @param rotation amount of rotation
+     */
     public Position(double x, double y, double width, double height, double rotation) {
         this.x = x;
         this.y = y;
@@ -25,6 +54,11 @@ public class Position {
         this.rotation = rotation;
     }
 
+    /**
+     * Get position from json
+     * @param json JsonNode to get the position
+     * @return The position
+     */
     public static Position fromJson(JsonNode json) {
         Position p = new Position();
         p.setX(json.get("x").asDouble());
