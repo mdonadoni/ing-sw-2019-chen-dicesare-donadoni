@@ -47,18 +47,34 @@ public class StandingsItem implements Serializable {
         this.color = color;
     }
 
+    /**
+     * Get position in the standings.
+     * @return Position.
+     */
     public int getPosition() {
         return position;
     }
 
+    /**
+     * Get nickname of player.
+     * @return Nickname of player.
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * Get points of the player.
+     * @return Points of the player.
+     */
     public int getPoints() {
         return points;
     }
 
+    /**
+     * Get color of the player.
+     * @return Color of the player.
+     */
     public PlayerToken getColor() {
         return color;
     }
