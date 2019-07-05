@@ -103,44 +103,90 @@ public class Configurations {
         }
     }
 
+    /**
+     * Add config entry with given name and integer value.
+     * @param name Name of the entry.
+     * @param value Integer value.
+     */
     public void add(String name, int value) {
         add(new IntConfigEntry(name, value));
     }
 
+    /**
+     * Add config entry with given name and integer value.
+     * @param name Name of the entry.
+     * @param value Integer value.
+     * @param minValue Minimum value of the entry.
+     * @param maxValue Maximum value of the entry.
+     */
     public void add(String name, int value, Integer minValue, Integer maxValue) {
         add(new IntConfigEntry(name, value, minValue, maxValue));
     }
 
-
+    /**
+     * Add config entry with given name and string value.
+     * @param name Name of config entry.
+     * @param value String value of config entry.
+     */
     public void add(String name, String value) {
         add(new StringConfigEntry(name, value));
     }
 
+    /**
+     * Get string value from given config entry name.
+     * @param name Name of the config entry.
+     * @return String value of config entry.
+     */
     public String getString(String name) {
         throwIfNotFound(name);
         return entryMap.get(name).asString();
     }
 
+    /**
+     * Get integer value from given config entry name.
+     * @param name Name of config entry.
+     * @return Integer value of config entry.
+     */
     public int getInt(String name) {
         throwIfNotFound(name);
         return entryMap.get(name).asInt();
     }
 
+    /**
+     * Parse value of a config entry from a string. Useful to parse CLI arguments.
+     * @param name
+     * @param value
+     */
     public void parseString(String name, String value) {
         throwIfNotFound(name);
         entryMap.get(name).parseString(value);
     }
 
+    /**
+     * Set value of string config entry.
+     * @param name Name of config entry.
+     * @param value Value to be set.
+     */
     public void set(String name, String value) {
         throwIfNotFound(name);
         entryMap.get(name).set(value);
     }
 
+    /**
+     * Set value of integer config entry.
+     * @param name Name of config entry.
+     * @param value Integer value of config entry.
+     */
     public void set(String name, int value) {
         throwIfNotFound(name);
         entryMap.get(name).set(value);
     }
 
+    /**
+     * Return the Builder to build an integer config entry.
+     * @param name Name of config entry to be created.
+     * @return Integer config entry builder.
+     */
     public IntBuilder intBuilder(String name) {
         return new IntBuilder(name);
     }

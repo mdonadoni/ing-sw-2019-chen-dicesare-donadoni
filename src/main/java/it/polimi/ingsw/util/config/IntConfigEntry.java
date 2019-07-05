@@ -45,6 +45,10 @@ public class IntConfigEntry implements ConfigEntry {
         set(value);
     }
 
+    /**
+     * Get name of this config entry.
+     * @return Name of config entry.
+     */
     @Override
     public String getName() {
         return name;
@@ -64,7 +68,7 @@ public class IntConfigEntry implements ConfigEntry {
     }
 
     /**
-     * Throw exception set, if the value is a string then throw ConfigException.
+     * Throw exception since this is an integer config.
      * @param value The given string,
      */
     @Override
@@ -87,11 +91,19 @@ public class IntConfigEntry implements ConfigEntry {
         this.value = value;
     }
 
+    /**
+     * Throw since this is a integer config entry.
+     * @return String value.
+     */
     @Override
     public String asString() {
         throw new ConfigException("Called asString on integer config " + name);
     }
 
+    /**
+     * Return the value of this integer config entry.
+     * @return Integer value of this config entry.
+     */
     @Override
     public int asInt() {
         return value;

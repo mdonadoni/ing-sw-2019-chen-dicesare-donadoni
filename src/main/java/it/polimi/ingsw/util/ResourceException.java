@@ -13,6 +13,10 @@ public class ResourceException extends RuntimeException {
         super(message, t);
     }
 
+    /**
+     * Constructor of a ResourceException given message.
+     * @param message Message of the exception.
+     */
     public ResourceException(String message) {
         super(message);
     }
