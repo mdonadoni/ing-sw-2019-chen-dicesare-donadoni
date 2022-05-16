@@ -2,7 +2,7 @@
 ## Gruppo AM26
 
 - ###   10562633    Simone Chen ([@CPandaS](https://github.com/CPandaS))<br>simone.chen@mail.polimi.it
-- ###   10529764    Federico Di Cesare ([@Kakasinho](https://github.com/Kakasinho))<br>federico.dicesare@mail.polimi.it
+- ###   10529764    Federico Di Cesare ([@thatdc](https://github.com/thatdc))<br>federico.dicesare@mail.polimi.it
 - ###   10560562    Marco Donadoni ([@mark03](https://github.com/mark03))<br>marco.donadoni@mail.polimi.it
 
 | Functionality | State |
@@ -69,5 +69,5 @@ Of course substitute `SERVER_HOSTNAME` with the hostname/IP address of the serve
 
 #### UML
 The UML can be find [here](deliverables/uml).
-An UML class shows all the classes without the fields, methods and dependencies, for these information in the directory are 
+An UML class shows all the classes without the fields, methods and dependencies, for these information in the directory are
 available the class diagram of the single main packages of the project.
